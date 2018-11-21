@@ -1,6 +1,8 @@
 #include "../header/MaleCharacter.hpp"
 
-MaleCharacter::MaleCharacter(JOB job, const unsigned int age) : Character(age), speciality(job) {}
+MaleCharacter::MaleCharacter() : Character(SEX::MALE_CHARACTER_CHILD), speciality(JOB::NO_JOB) {}
+
+MaleCharacter::MaleCharacter(JOB job, SEX gender, const unsigned int age) : Character(gender, age), speciality(job) {}
 
 MaleCharacter::~MaleCharacter(){};
 JOB MaleCharacter::getSpeciality() const noexcept

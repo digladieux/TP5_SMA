@@ -3,7 +3,20 @@
 
 unsigned int Character::character_number = 0;
 
-Character::Character(const unsigned int age) : character_id(character_number), character_age(age)
+Character::Character() : character_id(character_number), character_age(0)
+{
+    character_number++;
+    if (genrand_real1() < 0.5)
+    {
+        character_gender = SEX::MALE_CHARACTER_CHILD;
+    }
+    else
+    {
+        character_gender = SEX::FEMALE_CHARACTER_CHILD;
+    }
+}
+
+Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), character_gender(gender)
 {
     character_number++;
 }
@@ -19,12 +32,14 @@ unsigned int Character::getCharacterAge() const noexcept
     return character_age;
 }
 
+SEX Character::getCharacterGender() const noexcept
+{
+    return character_gender;
+}
 void Character::incrementAge() noexcept
 {
     character_age++;
 }
-
-
 
 const Character &Character::operator=(const Character &new_character)
 {

@@ -2,47 +2,9 @@
 #include "../header/mt19937ar.h"
 #include <iostream>
 #include <exception>
-CollectionPoint::CollectionPoint(const unsigned int ressources_nb) : vector_worker(0), ressources_number(ressources_nb) {}
+CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb) : Ground(type), ressources_number(ressources_nb) {}
 
-CollectionPoint::~CollectionPoint(){}
-
-unsigned int CollectionPoint::getVectorSize() const noexcept
-{
-    return vector_worker.size();
-}
-void CollectionPoint::addWorker(MaleCharacter *new_worker)
-{
-    try
-    {
-        vector_worker.push_back(new_worker);
-    }
-    catch (const std::bad_alloc &e)
-    {
-        std::cerr << "VECTOR_TOO_HIGH" << std::endl;
-        throw e;
-    }
-}
-
-void CollectionPoint::removeWorker(const unsigned int index)
-{
-    if (( (int)index < 0) || (index >= vector_worker.size()))
-    {
-        std::cerr << "[0;" << vector_worker.size()-1 << "], INDEX = " << index << std::endl;
-        throw std::out_of_range("OUT_OF_RANGE_EXCEPTION");
-    }
-        vector_worker.erase(vector_worker.begin() + index);
-}
-
-MaleCharacter *CollectionPoint::getWorker(const unsigned int index)
-{
-     if (( (int)index < 0) || (index >= vector_worker.size()))
-    {
-        std::cerr << "[0;" << vector_worker.size()-1 << "], INDEX = " << index << std::endl;
-        throw std::out_of_range("OUT_OF_RANGE_EXCEPTION");
-    }
-
-    return vector_worker[index];
-}
+CollectionPoint::~CollectionPoint() {}
 
 unsigned int CollectionPoint::getRessourcesNumber() const noexcept
 {

@@ -1,6 +1,8 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
-FemaleCharacter::FemaleCharacter(const unsigned int age) : Character(age), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0) {}
+FemaleCharacter::FemaleCharacter() : Character(SEX::FEMALE_CHARACTER_CHILD), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0) {}
+
+FemaleCharacter::FemaleCharacter(const unsigned int age, SEX gender) : Character(gender,age), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0) {}
 
 FemaleCharacter::~FemaleCharacter(){};
 

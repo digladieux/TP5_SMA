@@ -1,6 +1,6 @@
 #include "../header/TownHall.hpp"
 
-TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb) : level(level_town_hall), rock_number(rock_nb), wood_number(wood_nb), food_number(food_nb) {}
+TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb) : Ground(GROUND_TYPE::TOWN_HALL), level(level_town_hall), rock_number(rock_nb), wood_number(wood_nb), food_number(food_nb) {}
 
 unsigned int TownHall::getLevel() const noexcept
 {

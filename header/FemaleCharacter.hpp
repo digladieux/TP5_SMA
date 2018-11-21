@@ -10,7 +10,9 @@ class FemaleCharacter : public Character
     unsigned int month_number_pregnancy;
 
   public:
-    FemaleCharacter(const unsigned int age = 0);
+    FemaleCharacter();
+    FemaleCharacter(const unsigned int, SEX);
+
     ~FemaleCharacter();
 
     unsigned int getBabyPerPregnancy() const noexcept;

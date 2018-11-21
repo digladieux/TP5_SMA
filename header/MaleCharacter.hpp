@@ -18,7 +18,8 @@ class MaleCharacter : public Character
     JOB speciality;
 
   public:
-    MaleCharacter(JOB job = JOB::NO_JOB, const unsigned int age = 0);
+    MaleCharacter();
+    MaleCharacter(JOB, SEX, const unsigned int);
     ~MaleCharacter();
 
     JOB getSpeciality() const noexcept;

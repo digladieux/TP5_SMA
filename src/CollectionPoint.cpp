@@ -41,3 +41,8 @@ void CollectionPoint::evolutionRessources() noexcept
         ressources_number += ressources_nb;
     }
 }
+
+void CollectionPoint::display() const noexcept
+{
+    std::cout << " C ";
+}

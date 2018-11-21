@@ -4,9 +4,11 @@
 #include "CollectionPoint.hpp"
 class Farm : public CollectionPoint
 {
-    public:
-      Farm(const unsigned int food_number = 1000);
-      ~Farm();
+  public:
+    Farm(const unsigned int food_number = 1000);
+    ~Farm();
+
+    void display() const noexcept;
 };
 
 #endif

@@ -5,9 +5,10 @@
 
 class Lake : public CollectionPoint
 {
-    public:
-      Lake(const unsigned int fish_nb = 1000);
-      ~Lake();
-
+  public:
+    Lake(const unsigned int fish_nb = 1000);
+    ~Lake();
+    
+    void display() const noexcept;
 };
 #endif

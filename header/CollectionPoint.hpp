@@ -13,13 +13,12 @@ class CollectionPoint : public Ground
     CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb = 1000);
     virtual ~CollectionPoint();
 
-
-
     unsigned int getRessourcesNumber() const noexcept;
     void setRessources(const unsigned int);
     bool ressourcesNumberExtracted(const unsigned int);
-
     void evolutionRessources() noexcept;
+
+    virtual void display() const noexcept ;
 };
 
 #endif

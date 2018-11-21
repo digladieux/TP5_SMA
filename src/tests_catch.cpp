@@ -10,7 +10,7 @@
 #include "../header/Quarry.hpp"
 #include "../header/Lake.hpp"
 #include <iostream> /*TODO : test:8 A enlever plus tard */
-
+/*TODO : test:13 Ground * toto = new Quarry() les fonctions marchent pas */
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -23,35 +23,38 @@ TEST_CASE("Ground")
 
 TEST_CASE("Town Hall")
 {
-    TownHall town_hall_start;
-    CHECK(0 == town_hall_start.getLevel());
-    CHECK(0 == town_hall_start.getRockNumber());
-    CHECK(0 == town_hall_start.getWoodNumber());
-    CHECK(0 == town_hall_start.getFoodNumber());
-    CHECK(2 == town_hall_start.getGroundId());
+    TownHall *town_hall_start = new TownHall();
+    CHECK(0 == town_hall_start->getLevel());
+    CHECK(0 == town_hall_start->getRockNumber());
+    CHECK(0 == town_hall_start->getWoodNumber());
+    CHECK(0 == town_hall_start->getFoodNumber());
+    CHECK(2 == town_hall_start->getGroundId());
 
-    TownHall town_hall_in_game(5, 1, 2, 3);
-    CHECK(5 == town_hall_in_game.getLevel());
-    CHECK(1 == town_hall_in_game.getRockNumber());
-    CHECK(2 == town_hall_in_game.getWoodNumber());
-    CHECK(3 == town_hall_in_game.getFoodNumber());
-    CHECK(3 == town_hall_in_game.getGroundId());
+    TownHall *town_hall_in_game = new TownHall(5, 1, 2, 3);
+    CHECK(5 == town_hall_in_game->getLevel());
+    CHECK(1 == town_hall_in_game->getRockNumber());
+    CHECK(2 == town_hall_in_game->getWoodNumber());
+    CHECK(3 == town_hall_in_game->getFoodNumber());
+    CHECK(3 == town_hall_in_game->getGroundId());
 
-    town_hall_in_game.incrementLevel();
-    CHECK(true == town_hall_in_game.setRockNumber(2));
-    CHECK(true == town_hall_in_game.setWoodNumber(-1));
-    CHECK(true == town_hall_in_game.setFoodNumber(6));
-    CHECK(6 == town_hall_in_game.getLevel());
-    CHECK(3 == town_hall_in_game.getRockNumber());
-    CHECK(1 == town_hall_in_game.getWoodNumber());
-    CHECK(9 == town_hall_in_game.getFoodNumber());
+    town_hall_in_game->incrementLevel();
+    CHECK(true == town_hall_in_game->setRockNumber(2));
+    CHECK(true == town_hall_in_game->setWoodNumber(-1));
+    CHECK(true == town_hall_in_game->setFoodNumber(6));
+    CHECK(6 == town_hall_in_game->getLevel());
+    CHECK(3 == town_hall_in_game->getRockNumber());
+    CHECK(1 == town_hall_in_game->getWoodNumber());
+    CHECK(9 == town_hall_in_game->getFoodNumber());
 
-    CHECK(false == town_hall_in_game.setRockNumber(-8));
-    CHECK(false == town_hall_in_game.setWoodNumber(-2));
-    CHECK(false == town_hall_in_game.setFoodNumber(-10));
-    CHECK(3 == town_hall_in_game.getRockNumber());
-    CHECK(1 == town_hall_in_game.getWoodNumber());
-    CHECK(9 == town_hall_in_game.getFoodNumber());
+    CHECK(false == town_hall_in_game->setRockNumber(-8));
+    CHECK(false == town_hall_in_game->setWoodNumber(-2));
+    CHECK(false == town_hall_in_game->setFoodNumber(-10));
+    CHECK(3 == town_hall_in_game->getRockNumber());
+    CHECK(1 == town_hall_in_game->getWoodNumber());
+    CHECK(9 == town_hall_in_game->getFoodNumber());
+
+    delete town_hall_in_game;
+    delete town_hall_start;
 }
 
 TEST_CASE("Character")
@@ -125,37 +128,39 @@ TEST_CASE("FemaleCharacter")
 
 TEST_CASE("CollectionPoint")
 {
-    CollectionPoint collection_point(GROUND_TYPE::QUARRY);
+    CollectionPoint *collection_point = new CollectionPoint(GROUND_TYPE::QUARRY);
 
-    CHECK(4 == collection_point.getGroundId());
-    CHECK(0 == collection_point.getVectorSize());
-    CHECK(1000 == collection_point.getRessourcesNumber());
-    CHECK(GROUND_TYPE::QUARRY == collection_point.getGroundType());
+    CHECK(4 == collection_point->getGroundId());
+    CHECK(0 == collection_point->getVectorSize());
+    CHECK(1000 == collection_point->getRessourcesNumber());
+    CHECK(GROUND_TYPE::QUARRY == collection_point->getGroundType());
 
-    bool flag = collection_point.ressourcesNumberExtracted(2);
-    CHECK(998 == collection_point.getRessourcesNumber());
+    bool flag = collection_point->ressourcesNumberExtracted(2);
+    CHECK(998 == collection_point->getRessourcesNumber());
     CHECK(flag == true);
 
-    flag = collection_point.ressourcesNumberExtracted(1000);
-    CHECK(998 == collection_point.getRessourcesNumber());
+    flag = collection_point->ressourcesNumberExtracted(1000);
+    CHECK(998 == collection_point->getRessourcesNumber());
     CHECK(flag == false);
 
-    collection_point.setRessources(50);
-    CHECK(50 == collection_point.getRessourcesNumber());
+    collection_point->setRessources(50);
+    CHECK(50 == collection_point->getRessourcesNumber());
 
     MaleCharacter *worker = new MaleCharacter(JOB::QUARRY_MAN, SEX::MALE_CHARACTER_ADULT, 18);
-    collection_point.addCharacter(worker);
+    collection_point->addCharacter(worker);
 
-    CHECK(1 == collection_point.getVectorSize());
-    CHECK(worker == collection_point.getCharacter(0));
+    CHECK(1 == collection_point->getVectorSize());
+    CHECK(worker == collection_point->getCharacter(0));
 
-    REQUIRE_THROWS_AS(collection_point.removeCharacter(1), std::out_of_range);
-    REQUIRE_THROWS_AS(collection_point.getCharacter(5), std::out_of_range);
+    REQUIRE_THROWS_AS(collection_point->removeCharacter(1), std::out_of_range);
+    REQUIRE_THROWS_AS(collection_point->getCharacter(5), std::out_of_range);
 
-    collection_point.removeCharacter(0);
-    CHECK(0 == collection_point.getVectorSize());
+    collection_point->removeCharacter(0);
+    CHECK(0 == collection_point->getVectorSize());
 
+    collection_point -> clearVector();
     delete worker;
+    delete collection_point;
 }
 
 TEST_CASE("SpecificCollectionPoint")
@@ -175,7 +180,7 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(7 == forest.getGroundId());
     CHECK(8 == farm.getGroundId());
 
-    CHECK(GROUND_TYPE::LAKE == lake.getGroundType() );
+    CHECK(GROUND_TYPE::LAKE == lake.getGroundType());
     CHECK(GROUND_TYPE::QUARRY == quarry.getGroundType());
     CHECK(GROUND_TYPE::FOREST == forest.getGroundType());
     CHECK(GROUND_TYPE::FARM == farm.getGroundType());
@@ -204,4 +209,43 @@ TEST_CASE("SpecificCollectionPoint")
     delete fisherman;
     delete lumberjack;
     delete quarryman;
+}
+
+TEST_CASE("Afficher")
+{
+    Ground *town_hall = new TownHall();
+    Ground *ground = new Ground();
+    Ground *quarry = new Quarry();
+    Ground *forest = new Forest();
+    Ground *lake = new Lake();
+    Ground *farm = new Farm();
+
+    std::cout << std::endl
+              << "VERIFIER SI CORRECT" << std::endl;
+    std::cout << " T =";
+    town_hall->display();
+    std::cout << std::endl;
+    std::cout << " . =";
+    ground->display();
+    std::cout << std::endl;
+    std::cout << " Q =";
+    quarry->display();
+    std::cout << std::endl;
+    std::cout << " Fo =";
+    forest->display();
+    std::cout << std::endl;
+    std::cout << " L =";
+    lake->display();
+    std::cout << std::endl;
+    std::cout << " Fa =";
+    farm->display();
+    std::cout << std::endl
+              << std::endl;
+
+    delete ground;
+    delete town_hall;
+    delete quarry;
+    delete forest;
+    delete lake;
+    delete farm;
 }

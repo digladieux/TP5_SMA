@@ -1,5 +1,5 @@
 #include "../header/TownHall.hpp"
-
+#include <iostream>
 TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb) : Ground(GROUND_TYPE::TOWN_HALL), level(level_town_hall), rock_number(rock_nb), wood_number(wood_nb), food_number(food_nb) {}
 
 unsigned int TownHall::getLevel() const noexcept
@@ -67,4 +67,9 @@ bool TownHall::setFoodNumber(const int food_nb) noexcept
         food_number += food_nb;
     }
     return flag;
+}
+
+void TownHall::display() const noexcept
+{
+    std::cout << " T ";
 }

@@ -11,6 +11,17 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type)
 Ground::~Ground() {}
 /*TODO : Ground:15 Verifier si l'id est correct en fonction de la taille de la map */
 
+void Ground::clearVector() noexcept
+{
+    Character *character;
+    for (auto it = vector_character.begin(); it != vector_character.end();)
+    {
+        character = *it;
+        it++;
+        delete character;
+    }
+    
+}
 unsigned int Ground::getGroundId() const noexcept
 {
     return ground_id;
@@ -52,9 +63,14 @@ Character *Ground::getCharacter(const unsigned int index)
 {
     if (((int)index < 0) || (index >= vector_character.size()))
     {
-        std::cerr << "[0;" << vector_character.size() - 1 << "], INDEX = " << index << std::endl;
+        std::cerr << "ERROR - [0;" << vector_character.size() - 1 << "], INDEX = " << index << std::endl;
         throw std::out_of_range("OUT_OF_RANGE_EXCEPTION");
     }
 
     return vector_character[index];
+}
+
+void Ground::display() const noexcept
+{
+    std::cout << " . ";
 }

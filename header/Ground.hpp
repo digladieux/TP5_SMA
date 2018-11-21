@@ -23,7 +23,7 @@ class Ground
 
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
-    ~Ground();
+    virtual ~Ground();
 
     unsigned int getGroundId() const noexcept;
     GROUND_TYPE getGroundType() const noexcept;
@@ -32,6 +32,9 @@ class Ground
     void addCharacter(Character *);
     void removeCharacter(const unsigned int);
     Character *getCharacter(const unsigned int);
+
+    void clearVector() noexcept;
+    virtual void display() const noexcept;
 };
 
 #endif

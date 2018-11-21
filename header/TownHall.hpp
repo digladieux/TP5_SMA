@@ -22,5 +22,7 @@ class TownHall : public Ground
     bool setRockNumber(const int) noexcept;
     bool setWoodNumber(const int) noexcept;
     bool setFoodNumber(const int) noexcept;
+
+    void display() const noexcept;
 };
 #endif

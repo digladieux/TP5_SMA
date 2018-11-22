@@ -161,10 +161,22 @@ TEST_CASE("CollectionPoint")
     CHECK(0 == collection_point->getVectorSize());
 
     collection_point->clearVector();
-    delete worker;
     delete collection_point;
 }
 
+TEST_CASE("Valgrind")
+{
+    Ground *lake = new Lake();
+    Character *male = new MaleCharacter();
+    CHECK(5 == ((Lake *)lake)->getGroundId());
+    CHECK(GROUND_TYPE::LAKE == lake->getGroundType());
+    CHECK(1000 == ((Lake *)lake)->getRessourcesNumber());
+    lake->addCharacter(male);
+    lake->addCharacter(new MaleCharacter());
+    lake->clearVector();
+
+    delete lake;
+}
 TEST_CASE("SpecificCollectionPoint")
 {
     Ground *lake = new Lake(10);
@@ -172,15 +184,15 @@ TEST_CASE("SpecificCollectionPoint")
     Ground *forest = new Forest();
     Ground *farm = new Farm();
 
-    MaleCharacter *farmer = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
-    MaleCharacter *fisherman = new MaleCharacter(JOB::FISHERMAN, SEX::MALE_CHARACTER_ADULT, 45);
-    MaleCharacter *lumberjack = new MaleCharacter(JOB::LUMBERJACK, SEX::MALE_CHARACTER_ADULT, 10);
-    MaleCharacter *quarryman = new MaleCharacter(JOB::QUARRY_MAN, SEX::MALE_CHARACTER_ADULT, 20);
+    Character *farmer = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
+    Character *fisherman = new MaleCharacter(JOB::FISHERMAN, SEX::MALE_CHARACTER_ADULT, 45);
+    Character *lumberjack = new MaleCharacter(JOB::LUMBERJACK, SEX::MALE_CHARACTER_ADULT, 10);
+    Character *quarryman = new MaleCharacter(JOB::QUARRY_MAN, SEX::MALE_CHARACTER_ADULT, 20);
 
-    CHECK(5 == ((Lake *)lake)->getGroundId());
-    CHECK(6 == ((Quarry *)quarry)->getGroundId());
-    CHECK(7 == ((Forest *)forest)->getGroundId());
-    CHECK(8 == ((Farm *)farm)->getGroundId());
+    CHECK(6 == ((Lake *)lake)->getGroundId());
+    CHECK(7 == ((Quarry *)quarry)->getGroundId());
+    CHECK(8 == ((Forest *)forest)->getGroundId());
+    CHECK(9 == ((Farm *)farm)->getGroundId());
 
     CHECK(GROUND_TYPE::LAKE == lake->getGroundType());
     CHECK(GROUND_TYPE::QUARRY == quarry->getGroundType());
@@ -195,7 +207,7 @@ TEST_CASE("SpecificCollectionPoint")
     quarry->addCharacter(quarryman);
     lake->addCharacter(fisherman);
     farm->addCharacter(farmer);
-    farm->addCharacter(farmer);
+    farm->addCharacter(new MaleCharacter());
     CHECK(1 == forest->getVectorSize());
     CHECK(1 == quarry->getVectorSize());
     CHECK(1 == lake->getVectorSize());
@@ -206,10 +218,12 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(farmer == farm->getCharacter(0));
     CHECK(farmer->getCharacterAge() == farm->getCharacter(0)->getCharacterAge());
     REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
-    delete farmer;
-    delete fisherman;
-    delete lumberjack;
-    delete quarryman;
+    std::cout << farm->getCharacter(1)->getCharacterAge() << std::endl;
+    farm->clearVector();
+    delete farm;
+    delete lake;
+    delete quarry;
+    delete forest;
 }
 
 TEST_CASE("Afficher")
@@ -254,14 +268,14 @@ TEST_CASE("Afficher")
 TEST_CASE("InitialisationGrid")
 {
     Grid grid("map_test_read.txt");
+    grid.displayMap();
+    grid.displayCharacter();
+
     std::ofstream file("INSTANCES/map_test_write.txt");
     if (!file.fail())
     {
         grid.displayMap(file);
-        grid.displayMap();
-
         grid.displayCharacter(file);
-        grid.displayCharacter();
         file.close();
     }
     else
@@ -272,8 +286,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(10 == grid.getColumnNumber());
     CHECK(10 == grid.getRowNumber());
 
-    std::cout << std::endl
-              << "VERIFIER SI CORRECT" << std::endl;
+    std::cout << "VERIFIER SI CORRECT" << std::endl;
     std::cout << " T = ";
     grid.getGroundGrid(0, 0)->display();
     std::cout << std::endl;
@@ -282,7 +295,8 @@ TEST_CASE("InitialisationGrid")
     grid.getGroundGrid(2, 0)->display();
     std::cout << std::endl;
 
-    Character * character = grid.getGroundGrid(0, 0)->getCharacter(0);
+    Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
+    std::cout << character->getCharacterAge();
     CHECK(character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
 }
 
@@ -293,4 +307,8 @@ TEST_CASE("GroundCopy")
 
     CHECK(ground1->getGroundId() == ground2->getGroundId());
     CHECK(ground1->getGroundType() == ground2->getGroundType());
+    CHECK(ground1->getVectorSize() == ground2->getVectorSize());
+
+    delete ground1;
+    delete ground2;
 }

@@ -3,9 +3,9 @@
 
 Farm::Farm(const unsigned int wood_number) : CollectionPoint(GROUND_TYPE::FARM, wood_number) {}
 
-Farm::~Farm(){}
+Farm::~Farm() {}
 
-void Farm::display() const noexcept
+void Farm::display(std::ostream &os) const noexcept
 {
-    std::cout << " Fa ";
+    os << " f ";
 }

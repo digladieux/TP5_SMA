@@ -9,6 +9,8 @@
 #include "../header/Forest.hpp"
 #include "../header/Quarry.hpp"
 #include "../header/Lake.hpp"
+#include "../header/Grid.hpp"
+#include <fstream>
 #include <iostream> /*TODO : test:8 A enlever plus tard */
 /*TODO : test:13 Ground * toto = new Quarry() les fonctions marchent pas */
 TEST_CASE("Ground")
@@ -128,23 +130,23 @@ TEST_CASE("FemaleCharacter")
 
 TEST_CASE("CollectionPoint")
 {
-    CollectionPoint *collection_point = new CollectionPoint(GROUND_TYPE::QUARRY);
+    Ground *collection_point = new CollectionPoint(GROUND_TYPE::QUARRY);
 
     CHECK(4 == collection_point->getGroundId());
     CHECK(0 == collection_point->getVectorSize());
-    CHECK(1000 == collection_point->getRessourcesNumber());
+    CHECK(1000 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
     CHECK(GROUND_TYPE::QUARRY == collection_point->getGroundType());
 
-    bool flag = collection_point->ressourcesNumberExtracted(2);
-    CHECK(998 == collection_point->getRessourcesNumber());
+    bool flag = ((CollectionPoint *)collection_point)->ressourcesNumberExtracted(2);
+    CHECK(998 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
     CHECK(flag == true);
 
-    flag = collection_point->ressourcesNumberExtracted(1000);
-    CHECK(998 == collection_point->getRessourcesNumber());
+    flag = ((CollectionPoint *)collection_point)->ressourcesNumberExtracted(1000);
+    CHECK(998 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
     CHECK(flag == false);
 
-    collection_point->setRessources(50);
-    CHECK(50 == collection_point->getRessourcesNumber());
+    ((CollectionPoint *)collection_point)->setRessources(50);
+    CHECK(50 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
 
     MaleCharacter *worker = new MaleCharacter(JOB::QUARRY_MAN, SEX::MALE_CHARACTER_ADULT, 18);
     collection_point->addCharacter(worker);
@@ -158,52 +160,52 @@ TEST_CASE("CollectionPoint")
     collection_point->removeCharacter(0);
     CHECK(0 == collection_point->getVectorSize());
 
-    collection_point -> clearVector();
+    collection_point->clearVector();
     delete worker;
     delete collection_point;
 }
 
 TEST_CASE("SpecificCollectionPoint")
 {
-    Lake lake(10);
-    Quarry quarry(5);
-    Forest forest;
-    Farm farm;
+    Ground *lake = new Lake(10);
+    Ground *quarry = new Quarry(5);
+    Ground *forest = new Forest();
+    Ground *farm = new Farm();
 
     MaleCharacter *farmer = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
     MaleCharacter *fisherman = new MaleCharacter(JOB::FISHERMAN, SEX::MALE_CHARACTER_ADULT, 45);
     MaleCharacter *lumberjack = new MaleCharacter(JOB::LUMBERJACK, SEX::MALE_CHARACTER_ADULT, 10);
     MaleCharacter *quarryman = new MaleCharacter(JOB::QUARRY_MAN, SEX::MALE_CHARACTER_ADULT, 20);
 
-    CHECK(5 == lake.getGroundId());
-    CHECK(6 == quarry.getGroundId());
-    CHECK(7 == forest.getGroundId());
-    CHECK(8 == farm.getGroundId());
+    CHECK(5 == ((Lake *)lake)->getGroundId());
+    CHECK(6 == ((Quarry *)quarry)->getGroundId());
+    CHECK(7 == ((Forest *)forest)->getGroundId());
+    CHECK(8 == ((Farm *)farm)->getGroundId());
 
-    CHECK(GROUND_TYPE::LAKE == lake.getGroundType());
-    CHECK(GROUND_TYPE::QUARRY == quarry.getGroundType());
-    CHECK(GROUND_TYPE::FOREST == forest.getGroundType());
-    CHECK(GROUND_TYPE::FARM == farm.getGroundType());
-    CHECK(1000 == forest.getRessourcesNumber());
-    CHECK(1000 == farm.getRessourcesNumber());
-    CHECK(10 == lake.getRessourcesNumber());
-    CHECK(5 == quarry.getRessourcesNumber());
+    CHECK(GROUND_TYPE::LAKE == lake->getGroundType());
+    CHECK(GROUND_TYPE::QUARRY == quarry->getGroundType());
+    CHECK(GROUND_TYPE::FOREST == forest->getGroundType());
+    CHECK(GROUND_TYPE::FARM == farm->getGroundType());
+    CHECK(1000 == ((Forest *)forest)->getRessourcesNumber());
+    CHECK(1000 == ((Farm *)farm)->getRessourcesNumber());
+    CHECK(10 == ((Lake *)lake)->getRessourcesNumber());
+    CHECK(5 == ((Quarry *)quarry)->getRessourcesNumber());
 
-    forest.addCharacter(lumberjack);
-    quarry.addCharacter(quarryman);
-    lake.addCharacter(fisherman);
-    farm.addCharacter(farmer);
-    farm.addCharacter(farmer);
-    CHECK(1 == forest.getVectorSize());
-    CHECK(1 == quarry.getVectorSize());
-    CHECK(1 == lake.getVectorSize());
-    CHECK(2 == farm.getVectorSize());
-    CHECK(lumberjack == forest.getCharacter(0));
-    CHECK(fisherman == lake.getCharacter(0));
-    CHECK(quarryman == quarry.getCharacter(0));
-    CHECK(farmer == farm.getCharacter(0));
+    forest->addCharacter(lumberjack);
+    quarry->addCharacter(quarryman);
+    lake->addCharacter(fisherman);
+    farm->addCharacter(farmer);
+    farm->addCharacter(farmer);
+    CHECK(1 == forest->getVectorSize());
+    CHECK(1 == quarry->getVectorSize());
+    CHECK(1 == lake->getVectorSize());
+    CHECK(2 == farm->getVectorSize());
+    CHECK(lumberjack == forest->getCharacter(0));
+    CHECK(fisherman == lake->getCharacter(0));
+    CHECK(quarryman == quarry->getCharacter(0));
+    CHECK(farmer == farm->getCharacter(0));
 
-    REQUIRE_THROWS_AS(lake.removeCharacter(1), std::out_of_range);
+    REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
 
     delete farmer;
     delete fisherman;
@@ -248,4 +250,20 @@ TEST_CASE("Afficher")
     delete forest;
     delete lake;
     delete farm;
+}
+
+TEST_CASE("InitialisationGrid")
+{
+    Grid grid("map_test_read.txt");
+    std::ofstream file("INSTANCES/map_test_write.txt");
+    if (!file.fail())
+    {
+        grid.display(file);
+        grid.display();
+        file.close();
+    }
+    else
+    {
+        std::cerr << "INVALID_FILE";
+    }
 }

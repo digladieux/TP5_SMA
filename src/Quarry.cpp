@@ -5,7 +5,7 @@ Quarry::Quarry(const unsigned int rock_number) : CollectionPoint(GROUND_TYPE::QU
 
 Quarry::~Quarry(){}
 
-void Quarry::display() const noexcept
+void Quarry::display(std::ostream& os) const noexcept
 {
-    std::cout << " Q ";
+    os << " Q ";
 }

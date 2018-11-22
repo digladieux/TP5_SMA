@@ -3,7 +3,7 @@
 
 #include "Character.hpp"
 #include <vector>
-
+#include <iostream>
 enum class GROUND_TYPE
 {
     LAND,
@@ -34,7 +34,7 @@ class Ground
     Character *getCharacter(const unsigned int);
 
     void clearVector() noexcept;
-    virtual void display() const noexcept;
+    virtual void display(std::ostream &os = std::cout) const noexcept;
 };
 
 #endif

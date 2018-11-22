@@ -4,7 +4,7 @@ Forest::Forest(const unsigned int wood_number) : CollectionPoint(GROUND_TYPE::FO
 
 Forest::~Forest() {}
 
-void Forest::display() const noexcept
+void Forest::display(std::ostream &os) const noexcept
 {
-    std::cout << " Fo ";
+    os << " F ";
 }

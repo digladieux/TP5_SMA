@@ -42,7 +42,7 @@ void CollectionPoint::evolutionRessources() noexcept
     }
 }
 
-void CollectionPoint::display() const noexcept
+void CollectionPoint::display(std::ostream& os) const noexcept
 {
-    std::cout << " C ";
+    os << " C ";
 }

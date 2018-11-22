@@ -23,6 +23,6 @@ class TownHall : public Ground
     bool setWoodNumber(const int) noexcept;
     bool setFoodNumber(const int) noexcept;
 
-    void display() const noexcept;
+    void display(std::ostream &os = std::cout) const noexcept;
 };
 #endif

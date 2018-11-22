@@ -18,7 +18,7 @@ class CollectionPoint : public Ground
     bool ressourcesNumberExtracted(const unsigned int);
     void evolutionRessources() noexcept;
 
-    virtual void display() const noexcept ;
+    virtual void display(std::ostream &os) const noexcept;
 };
 
 #endif

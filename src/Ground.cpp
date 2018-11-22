@@ -20,7 +20,7 @@ void Ground::clearVector() noexcept
         it++;
         delete character;
     }
-    
+
 }
 unsigned int Ground::getGroundId() const noexcept
 {
@@ -70,7 +70,7 @@ Character *Ground::getCharacter(const unsigned int index)
     return vector_character[index];
 }
 
-void Ground::display() const noexcept
+void Ground::display(std::ostream& os) const noexcept
 {
-    std::cout << " . ";
+    os << " . ";
 }

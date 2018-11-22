@@ -8,7 +8,7 @@ class Quarry : public CollectionPoint
     Quarry(const unsigned int rock_number = 1000);
     ~Quarry();
 
-    void display() const noexcept;
+    void display(std::ostream &os = std::cout) const noexcept;
 };
 
 #endif

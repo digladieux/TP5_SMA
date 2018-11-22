@@ -8,7 +8,7 @@ class Farm : public CollectionPoint
     Farm(const unsigned int food_number = 1000);
     ~Farm();
 
-    void display() const noexcept;
+    void display(std::ostream &os = std::cout) const noexcept;
 };
 
 #endif

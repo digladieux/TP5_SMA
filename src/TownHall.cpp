@@ -69,7 +69,7 @@ bool TownHall::setFoodNumber(const int food_nb) noexcept
     return flag;
 }
 
-void TownHall::display() const noexcept
+void TownHall::display(std::ostream& os) const noexcept
 {
-    std::cout << " T ";
+    os << " T ";
 }

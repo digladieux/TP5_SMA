@@ -11,7 +11,7 @@ class FemaleCharacter : public Character
 
   public:
     FemaleCharacter();
-    FemaleCharacter(const unsigned int, SEX);
+    FemaleCharacter(SEX, const unsigned int age = 20);
 
     ~FemaleCharacter();
 

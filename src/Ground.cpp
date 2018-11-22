@@ -8,7 +8,16 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type)
 {
     ground_number++;
 }
-Ground::~Ground() {}
+Ground::~Ground()
+{
+    Character *character;
+    for (auto it = vector_character.begin(); it != vector_character.end(); )
+    {
+        character = *it;
+        ++it;
+        delete character;
+    }
+}
 /*TODO : Ground:15 Verifier si l'id est correct en fonction de la taille de la map */
 
 void Ground::clearVector() noexcept

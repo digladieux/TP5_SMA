@@ -103,7 +103,7 @@ TEST_CASE("MaleCharacter")
 TEST_CASE("FemaleCharacter")
 {
     FemaleCharacter *character1 = new FemaleCharacter();
-    FemaleCharacter *character2 = new FemaleCharacter(20, SEX::FEMALE_CHARACTER_ADULT);
+    FemaleCharacter *character2 = new FemaleCharacter(SEX::FEMALE_CHARACTER_ADULT, 20);
 
     CHECK(0 == character1->getCharacterAge());
     CHECK(20 == character2->getCharacterAge());
@@ -206,7 +206,6 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(farmer == farm->getCharacter(0));
 
     REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
-
     delete farmer;
     delete fisherman;
     delete lumberjack;
@@ -233,13 +232,13 @@ TEST_CASE("Afficher")
     std::cout << " Q =";
     quarry->display();
     std::cout << std::endl;
-    std::cout << " Fo =";
+    std::cout << " F =";
     forest->display();
     std::cout << std::endl;
     std::cout << " L =";
     lake->display();
     std::cout << std::endl;
-    std::cout << " Fa =";
+    std::cout << " f =";
     farm->display();
     std::cout << std::endl
               << std::endl;
@@ -266,4 +265,17 @@ TEST_CASE("InitialisationGrid")
     {
         std::cerr << "INVALID_FILE";
     }
+
+    CHECK(10 == grid.getColumnNumber());
+    CHECK(10 == grid.getRowNumber());
+
+    std::cout << " T =";
+    grid.getGroundGrid(0, 0)->display();
+    std::cout << std::endl;
+
+    std::cout << " . =";
+    grid.getGroundGrid(2, 0)->display();
+    std::cout << std::endl;
+
+    grid.getGroundGrid(0, 0)->getCharacter(0);
 }

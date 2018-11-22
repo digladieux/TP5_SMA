@@ -6,5 +6,5 @@ Forest::~Forest() {}
 
 void Forest::display(std::ostream &os) const noexcept
 {
-    os << " F ";
+    os << "F ";
 }

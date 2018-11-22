@@ -7,5 +7,5 @@ Quarry::~Quarry(){}
 
 void Quarry::display(std::ostream& os) const noexcept
 {
-    os << " Q ";
+    os << "Q ";
 }

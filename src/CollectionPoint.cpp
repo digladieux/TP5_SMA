@@ -44,5 +44,5 @@ void CollectionPoint::evolutionRessources() noexcept
 
 void CollectionPoint::display(std::ostream& os) const noexcept
 {
-    os << " C ";
+    os << "C ";
 }

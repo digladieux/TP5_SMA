@@ -7,5 +7,5 @@ Farm::~Farm() {}
 
 void Farm::display(std::ostream &os) const noexcept
 {
-    os << " f ";
+    os << "f ";
 }

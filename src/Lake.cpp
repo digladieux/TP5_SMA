@@ -7,5 +7,5 @@ Lake::~Lake() {}
 
 void Lake::display(std::ostream& os) const noexcept
 {
-    os << " L ";
+    os << "L ";
 }

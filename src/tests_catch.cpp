@@ -204,7 +204,7 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(fisherman == lake->getCharacter(0));
     CHECK(quarryman == quarry->getCharacter(0));
     CHECK(farmer == farm->getCharacter(0));
-
+    CHECK(farmer->getCharacterAge() == farm->getCharacter(0)->getCharacterAge());
     REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
     delete farmer;
     delete fisherman;
@@ -223,22 +223,22 @@ TEST_CASE("Afficher")
 
     std::cout << std::endl
               << "VERIFIER SI CORRECT" << std::endl;
-    std::cout << " T =";
+    std::cout << " T = ";
     town_hall->display();
     std::cout << std::endl;
-    std::cout << " . =";
+    std::cout << " . = ";
     ground->display();
     std::cout << std::endl;
-    std::cout << " Q =";
+    std::cout << " Q = ";
     quarry->display();
     std::cout << std::endl;
-    std::cout << " F =";
+    std::cout << " F = ";
     forest->display();
     std::cout << std::endl;
-    std::cout << " L =";
+    std::cout << " L = ";
     lake->display();
     std::cout << std::endl;
-    std::cout << " f =";
+    std::cout << " f = ";
     farm->display();
     std::cout << std::endl
               << std::endl;
@@ -257,8 +257,11 @@ TEST_CASE("InitialisationGrid")
     std::ofstream file("INSTANCES/map_test_write.txt");
     if (!file.fail())
     {
-        grid.display(file);
-        grid.display();
+        grid.displayMap(file);
+        grid.displayMap();
+
+        grid.displayCharacter(file);
+        grid.displayCharacter();
         file.close();
     }
     else
@@ -269,13 +272,25 @@ TEST_CASE("InitialisationGrid")
     CHECK(10 == grid.getColumnNumber());
     CHECK(10 == grid.getRowNumber());
 
-    std::cout << " T =";
+    std::cout << std::endl
+              << "VERIFIER SI CORRECT" << std::endl;
+    std::cout << " T = ";
     grid.getGroundGrid(0, 0)->display();
     std::cout << std::endl;
 
-    std::cout << " . =";
+    std::cout << " . = ";
     grid.getGroundGrid(2, 0)->display();
     std::cout << std::endl;
 
-    grid.getGroundGrid(0, 0)->getCharacter(0);
+    Character * character = grid.getGroundGrid(0, 0)->getCharacter(0);
+    CHECK(character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
+}
+
+TEST_CASE("GroundCopy")
+{
+    Ground *ground1 = new Ground();
+    Ground *ground2 = new Ground(ground1);
+
+    CHECK(ground1->getGroundId() == ground2->getGroundId());
+    CHECK(ground1->getGroundType() == ground2->getGroundType());
 }

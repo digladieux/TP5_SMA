@@ -8,10 +8,31 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type)
 {
     ground_number++;
 }
+
+Ground::Ground(const Ground *ground)
+{
+    ground_id = ground->ground_id;
+    ground_type = ground_type;
+    try
+    {
+        vector_character.resize(ground->vector_character.size());
+    }
+    catch (const std::bad_alloc &e)
+    {
+        std::cerr << "BAD_ALLOCATION" << std::endl;
+        throw e;
+    }
+
+    for (unsigned int i = 0; i < vector_character.size(); i++)
+    {
+        vector_character[i] = ground->vector_character[i];
+    }
+}
+
 Ground::~Ground()
 {
     Character *character;
-    for (auto it = vector_character.begin(); it != vector_character.end(); )
+    for (auto it = vector_character.begin(); it != vector_character.end();)
     {
         character = *it;
         ++it;
@@ -29,7 +50,6 @@ void Ground::clearVector() noexcept
         it++;
         delete character;
     }
-
 }
 unsigned int Ground::getGroundId() const noexcept
 {
@@ -45,6 +65,7 @@ unsigned int Ground::getVectorSize() const noexcept
 {
     return vector_character.size();
 }
+
 void Ground::addCharacter(Character *new_worker)
 {
     try
@@ -79,7 +100,7 @@ Character *Ground::getCharacter(const unsigned int index)
     return vector_character[index];
 }
 
-void Ground::display(std::ostream& os) const noexcept
+void Ground::display(std::ostream &os) const noexcept
 {
-    os << " . ";
+    os << ". ";
 }

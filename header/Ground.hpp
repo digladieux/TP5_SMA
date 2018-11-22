@@ -17,12 +17,13 @@ class Ground
 {
   protected:
     static unsigned int ground_number;
-    const unsigned int ground_id;
+    unsigned int ground_id;
     GROUND_TYPE ground_type;
     std::vector<Character *> vector_character;
 
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
+    Ground(const Ground *);
     virtual ~Ground();
 
     unsigned int getGroundId() const noexcept;
@@ -32,6 +33,8 @@ class Ground
     void addCharacter(Character *);
     void removeCharacter(const unsigned int);
     Character *getCharacter(const unsigned int);
+
+    Ground &operator=(const Ground &);
 
     void clearVector() noexcept;
     virtual void display(std::ostream &os = std::cout) const noexcept;

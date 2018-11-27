@@ -4,7 +4,7 @@
 
 unsigned int Ground::ground_number = 0;
 
-Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type)
+Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type), vector_character(0)
 {
     ground_number++;
 }
@@ -47,8 +47,8 @@ void Ground::clearVector() noexcept
     for (unsigned int i = 0; i < vector_character.size(); i++)
     {
         character = vector_character[0];
-        vector_character.erase(vector_character.begin());
         delete character;
+        vector_character.erase(vector_character.begin());
     }
 }
 unsigned int Ground::getGroundId() const noexcept

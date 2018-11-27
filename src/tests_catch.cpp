@@ -12,7 +12,7 @@
 #include "../header/Grid.hpp"
 #include <fstream>
 #include <iostream> /*TODO : test:8 A enlever plus tard */
-/*TODO : test:13 Ground * toto = new Quarry() les fonctions marchent pas */
+
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -296,8 +296,9 @@ TEST_CASE("InitialisationGrid")
     std::cout << std::endl;
 
     Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
-    std::cout << character->getCharacterAge();
     CHECK(character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
+    CHECK(2 == grid.getSizeVector());
+    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
 }
 
 TEST_CASE("GroundCopy")

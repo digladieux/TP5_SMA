@@ -69,8 +69,17 @@ TEST_CASE("Character")
     CHECK(0 == character1.getCharacterId());
     CHECK(1 == character2.getCharacterId());
     CHECK(SEX::FEMALE_CHARACTER_ADULT == character2.getCharacterGender());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1.getTypeRessourceTransported());
+    CHECK(STATE::NO_STATE == character1.getCharacterCurrentState());
+
     character1.incrementAge();
     character2.incrementAge();
+
+    character1.setCharacterCurrentState(STATE::WORKING);
+    character1.setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
+
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1.getTypeRessourceTransported());
+    CHECK(STATE::WORKING == character1.getCharacterCurrentState());
 
     CHECK(1 == character1.getCharacterAge());
     CHECK(21 == character2.getCharacterAge());
@@ -78,23 +87,27 @@ TEST_CASE("Character")
 
 TEST_CASE("MaleCharacter")
 {
-    MaleCharacter *character1 = new MaleCharacter();
-    MaleCharacter *character2 = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
+    Character *character1 = new MaleCharacter();
+    Character *character2 = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
 
     CHECK(0 == character1->getCharacterAge());
     CHECK(20 == character2->getCharacterAge());
     CHECK(2 == character1->getCharacterId());
     CHECK(3 == character2->getCharacterId());
-    CHECK(JOB::NO_JOB == character1->getSpeciality());
-    CHECK(JOB::FARMER == character2->getSpeciality());
+    CHECK(JOB::NO_JOB == ((MaleCharacter*)character1)->getSpeciality());
+    CHECK(JOB::FARMER == ((MaleCharacter*)character2)->getSpeciality());
     CHECK(SEX::MALE_CHARACTER_CHILD == character1->getCharacterGender());
     CHECK(SEX::MALE_CHARACTER_ADULT == character2->getCharacterGender());
-
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1->getTypeRessourceTransported());
+    CHECK(STATE::NO_STATE == character1->getCharacterCurrentState());
     character1->incrementAge();
     character2->incrementAge();
-
+    character1->setCharacterCurrentState(STATE::WORKING);
+    character1->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
     CHECK(1 == character1->getCharacterAge());
     CHECK(21 == character2->getCharacterAge());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1->getTypeRessourceTransported());
+    CHECK(STATE::WORKING == character1->getCharacterCurrentState());
 
     delete character1;
     delete character2;
@@ -102,27 +115,32 @@ TEST_CASE("MaleCharacter")
 
 TEST_CASE("FemaleCharacter")
 {
-    FemaleCharacter *character1 = new FemaleCharacter();
-    FemaleCharacter *character2 = new FemaleCharacter(SEX::FEMALE_CHARACTER_ADULT, 20);
+    Character *character1 = new FemaleCharacter();
+    Character *character2 = new FemaleCharacter(SEX::FEMALE_CHARACTER_ADULT, 20);
 
     CHECK(0 == character1->getCharacterAge());
     CHECK(20 == character2->getCharacterAge());
     CHECK(4 == character1->getCharacterId());
     CHECK(5 == character2->getCharacterId());
-    CHECK(0 == character1->getMonthNumberPregnancy());
-    CHECK(0 == character2->getMonthNumberPregnancy());
+    CHECK(0 == ((FemaleCharacter*)character1)->getMonthNumberPregnancy());
+    CHECK(0 == ((FemaleCharacter*)character2)->getMonthNumberPregnancy());
     CHECK(SEX::FEMALE_CHARACTER_CHILD == character1->getCharacterGender());
     CHECK(SEX::FEMALE_CHARACTER_ADULT == character2->getCharacterGender());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1->getTypeRessourceTransported());
+    CHECK(STATE::NO_STATE == character1->getCharacterCurrentState());
 
-    character1->setMonthPregnancy();
-
+    ((FemaleCharacter*)character1)->setMonthPregnancy();
+    character1->setCharacterCurrentState(STATE::WORKING);
+    character1->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
     for (unsigned int i = 1; i < 11; i++)
     {
-        character2->setMonthPregnancy();
-        CHECK(i % 10 == character2->getMonthNumberPregnancy());
+        ((FemaleCharacter*)character2)->setMonthPregnancy();
+        CHECK(i % 10 == ((FemaleCharacter*)character2)->getMonthNumberPregnancy());
     }
-    CHECK(1 == character1->getMonthNumberPregnancy());
-    CHECK(0 == character2->getMonthNumberPregnancy());
+    CHECK(1 == ((FemaleCharacter*)character1)->getMonthNumberPregnancy());
+    CHECK(0 == ((FemaleCharacter*)character2)->getMonthNumberPregnancy());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1->getTypeRessourceTransported());
+    CHECK(STATE::WORKING == character1->getCharacterCurrentState());
 
     delete character1;
     delete character2;

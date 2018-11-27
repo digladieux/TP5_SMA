@@ -3,7 +3,7 @@
 
 unsigned int Character::character_number = 0;
 
-Character::Character() : character_id(character_number), character_age(0)
+Character::Character() : character_id(character_number), character_age(0), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE)
 {
     character_number++;
     if (genrand_real1() < 0.5)
@@ -16,7 +16,7 @@ Character::Character() : character_id(character_number), character_age(0)
     }
 }
 
-Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), character_gender(gender)
+Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), character_gender(gender),character_current_state(STATE::NO_STATE),  type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE)
 {
     character_number++;
 }
@@ -36,6 +36,26 @@ SEX Character::getCharacterGender() const noexcept
 {
     return character_gender;
 }
+
+STATE Character::getCharacterCurrentState() const noexcept
+{
+    return character_current_state;
+}
+TYPE_RESSOURCE_TRANSPORTED Character::getTypeRessourceTransported() const noexcept
+{
+    return type_ressource_transported;
+}
+
+void Character::setCharacterCurrentState(STATE new_state) noexcept
+{
+    character_current_state = new_state;
+}
+
+void Character::setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED new_type_ressources) noexcept
+{
+    type_ressource_transported = new_type_ressources;
+}
+
 void Character::incrementAge() noexcept
 {
     character_age++;

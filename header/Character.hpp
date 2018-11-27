@@ -9,6 +9,23 @@ enum class SEX
     FEMALE_CHARACTER_CHILD
 };
 
+enum class STATE
+{
+    NO_STATE,
+    GOING_TO_COLLECTION_POINT,
+    GOING_TO_TOWN_HALL,
+    WORKING,
+    BUILDING,
+};
+
+enum class TYPE_RESSOURCE_TRANSPORTED
+{
+    NO_RESSOURCE,
+    ROCK,
+    FISH,
+    WOOD,
+    FOOD,
+};
 class Character
 {
   protected:
@@ -16,6 +33,8 @@ class Character
     unsigned int character_id;
     unsigned int character_age;
     SEX character_gender;
+    STATE character_current_state;
+    TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
 
   public:
     Character();
@@ -26,6 +45,12 @@ class Character
     unsigned int getCharacterId() const noexcept;
     unsigned int getCharacterAge() const noexcept;
     SEX getCharacterGender() const noexcept;
+    STATE getCharacterCurrentState() const noexcept;
+    TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
+
+    void setCharacterCurrentState(STATE)
+    noexcept;
+    void setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED) noexcept;
 
     void incrementAge() noexcept;
     bool isDead() const noexcept;

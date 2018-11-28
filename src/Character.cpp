@@ -16,7 +16,7 @@ Character::Character() : character_id(character_number), character_age(0), chara
     }
 }
 
-Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), character_gender(gender),character_current_state(STATE::NO_STATE),  type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE)
+Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), character_gender(gender), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE)
 {
     character_number++;
 }
@@ -56,6 +56,18 @@ void Character::setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED new_type_
     type_ressource_transported = new_type_ressources;
 }
 
+void Character::setCharacterGenderAdult() noexcept
+{
+    if (character_gender == SEX::FEMALE_CHARACTER_CHILD)
+    {
+        character_gender = SEX::FEMALE_CHARACTER_ADULT;
+    }
+    else
+    {
+        character_gender = SEX::MALE_CHARACTER_ADULT;
+    }
+}
+
 void Character::incrementAge() noexcept
 {
     character_age++;
@@ -75,25 +87,40 @@ bool Character::isDead() const noexcept
 {
     bool dead = false;
     double random = genrand_real1();
-    if ((character_age < 18) && (random < 0.05))
+    if (character_age < 18)
     {
-        dead = true;
+        if (random < 0.005)
+        {
+            dead = true;
+        }
     }
-    if ((character_age < 30) && (character_age >= 18) && (random < 0.10))
+    else if (character_age < 30)
     {
-        dead = true;
+        if (random < 0.010)
+        {
+            dead = true;
+        }
     }
-    if ((character_age < 50) && (character_age >= 30) && (random < 0.15))
+    else if (character_age < 50)
     {
-        dead = true;
+        if (random < 0.015)
+        {
+            dead = true;
+        }
     }
-    if ((character_age < 70) && (character_age >= 50) && (random < 0.25))
+    else if (character_age < 70)
     {
-        dead = true;
+        if (random < 0.020)
+        {
+            dead = true;
+        }
     }
-    if ((character_age < 90) && (character_age >= 70) && (random < 0.30))
+    else if (character_age < 90)
     {
-        dead = true;
+        if (random < 0.025)
+        {
+            dead = true;
+        }
     }
     else
     {

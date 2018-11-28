@@ -16,6 +16,7 @@ enum class STATE
     GOING_TO_TOWN_HALL,
     WORKING,
     BUILDING,
+    HAVING_SEX
 };
 
 enum class TYPE_RESSOURCE_TRANSPORTED
@@ -48,9 +49,9 @@ class Character
     STATE getCharacterCurrentState() const noexcept;
     TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
 
-    void setCharacterCurrentState(STATE)
-    noexcept;
+    void setCharacterCurrentState(STATE) noexcept;
     void setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED) noexcept;
+    void setCharacterGenderAdult() noexcept;
 
     void incrementAge() noexcept;
     bool isDead() const noexcept;

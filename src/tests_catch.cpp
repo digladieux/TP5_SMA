@@ -10,6 +10,7 @@
 #include "../header/Quarry.hpp"
 #include "../header/Lake.hpp"
 #include "../header/Grid.hpp"
+#include "../header/Game.hpp"
 #include <fstream>
 #include <iostream> /*TODO : test:8 A enlever plus tard */
 
@@ -94,8 +95,8 @@ TEST_CASE("MaleCharacter")
     CHECK(20 == character2->getCharacterAge());
     CHECK(2 == character1->getCharacterId());
     CHECK(3 == character2->getCharacterId());
-    CHECK(JOB::NO_JOB == ((MaleCharacter*)character1)->getSpeciality());
-    CHECK(JOB::FARMER == ((MaleCharacter*)character2)->getSpeciality());
+    CHECK(JOB::NO_JOB == ((MaleCharacter *)character1)->getSpeciality());
+    CHECK(JOB::FARMER == ((MaleCharacter *)character2)->getSpeciality());
     CHECK(SEX::MALE_CHARACTER_CHILD == character1->getCharacterGender());
     CHECK(SEX::MALE_CHARACTER_ADULT == character2->getCharacterGender());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1->getTypeRessourceTransported());
@@ -122,23 +123,23 @@ TEST_CASE("FemaleCharacter")
     CHECK(20 == character2->getCharacterAge());
     CHECK(4 == character1->getCharacterId());
     CHECK(5 == character2->getCharacterId());
-    CHECK(0 == ((FemaleCharacter*)character1)->getMonthNumberPregnancy());
-    CHECK(0 == ((FemaleCharacter*)character2)->getMonthNumberPregnancy());
+    CHECK(0 == ((FemaleCharacter *)character1)->getMonthNumberPregnancy());
+    CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
     CHECK(SEX::FEMALE_CHARACTER_CHILD == character1->getCharacterGender());
     CHECK(SEX::FEMALE_CHARACTER_ADULT == character2->getCharacterGender());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1->getTypeRessourceTransported());
     CHECK(STATE::NO_STATE == character1->getCharacterCurrentState());
 
-    ((FemaleCharacter*)character1)->setMonthPregnancy();
+    ((FemaleCharacter *)character1)->setMonthPregnancy();
     character1->setCharacterCurrentState(STATE::WORKING);
     character1->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
     for (unsigned int i = 1; i < 11; i++)
     {
-        ((FemaleCharacter*)character2)->setMonthPregnancy();
-        CHECK(i % 10 == ((FemaleCharacter*)character2)->getMonthNumberPregnancy());
+        ((FemaleCharacter *)character2)->setMonthPregnancy();
+        CHECK(i % 10 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
     }
-    CHECK(1 == ((FemaleCharacter*)character1)->getMonthNumberPregnancy());
-    CHECK(0 == ((FemaleCharacter*)character2)->getMonthNumberPregnancy());
+    CHECK(1 == ((FemaleCharacter *)character1)->getMonthNumberPregnancy());
+    CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1->getTypeRessourceTransported());
     CHECK(STATE::WORKING == character1->getCharacterCurrentState());
 
@@ -314,8 +315,9 @@ TEST_CASE("InitialisationGrid")
     std::cout << std::endl;
 
     Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
-    CHECK(character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
+    CHECK(character->getCharacterGender() == SEX::FEMALE_CHARACTER_CHILD);
     CHECK(2 == grid.getSizeVector());
+    CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
 }
 
@@ -330,4 +332,15 @@ TEST_CASE("GroundCopy")
 
     delete ground1;
     delete ground2;
+}
+
+TEST_CASE("Game")
+{
+    Grid grid("map_test_read.txt");
+    grid.displayMap();
+    grid.displayCharacter();
+
+    run(grid, 20);
+    grid.displayCharacter();
+    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::FEMALE_CHARACTER_ADULT);
 }

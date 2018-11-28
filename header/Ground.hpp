@@ -36,6 +36,7 @@ class Ground
 
     Ground &operator=(const Ground &);
 
+    static void resetGroundNumber() noexcept;
     void clearVector() noexcept;
     virtual void display(std::ostream &os = std::cout) const noexcept;
 };

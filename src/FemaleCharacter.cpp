@@ -18,17 +18,18 @@ unsigned int FemaleCharacter::getMonthNumberPregnancy() const noexcept
 
 void FemaleCharacter::randomBabyPerPregnancy() noexcept
 {
+    /*A Affiner */
     baby_per_pregnancy = genrand_int31() % 1 + 1;
 }
 
 void FemaleCharacter::setMonthPregnancy() noexcept
 {
-    if (month_number_pregnancy < 9)
+    if (month_number_pregnancy == 9)
     {
-        month_number_pregnancy++;
+        month_number_pregnancy = 0;
     }
     else
     {
-        month_number_pregnancy = 0;
+        month_number_pregnancy++;
     }
 }

@@ -102,6 +102,11 @@ Character *Ground::getCharacter(const unsigned int index)
     return vector_character[index];
 }
 
+void Ground::resetGroundNumber() noexcept
+{
+    ground_number = 0;
+}
+
 void Ground::display(std::ostream &os) const noexcept
 {
     os << ". ";

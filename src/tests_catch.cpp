@@ -73,12 +73,15 @@ TEST_CASE("Character")
     CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1.getTypeRessourceTransported());
     CHECK(STATE::NO_STATE == character1.getCharacterCurrentState());
 
+    character1.setDirection(0, 1);
     character1.incrementAge();
     character2.incrementAge();
 
     character1.setCharacterCurrentState(STATE::WORKING);
     character1.setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
 
+    CHECK(character1.getDirection().abscissa == 0);
+    CHECK(character1.getDirection().ordinate == 1);
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1.getTypeRessourceTransported());
     CHECK(STATE::WORKING == character1.getCharacterCurrentState());
 
@@ -101,10 +104,16 @@ TEST_CASE("MaleCharacter")
     CHECK(SEX::MALE_CHARACTER_ADULT == character2->getCharacterGender());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1->getTypeRessourceTransported());
     CHECK(STATE::NO_STATE == character1->getCharacterCurrentState());
+    CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
     character1->incrementAge();
     character2->incrementAge();
     character1->setCharacterCurrentState(STATE::WORKING);
     character1->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
+    for (int i = 1; i < 10; i++)
+    {
+        ((MaleCharacter *)character1)->setTimeAtWork();
+        CHECK(i % 4 == ((MaleCharacter *)character1)->getTimeAtWork());
+    }
     CHECK(1 == character1->getCharacterAge());
     CHECK(21 == character2->getCharacterAge());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1->getTypeRessourceTransported());
@@ -304,6 +313,7 @@ TEST_CASE("InitialisationGrid")
 
     CHECK(10 == grid.getColumnNumber());
     CHECK(10 == grid.getRowNumber());
+    CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
 
     std::cout << "VERIFIER SI CORRECT" << std::endl;
     std::cout << " T = ";
@@ -316,9 +326,16 @@ TEST_CASE("InitialisationGrid")
 
     Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
     CHECK(character->getCharacterGender() == SEX::FEMALE_CHARACTER_CHILD);
-    CHECK(2 == grid.getSizeVector());
+    CHECK(2 == grid.getSizeVectorGroundWithCharacter());
+    CHECK(8 == grid.getSizeVectorGroundWithCollectionPointOrTownHall());
     CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
+    CHECK(0 == grid.getGroundGrid(0, 0)->getCharacter(0)->getDirection().abscissa);
+    CHECK(0 == grid.getGroundGrid(0, 0)->getCharacter(0)->getDirection().ordinate);
+
+    CHECK(0 == grid.getGroundWithCollectionPointOrTownHall(0)->getGroundId());
+
+    CHECK(grid.getDirectionCharacter(character->getDirection()) == grid.getPositionCharacter(grid.getGroundWithCharacter(0)->getGroundId()));
 }
 
 TEST_CASE("GroundCopy")

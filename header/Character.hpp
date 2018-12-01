@@ -27,6 +27,14 @@ enum class TYPE_RESSOURCE_TRANSPORTED
     WOOD,
     FOOD,
 };
+
+typedef struct StructCoordinates
+{
+    unsigned int abscissa;
+    unsigned int ordinate;
+
+} Coordinates;
+
 class Character
 {
   protected:
@@ -36,6 +44,7 @@ class Character
     SEX character_gender;
     STATE character_current_state;
     TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
+    StructCoordinates direction;
 
   public:
     Character();
@@ -48,10 +57,12 @@ class Character
     SEX getCharacterGender() const noexcept;
     STATE getCharacterCurrentState() const noexcept;
     TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
+    StructCoordinates getDirection() const noexcept;
 
     void setCharacterCurrentState(STATE) noexcept;
     void setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED) noexcept;
     void setCharacterGenderAdult() noexcept;
+    void setDirection(unsigned int, unsigned int) noexcept;
 
     void incrementAge() noexcept;
     bool isDead() const noexcept;

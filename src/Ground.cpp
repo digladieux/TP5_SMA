@@ -102,6 +102,11 @@ Character *Ground::getCharacter(const unsigned int index)
     return vector_character[index];
 }
 
+bool Ground::operator==(const Ground & ground)
+{
+    return ground_id == ground.ground_id ? true : false;
+}
+
 void Ground::resetGroundNumber() noexcept
 {
     ground_number = 0;

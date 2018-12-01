@@ -34,7 +34,7 @@ class Ground
     void removeCharacter(const unsigned int);
     Character *getCharacter(const unsigned int);
 
-    Ground &operator=(const Ground &);
+    bool operator==(const Ground &);
 
     static void resetGroundNumber() noexcept;
     void clearVector() noexcept;

@@ -16,6 +16,7 @@ class MaleCharacter : public Character
 {
   private:
     JOB speciality;
+    unsigned int time_at_work;
 
   public:
     MaleCharacter();
@@ -23,6 +24,9 @@ class MaleCharacter : public Character
     ~MaleCharacter();
 
     JOB getSpeciality() const noexcept;
+    unsigned int getTimeAtWork() const noexcept;
+    void setTimeAtWork() noexcept;
+
     void setSpeciality(JOB job) noexcept;
     const MaleCharacter &operator=(const MaleCharacter &new_character);
 };

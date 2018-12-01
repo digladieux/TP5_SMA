@@ -1,10 +1,12 @@
 #include "../header/Character.hpp"
 #include "../header/mt19937ar.h"
-
+#include <limits>
 unsigned int Character::character_number = 0;
 
 Character::Character() : character_id(character_number), character_age(0), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE)
 {
+    direction.abscissa = std::numeric_limits<unsigned int>::max();
+    direction.ordinate = std::numeric_limits<unsigned int>::max();
     character_number++;
     if (genrand_real1() < 0.5)
     {
@@ -46,6 +48,11 @@ TYPE_RESSOURCE_TRANSPORTED Character::getTypeRessourceTransported() const noexce
     return type_ressource_transported;
 }
 
+StructCoordinates Character::getDirection() const noexcept
+{
+    return direction;
+}
+
 void Character::setCharacterCurrentState(STATE new_state) noexcept
 {
     character_current_state = new_state;
@@ -66,6 +73,12 @@ void Character::setCharacterGenderAdult() noexcept
     {
         character_gender = SEX::MALE_CHARACTER_ADULT;
     }
+}
+
+void Character::setDirection(unsigned int x, unsigned int y) noexcept
+{
+    direction.abscissa = x;
+    direction.ordinate = y;
 }
 
 void Character::incrementAge() noexcept

@@ -1,25 +1,42 @@
+/**
+ * \file Ground.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source Ground.cpp
+ * \date 2018-12-03
+ */
+
 #ifndef GROUND_HPP
 #define GROUND_HPP
 
 #include "Character.hpp"
 #include <vector>
 #include <iostream>
+
+/**
+ * \enum class
+ * \brief Enumeration de tous les types possibles de case sur notre terrain de jeu possible
+ */
 enum class GROUND_TYPE
 {
-    LAND,
-    TOWN_HALL,
-    QUARRY,
-    LAKE,
-    FARM,
-    FOREST,
+    LAND,       /*! Terrain (aucune caracteristique) */
+    TOWN_HALL,  /*! Hotel de ville */
+    QUARRY,     /*! Carriere de pierre */
+    LAKE,       /*! Lac */
+    FARM,       /*! Ferme */
+    FOREST,     /*! Foret */
 };
+
+/**
+ * \class Ground
+ * \brief Une case de notre terrain de jeu
+ */
 class Ground
 {
   protected:
-    static unsigned int ground_number;
-    unsigned int ground_id;
-    GROUND_TYPE ground_type;
-    std::vector<Character *> vector_character;
+    static unsigned int ground_number;          /*! Nombre de terrain sur la carte au total */
+    unsigned int ground_id;                     /*! Identifiant unique du terrain */
+    GROUND_TYPE ground_type;                    /*! Type de terrain */
+    std::vector<Character *> vector_character;  /*! Tableau dynamique de la liste des personnages sur le terrain */
 
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);

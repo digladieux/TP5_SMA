@@ -1,3 +1,10 @@
+/**
+ * \file catch.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier de gestion des tests unitaires
+ * \date 2018-12-03
+ */
+
 /*
  *  Catch v1.9.6
  *  Generated: 2017-06-27 12:19:54.557875

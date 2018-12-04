@@ -13,7 +13,7 @@
 #include "../header/Game.hpp"
 #include <fstream>
 #include <iostream> /*TODO : test:8 A enlever plus tard */
-
+/*TODO : verifier tous les commentaires partout plus rien ne marche */
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -70,29 +70,32 @@ TEST_CASE("Character")
     CHECK(0 == character1.getCharacterId());
     CHECK(1 == character2.getCharacterId());
     CHECK(SEX::FEMALE_CHARACTER_ADULT == character2.getCharacterGender());
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1.getTypeRessourceTransported());
-    CHECK(STATE::NO_STATE == character1.getCharacterCurrentState());
-
-    character1.setDirection(0, 1);
+    CHECK(-1 == character1.getTeam());
     character1.incrementAge();
     character2.incrementAge();
-
-    character1.setCharacterCurrentState(STATE::WORKING);
-    character1.setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
-
-    CHECK(character1.getDirection().abscissa == 0);
-    CHECK(character1.getDirection().ordinate == 1);
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1.getTypeRessourceTransported());
-    CHECK(STATE::WORKING == character1.getCharacterCurrentState());
+    character1.setTeam(3);
 
     CHECK(1 == character1.getCharacterAge());
     CHECK(21 == character2.getCharacterAge());
+    CHECK(3 == character1.getTeam());
 }
 
 TEST_CASE("MaleCharacter")
 {
     Character *character1 = new MaleCharacter();
     Character *character2 = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
+
+    CHECK(STATE::NO_STATE == ((MaleCharacter *)character1)->getCharacterCurrentState());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == ((MaleCharacter *)character1)->getTypeRessourceTransported());
+
+    ((MaleCharacter *)character1)->setDirection(0, 1);
+    ((MaleCharacter *)character1)->setCharacterCurrentState(STATE::WORKING);
+    ((MaleCharacter *)character1)->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
+
+    CHECK(((MaleCharacter *)character1)->getDirection().abscissa == 0);
+    CHECK(((MaleCharacter *)character1)->getDirection().ordinate == 1);
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
+    CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
     CHECK(0 == character1->getCharacterAge());
     CHECK(20 == character2->getCharacterAge());
@@ -102,13 +105,12 @@ TEST_CASE("MaleCharacter")
     CHECK(JOB::FARMER == ((MaleCharacter *)character2)->getSpeciality());
     CHECK(SEX::MALE_CHARACTER_CHILD == character1->getCharacterGender());
     CHECK(SEX::MALE_CHARACTER_ADULT == character2->getCharacterGender());
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1->getTypeRessourceTransported());
-    CHECK(STATE::NO_STATE == character1->getCharacterCurrentState());
+
     CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
     character1->incrementAge();
     character2->incrementAge();
-    character1->setCharacterCurrentState(STATE::WORKING);
-    character1->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
+    ((MaleCharacter *)character1)->setCharacterCurrentState(STATE::WORKING);
+    ((MaleCharacter *)character1)->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
     for (int i = 1; i < 10; i++)
     {
         ((MaleCharacter *)character1)->setTimeAtWork();
@@ -116,8 +118,8 @@ TEST_CASE("MaleCharacter")
     }
     CHECK(1 == character1->getCharacterAge());
     CHECK(21 == character2->getCharacterAge());
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1->getTypeRessourceTransported());
-    CHECK(STATE::WORKING == character1->getCharacterCurrentState());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
+    CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
     delete character1;
     delete character2;
@@ -136,12 +138,8 @@ TEST_CASE("FemaleCharacter")
     CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
     CHECK(SEX::FEMALE_CHARACTER_CHILD == character1->getCharacterGender());
     CHECK(SEX::FEMALE_CHARACTER_ADULT == character2->getCharacterGender());
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == character1->getTypeRessourceTransported());
-    CHECK(STATE::NO_STATE == character1->getCharacterCurrentState());
 
     ((FemaleCharacter *)character1)->setMonthPregnancy();
-    character1->setCharacterCurrentState(STATE::WORKING);
-    character1->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
     for (unsigned int i = 1; i < 11; i++)
     {
         ((FemaleCharacter *)character2)->setMonthPregnancy();
@@ -149,8 +147,6 @@ TEST_CASE("FemaleCharacter")
     }
     CHECK(1 == ((FemaleCharacter *)character1)->getMonthNumberPregnancy());
     CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == character1->getTypeRessourceTransported());
-    CHECK(STATE::WORKING == character1->getCharacterCurrentState());
 
     delete character1;
     delete character2;
@@ -325,17 +321,13 @@ TEST_CASE("InitialisationGrid")
     std::cout << std::endl;
 
     Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
-    CHECK(character->getCharacterGender() == SEX::FEMALE_CHARACTER_CHILD);
+    CHECK(0 == character->getTeam());
+    CHECK(character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
-    CHECK(8 == grid.getSizeVectorGroundWithCollectionPointOrTownHall());
+    CHECK(6 == grid.getSizeVectorGroundWithCollectionPointOrTownHall());
     CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(0 == grid.getGroundGrid(0, 0)->getCharacter(0)->getDirection().abscissa);
-    CHECK(0 == grid.getGroundGrid(0, 0)->getCharacter(0)->getDirection().ordinate);
-
-    CHECK(0 == grid.getGroundWithCollectionPointOrTownHall(0)->getGroundId());
-
-    CHECK(grid.getDirectionCharacter(character->getDirection()) == grid.getPositionCharacter(grid.getGroundWithCharacter(0)->getGroundId()));
+    CHECK(12 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
 TEST_CASE("GroundCopy")
@@ -359,5 +351,5 @@ TEST_CASE("Game")
 
     run(grid, 20);
     grid.displayCharacter();
-    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::FEMALE_CHARACTER_ADULT);
+    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
 }

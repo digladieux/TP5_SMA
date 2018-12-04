@@ -1,7 +1,19 @@
+/**
+ * \file Quarry.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source Quarry.cpp
+ * \date 2018-12-03
+ */
+
 #ifndef QUARRY_HPP
 #define QUARRY_HPP
 
 #include "CollectionPoint.hpp"
+
+/**
+ * \class Quarry
+ * \brief La carriere etant un point de collecte de ressource, elle herite des attributs et des methodes de CollectionPoint
+ */
 class Quarry : public CollectionPoint
 {
   public:

@@ -1,50 +1,38 @@
+/**
+ * \file Character.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source Character.cpp
+ * \date 2018-12-03
+ */
+
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
 
+/**
+ * \enum class SEX
+ * \brief Enumeration qui definit la majorite d'un personnage, ainsi que son sexe
+ *
+ */
 enum class SEX
 {
-    MALE_CHARACTER_ADULT,
-    FEMALE_CHARACTER_ADULT,
-    MALE_CHARACTER_CHILD,
-    FEMALE_CHARACTER_CHILD
+    MALE_CHARACTER_ADULT,   /*! Adulte Masculin */
+    FEMALE_CHARACTER_ADULT, /*! Adulte Feminin */
+    MALE_CHARACTER_CHILD,   /*! Enfant Masculin */
+    FEMALE_CHARACTER_CHILD  /*! Enfant Feminin */
 };
 
-enum class STATE
-{
-    NO_STATE,
-    GOING_TO_COLLECTION_POINT,
-    GOING_TO_TOWN_HALL,
-    WORKING,
-    BUILDING,
-    HAVING_SEX
-};
-
-enum class TYPE_RESSOURCE_TRANSPORTED
-{
-    NO_RESSOURCE,
-    ROCK,
-    FISH,
-    WOOD,
-    FOOD,
-};
-
-typedef struct StructCoordinates
-{
-    unsigned int abscissa;
-    unsigned int ordinate;
-
-} Coordinates;
-
+/**
+ * \class Character
+ * \brief Personnage qui represente notre agent
+ */
 class Character
 {
   protected:
     static unsigned int character_number;
     unsigned int character_id;
     unsigned int character_age;
+    int team;
     SEX character_gender;
-    STATE character_current_state;
-    TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
-    StructCoordinates direction;
 
   public:
     Character();
@@ -54,15 +42,11 @@ class Character
     const Character &operator=(const Character &);
     unsigned int getCharacterId() const noexcept;
     unsigned int getCharacterAge() const noexcept;
+    int getTeam() const noexcept;
     SEX getCharacterGender() const noexcept;
-    STATE getCharacterCurrentState() const noexcept;
-    TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
-    StructCoordinates getDirection() const noexcept;
 
-    void setCharacterCurrentState(STATE) noexcept;
-    void setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED) noexcept;
     void setCharacterGenderAdult() noexcept;
-    void setDirection(unsigned int, unsigned int) noexcept;
+    void setTeam(unsigned int) noexcept;
 
     void incrementAge() noexcept;
     bool isDead() const noexcept;

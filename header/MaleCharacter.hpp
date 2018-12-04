@@ -56,8 +56,8 @@ enum class TYPE_RESSOURCE_TRANSPORTED
  */
 typedef struct StructCoordinates
 {
-    unsigned int abscissa; /* Abscisse du point */
-    unsigned int ordinate; /* Ordonnee du point */
+    int abscissa; /* Abscisse du point */
+    int ordinate; /* Ordonnee du point */
 
 } Coordinates;
 

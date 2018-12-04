@@ -1,9 +1,8 @@
 #include "../header/MaleCharacter.hpp"
-#include <limits>
 MaleCharacter::MaleCharacter() : Character(SEX::MALE_CHARACTER_CHILD), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0)
 {
-    direction.abscissa = std::numeric_limits<unsigned int>::max();
-    direction.ordinate = std::numeric_limits<unsigned int>::max();
+    direction.abscissa = -1;
+    direction.ordinate = -1;
 }
 
 MaleCharacter::MaleCharacter(JOB job, SEX gender, const unsigned int age) : Character(gender, age), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE),speciality(job), time_at_work(0) {}

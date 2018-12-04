@@ -70,14 +70,14 @@ TEST_CASE("Character")
     CHECK(0 == character1.getCharacterId());
     CHECK(1 == character2.getCharacterId());
     CHECK(SEX::FEMALE_CHARACTER_ADULT == character2.getCharacterGender());
-    CHECK(-1 == character1.getTeam());
+    CHECK(-1 == character1.getCharacterTeam());
     character1.incrementAge();
     character2.incrementAge();
-    character1.setTeam(3);
+    character1.setCharacterTeam(3);
 
     CHECK(1 == character1.getCharacterAge());
     CHECK(21 == character2.getCharacterAge());
-    CHECK(3 == character1.getTeam());
+    CHECK(3 == character1.getCharacterTeam());
 }
 
 TEST_CASE("MaleCharacter")
@@ -321,10 +321,10 @@ TEST_CASE("InitialisationGrid")
     std::cout << std::endl;
 
     Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
-    CHECK(0 == character->getTeam());
+    CHECK(0 == character->getCharacterTeam());
     CHECK(character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
-    CHECK(6 == grid.getSizeVectorGroundWithCollectionPointOrTownHall());
+    CHECK(6 == grid.getSizeVectorGroundWithCollectionPoint());
     CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
     CHECK(12 == grid.getGroundWithCollectionPoint(0)->getGroundId());

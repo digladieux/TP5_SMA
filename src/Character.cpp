@@ -2,7 +2,7 @@
 #include "../header/mt19937ar.h"
 unsigned int Character::character_number = 0;
 
-Character::Character() : character_id(character_number), character_age(0), team(-1)
+Character::Character() : character_id(character_number), character_age(0), character_team(-1)
 {
     character_number++;
     if (genrand_real1() < 0.5)
@@ -15,7 +15,7 @@ Character::Character() : character_id(character_number), character_age(0), team(
     }
 }
 
-Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), team(-1), character_gender(gender)
+Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), character_team(-1), character_gender(gender)
 {
     character_number++;
 }
@@ -36,9 +36,9 @@ SEX Character::getCharacterGender() const noexcept
     return character_gender;
 }
 
-int Character::getTeam() const noexcept
+int Character::getCharacterTeam() const noexcept
 {
-    return team;
+    return character_team;
 }
 
 void Character::setCharacterGenderAdult() noexcept
@@ -53,9 +53,9 @@ void Character::setCharacterGenderAdult() noexcept
     }
 }
 
-void Character::setTeam(unsigned int new_team) noexcept
+void Character::setCharacterTeam(unsigned int new_team) noexcept
 {
-    team = new_team;
+    character_team = new_team;
 }
 void Character::incrementAge() noexcept
 {

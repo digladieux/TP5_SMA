@@ -15,10 +15,10 @@
  */
 enum class SEX
 {
-    MALE_CHARACTER_ADULT,   /*! Adulte Masculin */
-    FEMALE_CHARACTER_ADULT, /*! Adulte Feminin */
-    MALE_CHARACTER_CHILD,   /*! Enfant Masculin */
-    FEMALE_CHARACTER_CHILD  /*! Enfant Feminin */
+  MALE_CHARACTER_ADULT,   /*! Adulte Masculin */
+  FEMALE_CHARACTER_ADULT, /*! Adulte Feminin */
+  MALE_CHARACTER_CHILD,   /*! Enfant Masculin */
+  FEMALE_CHARACTER_CHILD  /*! Enfant Feminin */
 };
 
 /**
@@ -27,28 +27,28 @@ enum class SEX
  */
 class Character
 {
-  protected:
-    static unsigned int character_number;
-    unsigned int character_id;
-    unsigned int character_age;
-    int team;
-    SEX character_gender;
+protected:
+  static unsigned int character_number;
+  unsigned int character_id;
+  unsigned int character_age;
+  int character_team;
+  SEX character_gender;
 
-  public:
-    Character();
-    Character(SEX, const unsigned int age = 0);
-    virtual ~Character();
+public:
+  Character();
+  Character(SEX, const unsigned int age = 0);
+  virtual ~Character();
 
-    const Character &operator=(const Character &);
-    unsigned int getCharacterId() const noexcept;
-    unsigned int getCharacterAge() const noexcept;
-    int getTeam() const noexcept;
-    SEX getCharacterGender() const noexcept;
+  const Character &operator=(const Character &);
+  unsigned int getCharacterId() const noexcept;
+  unsigned int getCharacterAge() const noexcept;
+  int getCharacterTeam() const noexcept;
+  SEX getCharacterGender() const noexcept;
 
-    void setCharacterGenderAdult() noexcept;
-    void setTeam(unsigned int) noexcept;
+  void setCharacterGenderAdult() noexcept;
+  void setCharacterTeam(unsigned int) noexcept;
 
-    void incrementAge() noexcept;
-    bool isDead() const noexcept;
+  void incrementAge() noexcept;
+  bool isDead() const noexcept;
 };
 #endif

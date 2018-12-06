@@ -184,7 +184,6 @@ TEST_CASE("CollectionPoint")
     collection_point->removeCharacter(0);
     CHECK(0 == collection_point->getVectorSize());
 
-    collection_point->clearVector();
     delete collection_point;
 }
 
@@ -197,7 +196,6 @@ TEST_CASE("Valgrind")
     CHECK(1000 == ((Lake *)lake)->getRessourcesNumber());
     lake->addCharacter(male);
     lake->addCharacter(new MaleCharacter());
-    lake->clearVector();
 
     delete lake;
 }
@@ -243,7 +241,6 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(farmer->getCharacterAge() == farm->getCharacter(0)->getCharacterAge());
     REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
     std::cout << farm->getCharacter(1)->getCharacterAge() << std::endl;
-    farm->clearVector();
     delete farm;
     delete lake;
     delete quarry;

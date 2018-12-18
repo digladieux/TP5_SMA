@@ -366,7 +366,7 @@ TEST_CASE("GroundCopy")
     delete ground1;
     delete ground2;
 }
-/*
+
 TEST_CASE("Game")
 {
     Grid grid("map_test_read.txt");
@@ -377,9 +377,6 @@ TEST_CASE("Game")
     grid.displayCharacter();
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
 }
-<<<<<<< HEAD
-*/
-=======
 
 TEST_CASE("DateInit")
 {
@@ -418,4 +415,3 @@ TEST_CASE("Date")
     CHECK(1 == date.getMonth());
     CHECK(2019 == date.getYear());
 }
->>>>>>> a396a4dd73577045d8b80b6c31787d2fb840af11

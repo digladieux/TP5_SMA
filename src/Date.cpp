@@ -50,11 +50,6 @@ bool Date::isDateValid() const noexcept
             valid = false;
         }
     }
-<<<<<<< HEAD
-    return true;
-}/*
-Date Date::operator++() noexcept
-=======
     return valid;
 }
 
@@ -69,7 +64,6 @@ Date &Date::operator=(const Date &date) noexcept
     return *this;
 }
 Date Date::operator++()
->>>>>>> a396a4dd73577045d8b80b6c31787d2fb840af11
 {
     Date date = *this;
     if (!date.isDateValid())
@@ -101,4 +95,3 @@ void Date::display(std::ostream &os) const noexcept
 {
     os << "Day " << day << ", Month " << month << ", Year " << year << std::endl;
 }
-*/

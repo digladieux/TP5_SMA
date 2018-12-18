@@ -1,6 +1,7 @@
 #include "../header/Date.hpp"
+#include <exception>
 
-Date::Date() : day(0), month(0), year(0) {}
+Date::Date() : day(1), month(1), year(0) {}
 Date::Date(const unsigned int &d, const unsigned int &m, const unsigned int &y) : day(d), month(m), year(y) {}
 
 int Date::getDay() const noexcept
@@ -15,26 +16,11 @@ int Date::getYear() const noexcept
 {
     return year;
 }
-void Date::setDay(const int &d) noexcept
-{
-    day = d;
-}
-void Date::setMonth(const int &m) noexcept
-{
-    month = m;
-}
-void Date::setYear(const int &y) noexcept
-{
-    year = y;
-}
+
 bool Date::isDateValid() const noexcept
 {
     bool valid = true;
-    if (year < 0)
-    {
-        valid = false;
-    }
-    else if ((month > 12) || (month < 1))
+    if ((month > 12) || (month < 1))
     {
         valid = false;
     }
@@ -64,13 +50,48 @@ bool Date::isDateValid() const noexcept
             valid = false;
         }
     }
-    return true;
+    return valid;
 }
-Date Date::operator++() noexcept
+
+Date &Date::operator=(const Date &date) noexcept
+{
+    if (this != &date)
+    {
+        day = date.day;
+        month = date.month;
+        year = date.year;
+    }
+    return *this;
+}
+Date Date::operator++()
 {
     Date date = *this;
-    date.setDay
+    if (!date.isDateValid())
+    {
+        throw std::invalid_argument("INVALID_DATE");
+    }
+    date = Date(date.getDay() + 1, date.getMonth(), date.getYear());
+
+    if (date.isDateValid())
+    {
+        *this = date;
+    }
+    else
+    {
+        date = Date(1, date.getMonth() + 1, date.getYear());
+        if (date.isDateValid())
+        {
+            *this = date;
+        }
+        else
+        {
+            *this = Date(1, 1, date.getYear() + 1);
+        }
+    }
+    return *this;
 }
-Date Date::operator++(int) noexcept
+
+void Date::display(std::ostream &os) const noexcept
 {
+    os << "Day " << day << ", Month " << month << ", Year " << year << std::endl;
 }

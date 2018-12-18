@@ -11,9 +11,11 @@
 #include "../header/Lake.hpp"
 #include "../header/Grid.hpp"
 #include "../header/Game.hpp"
+#include "../header/Date.hpp"
 #include <fstream>
 #include <iostream> /*TODO : test:8 A enlever plus tard */
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
+
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -349,4 +351,42 @@ TEST_CASE("Game")
     run(grid, 20);
     grid.displayCharacter();
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
+}
+
+TEST_CASE("DateInit")
+{
+    Date date_init;
+    date_init.display();
+
+    CHECK(1 == date_init.getDay());
+    CHECK(1 == date_init.getMonth());
+    CHECK(0 == date_init.getYear());
+    CHECK(true == date_init.isDateValid());
+
+    ++date_init;
+
+    CHECK(2 == date_init.getDay());
+    CHECK(1 == date_init.getMonth());
+    CHECK(0 == date_init.getYear());
+}
+
+TEST_CASE("InvalidDate")
+{
+    Date date_invalid(52, 10, 2018);
+    REQUIRE_THROWS_AS(++date_invalid, std::invalid_argument);
+}
+
+TEST_CASE("Date")
+{
+    Date date(31,1,0);
+    ++date;
+    CHECK(1 == date.getDay());
+    CHECK(2 == date.getMonth());
+    CHECK(0 == date.getYear());
+
+    date = Date(31, 12, 2018);
+    ++date;
+    CHECK(1 == date.getDay());
+    CHECK(1 == date.getMonth());
+    CHECK(2019 == date.getYear());
 }

@@ -3,16 +3,17 @@
 
 Date::Date() : day(1), month(1), year(0) {}
 Date::Date(const unsigned int &d, const unsigned int &m, const unsigned int &y) : day(d), month(m), year(y) {}
+Date::Date(const Date& date) : day(date.day), month(date.month), year(date.year){}
 
-int Date::getDay() const noexcept
+unsigned int Date::getDay() const noexcept
 {
     return day;
 }
-int Date::getMonth() const noexcept
+unsigned int Date::getMonth() const noexcept
 {
     return month;
 }
-int Date::getYear() const noexcept
+unsigned int Date::getYear() const noexcept
 {
     return year;
 }

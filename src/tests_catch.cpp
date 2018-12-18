@@ -13,9 +13,9 @@
 #include "../header/Game.hpp"
 #include "../header/Date.hpp"
 #include <fstream>
-#include <iostream> /*TODO : test:8 A enlever plus tard */
+#include <iostream>
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
-
+/*TODO : passer l'age et la grille en pointeur */
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -87,30 +87,83 @@ TEST_CASE("Town Hall")
     delete town_hall_start;
 }
 
+TEST_CASE("DateInit")
+{
+    Date date_init;
+    date_init.display();
+
+    CHECK(1 == date_init.getDay());
+    CHECK(1 == date_init.getMonth());
+    CHECK(0 == date_init.getYear());
+    CHECK(true == date_init.isDateValid());
+
+    ++date_init;
+
+    CHECK(2 == date_init.getDay());
+    CHECK(1 == date_init.getMonth());
+    CHECK(0 == date_init.getYear());
+}
+
+TEST_CASE("InvalidDate")
+{
+    Date date_invalid(52, 10, 2018);
+    REQUIRE_THROWS_AS(++date_invalid, std::invalid_argument);
+}
+
+TEST_CASE("Date")
+{
+    Date date(31, 1, 0);
+    ++date;
+    CHECK(1 == date.getDay());
+    CHECK(2 == date.getMonth());
+    CHECK(0 == date.getYear());
+
+    date = Date(31, 12, 2018);
+    ++date;
+    CHECK(1 == date.getDay());
+    CHECK(1 == date.getMonth());
+    CHECK(2019 == date.getYear());
+}
+
 TEST_CASE("Character")
 {
-    Character character1;
-    Character character2(SEX::FEMALE_CHARACTER_ADULT, 20);
+    Date date_character1;
+    Date date_character2(1, 1, 20);
+    Character character1(date_character1);
+    Character character2(SEX::FEMALE, date_character2);
 
-    CHECK(0 == character1.getCharacterAge());
-    CHECK(20 == character2.getCharacterAge());
+    CHECK(1 == character1.getCharacterAge().getDay());
+    CHECK(1 == character1.getCharacterAge().getMonth());
+    CHECK(0 == character1.getCharacterAge().getYear());
+    CHECK(1 == character2.getCharacterAge().getDay());
+    CHECK(1 == character2.getCharacterAge().getMonth());
+    CHECK(20 == character2.getCharacterAge().getYear());
+
     CHECK(0 == character1.getCharacterId());
     CHECK(1 == character2.getCharacterId());
-    CHECK(SEX::FEMALE_CHARACTER_ADULT == character2.getCharacterGender());
+    CHECK(SEX::FEMALE == character2.getCharacterGender());
     CHECK(-1 == character1.getCharacterTeam());
+
     character1.incrementAge();
     character2.incrementAge();
     character1.setCharacterTeam(3);
 
-    CHECK(1 == character1.getCharacterAge());
-    CHECK(21 == character2.getCharacterAge());
+    CHECK(2 == character1.getCharacterAge().getDay());
+    CHECK(1 == character1.getCharacterAge().getMonth());
+    CHECK(0 == character1.getCharacterAge().getYear());
+    CHECK(2 == character2.getCharacterAge().getDay());
+    CHECK(1 == character2.getCharacterAge().getMonth());
+    CHECK(20 == character2.getCharacterAge().getYear());
+
     CHECK(3 == character1.getCharacterTeam());
 }
 
 TEST_CASE("MaleCharacter")
 {
-    Character *character1 = new MaleCharacter();
-    Character *character2 = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
+    Character *character1 = new MaleCharacter(Date(20,5,2018));
+    Character *character2 = new MaleCharacter(JOB::FARMER, Date());
+    CHECK(SEX::MALE == character1->getCharacterGender());
+    CHECK(SEX::MALE == character2->getCharacterGender());
 
     CHECK(STATE::NO_STATE == ((MaleCharacter *)character1)->getCharacterCurrentState());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == ((MaleCharacter *)character1)->getTypeRessourceTransported());
@@ -124,14 +177,18 @@ TEST_CASE("MaleCharacter")
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
     CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
-    CHECK(0 == character1->getCharacterAge());
-    CHECK(20 == character2->getCharacterAge());
+    CHECK(20 == character1->getCharacterAge().getDay());
+    CHECK(5 == character1->getCharacterAge().getMonth());
+    CHECK(2018 == character1->getCharacterAge().getYear());
+
+    CHECK(1 == character2->getCharacterAge().getDay());
+    CHECK(1 == character2->getCharacterAge().getMonth());
+    CHECK(0 == character2->getCharacterAge().getYear());
+
     CHECK(2 == character1->getCharacterId());
     CHECK(3 == character2->getCharacterId());
     CHECK(JOB::NO_JOB == ((MaleCharacter *)character1)->getSpeciality());
     CHECK(JOB::FARMER == ((MaleCharacter *)character2)->getSpeciality());
-    CHECK(SEX::MALE_CHARACTER_CHILD == character1->getCharacterGender());
-    CHECK(SEX::MALE_CHARACTER_ADULT == character2->getCharacterGender());
 
     CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
     character1->incrementAge();
@@ -143,8 +200,15 @@ TEST_CASE("MaleCharacter")
         ((MaleCharacter *)character1)->setTimeAtWork();
         CHECK(i % 4 == ((MaleCharacter *)character1)->getTimeAtWork());
     }
-    CHECK(1 == character1->getCharacterAge());
-    CHECK(21 == character2->getCharacterAge());
+
+    CHECK(21 == character1->getCharacterAge().getDay());
+    CHECK(5 == character1->getCharacterAge().getMonth());
+    CHECK(2018 == character1->getCharacterAge().getYear());
+
+    CHECK(2 == character2->getCharacterAge().getDay());
+    CHECK(1 == character2->getCharacterAge().getMonth());
+    CHECK(0 == character2->getCharacterAge().getYear());
+
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
     CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
@@ -154,17 +218,23 @@ TEST_CASE("MaleCharacter")
 
 TEST_CASE("FemaleCharacter")
 {
-    Character *character1 = new FemaleCharacter();
-    Character *character2 = new FemaleCharacter(SEX::FEMALE_CHARACTER_ADULT, 20);
+    Character *character1 = new FemaleCharacter(Date());
+    Character *character2 = new FemaleCharacter(Date(01,05,1997));
 
-    CHECK(0 == character1->getCharacterAge());
-    CHECK(20 == character2->getCharacterAge());
+    CHECK(1 == character1->getCharacterAge().getDay());
+    CHECK(1 == character1->getCharacterAge().getMonth());
+    CHECK(0 == character1->getCharacterAge().getYear());
+
+    CHECK(1 == character2->getCharacterAge().getDay());
+    CHECK(5 == character2->getCharacterAge().getMonth());
+    CHECK(1997 == character2->getCharacterAge().getYear());
+
     CHECK(4 == character1->getCharacterId());
     CHECK(5 == character2->getCharacterId());
     CHECK(0 == ((FemaleCharacter *)character1)->getMonthNumberPregnancy());
     CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
-    CHECK(SEX::FEMALE_CHARACTER_CHILD == character1->getCharacterGender());
-    CHECK(SEX::FEMALE_CHARACTER_ADULT == character2->getCharacterGender());
+    CHECK(SEX::FEMALE == character1->getCharacterGender());
+    CHECK(SEX::FEMALE == character2->getCharacterGender());
 
     ((FemaleCharacter *)character1)->setMonthPregnancy();
     for (unsigned int i = 1; i < 11; i++)
@@ -199,7 +269,7 @@ TEST_CASE("CollectionPoint")
     ((CollectionPoint *)collection_point)->setRessources(50);
     CHECK(50 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
 
-    MaleCharacter *worker = new MaleCharacter(JOB::QUARRY_MAN, SEX::MALE_CHARACTER_ADULT, 18);
+    MaleCharacter *worker = new MaleCharacter(JOB::QUARRY_MAN, Date(20,8,90));
     collection_point->addCharacter(worker);
 
     CHECK(1 == collection_point->getVectorSize());
@@ -217,12 +287,12 @@ TEST_CASE("CollectionPoint")
 TEST_CASE("Valgrind")
 {
     Ground *lake = new Lake();
-    Character *male = new MaleCharacter();
+    Character *male = new MaleCharacter(Date());
     CHECK(5 == ((Lake *)lake)->getGroundId());
     CHECK(GROUND_TYPE::LAKE == lake->getGroundType());
     CHECK(1000 == ((Lake *)lake)->getRessourcesNumber());
     lake->addCharacter(male);
-    lake->addCharacter(new MaleCharacter());
+    lake->addCharacter(new MaleCharacter(Date()));
 
     delete lake;
 }
@@ -233,10 +303,10 @@ TEST_CASE("SpecificCollectionPoint")
     Ground *forest = new Forest();
     Ground *farm = new Farm();
 
-    Character *farmer = new MaleCharacter(JOB::FARMER, SEX::MALE_CHARACTER_ADULT, 20);
-    Character *fisherman = new MaleCharacter(JOB::FISHERMAN, SEX::MALE_CHARACTER_ADULT, 45);
-    Character *lumberjack = new MaleCharacter(JOB::LUMBERJACK, SEX::MALE_CHARACTER_ADULT, 10);
-    Character *quarryman = new MaleCharacter(JOB::QUARRY_MAN, SEX::MALE_CHARACTER_ADULT, 20);
+    Character *farmer = new MaleCharacter(JOB::FARMER, Date());
+    Character *fisherman = new MaleCharacter(JOB::FISHERMAN, Date());
+    Character *lumberjack = new MaleCharacter(JOB::LUMBERJACK, Date());
+    Character *quarryman = new MaleCharacter(JOB::QUARRY_MAN, Date());
 
     CHECK(6 == ((Lake *)lake)->getGroundId());
     CHECK(7 == ((Quarry *)quarry)->getGroundId());
@@ -256,7 +326,7 @@ TEST_CASE("SpecificCollectionPoint")
     quarry->addCharacter(quarryman);
     lake->addCharacter(fisherman);
     farm->addCharacter(farmer);
-    farm->addCharacter(new MaleCharacter());
+    farm->addCharacter(new MaleCharacter(Date()));
     CHECK(1 == forest->getVectorSize());
     CHECK(1 == quarry->getVectorSize());
     CHECK(1 == lake->getVectorSize());
@@ -265,7 +335,9 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(fisherman == lake->getCharacter(0));
     CHECK(quarryman == quarry->getCharacter(0));
     CHECK(farmer == farm->getCharacter(0));
-    CHECK(farmer->getCharacterAge() == farm->getCharacter(0)->getCharacterAge());
+    CHECK(farmer->getCharacterAge().getDay() == farm->getCharacter(0)->getCharacterAge().getDay());
+    CHECK(farmer->getCharacterAge().getMonth() == farm->getCharacter(0)->getCharacterAge().getMonth());
+    CHECK(farmer->getCharacterAge().getYear() == farm->getCharacter(0)->getCharacterAge().getYear());
     REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
     delete farm;
     delete lake;
@@ -345,7 +417,7 @@ TEST_CASE("InitialisationGrid")
 
     Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
     CHECK(0 == character->getCharacterTeam());
-    CHECK(character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
+    CHECK(character->getCharacterGender() == SEX::MALE);
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
     CHECK(6 == grid.getSizeVectorGroundWithCollectionPoint());
     CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
@@ -372,45 +444,8 @@ TEST_CASE("Game")
     grid.displayMap();
     grid.displayCharacter();
 
-    run(grid, 20);
-    grid.displayCharacter();
-    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
-}
-
-TEST_CASE("DateInit")
-{
-    Date date_init;
-    date_init.display();
-
-    CHECK(1 == date_init.getDay());
-    CHECK(1 == date_init.getMonth());
-    CHECK(0 == date_init.getYear());
-    CHECK(true == date_init.isDateValid());
-
-    ++date_init;
-
-    CHECK(2 == date_init.getDay());
-    CHECK(1 == date_init.getMonth());
-    CHECK(0 == date_init.getYear());
-}
-
-TEST_CASE("InvalidDate")
-{
-    Date date_invalid(52, 10, 2018);
-    REQUIRE_THROWS_AS(++date_invalid, std::invalid_argument);
-}
-
-TEST_CASE("Date")
-{
-    Date date(31, 1, 0);
-    ++date;
-    CHECK(1 == date.getDay());
-    CHECK(2 == date.getMonth());
-    CHECK(0 == date.getYear());
-
-    date = Date(31, 12, 2018);
-    ++date;
-    CHECK(1 == date.getDay());
-    CHECK(1 == date.getMonth());
-    CHECK(2019 == date.getYear());
+    //Game game(grid, Date(10, 10, 56));
+    //game.run(grid, 20);
+    //grid.displayCharacter();
+//    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
 }

@@ -18,15 +18,15 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
     std::vector<Character *> vector_character;
     unsigned int *character_per_town = nullptr;
     Ground::resetGroundNumber();
-    SEX gender;
     JOB job;
     unsigned int
         character_number,
         type_character,
         town_hall_number,
-        years_old,
-        file_gender,
         file_job,
+        day,
+        month,
+        year,
         counter = 0;
 
     if (file.fail())
@@ -55,18 +55,16 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
 
     for (unsigned int i = 0; i < character_number; i++)
     {
-        file >> type_character >> town_hall_number >> file_gender >> years_old;
-        gender = choiceGender(file_gender);
-
+        file >> type_character >> town_hall_number >> day >> month >> year;
         switch (type_character)
         {
         case 0:
             file >> file_job;
             job = choiceJob(file_job);
-            character = new MaleCharacter(job, gender, years_old);
+            character = new MaleCharacter(job, Date(day, month, year));
             break;
         case 1:
-            character = new FemaleCharacter(gender, years_old);
+            character = new FemaleCharacter(Date(day, month, year));
             break;
         default:
 
@@ -137,6 +135,41 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
     file.close();
 }
 
+Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.column_number)
+{
+    ground_grid = new Ground **[row_number]();
+    ground_with_character.clear();
+    ground_with_collection_point.clear();
+    try
+    {
+        ground_with_character.resize(map.ground_with_character.size());
+        ground_with_collection_point.resize(map.ground_with_collection_point.size());
+    }
+    catch (const std::bad_alloc &e)
+    {
+        std::cerr << "BAD_ALLOC" << std::endl;
+        throw e;
+    }
+
+    for (unsigned int i = 0; i < row_number; i++)
+    {
+        ground_grid[i] = new Ground *[column_number]();
+
+        for (unsigned int j = 0; j < column_number; j++)
+        {
+            ground_grid[i][j] = map.ground_grid[i][j];
+        }
+    }
+    for (unsigned int i = 0; i < ground_with_character.size(); i++)
+    {
+        ground_with_character[i] = map.ground_with_character[i];
+    }
+
+    for (unsigned int i = 0; i < ground_with_collection_point.size(); i++)
+    {
+        ground_with_collection_point[i] = map.ground_with_collection_point[i];
+    }
+}
 JOB Grid::choiceJob(unsigned int file_job)
 {
     JOB job;
@@ -165,30 +198,6 @@ JOB Grid::choiceJob(unsigned int file_job)
     return job;
 }
 
-SEX Grid::choiceGender(unsigned int file_gender)
-{
-    SEX gender;
-    switch (file_gender)
-    {
-    case 0:
-        gender = SEX::MALE_CHARACTER_ADULT;
-        break;
-    case 1:
-        gender = SEX::FEMALE_CHARACTER_ADULT;
-        break;
-    case 2:
-        gender = SEX::MALE_CHARACTER_CHILD;
-        break;
-    case 3:
-        gender = SEX::FEMALE_CHARACTER_CHILD;
-        break;
-    default:
-        std::cerr << "INVALID_GENDER" << std::endl;
-        exit(EXIT_FAILURE);
-        break;
-    }
-    return gender;
-}
 Ground *Grid::initGround(char type_ground)
 {
     Ground *ground;

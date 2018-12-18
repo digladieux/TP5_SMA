@@ -13,10 +13,11 @@ class Date
   public:
     Date();
     Date(const unsigned int &, const unsigned int &, const unsigned int &);
+    Date(const Date &date);
 
-    int getDay() const noexcept;
-    int getMonth() const noexcept;
-    int getYear() const noexcept;
+    unsigned int getDay() const noexcept;
+    unsigned int getMonth() const noexcept;
+    unsigned int getYear() const noexcept;
 
     bool isDateValid() const noexcept;
 

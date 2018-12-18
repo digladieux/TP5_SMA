@@ -5,7 +5,6 @@
  * \date 2018-12-03
  */
 
-
 #include "../header/Character.hpp"
 #include "../header/mt19937ar.h"
 unsigned int Character::character_number = 0;
@@ -15,18 +14,17 @@ unsigned int Character::character_number = 0;
  * \brief Constructeur par default d'un Personnage
  *
  */
-Character::Character() :
-character_id(character_number), character_age(0), character_team(-1)
+Character::Character(const Date &age) : character_id(character_number), character_age(age), character_team(-1)
 {
     character_number++;
     /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
     if (genrand_real1() < 0.5)
     {
-        character_gender = SEX::MALE_CHARACTER_CHILD;
+        character_gender = SEX::MALE;
     }
     else
     {
-        character_gender = SEX::FEMALE_CHARACTER_CHILD;
+        character_gender = SEX::FEMALE;
     }
 }
 
@@ -36,7 +34,7 @@ character_id(character_number), character_age(0), character_team(-1)
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-Character::Character(SEX gender, const unsigned int age) : character_id(character_number), character_age(age), character_team(-1), character_gender(gender)
+Character::Character(SEX gender, const Date &age) : character_id(character_number), character_age(age), character_team(-1), character_gender(gender)
 {
     character_number++;
 }
@@ -61,7 +59,7 @@ unsigned int Character::getCharacterId() const noexcept
  * \brief Getteur sur l'age du personnage
  * \return Age du personnage
  */
-unsigned int Character::getCharacterAge() const noexcept
+Date Character::getCharacterAge() const noexcept
 {
     return character_age;
 }
@@ -87,22 +85,6 @@ int Character::getCharacterTeam() const noexcept
 }
 
 /**
- * \fn void Character::setCharacterGenderAdult() noexcept
- * \brief Permet de faire evoluer un personnage a l'age adulte
- */
-void Character::setCharacterGenderAdult() noexcept
-{
-    if (character_gender == SEX::FEMALE_CHARACTER_CHILD)
-    {
-        character_gender = SEX::FEMALE_CHARACTER_ADULT;
-    }
-    else
-    {
-        character_gender = SEX::MALE_CHARACTER_ADULT;
-    }
-}
-
-/**
  * \fn void Character::setCharacterTeam(unsigned int new_team) noexcept
  * \brief Setteur sur l'equipe du personnage
  * \param new_team Nouvelle equipe du personnage
@@ -118,7 +100,7 @@ void Character::setCharacterTeam(unsigned int new_team) noexcept
  */
 void Character::incrementAge() noexcept
 {
-    character_age++;
+    ++character_age;
 }
 
 /**
@@ -142,13 +124,13 @@ const Character &Character::operator=(const Character &new_character)
  * \brief Permet de gerer aleatoirement la mort ou non d'un personnage
  * \return Vrai si le personnage meurt, faux sinon
  */
-bool Character::isDead() const noexcept
+bool Character::isDead(const Date &date) const noexcept
 {
     bool dead = false;
-    double random = genrand_real1();
-   /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
+   // double random = genrand_real1();
+    /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
 
-    if (character_age < 18)
+    /* if (character_age < 18)
     {
         if (random < 0.005)
         {
@@ -186,6 +168,6 @@ bool Character::isDead() const noexcept
     else
     {
         dead = true;
-    }
+    }*/
     return dead;
 }

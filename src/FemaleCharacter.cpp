@@ -12,21 +12,8 @@
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
-FemaleCharacter::FemaleCharacter() : /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-                                     Character(SEX::FEMALE_CHARACTER_CHILD), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0)
-{
-}
-
-/**
- * \fn FemaleCharacter::FemaleCharacter(SEX gender, const unsigned int age)
- * \brief Constructeur de la classe Female Character
- * \param gender Majorite du personnage feminin
- * \param age Age du personnage feminin
- */
-FemaleCharacter::FemaleCharacter(SEX gender, const unsigned int age) : /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-                                                                       Character(gender, age), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0)
-{
-}
+FemaleCharacter::FemaleCharacter(const Date& age) : /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
+Character(SEX::FEMALE, age), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0){}
 
 /**
  * \fn FemaleCharacter::~FemaleCharacter()

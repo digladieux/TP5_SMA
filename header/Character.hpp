@@ -7,7 +7,7 @@
 
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
-
+#include "../header/Date.hpp"
 /**
  * \enum class SEX
  * \brief Enumeration qui definit la majorite d'un personnage, ainsi que son sexe
@@ -15,10 +15,8 @@
  */
 enum class SEX
 {
-  MALE_CHARACTER_ADULT,   /*! Adulte Masculin */
-  FEMALE_CHARACTER_ADULT, /*! Adulte Feminin */
-  MALE_CHARACTER_CHILD,   /*! Enfant Masculin */
-  FEMALE_CHARACTER_CHILD  /*! Enfant Feminin */
+    MALE,
+    FEMALE
 };
 
 /**
@@ -27,28 +25,27 @@ enum class SEX
  */
 class Character
 {
-protected:
-  static unsigned int character_number;
-  unsigned int character_id;
-  unsigned int character_age;
-  int character_team;
-  SEX character_gender;
+  protected:
+    static unsigned int character_number;
+    unsigned int character_id;
+    Date character_age;
+    int character_team;
+    SEX character_gender;
 
-public:
-  Character();
-  Character(SEX, const unsigned int age = 0);
-  virtual ~Character();
+  public:
+    Character(const Date &);
+    Character(SEX, const Date &);
+    virtual ~Character();
 
-  const Character &operator=(const Character &);
-  unsigned int getCharacterId() const noexcept;
-  unsigned int getCharacterAge() const noexcept;
-  int getCharacterTeam() const noexcept;
-  SEX getCharacterGender() const noexcept;
+    const Character &operator=(const Character &);
+    unsigned int getCharacterId() const noexcept;
+    Date getCharacterAge() const noexcept;
+    int getCharacterTeam() const noexcept;
+    SEX getCharacterGender() const noexcept;
 
-  void setCharacterGenderAdult() noexcept;
-  void setCharacterTeam(unsigned int) noexcept;
+    void setCharacterTeam(unsigned int) noexcept;
 
-  void incrementAge() noexcept;
-  bool isDead() const noexcept;
+    void incrementAge() noexcept;
+    bool isDead(const Date &) const noexcept;
 };
 #endif

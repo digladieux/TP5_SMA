@@ -11,7 +11,7 @@
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter() : Character(SEX::MALE_CHARACTER_CHILD), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0)
+MaleCharacter::MaleCharacter(const Date& age) : Character(SEX::MALE, age), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0)
 {
     direction.abscissa = -1;
     direction.ordinate = -1;
@@ -24,7 +24,7 @@ MaleCharacter::MaleCharacter() : Character(SEX::MALE_CHARACTER_CHILD), character
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, SEX gender, const unsigned int age) : Character(gender, age), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0) {}
+MaleCharacter::MaleCharacter(JOB job, const Date& age) : Character(SEX::MALE, age), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0) {}
 
 /**
  * \fn MaleCharacter::~MaleCharacter()

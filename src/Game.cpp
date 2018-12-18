@@ -1,7 +1,10 @@
 #include "../header/Game.hpp"
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
-void run(Grid &grid, unsigned int round)
+
+Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date){}
+
+void Game::run(Grid &grid, unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)
     {
@@ -9,13 +12,13 @@ void run(Grid &grid, unsigned int round)
     }
 }
 
-void game(Grid &grid)
+void Game::game(Grid &grid)
 {
     /* On teste si les gens meurent */
     lifeOfCharacter(grid);
 }
 
-void lifeOfCharacter(Grid &grid)
+void Game::lifeOfCharacter(Grid &grid)
 {
     Character *character;
     for (unsigned int i = 0; i < grid.getSizeVectorGroundWithCharacter(); i++)
@@ -26,8 +29,7 @@ void lifeOfCharacter(Grid &grid)
 
             if (!deathOfCharacter(grid, character, i, j))
             {
-                transitionToAdult(character);
-                if (character->getCharacterGender() == SEX::FEMALE_CHARACTER_ADULT)
+                if (character->getCharacterGender() == SEX::FEMALE) /* pas enfant a faire */
                 {
                     if (((FemaleCharacter *)character)->getMonthNumberPregnancy() == 9)
                     {
@@ -36,7 +38,7 @@ void lifeOfCharacter(Grid &grid)
                     incrementMonthGestationIfPregnant(character);
                 }
 
-                if (character->getCharacterGender() == SEX::MALE_CHARACTER_ADULT)
+                else if (character->getCharacterGender() == SEX::MALE) /* pas enfant a gerer */
                 {
                     if (((((MaleCharacter *)character)->getDirection().abscissa == -1) && (((MaleCharacter *)character)->getDirection().ordinate == -1)) || (grid.getDirectionCharacter(((MaleCharacter *)character)->getDirection()) == grid.getGroundGrid(grid.getGroundWithCharacter(i)->getGroundId())))
                     {
@@ -49,10 +51,10 @@ void lifeOfCharacter(Grid &grid)
     }
 }
 
-bool deathOfCharacter(Grid &grid, Character *character, unsigned int i, unsigned int &j)
+bool Game::deathOfCharacter(Grid &grid, Character *character, unsigned int i, unsigned int &j)
 {
     bool dead = false;
-    if (character->isDead())
+    if (character->isDead(turn))
     {
         dead = true;
         grid.getGroundWithCharacter(i)->removeCharacter(j);
@@ -61,33 +63,24 @@ bool deathOfCharacter(Grid &grid, Character *character, unsigned int i, unsigned
     return dead;
 }
 
-void birthOfCharacter(Grid &grid, Character *character)
+void Game::birthOfCharacter(Grid &grid, Character *character)
 {
     Character *new_character;
     for (unsigned int i = 0; i < ((FemaleCharacter *)character)->getBabyPerPregnancy(); ++i)
     {
         if (genrand_real1() < 0.5)
         {
-            new_character = new MaleCharacter();
+            new_character = new MaleCharacter(turn);
         }
         else
         {
-            new_character = new FemaleCharacter();
+            new_character = new FemaleCharacter(turn);
         }
         grid.getGroundGrid(character->getCharacterTeam())->addCharacter(new_character);
     }
 }
 
-void transitionToAdult(Character *character)
-{
-    character->incrementAge();
-    if (character->getCharacterAge() == 18)
-    {
-        character->setCharacterGenderAdult();
-    }
-}
-
-void incrementMonthGestationIfPregnant(Character *character)
+void Game::incrementMonthGestationIfPregnant(Character *character)
 {
     if (((FemaleCharacter *)character)->getMonthNumberPregnancy() != 0)
     {

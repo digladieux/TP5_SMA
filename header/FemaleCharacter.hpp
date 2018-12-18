@@ -17,12 +17,11 @@
 class FemaleCharacter : public Character
 {
   private:
-    unsigned int baby_per_pregnancy;        /*! Nombre de bebe par couche */
-    unsigned int month_number_pregnancy;    /*! Nombre de mois avant la couche */
+    unsigned int baby_per_pregnancy;     /*! Nombre de bebe par couche */
+    unsigned int month_number_pregnancy; /*! Nombre de mois avant la couche */
 
   public:
-    FemaleCharacter();
-    FemaleCharacter(SEX, const unsigned int age = 20);
+    FemaleCharacter(const Date &);
 
     ~FemaleCharacter();
 

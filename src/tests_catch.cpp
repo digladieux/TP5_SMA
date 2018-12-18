@@ -51,7 +51,7 @@ TEST_CASE("Town Hall")
     CHECK(true == town_hall_in_game->addFishNumber(5));
     CHECK(6 == town_hall_in_game->getLevel());
     CHECK(3 == town_hall_in_game->getRockNumber());
-    CHECK(4 == town_hall_in_game->getWoodNumber());
+    CHECK(5 == town_hall_in_game->getWoodNumber());
     CHECK(9 == town_hall_in_game->getFoodNumber());
     CHECK(11 == town_hall_in_game->getFishNumber());
 
@@ -60,17 +60,17 @@ TEST_CASE("Town Hall")
     CHECK(false == town_hall_in_game->addFoodNumber(-10));
     CHECK(false == town_hall_in_game->addFishNumber(-20));
     CHECK(3 == town_hall_in_game->getRockNumber());
-    CHECK(1 == town_hall_in_game->getWoodNumber());
+    CHECK(5 == town_hall_in_game->getWoodNumber());
     CHECK(9 == town_hall_in_game->getFoodNumber());
     CHECK(11 == town_hall_in_game->getFishNumber());
 
-        CHECK(true == town_hall_in_game->removeRockNumber(2));
+    CHECK(true == town_hall_in_game->removeRockNumber(2));
     CHECK(true == town_hall_in_game->removeWoodNumber(3));
     CHECK(true == town_hall_in_game->removeFoodNumber(1));
     CHECK(true == town_hall_in_game->removeFishNumber(5));
     CHECK(6 == town_hall_in_game->getLevel());
     CHECK(1 == town_hall_in_game->getRockNumber());
-    CHECK(3 == town_hall_in_game->getWoodNumber());
+    CHECK(2 == town_hall_in_game->getWoodNumber());
     CHECK(8 == town_hall_in_game->getFoodNumber());
     CHECK(6 == town_hall_in_game->getFishNumber());
 
@@ -79,7 +79,7 @@ TEST_CASE("Town Hall")
     CHECK(false == town_hall_in_game->removeFoodNumber(-10));
     CHECK(false == town_hall_in_game->removeFishNumber(-20));
     CHECK(1 == town_hall_in_game->getRockNumber());
-    CHECK(3 == town_hall_in_game->getWoodNumber());
+    CHECK(2 == town_hall_in_game->getWoodNumber());
     CHECK(8 == town_hall_in_game->getFoodNumber());
     CHECK(6 == town_hall_in_game->getFishNumber());
 
@@ -267,7 +267,6 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(farmer == farm->getCharacter(0));
     CHECK(farmer->getCharacterAge() == farm->getCharacter(0)->getCharacterAge());
     REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
-    std::cout << farm->getCharacter(1)->getCharacterAge() << std::endl;
     delete farm;
     delete lake;
     delete quarry;
@@ -403,7 +402,7 @@ TEST_CASE("InvalidDate")
 
 TEST_CASE("Date")
 {
-    Date date(31,1,0);
+    Date date(31, 1, 0);
     ++date;
     CHECK(1 == date.getDay());
     CHECK(2 == date.getMonth());

@@ -96,27 +96,11 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
             /*! Ajout des personnages dans la ville */
             if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
             {
-                try
-                {
-                    ground_with_collection_point.push_back(ground_grid[i][j]);
-                }
-                catch (const std::bad_alloc &e)
-                {
-                    std::cerr << "BAD_ALLOC" << std::endl;
-                    throw e;
-                }
+                push_backGround(ground_with_collection_point, ground);
             }
             if (ground->getGroundType() == GROUND_TYPE::TOWN_HALL)
             {
-                try
-                {
-                    ground_with_character.push_back(ground_grid[i][j]);
-                }
-                catch (const std::bad_alloc &e)
-                {
-                    std::cerr << "BAD_ALLOC" << std::endl;
-                    throw e;
-                }
+                push_backGround(ground_with_character, ground);
                 for (unsigned int k = 0; k < character_per_town[counter]; k++)
                 {
                     character = vector_character[0];
@@ -137,39 +121,44 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
 
 Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.column_number)
 {
-    ground_grid = new Ground **[row_number]();
     ground_with_character.clear();
     ground_with_collection_point.clear();
-    try
-    {
-        ground_with_character.resize(map.ground_with_character.size());
-        ground_with_collection_point.resize(map.ground_with_collection_point.size());
-    }
-    catch (const std::bad_alloc &e)
-    {
-        std::cerr << "BAD_ALLOC" << std::endl;
-        throw e;
-    }
-
+    Ground *ground;
+    ground_grid = new Ground **[row_number]();
     for (unsigned int i = 0; i < row_number; i++)
     {
         ground_grid[i] = new Ground *[column_number]();
 
         for (unsigned int j = 0; j < column_number; j++)
         {
-            ground_grid[i][j] = map.ground_grid[i][j];
+            ground = new Ground(map.ground_grid[i][j]);
+            ground_grid[i][j] = ground;
+            if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
+            {
+                push_backGround(ground_with_collection_point, ground);
+            }
+            if (ground->getVectorSize() != 0)
+            {
+                push_backGround(ground_with_character, ground);
+            }
         }
     }
-    for (unsigned int i = 0; i < ground_with_character.size(); i++)
-    {
-        ground_with_character[i] = map.ground_with_character[i];
-    }
+    ground = nullptr;
+}
 
-    for (unsigned int i = 0; i < ground_with_collection_point.size(); i++)
+void Grid::push_backGround(std::vector<Ground *> &vector, Ground *ground)
+{
+    try
     {
-        ground_with_collection_point[i] = map.ground_with_collection_point[i];
+        vector.push_back(ground);
+    }
+    catch (const std::bad_alloc &e)
+    {
+        std::cerr << "BAD_ALLOC" << std::endl;
+        throw e;
     }
 }
+
 JOB Grid::choiceJob(unsigned int file_job)
 {
     JOB job;

@@ -123,6 +123,11 @@ TEST_CASE("Date")
     CHECK(1 == date.getDay());
     CHECK(1 == date.getMonth());
     CHECK(2019 == date.getYear());
+
+    Date date_copy = Date(date);
+    CHECK(1 == date.getDay());
+    CHECK(1 == date.getMonth());
+    CHECK(2019 == date.getYear());
 }
 
 TEST_CASE("Character")
@@ -156,11 +161,18 @@ TEST_CASE("Character")
     CHECK(20 == character2.getCharacterAge().getYear());
 
     CHECK(3 == character1.getCharacterTeam());
+    Character character_copy(character1);
+    CHECK(character1.getCharacterTeam() == character_copy.getCharacterTeam());
+    CHECK(character1.getCharacterAge().getDay() == character_copy.getCharacterAge().getDay());
+    CHECK(character1.getCharacterAge().getMonth() == character_copy.getCharacterAge().getMonth());
+    CHECK(character1.getCharacterAge().getYear() == character_copy.getCharacterAge().getYear());
+    CHECK(character1.getCharacterGender() == character_copy.getCharacterGender());
+    CHECK(character1.getCharacterId() == character_copy.getCharacterId());
 }
 
 TEST_CASE("MaleCharacter")
 {
-    Character *character1 = new MaleCharacter(Date(20,5,2018));
+    Character *character1 = new MaleCharacter(Date(20, 5, 2018));
     Character *character2 = new MaleCharacter(JOB::FARMER, Date());
     CHECK(SEX::MALE == character1->getCharacterGender());
     CHECK(SEX::MALE == character2->getCharacterGender());
@@ -185,8 +197,8 @@ TEST_CASE("MaleCharacter")
     CHECK(1 == character2->getCharacterAge().getMonth());
     CHECK(0 == character2->getCharacterAge().getYear());
 
-    CHECK(2 == character1->getCharacterId());
-    CHECK(3 == character2->getCharacterId());
+    CHECK(3 == character1->getCharacterId());
+    CHECK(4 == character2->getCharacterId());
     CHECK(JOB::NO_JOB == ((MaleCharacter *)character1)->getSpeciality());
     CHECK(JOB::FARMER == ((MaleCharacter *)character2)->getSpeciality());
 
@@ -219,7 +231,7 @@ TEST_CASE("MaleCharacter")
 TEST_CASE("FemaleCharacter")
 {
     Character *character1 = new FemaleCharacter(Date());
-    Character *character2 = new FemaleCharacter(Date(01,05,1997));
+    Character *character2 = new FemaleCharacter(Date(01, 05, 1997));
 
     CHECK(1 == character1->getCharacterAge().getDay());
     CHECK(1 == character1->getCharacterAge().getMonth());
@@ -229,8 +241,8 @@ TEST_CASE("FemaleCharacter")
     CHECK(5 == character2->getCharacterAge().getMonth());
     CHECK(1997 == character2->getCharacterAge().getYear());
 
-    CHECK(4 == character1->getCharacterId());
-    CHECK(5 == character2->getCharacterId());
+    CHECK(5 == character1->getCharacterId());
+    CHECK(6 == character2->getCharacterId());
     CHECK(0 == ((FemaleCharacter *)character1)->getMonthNumberPregnancy());
     CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
     CHECK(SEX::FEMALE == character1->getCharacterGender());
@@ -269,7 +281,7 @@ TEST_CASE("CollectionPoint")
     ((CollectionPoint *)collection_point)->setRessources(50);
     CHECK(50 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
 
-    MaleCharacter *worker = new MaleCharacter(JOB::QUARRY_MAN, Date(20,8,90));
+    MaleCharacter *worker = new MaleCharacter(JOB::QUARRY_MAN, Date(20, 8, 90));
     collection_point->addCharacter(worker);
 
     CHECK(1 == collection_point->getVectorSize());
@@ -423,6 +435,20 @@ TEST_CASE("InitialisationGrid")
     CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
     CHECK(12 == grid.getGroundWithCollectionPoint(0)->getGroundId());
+
+    // Grid grid_copy = Grid(grid);
+    //     CHECK(10 == grid_copy.getColumnNumber());
+    //     CHECK(10 == grid_copy.getRowNumber());
+    //     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
+
+    //     character = grid_copy.getGroundGrid(0, 0)->getCharacter(0);
+    //     CHECK(0 == character->getCharacterTeam());
+    //     CHECK(character->getCharacterGender() == SEX::MALE);
+    //     CHECK(2 == grid_copy.getSizeVectorGroundWithCharacter());
+    //     CHECK(6 == grid_copy.getSizeVectorGroundWithCollectionPoint());
+    //     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
+    //     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
+    //     CHECK(12 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
 TEST_CASE("GroundCopy")
@@ -444,8 +470,8 @@ TEST_CASE("Game")
     grid.displayMap();
     grid.displayCharacter();
 
-    //Game game(grid, Date(10, 10, 56));
+    Game game(grid, Date(10, 10, 56));
     //game.run(grid, 20);
     //grid.displayCharacter();
-//    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
+    //    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
 }

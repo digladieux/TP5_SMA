@@ -35,6 +35,8 @@ class Grid
 
     static Ground *initGround(char);
     static JOB choiceJob(unsigned int);
+    static void push_backGround(std::vector<Ground *> &, Ground *);
+
     SEX choiceGender(unsigned int);
 
     unsigned int getRowNumber() const noexcept;

@@ -14,6 +14,12 @@ unsigned int Character::character_number = 0;
  * \brief Constructeur par default d'un Personnage
  *
  */
+Character::Character(const Character & character) : character_id(character.character_id), character_age(character.character_age), character_team(character.character_team), character_gender(character.character_gender)
+{
+{
+    character_number++;
+}
+}
 Character::Character(const Date &age) : character_id(character_number), character_age(age), character_team(-1)
 {
     character_number++;

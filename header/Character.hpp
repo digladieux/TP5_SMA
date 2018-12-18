@@ -35,6 +35,7 @@ class Character
   public:
     Character(const Date &);
     Character(SEX, const Date &);
+    Character(const Character &);
     virtual ~Character();
 
     const Character &operator=(const Character &);

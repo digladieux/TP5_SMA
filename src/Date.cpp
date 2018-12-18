@@ -65,7 +65,7 @@ bool Date::isDateValid() const noexcept
         }
     }
     return true;
-}
+}/*
 Date Date::operator++() noexcept
 {
     Date date = *this;
@@ -74,3 +74,4 @@ Date Date::operator++() noexcept
 Date Date::operator++(int) noexcept
 {
 }
+*/

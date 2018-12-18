@@ -31,30 +31,55 @@ TEST_CASE("Town Hall")
     CHECK(0 == town_hall_start->getRockNumber());
     CHECK(0 == town_hall_start->getWoodNumber());
     CHECK(0 == town_hall_start->getFoodNumber());
+    CHECK(0 == town_hall_start->getFishNumber());
     CHECK(2 == town_hall_start->getGroundId());
 
-    TownHall *town_hall_in_game = new TownHall(5, 1, 2, 3);
+    TownHall *town_hall_in_game = new TownHall(5, 1, 2, 3, 6);
     CHECK(5 == town_hall_in_game->getLevel());
     CHECK(1 == town_hall_in_game->getRockNumber());
     CHECK(2 == town_hall_in_game->getWoodNumber());
     CHECK(3 == town_hall_in_game->getFoodNumber());
+    CHECK(6 == town_hall_in_game->getFishNumber());
     CHECK(3 == town_hall_in_game->getGroundId());
 
     town_hall_in_game->incrementLevel();
-    CHECK(true == town_hall_in_game->setRockNumber(2));
-    CHECK(true == town_hall_in_game->setWoodNumber(-1));
-    CHECK(true == town_hall_in_game->setFoodNumber(6));
+    CHECK(true == town_hall_in_game->addRockNumber(2));
+    CHECK(true == town_hall_in_game->addWoodNumber(3));
+    CHECK(true == town_hall_in_game->addFoodNumber(6));
+    CHECK(true == town_hall_in_game->addFishNumber(5));
     CHECK(6 == town_hall_in_game->getLevel());
     CHECK(3 == town_hall_in_game->getRockNumber());
-    CHECK(1 == town_hall_in_game->getWoodNumber());
+    CHECK(4 == town_hall_in_game->getWoodNumber());
     CHECK(9 == town_hall_in_game->getFoodNumber());
+    CHECK(11 == town_hall_in_game->getFishNumber());
 
-    CHECK(false == town_hall_in_game->setRockNumber(-8));
-    CHECK(false == town_hall_in_game->setWoodNumber(-2));
-    CHECK(false == town_hall_in_game->setFoodNumber(-10));
+    CHECK(false == town_hall_in_game->addRockNumber(-8));
+    CHECK(false == town_hall_in_game->addWoodNumber(-2));
+    CHECK(false == town_hall_in_game->addFoodNumber(-10));
+    CHECK(false == town_hall_in_game->addFishNumber(-20));
     CHECK(3 == town_hall_in_game->getRockNumber());
     CHECK(1 == town_hall_in_game->getWoodNumber());
     CHECK(9 == town_hall_in_game->getFoodNumber());
+    CHECK(11 == town_hall_in_game->getFishNumber());
+
+        CHECK(true == town_hall_in_game->removeRockNumber(2));
+    CHECK(true == town_hall_in_game->removeWoodNumber(3));
+    CHECK(true == town_hall_in_game->removeFoodNumber(1));
+    CHECK(true == town_hall_in_game->removeFishNumber(5));
+    CHECK(6 == town_hall_in_game->getLevel());
+    CHECK(1 == town_hall_in_game->getRockNumber());
+    CHECK(3 == town_hall_in_game->getWoodNumber());
+    CHECK(8 == town_hall_in_game->getFoodNumber());
+    CHECK(6 == town_hall_in_game->getFishNumber());
+
+    CHECK(false == town_hall_in_game->removeRockNumber(-8));
+    CHECK(false == town_hall_in_game->removeWoodNumber(-2));
+    CHECK(false == town_hall_in_game->removeFoodNumber(-10));
+    CHECK(false == town_hall_in_game->removeFishNumber(-20));
+    CHECK(1 == town_hall_in_game->getRockNumber());
+    CHECK(3 == town_hall_in_game->getWoodNumber());
+    CHECK(8 == town_hall_in_game->getFoodNumber());
+    CHECK(6 == town_hall_in_game->getFishNumber());
 
     delete town_hall_in_game;
     delete town_hall_start;
@@ -339,7 +364,7 @@ TEST_CASE("GroundCopy")
     delete ground1;
     delete ground2;
 }
-
+/*
 TEST_CASE("Game")
 {
     Grid grid("map_test_read.txt");
@@ -350,3 +375,4 @@ TEST_CASE("Game")
     grid.displayCharacter();
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE_CHARACTER_ADULT);
 }
+*/

@@ -83,19 +83,19 @@
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
         <UML:Operation isQuery="false" isRoot="false" xmi.id="u8RL4a7mUaZ1a" name="incrementLevel" isSpecification="false" isAbstract="false" isLeaf="false" isOverride="false" visibility="public"/>
-        <UML:Operation isQuery="false" isRoot="false" xmi.id="uy88eluJ0BoIt" name="setRockNumber" isSpecification="false" isAbstract="false" isLeaf="false" isOverride="false" visibility="public">
+        <UML:Operation isQuery="false" isRoot="false" xmi.id="uy88eluJ0BoIt" name="addRockNumber" isSpecification="false" isAbstract="false" isLeaf="false" isOverride="false" visibility="public">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter xmi.id="" kind="return" type="uJ8gl41Gg0DRb"/>
           <UML:Parameter value="" xmi.id="uFOQtYUzBCJcH" name="new_value_rock" isSpecification="false" type="ucNOro5HGe6qQ" visibility="private"/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation isQuery="false" isRoot="false" xmi.id="uDgcNlmYR87ma" name="setWoodNumber" isSpecification="false" isAbstract="false" isLeaf="false" isOverride="false" visibility="public">
+        <UML:Operation isQuery="false" isRoot="false" xmi.id="uDgcNlmYR87ma" name="addWoodNumber" isSpecification="false" isAbstract="false" isLeaf="false" isOverride="false" visibility="public">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter xmi.id="" kind="return" type="uJ8gl41Gg0DRb"/>
           <UML:Parameter value="" xmi.id="umizrgNFpi8FF" name="new_value_wood" isSpecification="false" type="ucNOro5HGe6qQ" visibility="private"/>
          </UML:BehavioralFeature.parameter>
         </UML:Operation>
-        <UML:Operation isQuery="false" isRoot="false" xmi.id="uRvKg6i431bQP" name="setFoodNumber" isSpecification="false" isAbstract="false" isLeaf="false" isOverride="false" visibility="public">
+        <UML:Operation isQuery="false" isRoot="false" xmi.id="uRvKg6i431bQP" name="addFoodNumber" isSpecification="false" isAbstract="false" isLeaf="false" isOverride="false" visibility="public">
          <UML:BehavioralFeature.parameter>
           <UML:Parameter xmi.id="" kind="return" type="uJ8gl41Gg0DRb"/>
           <UML:Parameter value="" xmi.id="uXBRkyXssboQL" name="new_value_food" isSpecification="false" type="ugwiqJoejjjO1" visibility="private"/>

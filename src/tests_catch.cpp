@@ -20,6 +20,7 @@ TEST_CASE("Ground")
 {
     Ground ground0;
     Ground ground1(GROUND_TYPE::LAKE);
+
     CHECK(0 == ground0.getGroundId());
     CHECK(1 == ground1.getGroundId());
     CHECK(GROUND_TYPE::LAND == ground0.getGroundType());
@@ -436,35 +437,40 @@ TEST_CASE("InitialisationGrid")
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
     CHECK(12 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
-    Grid grid_copy = Grid(grid);
-    //     CHECK(10 == grid_copy.getColumnNumber());
-    //     CHECK(10 == grid_copy.getRowNumber());
-    //     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
+    Grid grid_copy(grid);
+    CHECK(10 == grid_copy.getColumnNumber());
+    CHECK(10 == grid_copy.getRowNumber());
+    CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
 
-    //     character = grid_copy.getGroundGrid(0, 0)->getCharacter(0);
-    //     CHECK(0 == character->getCharacterTeam());
-    //     CHECK(character->getCharacterGender() == SEX::MALE);
-    //     CHECK(2 == grid_copy.getSizeVectorGroundWithCharacter());
-    //     CHECK(6 == grid_copy.getSizeVectorGroundWithCollectionPoint());
-    //     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
-    //     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    //     CHECK(12 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
+    character = grid_copy.getGroundGrid(0, 0)->getCharacter(0);
+    CHECK(0 == character->getCharacterTeam());
+    CHECK(character->getCharacterGender() == SEX::MALE);
+    CHECK(2 == grid_copy.getSizeVectorGroundWithCharacter());
+    CHECK(6 == grid_copy.getSizeVectorGroundWithCollectionPoint());
+    CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
+    CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
+    CHECK(12 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
 TEST_CASE("GroundCopy")
 {
     Ground *ground1 = new Ground();
-    Ground *ground2 = new Ground(ground1);
+
+    ground1->addCharacter(new MaleCharacter(Date()));
+    ground1->addCharacter(new FemaleCharacter(Date()));
+
+    Ground *ground2 = new Ground(*ground1);
 
     CHECK(ground1->getGroundId() == ground2->getGroundId());
     CHECK(ground1->getGroundType() == ground2->getGroundType());
     CHECK(ground1->getVectorSize() == ground2->getVectorSize());
+    CHECK(ground1->getCharacter(0)->getCharacterId() == ground2->getCharacter(0)->getCharacterId());
 
     delete ground1;
     delete ground2;
 }
 
-/*TEST_CASE("Game")
+TEST_CASE("Game")
 {
     Grid grid("map_test_read.txt");
     grid.displayMap();
@@ -474,4 +480,4 @@ TEST_CASE("GroundCopy")
     game.run(grid, 20);
     grid.displayCharacter();
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
-}*/
+}

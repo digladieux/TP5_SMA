@@ -6,6 +6,8 @@
  */
 
 #include "../header/Ground.hpp"
+#include "../header/MaleCharacter.hpp"
+#include "../header/FemaleCharacter.hpp"
 #include <iostream>
 #include <exception>
 
@@ -29,25 +31,23 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type), 
  * \brief Constructeur de copie de la classe Ground
  * \param ground Le terrain que l'on veut copier
  */
-Ground::Ground(const Ground *ground)
+Ground::Ground(const Ground &ground)
 {
-    ground_id = ground->ground_id;
-    ground_type = ground->ground_type;
-    try
+    ground_id = ground.ground_id;
+    ground_type = ground.ground_type;
+    Character *character;
+    for (unsigned int k = 0; k < ground.vector_character.size(); k++)
     {
-        /* On verifie que l'allocation des personnages est possible */
-        vector_character.resize(ground->vector_character.size());
-    }
-    catch (const std::bad_alloc &e)
-    {
-        std::cerr << "BAD_ALLOCATION" << std::endl;
-        throw e;
-    }
-
-    /* On copie tous les personnages sur le terrain */
-    for (unsigned int i = 0; i < vector_character.size(); i++)
-    {
-        vector_character[i] = ground->vector_character[i];
+        character = nullptr;
+        if (ground.getCharacter(k)->getCharacterGender() == SEX::MALE)
+        {
+            character = new MaleCharacter(*(MaleCharacter *)ground.getCharacter(k));
+        }
+        else
+        {
+            character = new FemaleCharacter(*(FemaleCharacter *)ground.getCharacter(k));
+        }
+        this->addCharacter(character);
     }
 }
 
@@ -57,12 +57,9 @@ Ground::Ground(const Ground *ground)
  */
 Ground::~Ground()
 {
-    Character *character;
-    while (vector_character.size() != 0)
+    for (auto &character : vector_character)
     {
-        character = vector_character[0];
-        vector_character.erase(vector_character.begin()); /* On supprime le personnage dans le vecteur */
-        delete character;                                 /* On libere la memoire de ce personnage */
+        delete character;
     }
 }
 
@@ -140,7 +137,7 @@ void Ground::removeCharacter(const unsigned int index)
  * \param index Indice dans le vecteur
  * \return Personnage
  */
-Character *Ground::getCharacter(const unsigned int index)
+Character *Ground::getCharacter(const unsigned int index) const
 {
     if (((int)index < 0) || (index >= vector_character.size()))
     {

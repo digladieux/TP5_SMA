@@ -40,7 +40,7 @@ class Ground
 
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
-    Ground(const Ground *);
+    Ground(const Ground &);
     virtual ~Ground();
 
     unsigned int getGroundId() const noexcept;
@@ -49,7 +49,7 @@ class Ground
     unsigned int getVectorSize() const noexcept;
     void addCharacter(Character *);
     void removeCharacter(const unsigned int);
-    Character *getCharacter(const unsigned int);
+    Character *getCharacter(const unsigned int) const;
 
     bool operator==(const Ground &);
 

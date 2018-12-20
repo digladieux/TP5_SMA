@@ -8,14 +8,8 @@ void Game::run(Grid &grid, unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)
     {
-        game(grid);
+        lifeOfCharacter(grid);
     }
-}
-
-void Game::game(Grid &grid)
-{
-    /* On teste si les gens meurent */
-    lifeOfCharacter(grid);
 }
 
 void Game::lifeOfCharacter(Grid &grid)

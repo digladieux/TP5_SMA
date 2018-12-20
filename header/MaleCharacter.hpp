@@ -59,6 +59,8 @@ typedef struct StructCoordinates
     int abscissa; /* Abscisse du point */
     int ordinate; /* Ordonnee du point */
 
+    StructCoordinates(const StructCoordinates &);
+    StructCoordinates(int, int);
 } Coordinates;
 
 /**
@@ -68,16 +70,16 @@ typedef struct StructCoordinates
 class MaleCharacter : public Character
 {
   private:
+    StructCoordinates direction;
     STATE character_current_state;
     TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
-    StructCoordinates direction;
     JOB speciality;            /*! Specialite du personnage */
     unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
 
   public:
     MaleCharacter(const Date &);
     MaleCharacter(JOB, const Date &);
-    MaleCharacter(const Character *);
+    MaleCharacter(const MaleCharacter&);
     ~MaleCharacter();
 
     STATE getCharacterCurrentState() const noexcept;

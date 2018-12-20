@@ -7,21 +7,16 @@
 
 #include "../header/MaleCharacter.hpp"
 
-MaleCharacter::MaleCharacter(const Character *character) : Character(character->getCharacterId(), character->getCharacterAge(), character->getCharacterTeam(), character->getCharacterGender()),
-character_current_state(((MaleCharacter*)character)->getCharacterCurrentState()), type_ressource_transported(((MaleCharacter*)character)->getTypeRessourceTransported()), speciality(((MaleCharacter*)character)->getSpeciality()), time_at_work(((MaleCharacter*)character)->getTimeAtWork())
-{
-    direction.abscissa =((MaleCharacter*)character)->getDirection().abscissa;
-    direction.ordinate =((MaleCharacter*)character)->getDirection().ordinate;
-}
+StructCoordinates::StructCoordinates(const StructCoordinates &direction) : abscissa(direction.abscissa), ordinate(direction.ordinate) {}
+StructCoordinates::StructCoordinates(int x, int y) : abscissa(x), ordinate(y) {}
+
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getCharacterAge(), character.getCharacterTeam(), character.getCharacterGender()), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
+{}
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age) : Character(SEX::MALE, age), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0)
-{
-    direction.abscissa = -1;
-    direction.ordinate = -1;
-}
+MaleCharacter::MaleCharacter(const Date &age) : Character(SEX::MALE, age), direction(-1,-1), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0){}
 
 /**
  * \fn MaleCharacter::MaleCharacter(JOB job, SEX gender, const unsigned int age)
@@ -30,7 +25,7 @@ MaleCharacter::MaleCharacter(const Date &age) : Character(SEX::MALE, age), chara
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age) : Character(SEX::MALE, age), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0) {}
+MaleCharacter::MaleCharacter(JOB job, const Date &age) : Character(SEX::MALE, age), direction(-1, -1), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0) {}
 
 /**
  * \fn MaleCharacter::~MaleCharacter()

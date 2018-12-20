@@ -19,7 +19,6 @@ class Game
     Game(const Grid &, const Date &date = Date());
 
     void run(Grid &, unsigned int);
-    void game(Grid &);
     void lifeOfCharacter(Grid &);
     bool deathOfCharacter(Grid &grid, Character *character, unsigned int i, unsigned int &j);
     void birthOfCharacter(Grid &grid, Character *character);

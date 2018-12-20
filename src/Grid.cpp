@@ -124,7 +124,6 @@ Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.colu
     ground_with_character.clear();
     ground_with_collection_point.clear();
     Ground *ground = nullptr;
-    Character *character = nullptr;
     ground_grid = new Ground **[row_number]();
     for (unsigned int i = 0; i < row_number; i++)
     {
@@ -132,7 +131,7 @@ Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.colu
 
         for (unsigned int j = 0; j < column_number; j++)
         {
-            ground = new Ground(map.ground_grid[i][j]);
+            ground = new Ground(*map.ground_grid[i][j]);
             ground_grid[i][j] = ground;
             if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
             {
@@ -141,20 +140,6 @@ Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.colu
             if (ground->getVectorSize() != 0)
             {
                 push_backGround(ground_with_character, ground);
-                for (unsigned int k = 0; k < ground_with_character.size(); k++)
-                {
-                    character = nullptr;
-                    if (map.ground_grid[i][j]->getCharacter(k)->getCharacterGender() == SEX::MALE)
-                    {
-                        character = new MaleCharacter(map.ground_grid[i][j]
-                        ->getCharacter(k));
-                    }
-                    else
-                    {
-                        character = new FemaleCharacter(map.ground_grid[i][j]->getCharacter(k));
-                    }
-                    ground_grid[i][j]->addCharacter(character);
-                }
             }
         }
     }

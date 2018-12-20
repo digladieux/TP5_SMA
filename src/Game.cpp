@@ -2,7 +2,7 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
 
-Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date){}
+Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date) {}
 
 void Game::run(Grid &grid, unsigned int round)
 {
@@ -15,11 +15,14 @@ void Game::run(Grid &grid, unsigned int round)
 void Game::lifeOfCharacter(Grid &grid)
 {
     Character *character;
+    Ground *ground;
     for (unsigned int i = 0; i < grid.getSizeVectorGroundWithCharacter(); i++)
     {
-        for (unsigned int j = 0; j < grid.getGroundWithCharacter(i)->getVectorSize(); j++)
+        ground = grid.getGroundWithCharacter(i);
+        for (unsigned int j = 0; j < ground->getVectorSize(); j++)
         {
-            character = grid.getGroundWithCharacter(i)->getCharacter(j);
+
+            character = ground->getCharacter(j);
 
             if (!deathOfCharacter(grid, character, i, j))
             {
@@ -34,9 +37,13 @@ void Game::lifeOfCharacter(Grid &grid)
 
                 else if (character->getCharacterGender() == SEX::MALE) /* pas enfant a gerer */
                 {
-                    if (((((MaleCharacter *)character)->getDirection().getAbscissa() == -1) && (((MaleCharacter *)character)->getDirection().getOrdinate() == -1)) || (grid.getDirectionCharacter(((MaleCharacter *)character)->getDirection()) == grid.getGroundGrid(grid.getGroundWithCharacter(i)->getGroundId())))
+                    if (((MaleCharacter *)character)->getDirection() == ground->getPosition(grid.getColumnNumber()))
                     {
                         /*LE DEPLACEMENT */
+                    }
+                    else
+                    {
+                        move(grid, character, ground);
                     }
                 }
                 /* RECHERCHE DE COUPLE */
@@ -44,7 +51,29 @@ void Game::lifeOfCharacter(Grid &grid)
         }
     }
 }
-
+// C'est pas la direction qu'on doit inc c'est supprimer dans le vect
+void Game::move(Grid &grid, Character *character, Ground *ground)
+{
+    if (((MaleCharacter *)character)->getDirection().getAbscissa() == ground->getPosition(grid.getColumnNumber()).getAbscissa())
+    {
+        if ((((MaleCharacter *)character)->getDirection().getOrdinate()) < ground->getPosition(grid.getColumnNumber()).getOrdinate())
+        {
+            ((MaleCharacter *)character)->getDirection().incrementOrdinate();
+        }
+        else
+        {
+            ((MaleCharacter *)character)->getDirection().decrementOrdinate();
+        }
+    }
+    else if ((((MaleCharacter *)character)->getDirection().getAbscissa()) < ground->getPosition(grid.getColumnNumber()).getAbscissa())
+    {
+        ((MaleCharacter *)character)->getDirection().incrementAbscissa();
+    }
+    else
+    {
+        ((MaleCharacter *)character)->getDirection().decrementAbscissa();
+    }
+}
 bool Game::deathOfCharacter(Grid &grid, Character *character, unsigned int i, unsigned int &j)
 {
     bool dead = false;

@@ -8,7 +8,7 @@
 #ifndef GROUND_HPP
 #define GROUND_HPP
 
-#include "Character.hpp"
+#include "MaleCharacter.hpp"
 #include <vector>
 #include <iostream>
 
@@ -18,12 +18,12 @@
  */
 enum class GROUND_TYPE
 {
-    LAND,       /*! Terrain (aucune caracteristique) */
-    TOWN_HALL,  /*! Hotel de ville */
-    QUARRY,     /*! Carriere de pierre */
-    LAKE,       /*! Lac */
-    FARM,       /*! Ferme */
-    FOREST,     /*! Foret */
+    LAND,      /*! Terrain (aucune caracteristique) */
+    TOWN_HALL, /*! Hotel de ville */
+    QUARRY,    /*! Carriere de pierre */
+    LAKE,      /*! Lac */
+    FARM,      /*! Ferme */
+    FOREST,    /*! Foret */
 };
 
 /**
@@ -33,10 +33,10 @@ enum class GROUND_TYPE
 class Ground
 {
   protected:
-    static unsigned int ground_number;          /*! Nombre de terrain sur la carte au total */
-    unsigned int ground_id;                     /*! Identifiant unique du terrain */
-    GROUND_TYPE ground_type;                    /*! Type de terrain */
-    std::vector<Character *> vector_character;  /*! Tableau dynamique de la liste des personnages sur le terrain */
+    static unsigned int ground_number;         /*! Nombre de terrain sur la carte au total */
+    unsigned int ground_id;                    /*! Identifiant unique du terrain */
+    GROUND_TYPE ground_type;                   /*! Type de terrain */
+    std::vector<Character *> vector_character; /*! Tableau dynamique de la liste des personnages sur le terrain */
 
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
@@ -50,6 +50,7 @@ class Ground
     void addCharacter(Character *);
     void removeCharacter(const unsigned int);
     Character *getCharacter(const unsigned int) const;
+    StructCoordinates getPosition(int column_number) const noexcept;
 
     bool operator==(const Ground &);
 

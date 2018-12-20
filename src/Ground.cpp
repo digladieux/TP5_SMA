@@ -93,6 +93,10 @@ unsigned int Ground::getVectorSize() const noexcept
     return vector_character.size();
 }
 
+StructCoordinates Ground::getPosition(int column_number) const noexcept
+{
+    return StructCoordinates(ground_id / column_number, ground_id % column_number);
+}
 /**
  * \fn void Ground::addCharacter(Character *new_worker)
  * \brief Methode qui ajoute un personnage sur un terrain

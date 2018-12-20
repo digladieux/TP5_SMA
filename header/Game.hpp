@@ -23,6 +23,7 @@ class Game
     bool deathOfCharacter(Grid &grid, Character *character, unsigned int i, unsigned int &j);
     void birthOfCharacter(Grid &grid, Character *character);
     void incrementMonthGestationIfPregnant(Character *);
+    void move(Grid &, Character *, Ground *);
 };
 
 #endif

@@ -105,6 +105,10 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
                 {
                     character = vector_character[0];
                     character->setCharacterTeam(ground->getGroundId());
+                    if (character->getCharacterGender() == SEX::MALE)
+                    {
+                        ((MaleCharacter *)character)->setDirection(i, j);
+                    }
                     ground_grid[i][j]->addCharacter(character);
                     vector_character.erase(vector_character.begin());
                 }

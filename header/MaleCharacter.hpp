@@ -57,17 +57,25 @@ enum class TYPE_RESSOURCE_TRANSPORTED
 class StructCoordinates
 {
   private:
-    int abscissa; /* Abscisse du point */
-    int ordinate; /* Ordonnee du point */
+    unsigned int abscissa; /* Abscisse du point */
+    unsigned int ordinate; /* Ordonnee du point */
 
   public:
     StructCoordinates(const StructCoordinates &);
-    StructCoordinates(int, int);
+    StructCoordinates(unsigned int, unsigned int);
 
-    void setAbcissa(int) noexcept;
-    void setOrdinate(int) noexcept;
-    int getAbscissa() const noexcept;
-    int getOrdinate() const noexcept;
+    void setAbcissa(unsigned int) noexcept;
+    void setOrdinate(unsigned int) noexcept;
+
+    void incrementAbscissa() noexcept;
+    void decrementAbscissa() noexcept;
+    void incrementOrdinate() noexcept;
+    void decrementOrdinate() noexcept;
+
+    unsigned int getAbscissa() const noexcept;
+    unsigned int getOrdinate() const noexcept;
+
+    bool operator==(const StructCoordinates &);
 };
 
 /**
@@ -93,7 +101,7 @@ class MaleCharacter : public Character
     TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
     JOB getSpeciality() const noexcept;
     unsigned int getTimeAtWork() const noexcept;
-    StructCoordinates getDirection() const noexcept;
+    StructCoordinates &getDirection() noexcept;
     void setDirection(unsigned int, unsigned int) noexcept;
 
     void setCharacterCurrentState(STATE) noexcept;

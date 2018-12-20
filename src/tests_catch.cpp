@@ -470,6 +470,10 @@ TEST_CASE("GroundCopy")
     CHECK(ground1->getVectorSize() == ground2->getVectorSize());
     CHECK(ground1->getCharacter(0)->getCharacterId() == ground2->getCharacter(0)->getCharacterId());
 
+    Character *character = ground1->getCharacter(0);
+    ((MaleCharacter*)character)->getDirection().incrementAbscissa();
+
+    CHECK(((MaleCharacter *)character)->getDirection().getAbscissa() == 1);
     delete ground1;
     delete ground2;
 }

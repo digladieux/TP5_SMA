@@ -436,7 +436,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
     CHECK(12 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
-    // Grid grid_copy = Grid(grid);
+    Grid grid_copy = Grid(grid);
     //     CHECK(10 == grid_copy.getColumnNumber());
     //     CHECK(10 == grid_copy.getRowNumber());
     //     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
@@ -464,14 +464,14 @@ TEST_CASE("GroundCopy")
     delete ground2;
 }
 
-TEST_CASE("Game")
+/*TEST_CASE("Game")
 {
     Grid grid("map_test_read.txt");
     grid.displayMap();
     grid.displayCharacter();
 
     Game game(grid, Date(10, 10, 56));
-    //game.run(grid, 20);
-    //grid.displayCharacter();
-    //    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
-}
+    game.run(grid, 20);
+    grid.displayCharacter();
+    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
+}*/

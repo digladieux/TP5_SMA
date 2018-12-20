@@ -22,7 +22,7 @@ class FemaleCharacter : public Character
 
   public:
     FemaleCharacter(const Date &);
-
+    FemaleCharacter(const Character *);
     ~FemaleCharacter();
 
     unsigned int getBabyPerPregnancy() const noexcept;

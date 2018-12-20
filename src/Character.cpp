@@ -14,11 +14,11 @@ unsigned int Character::character_number = 0;
  * \brief Constructeur par default d'un Personnage
  *
  */
-Character::Character(const Character & character) : character_id(character.character_id), character_age(character.character_age), character_team(character.character_team), character_gender(character.character_gender)
+Character::Character(const Character &character) : character_id(character.character_id), character_age(character.character_age), character_team(character.character_team), character_gender(character.character_gender)
 {
-{
-    character_number++;
-}
+    {
+        character_number++;
+    }
 }
 Character::Character(const Date &age) : character_id(character_number), character_age(age), character_team(-1)
 {
@@ -33,7 +33,10 @@ Character::Character(const Date &age) : character_id(character_number), characte
         character_gender = SEX::FEMALE;
     }
 }
-
+Character::Character(unsigned int id, const Date &age, int team, SEX gender) : character_id(id), character_age(age), character_team(team), character_gender(gender)
+{
+    character_number++;
+}
 /**
  * \fn Character::Character(SEX gender, const unsigned int age)
  * \brief Constructeur de la classe Character
@@ -48,7 +51,9 @@ Character::Character(SEX gender, const Date &age) : character_id(character_numbe
 /**
  * \brief Destructeur de la classe Character
  */
-Character::~Character() {}
+Character::~Character()
+{
+}
 
 /**
  * \fn unsigned int Character::getCharacterId() const noexcept
@@ -133,7 +138,7 @@ const Character &Character::operator=(const Character &new_character)
 bool Character::isDead(const Date &date) const noexcept
 {
     bool dead = false;
-   // double random = genrand_real1();
+    // double random = genrand_real1();
     /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
 
     /* if (character_age < 18)

@@ -75,8 +75,9 @@ class MaleCharacter : public Character
     unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
 
   public:
-    MaleCharacter(const Date&);
-    MaleCharacter(JOB, const Date&);
+    MaleCharacter(const Date &);
+    MaleCharacter(JOB, const Date &);
+    MaleCharacter(const Character *);
     ~MaleCharacter();
 
     STATE getCharacterCurrentState() const noexcept;

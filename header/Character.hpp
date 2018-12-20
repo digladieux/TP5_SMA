@@ -36,6 +36,8 @@ class Character
     Character(const Date &);
     Character(SEX, const Date &);
     Character(const Character &);
+    Character(unsigned int, const Date &, int, SEX);
+
     virtual ~Character();
 
     const Character &operator=(const Character &);

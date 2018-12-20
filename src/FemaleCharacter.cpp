@@ -8,12 +8,15 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
 
+FemaleCharacter::FemaleCharacter(const Character *character) : Character(character->getCharacterId(), character->getCharacterAge(), character->getCharacterTeam(), character->getCharacterGender()), baby_per_pregnancy(((FemaleCharacter *)character)->getBabyPerPregnancy()), month_number_pregnancy(((FemaleCharacter *)character)->getMonthNumberPregnancy()) {}
 /**
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
-FemaleCharacter::FemaleCharacter(const Date& age) : /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-Character(SEX::FEMALE, age), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0){}
+FemaleCharacter::FemaleCharacter(const Date &age) : /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
+Character(SEX::FEMALE, age), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0)
+{
+}
 
 /**
  * \fn FemaleCharacter::~FemaleCharacter()

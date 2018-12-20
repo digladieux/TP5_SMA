@@ -7,6 +7,12 @@
 
 #include "../header/MaleCharacter.hpp"
 
+MaleCharacter::MaleCharacter(const Character *character) : Character(character->getCharacterId(), character->getCharacterAge(), character->getCharacterTeam(), character->getCharacterGender()),
+character_current_state(((MaleCharacter*)character)->getCharacterCurrentState()), type_ressource_transported(((MaleCharacter*)character)->getTypeRessourceTransported()), speciality(((MaleCharacter*)character)->getSpeciality()), time_at_work(((MaleCharacter*)character)->getTimeAtWork())
+{
+    direction.abscissa =((MaleCharacter*)character)->getDirection().abscissa;
+    direction.ordinate =((MaleCharacter*)character)->getDirection().ordinate;
+}
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character

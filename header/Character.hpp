@@ -28,7 +28,7 @@ class Character
   protected:
     static unsigned int character_number;
     unsigned int character_id;
-    Date character_age;
+    Date character_date_of_birth;
     int character_team;
     SEX character_gender;
 
@@ -42,13 +42,13 @@ class Character
 
     const Character &operator=(const Character &);
     unsigned int getCharacterId() const noexcept;
-    Date getCharacterAge() const noexcept;
+    Date getDateOfBirth() const noexcept;
+    unsigned int getCharacterAge(const Date&) const ;
     int getCharacterTeam() const noexcept;
     SEX getCharacterGender() const noexcept;
 
     void setCharacterTeam(unsigned int) noexcept;
 
-    void incrementAge() noexcept;
     bool isDead(const Date &) const noexcept;
 };
 #endif

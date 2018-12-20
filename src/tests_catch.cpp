@@ -126,9 +126,30 @@ TEST_CASE("Date")
     CHECK(2019 == date.getYear());
 
     Date date_copy = Date(date);
-    CHECK(1 == date.getDay());
-    CHECK(1 == date.getMonth());
-    CHECK(2019 == date.getYear());
+    CHECK(1 == date_copy.getDay());
+    CHECK(1 == date_copy.getMonth());
+    CHECK(2019 == date_copy.getYear());
+}
+
+TEST_CASE("DateOperator<")
+{
+    Date date_inf1(1, 1, 1);
+    Date date_sup1(1, 1, 2);
+
+    CHECK(true == date_inf1 < date_sup1);
+    CHECK(false == date_sup1 < date_inf1);
+
+    Date date_inf2(1, 1, 1);
+    Date date_sup2(1, 2, 1);
+
+    CHECK(true == date_inf2 < date_sup2);
+    CHECK(false == date_sup2 < date_inf2);
+
+    Date date_inf3(1, 1, 1);
+    Date date_sup3(2, 1, 1);
+
+    CHECK(true == date_inf3 < date_sup3);
+    CHECK(false == date_sup3 < date_inf3);
 }
 
 TEST_CASE("Character")
@@ -138,35 +159,27 @@ TEST_CASE("Character")
     Character character1(date_character1);
     Character character2(SEX::FEMALE, date_character2);
 
-    CHECK(1 == character1.getCharacterAge().getDay());
-    CHECK(1 == character1.getCharacterAge().getMonth());
-    CHECK(0 == character1.getCharacterAge().getYear());
-    CHECK(1 == character2.getCharacterAge().getDay());
-    CHECK(1 == character2.getCharacterAge().getMonth());
-    CHECK(20 == character2.getCharacterAge().getYear());
+    CHECK(1 == character1.getDateOfBirth().getDay());
+    CHECK(1 == character1.getDateOfBirth().getMonth());
+    CHECK(0 == character1.getDateOfBirth().getYear());
+    CHECK(1 == character2.getDateOfBirth().getDay());
+    CHECK(1 == character2.getDateOfBirth().getMonth());
+    CHECK(20 == character2.getDateOfBirth().getYear());
 
     CHECK(0 == character1.getCharacterId());
     CHECK(1 == character2.getCharacterId());
     CHECK(SEX::FEMALE == character2.getCharacterGender());
     CHECK(-1 == character1.getCharacterTeam());
-
-    character1.incrementAge();
-    character2.incrementAge();
+    CHECK(20 == character2.getCharacterAge(Date(1, 1, 40)));
+    CHECK(19 == character2.getCharacterAge(Date(2, 1, 40)));
     character1.setCharacterTeam(3);
-
-    CHECK(2 == character1.getCharacterAge().getDay());
-    CHECK(1 == character1.getCharacterAge().getMonth());
-    CHECK(0 == character1.getCharacterAge().getYear());
-    CHECK(2 == character2.getCharacterAge().getDay());
-    CHECK(1 == character2.getCharacterAge().getMonth());
-    CHECK(20 == character2.getCharacterAge().getYear());
 
     CHECK(3 == character1.getCharacterTeam());
     Character character_copy(character1);
     CHECK(character1.getCharacterTeam() == character_copy.getCharacterTeam());
-    CHECK(character1.getCharacterAge().getDay() == character_copy.getCharacterAge().getDay());
-    CHECK(character1.getCharacterAge().getMonth() == character_copy.getCharacterAge().getMonth());
-    CHECK(character1.getCharacterAge().getYear() == character_copy.getCharacterAge().getYear());
+    CHECK(character1.getDateOfBirth().getDay() == character_copy.getDateOfBirth().getDay());
+    CHECK(character1.getDateOfBirth().getMonth() == character_copy.getDateOfBirth().getMonth());
+    CHECK(character1.getDateOfBirth().getYear() == character_copy.getDateOfBirth().getYear());
     CHECK(character1.getCharacterGender() == character_copy.getCharacterGender());
     CHECK(character1.getCharacterId() == character_copy.getCharacterId());
 }
@@ -185,18 +198,18 @@ TEST_CASE("MaleCharacter")
     ((MaleCharacter *)character1)->setCharacterCurrentState(STATE::WORKING);
     ((MaleCharacter *)character1)->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
 
-    CHECK(((MaleCharacter *)character1)->getDirection().abscissa == 0);
-    CHECK(((MaleCharacter *)character1)->getDirection().ordinate == 1);
+    CHECK(((MaleCharacter *)character1)->getDirection().getAbscissa() == 0);
+    CHECK(((MaleCharacter *)character1)->getDirection().getOrdinate() == 1);
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
     CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
-    CHECK(20 == character1->getCharacterAge().getDay());
-    CHECK(5 == character1->getCharacterAge().getMonth());
-    CHECK(2018 == character1->getCharacterAge().getYear());
+    CHECK(20 == character1->getDateOfBirth().getDay());
+    CHECK(5 == character1->getDateOfBirth().getMonth());
+    CHECK(2018 == character1->getDateOfBirth().getYear());
 
-    CHECK(1 == character2->getCharacterAge().getDay());
-    CHECK(1 == character2->getCharacterAge().getMonth());
-    CHECK(0 == character2->getCharacterAge().getYear());
+    CHECK(1 == character2->getDateOfBirth().getDay());
+    CHECK(1 == character2->getDateOfBirth().getMonth());
+    CHECK(0 == character2->getDateOfBirth().getYear());
 
     CHECK(3 == character1->getCharacterId());
     CHECK(4 == character2->getCharacterId());
@@ -204,8 +217,7 @@ TEST_CASE("MaleCharacter")
     CHECK(JOB::FARMER == ((MaleCharacter *)character2)->getSpeciality());
 
     CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
-    character1->incrementAge();
-    character2->incrementAge();
+
     ((MaleCharacter *)character1)->setCharacterCurrentState(STATE::WORKING);
     ((MaleCharacter *)character1)->setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED::FOOD);
     for (int i = 1; i < 10; i++)
@@ -213,14 +225,6 @@ TEST_CASE("MaleCharacter")
         ((MaleCharacter *)character1)->setTimeAtWork();
         CHECK(i % 4 == ((MaleCharacter *)character1)->getTimeAtWork());
     }
-
-    CHECK(21 == character1->getCharacterAge().getDay());
-    CHECK(5 == character1->getCharacterAge().getMonth());
-    CHECK(2018 == character1->getCharacterAge().getYear());
-
-    CHECK(2 == character2->getCharacterAge().getDay());
-    CHECK(1 == character2->getCharacterAge().getMonth());
-    CHECK(0 == character2->getCharacterAge().getYear());
 
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
     CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
@@ -234,13 +238,13 @@ TEST_CASE("FemaleCharacter")
     Character *character1 = new FemaleCharacter(Date());
     Character *character2 = new FemaleCharacter(Date(01, 05, 1997));
 
-    CHECK(1 == character1->getCharacterAge().getDay());
-    CHECK(1 == character1->getCharacterAge().getMonth());
-    CHECK(0 == character1->getCharacterAge().getYear());
+    CHECK(1 == character1->getDateOfBirth().getDay());
+    CHECK(1 == character1->getDateOfBirth().getMonth());
+    CHECK(0 == character1->getDateOfBirth().getYear());
 
-    CHECK(1 == character2->getCharacterAge().getDay());
-    CHECK(5 == character2->getCharacterAge().getMonth());
-    CHECK(1997 == character2->getCharacterAge().getYear());
+    CHECK(1 == character2->getDateOfBirth().getDay());
+    CHECK(5 == character2->getDateOfBirth().getMonth());
+    CHECK(1997 == character2->getDateOfBirth().getYear());
 
     CHECK(5 == character1->getCharacterId());
     CHECK(6 == character2->getCharacterId());
@@ -348,9 +352,9 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(fisherman == lake->getCharacter(0));
     CHECK(quarryman == quarry->getCharacter(0));
     CHECK(farmer == farm->getCharacter(0));
-    CHECK(farmer->getCharacterAge().getDay() == farm->getCharacter(0)->getCharacterAge().getDay());
-    CHECK(farmer->getCharacterAge().getMonth() == farm->getCharacter(0)->getCharacterAge().getMonth());
-    CHECK(farmer->getCharacterAge().getYear() == farm->getCharacter(0)->getCharacterAge().getYear());
+    CHECK(farmer->getDateOfBirth().getDay() == farm->getCharacter(0)->getDateOfBirth().getDay());
+    CHECK(farmer->getDateOfBirth().getMonth() == farm->getCharacter(0)->getDateOfBirth().getMonth());
+    CHECK(farmer->getDateOfBirth().getYear() == farm->getCharacter(0)->getDateOfBirth().getYear());
     REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
     delete farm;
     delete lake;
@@ -476,8 +480,9 @@ TEST_CASE("Game")
     grid.displayMap();
     grid.displayCharacter();
 
-    Game game(grid, Date(10, 10, 56));
+    Game game(grid, Date(10, 10, 50));
+    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
+
     game.run(grid, 20);
     grid.displayCharacter();
-    CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
 }

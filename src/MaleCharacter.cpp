@@ -10,13 +10,30 @@
 StructCoordinates::StructCoordinates(const StructCoordinates &direction) : abscissa(direction.abscissa), ordinate(direction.ordinate) {}
 StructCoordinates::StructCoordinates(int x, int y) : abscissa(x), ordinate(y) {}
 
-MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getCharacterAge(), character.getCharacterTeam(), character.getCharacterGender()), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
-{}
+void StructCoordinates::setAbcissa(int x) noexcept
+{
+    abscissa = x;
+}
+void StructCoordinates::setOrdinate(int y) noexcept
+{
+    ordinate = y;
+}
+int StructCoordinates::getAbscissa() const noexcept
+{
+    return abscissa;
+}
+int StructCoordinates::getOrdinate() const noexcept
+{
+    return ordinate;
+}
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
+{
+}
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age) : Character(SEX::MALE, age), direction(-1,-1), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0){}
+MaleCharacter::MaleCharacter(const Date &age) : Character(SEX::MALE, age), direction(-1, -1), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0) {}
 
 /**
  * \fn MaleCharacter::MaleCharacter(JOB job, SEX gender, const unsigned int age)
@@ -74,7 +91,7 @@ TYPE_RESSOURCE_TRANSPORTED MaleCharacter::getTypeRessourceTransported() const no
 }
 
 /**
- * \fn StructCoordinates MaleCharacter::getDirection() const noexcept
+ * \fn StructCoordinates StructCoordinates::getDirection() const noexcept
  * \brief Getteur sur la direction du personnage masculin
  * \return Direction du personnage masculin
  */
@@ -84,15 +101,15 @@ StructCoordinates MaleCharacter::getDirection() const noexcept
 }
 
 /**
- * \fn void MaleCharacter::setDirection(unsigned int x, unsigned int y) noexcept
+ * \fn void StructCoordinates::setDirection(unsigned int x, unsigned int y) noexcept
  * \brief Setteur sur la direction du personnage masculin
  * \param x Cordoonee x du point
  * \param y Coordonne y du point
  */
 void MaleCharacter::setDirection(unsigned int x, unsigned int y) noexcept
 {
-    direction.abscissa = x;
-    direction.ordinate = y;
+    direction.setAbcissa(x);
+    direction.setOrdinate(y);
 }
 
 /**

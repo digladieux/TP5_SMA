@@ -3,7 +3,7 @@
 
 Date::Date() : day(1), month(1), year(0) {}
 Date::Date(const unsigned int &d, const unsigned int &m, const unsigned int &y) : day(d), month(m), year(y) {}
-Date::Date(const Date& date) : day(date.day), month(date.month), year(date.year){}
+Date::Date(const Date &date) : day(date.day), month(date.month), year(date.year) {}
 
 unsigned int Date::getDay() const noexcept
 {
@@ -18,6 +18,37 @@ unsigned int Date::getYear() const noexcept
     return year;
 }
 
+bool Date::operator<(const Date &date)
+{
+    if ((!this->isDateValid()) || (!date.isDateValid()))
+    {
+        throw std::invalid_argument("INVALID_DATE");
+    }
+    else if (this->getYear() < date.getYear())
+    {
+        return true;
+    }
+    else if (this->getYear() > date.getYear())
+    {
+        return false;
+    }
+    else if (this->getMonth() < date.getMonth())
+    {
+        return true;
+    }
+    else if (this->getMonth() > date.getMonth())
+    {
+        return false;
+    }
+    else if (this->getDay() < date.getDay())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 bool Date::isDateValid() const noexcept
 {
     bool valid = true;

@@ -34,7 +34,7 @@ void Game::lifeOfCharacter(Grid &grid)
 
                 else if (character->getCharacterGender() == SEX::MALE) /* pas enfant a gerer */
                 {
-                    if (((((MaleCharacter *)character)->getDirection().abscissa == -1) && (((MaleCharacter *)character)->getDirection().ordinate == -1)) || (grid.getDirectionCharacter(((MaleCharacter *)character)->getDirection()) == grid.getGroundGrid(grid.getGroundWithCharacter(i)->getGroundId())))
+                    if (((((MaleCharacter *)character)->getDirection().getAbscissa() == -1) && (((MaleCharacter *)character)->getDirection().getOrdinate() == -1)) || (grid.getDirectionCharacter(((MaleCharacter *)character)->getDirection()) == grid.getGroundGrid(grid.getGroundWithCharacter(i)->getGroundId())))
                     {
                         /*LE DEPLACEMENT */
                     }

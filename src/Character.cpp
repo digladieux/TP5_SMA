@@ -14,13 +14,13 @@ unsigned int Character::character_number = 0;
  * \brief Constructeur par default d'un Personnage
  *
  */
-Character::Character(const Character &character) : character_id(character.character_id), character_age(character.character_age), character_team(character.character_team), character_gender(character.character_gender)
+Character::Character(const Character &character) : character_id(character.character_id), character_date_of_birth(character.character_date_of_birth), character_team(character.character_team), character_gender(character.character_gender)
 {
     {
         character_number++;
     }
 }
-Character::Character(const Date &age) : character_id(character_number), character_age(age), character_team(-1)
+Character::Character(const Date &age) : character_id(character_number), character_date_of_birth(age), character_team(-1)
 {
     character_number++;
     /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
@@ -33,7 +33,7 @@ Character::Character(const Date &age) : character_id(character_number), characte
         character_gender = SEX::FEMALE;
     }
 }
-Character::Character(unsigned int id, const Date &age, int team, SEX gender) : character_id(id), character_age(age), character_team(team), character_gender(gender)
+Character::Character(unsigned int id, const Date &age, int team, SEX gender) : character_id(id), character_date_of_birth(age), character_team(team), character_gender(gender)
 {
     character_number++;
 }
@@ -43,7 +43,7 @@ Character::Character(unsigned int id, const Date &age, int team, SEX gender) : c
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-Character::Character(SEX gender, const Date &age) : character_id(character_number), character_age(age), character_team(-1), character_gender(gender)
+Character::Character(SEX gender, const Date &age) : character_id(character_number), character_date_of_birth(age), character_team(-1), character_gender(gender)
 {
     character_number++;
 }
@@ -66,13 +66,13 @@ unsigned int Character::getCharacterId() const noexcept
 }
 
 /**
- * \fn unsigned int Character::getCharacterAge() const noexcept
+ * \fn unsigned int Character::getDateOfBirth() const noexcept
  * \brief Getteur sur l'age du personnage
  * \return Age du personnage
  */
-Date Character::getCharacterAge() const noexcept
+Date Character::getDateOfBirth() const noexcept
 {
-    return character_age;
+    return character_date_of_birth;
 }
 
 /**
@@ -95,6 +95,24 @@ int Character::getCharacterTeam() const noexcept
     return character_team;
 }
 
+unsigned int Character::getCharacterAge(const Date &current_date) const
+{
+    unsigned int age;
+    /*if (!(character_date_of_birth < current_date))
+    {
+        throw std::invalid_argument("INVALID_COMPARAISON");
+    }*/
+    if (Date(character_date_of_birth.getDay(), character_date_of_birth.getMonth(), 0) < Date(current_date.getDay(), current_date.getMonth(), 0))
+    {
+        age = current_date.getYear() - character_date_of_birth.getYear() - 1;
+    }
+    else
+    {
+        age = current_date.getYear() - character_date_of_birth.getYear();
+    }
+
+    return age;
+}
 /**
  * \fn void Character::setCharacterTeam(unsigned int new_team) noexcept
  * \brief Setteur sur l'equipe du personnage
@@ -103,15 +121,6 @@ int Character::getCharacterTeam() const noexcept
 void Character::setCharacterTeam(unsigned int new_team) noexcept
 {
     character_team = new_team;
-}
-
-/**
- * \fn void Character::incrementAge() noexcept
- * \brief Permet d'incrementer l'age du personnage
- */
-void Character::incrementAge() noexcept
-{
-    ++character_age;
 }
 
 /**
@@ -125,7 +134,7 @@ const Character &Character::operator=(const Character &new_character)
     if (this != &new_character)
     {
         character_id = new_character.character_id;
-        character_age = new_character.character_age;
+        character_date_of_birth = new_character.character_date_of_birth;
     }
     return *this;
 }
@@ -135,41 +144,41 @@ const Character &Character::operator=(const Character &new_character)
  * \brief Permet de gerer aleatoirement la mort ou non d'un personnage
  * \return Vrai si le personnage meurt, faux sinon
  */
-bool Character::isDead(const Date &date) const noexcept
+bool Character::isDead(const Date &current_date) const noexcept
 {
     bool dead = false;
-    // double random = genrand_real1();
+    double random = genrand_real1();
     /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-
-    /* if (character_age < 18)
+    unsigned int age = this->getCharacterAge(current_date);
+    if (age < 18)
     {
         if (random < 0.005)
         {
             dead = true;
         }
     }
-    else if (character_age < 30)
+    else if (age < 30)
     {
         if (random < 0.010)
         {
             dead = true;
         }
     }
-    else if (character_age < 50)
+    else if (age < 50)
     {
         if (random < 0.015)
         {
             dead = true;
         }
     }
-    else if (character_age < 70)
+    else if (age < 70)
     {
         if (random < 0.020)
         {
             dead = true;
         }
     }
-    else if (character_age < 90)
+    else if (age < 90)
     {
         if (random < 0.025)
         {
@@ -179,6 +188,6 @@ bool Character::isDead(const Date &date) const noexcept
     else
     {
         dead = true;
-    }*/
+    }
     return dead;
 }

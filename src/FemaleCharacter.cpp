@@ -8,7 +8,7 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
 
-FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.getCharacterId(), character.getCharacterAge(), character.getCharacterTeam(), character.getCharacterGender()), baby_per_pregnancy(character.getBabyPerPregnancy()), month_number_pregnancy(character.getMonthNumberPregnancy()) {}
+FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), baby_per_pregnancy(character.getBabyPerPregnancy()), month_number_pregnancy(character.getMonthNumberPregnancy()) {}
 /**
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character

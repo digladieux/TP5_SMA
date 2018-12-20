@@ -54,14 +54,21 @@ enum class TYPE_RESSOURCE_TRANSPORTED
  * \struct Coordinates
  * \brief Coordonne d'un point
  */
-typedef struct StructCoordinates
+class StructCoordinates
 {
+  private:
     int abscissa; /* Abscisse du point */
     int ordinate; /* Ordonnee du point */
 
+  public:
     StructCoordinates(const StructCoordinates &);
     StructCoordinates(int, int);
-} Coordinates;
+
+    void setAbcissa(int) noexcept;
+    void setOrdinate(int) noexcept;
+    int getAbscissa() const noexcept;
+    int getOrdinate() const noexcept;
+};
 
 /**
  * \class MaleCharacter
@@ -79,16 +86,16 @@ class MaleCharacter : public Character
   public:
     MaleCharacter(const Date &);
     MaleCharacter(JOB, const Date &);
-    MaleCharacter(const MaleCharacter&);
+    MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 
     STATE getCharacterCurrentState() const noexcept;
     TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
-    StructCoordinates getDirection() const noexcept;
     JOB getSpeciality() const noexcept;
     unsigned int getTimeAtWork() const noexcept;
-
+    StructCoordinates getDirection() const noexcept;
     void setDirection(unsigned int, unsigned int) noexcept;
+
     void setCharacterCurrentState(STATE) noexcept;
     void setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED) noexcept;
     void setTimeAtWork() noexcept;

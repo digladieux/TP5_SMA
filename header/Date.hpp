@@ -20,6 +20,7 @@ class Date
     unsigned int getYear() const noexcept;
 
     bool isDateValid() const noexcept;
+    bool operator < (const Date &);
 
     Date operator++();
     Date &operator=(const Date &) noexcept;

@@ -294,7 +294,7 @@ Ground *Grid::getDirectionCharacter(StructCoordinates direction)
 {
     try
     {
-        return ground_grid[direction.abscissa][direction.ordinate];
+        return ground_grid[direction.getAbscissa()][direction.getOrdinate()];
     }
     catch (const std::out_of_range &e)
     {

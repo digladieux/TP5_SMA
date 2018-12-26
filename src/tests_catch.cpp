@@ -401,7 +401,7 @@ TEST_CASE("Afficher")
     delete farm;
 }
 
-TEST_CASE("InitialisationGrid")
+/*TEST_CASE("InitialisationGrid")
 {
     Grid grid("map_test_read.txt");
     grid.displayMap();
@@ -455,7 +455,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
     CHECK(12 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
-
+*/
 TEST_CASE("GroundCopy")
 {
     Ground *ground1 = new Ground();
@@ -471,7 +471,7 @@ TEST_CASE("GroundCopy")
     CHECK(ground1->getCharacter(0)->getCharacterId() == ground2->getCharacter(0)->getCharacterId());
 
     Character *character = ground1->getCharacter(0);
-    ((MaleCharacter*)character)->getDirection().incrementAbscissa();
+    ((MaleCharacter *)character)->getDirection().incrementAbscissa();
 
     CHECK(((MaleCharacter *)character)->getDirection().getAbscissa() == 1);
     delete ground1;
@@ -481,12 +481,8 @@ TEST_CASE("GroundCopy")
 TEST_CASE("Game")
 {
     Grid grid("map_test_read.txt");
-    grid.displayMap();
-    grid.displayCharacter();
 
     Game game(grid, Date(10, 10, 50));
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterGender() == SEX::MALE);
-
     game.run(grid, 20);
-    grid.displayCharacter();
 }

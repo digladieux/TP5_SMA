@@ -7,76 +7,11 @@
 
 #ifndef MALE_CHARACTER_HPP
 #define MALE_CHARACTER_HPP
-
+#include "Enum.hpp"
 #include "Character.hpp"
-
-/**
- * \enum class JOB
- * \brief Enumeration de toutes les specialites possibles qu'un travailleur peut avoir
- */
-enum class JOB
-{
-    NO_JOB,     /*! Sans professionnalisation (enfant) */
-    FARMER,     /*! Fermier */
-    LUMBERJACK, /*! Bucheron */
-    QUARRY_MAN, /*! Mineur */
-    FISHERMAN   /*! Pecheur */
-};
-/**
- * \enum class STATE
- * \brief Enumeration de tous les etats possibles d'un personnage
- *
- */
-enum class STATE
-{
-    NO_STATE,                  /*! Pas d'etat (etat initial) */
-    GOING_TO_COLLECTION_POINT, /*! Se diriger vers un point de collecte */
-    GOING_TO_TOWN_HALL,        /*! Se dirige vers l'hotel de ville */
-    WORKING,                   /*! Travaille sur le point de collecte */
-    BUILDING,                  /*! Ameliore l'hotel de ville */
-    HAVING_SEX                 /*! Fait l'amour avec sa compagne */
-};
-
-/**
- * \enum class TYPE_RESSOURCE_TRANSPORTED
- * \brief Indique le type de ressources transporter par un personnage
- */
-enum class TYPE_RESSOURCE_TRANSPORTED
-{
-    NO_RESSOURCE, /*! Pas de ressource */
-    ROCK,         /*! Pierre */
-    FISH,         /*! Poisson */
-    WOOD,         /*! Bois */
-    FOOD,         /*! Nourriture */
-};
-
-/**
- * \struct Coordinates
- * \brief Coordonne d'un point
- */
-class StructCoordinates
-{
-  private:
-    unsigned int abscissa; /* Abscisse du point */
-    unsigned int ordinate; /* Ordonnee du point */
-
-  public:
-    StructCoordinates(const StructCoordinates &);
-    StructCoordinates(unsigned int, unsigned int);
-
-    void setAbcissa(unsigned int) noexcept;
-    void setOrdinate(unsigned int) noexcept;
-
-    void incrementAbscissa() noexcept;
-    void decrementAbscissa() noexcept;
-    void incrementOrdinate() noexcept;
-    void decrementOrdinate() noexcept;
-
-    unsigned int getAbscissa() const noexcept;
-    unsigned int getOrdinate() const noexcept;
-
-    bool operator==(const StructCoordinates &);
-};
+#include "Ground.hpp"
+#include "StructCoordinates.hpp"
+#include "MaleCharacter.hpp"
 
 /**
  * \class MaleCharacter
@@ -105,10 +40,11 @@ class MaleCharacter : public Character
     void setDirection(unsigned int, unsigned int) noexcept;
 
     void setCharacterCurrentState(STATE) noexcept;
-    void setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED) noexcept;
-    void setTimeAtWork() noexcept;
-    void setSpeciality(JOB job) noexcept;
+    void setTypeRessourceTransported(GROUND_TYPE);
 
+    void incrementTimeAtWork() noexcept;
+    void resetTimeAtWork() noexcept;
+    void setSpeciality(JOB job) noexcept;
     const MaleCharacter &operator=(const MaleCharacter &new_character);
 };
 #endif

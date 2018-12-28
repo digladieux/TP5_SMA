@@ -18,6 +18,7 @@ class Lake : public CollectionPoint
 {
   public:
     Lake(const unsigned int fish_nb = 1000);
+    Lake(const Lake &);
     ~Lake();
 
     void display(std::ostream &os = std::cout) const noexcept;

@@ -27,14 +27,30 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type), 
     ground_number++;
 }
 
+Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vector_character) : ground_id(id), ground_type(type)
+{
+    Character *old_character = nullptr;
+    Character *character = nullptr;
+    for (unsigned int k = 0; k < vector_character.size(); k++)
+    {
+        old_character = vector_character[k];
+        if (old_character->getCharacterGender() == SEX::MALE)
+        {
+            character = new MaleCharacter(*(MaleCharacter *)old_character);
+        }
+        else
+        {
+            character = new FemaleCharacter(*(FemaleCharacter *)old_character);
+        }
+        this->addCharacter(character);
+    }
+}
 /**
  * \brief Constructeur de copie de la classe Ground
  * \param ground Le terrain que l'on veut copier
  */
-Ground::Ground(const Ground &ground)
+Ground::Ground(const Ground &ground) : ground_id(ground.ground_id), ground_type(ground.ground_type)
 {
-    ground_id = ground.ground_id;
-    ground_type = ground.ground_type;
     Character *character;
     for (unsigned int k = 0; k < ground.vector_character.size(); k++)
     {

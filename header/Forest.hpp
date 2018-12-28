@@ -18,6 +18,7 @@ class Forest : public CollectionPoint
 {
   public:
     Forest(const unsigned int wood_number = 1000);
+    Forest(const Forest &);
     ~Forest();
     void display(std::ostream &os = std::cout) const noexcept;
 };

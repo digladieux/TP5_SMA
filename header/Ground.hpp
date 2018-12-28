@@ -9,22 +9,11 @@
 #define GROUND_HPP
 
 #include "MaleCharacter.hpp"
+#include "Enum.hpp"
+
+#include "StructCoordinates.hpp"
 #include <vector>
 #include <iostream>
-
-/**
- * \enum class
- * \brief Enumeration de tous les types possibles de case sur notre terrain de jeu possible
- */
-enum class GROUND_TYPE
-{
-    LAND,      /*! Terrain (aucune caracteristique) */
-    TOWN_HALL, /*! Hotel de ville */
-    QUARRY,    /*! Carriere de pierre */
-    LAKE,      /*! Lac */
-    FARM,      /*! Ferme */
-    FOREST,    /*! Foret */
-};
 
 /**
  * \class Ground
@@ -40,6 +29,7 @@ class Ground
 
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
+    Ground(GROUND_TYPE, unsigned int, std::vector<Character *>);
     Ground(const Ground &);
     virtual ~Ground();
 

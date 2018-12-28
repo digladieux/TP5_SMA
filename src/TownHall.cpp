@@ -14,9 +14,9 @@
  * \param wood_nb Nombre de bois dans le stock initial
  * \param food_nb Nombre de nouriture dans le stock initial
  */
-TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb, const unsigned int fish_nb) :
-Ground(GROUND_TYPE::TOWN_HALL), level(level_town_hall), rock_number(rock_nb), wood_number(wood_nb), food_number(food_nb), fish_number(fish_nb) {}
+TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb, const unsigned int fish_nb) : Ground(GROUND_TYPE::TOWN_HALL), level(level_town_hall), rock_number(rock_nb), wood_number(wood_nb), food_number(food_nb), fish_number(fish_nb) {}
 
+TownHall::TownHall(const TownHall &town_hall) : Ground(GROUND_TYPE::TOWN_HALL, town_hall.ground_id, town_hall.vector_character), level(town_hall.level), rock_number(town_hall.rock_number), wood_number(town_hall.wood_number), food_number(town_hall.food_number), fish_number(town_hall.fish_number) { town_hall.vector_character[0]; }
 /**
  * \fn unsigned int TownHall::getLevel() const noexcept
  * \brief Getteur sur le niveau de l'hotel de ville
@@ -67,7 +67,6 @@ unsigned int TownHall::getFishNumber() const noexcept
     return fish_number;
 }
 
-
 /**
  * \fn void TownHall::incrementLevel() noexcept
  * \brief Incremente le niveau de l'hotel de ville de 1
@@ -77,82 +76,32 @@ void TownHall::incrementLevel() noexcept
     level++;
 }
 
-/**
- * \fn bool TownHall::addRockNumber(const int rock_nb) noexcept
- * \brief Methode pour ajouter ou retirer des pierres dans l'hotel de ville
- * \param rock_nb Nombre de pierre que l'on souhaite enlever
- * \return Vrai si le nombre de pierre est au dessus de 0, faux sinon
- */
-bool TownHall::addRockNumber(const int rock_nb) noexcept
+bool TownHall::addRessources(TYPE_RESSOURCE_TRANSPORTED type, const int ressource_number)
 {
     bool flag = true;
-    if (rock_nb < 0)
+    if (ressource_number < 0)
     {
         flag = false;
     }
     else
     {
-        rock_number += rock_nb;
-    }
-    return flag;
-}
-
-/**
- * \fn bool TownHall::addWoodNumber(const int rock_nb) noexcept
- * \brief Methode pour ajouter ou retirer du bois dans l'hotel de ville
- * \param rock_nb Nombre de bois que l'on souhaite enlever
- * \return Vrai si le nombre de bois est au dessus de 0, faux sinon
- */
-bool TownHall::addWoodNumber(const int wood_nb) noexcept
-{
-    bool flag = true;
-    if (wood_nb < 0)
-    {
-        flag = false;
-    }
-    else
-    {
-        wood_number += wood_nb;
-    }
-    return flag;
-}
-
-/**
- * \fn bool TownHall::addFoodNumber(const int food_nb) noexcept
- * \brief Methode pour ajouter ou retirer de la nourriture dans l'hotel de ville
- * \param food_nb Nombre de nourriture que l'on souhaite enlever
- * \return Vrai si le nombre de nourriture est au dessus de 0, faux sinon
- */
-bool TownHall::addFoodNumber(const int food_nb) noexcept
-{
-    bool flag = true;
-    if (food_nb < 0)
-    {
-        flag = false;
-    }
-    else
-    {
-        food_number += food_nb;
-    }
-    return flag;
-}
-
-/**
- * \fn bool TownHall::addFishNumber(const int fish_nb) noexcept
- * \brief Methode pour ajouter ou retirer du poisson dans l'hotel de ville
- * \param fish_nb Nombre de poisson que l'on souhaite enlever
- * \return Vrai si le nombre de poisson est au dessus de 0, faux sinon
- */
-bool TownHall::addFishNumber(const int fish_nb) noexcept
-{
-    bool flag = true;
-    if (fish_nb < 0)
-    {
-        flag = false;
-    }
-    else
-    {
-        fish_number += fish_nb;
+        switch (type)
+        {
+        case TYPE_RESSOURCE_TRANSPORTED::FISH:
+            fish_number += ressource_number;
+            break;
+        case TYPE_RESSOURCE_TRANSPORTED::WOOD:
+            wood_number += ressource_number;
+            break;
+        case TYPE_RESSOURCE_TRANSPORTED::FOOD:
+            food_number += ressource_number;
+            break;
+        case TYPE_RESSOURCE_TRANSPORTED::ROCK:
+            rock_number += ressource_number;
+            break;
+        default:
+            break;
+        }
     }
     return flag;
 }
@@ -197,7 +146,6 @@ bool TownHall::removeWoodNumber(const int wood_nb) noexcept
     return flag;
 }
 
-
 /**
  * \fn bool TownHall::removeFoodNumber(const int food_nb) noexcept
  * \brief Methode pour retirer de la nouriture dans l'hotel de ville
@@ -217,7 +165,6 @@ bool TownHall::removeFoodNumber(const int food_nb) noexcept
     }
     return flag;
 }
-
 
 /**
  * \fn bool TownHall::removeFishNumber(const int fish_nb) noexcept
@@ -239,14 +186,41 @@ bool TownHall::removeFishNumber(const int fish_nb) noexcept
     return flag;
 }
 
-
-
+GROUND_TYPE TownHall::lowStock() const noexcept
+{ /* RAND */
+    GROUND_TYPE ground_type;
+    if ((rock_number <= wood_number) && (rock_number <= fish_number) && (rock_number <= food_number))
+    {
+        ground_type = GROUND_TYPE::QUARRY;
+    }
+    else if ((wood_number <= rock_number) && (wood_number <= fish_number) && (wood_number <= food_number))
+    {
+        ground_type = GROUND_TYPE::FOREST;
+    }
+    else if ((fish_number <= wood_number) && (fish_number <= rock_number) && (fish_number <= food_number))
+    {
+        ground_type = GROUND_TYPE::LAKE;
+    }
+    else
+    {
+        ground_type = GROUND_TYPE::FARM;
+    }
+    return ground_type;
+}
 /**
  * \fn void TownHall::display(std::ostream &os) const noexcept
  * \brief Affichage d'un hotel de ville
  * \param os Flux ou l'on va afficher l'hotel de ville
  */
-void TownHall::display(std::ostream& os) const noexcept
+void TownHall::display(std::ostream &os) const noexcept
 {
     os << "T ";
+}
+
+void TownHall::displayRessources(std::ostream &os) const noexcept
+{
+    os << std::endl;
+    os << "TownHall " << ground_id << std::endl;
+    os << "Wood " << wood_number << "\tRock " << rock_number << std::endl;
+    os << "Fish " << fish_number << "\tFood " << food_number << std::endl;
 }

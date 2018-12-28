@@ -13,8 +13,9 @@
  * \brief Constructeur de la classe Farm
  * \param food_number Nombre de nourriture
  */
-Farm::Farm(const unsigned int food_number) :
-CollectionPoint(GROUND_TYPE::FARM, food_number) {}
+Farm::Farm(const unsigned int food_number) : CollectionPoint(GROUND_TYPE::FARM, food_number) {}
+
+Farm::Farm(const Farm &farm) : CollectionPoint(GROUND_TYPE::FARM, farm.ressources_number, farm.ground_id, farm.vector_character) {}
 
 /**
  * \fn Farm::~Farm()

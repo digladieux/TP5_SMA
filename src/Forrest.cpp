@@ -15,6 +15,7 @@
  */
 Forest::Forest(const unsigned int wood_number) : CollectionPoint(GROUND_TYPE::FOREST, wood_number) {}
 
+Forest::Forest(const Forest& forest) : CollectionPoint(GROUND_TYPE::FOREST, forest.ressources_number, forest.ground_id, forest.vector_character){}
 /**
  * \fn Forest::~Forest()
  * \brief Destructeur de la classe Foret

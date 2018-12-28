@@ -7,17 +7,8 @@
 
 #ifndef CHARACTER_HPP
 #define CHARACTER_HPP
-#include "../header/Date.hpp"
-/**
- * \enum class SEX
- * \brief Enumeration qui definit la majorite d'un personnage, ainsi que son sexe
- *
- */
-enum class SEX
-{
-    MALE,
-    FEMALE
-};
+#include "Date.hpp"
+#include "Enum.hpp"
 
 /**
  * \class Character

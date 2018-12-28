@@ -6,46 +6,8 @@
  */
 
 #include "../header/MaleCharacter.hpp"
-
-StructCoordinates::StructCoordinates(const StructCoordinates &direction) : abscissa(direction.abscissa), ordinate(direction.ordinate) {}
-StructCoordinates::StructCoordinates(unsigned int x, unsigned int y) : abscissa(x), ordinate(y) {}
-
-void StructCoordinates::setAbcissa(unsigned int x) noexcept
-{
-    abscissa = x;
-}
-void StructCoordinates::setOrdinate(unsigned int y) noexcept
-{
-    ordinate = y;
-}
-unsigned int StructCoordinates::getAbscissa() const noexcept
-{
-    return abscissa;
-}
-unsigned int StructCoordinates::getOrdinate() const noexcept
-{
-    return ordinate;
-}
-void StructCoordinates::incrementAbscissa() noexcept
-{
-    abscissa++;
-}
-void StructCoordinates::decrementAbscissa() noexcept
-{
-    abscissa--;
-}
-void StructCoordinates::incrementOrdinate() noexcept
-{
-    ordinate++;
-}
-void StructCoordinates::decrementOrdinate() noexcept
-{
-    ordinate--;
-}
-bool StructCoordinates::operator==(const StructCoordinates &coordinate)
-{
-    return ((this->getAbscissa() == coordinate.getAbscissa()) && (this->getOrdinate() == coordinate.getOrdinate()));
-}
+#include "../header/Ground.hpp"
+#include "../header/StructCoordinates.hpp"
 
 MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
 {
@@ -127,10 +89,10 @@ StructCoordinates &MaleCharacter::getDirection() noexcept
  * \param x Cordoonee x du point
  * \param y Coordonne y du point
  */
-void MaleCharacter::setDirection(unsigned int x, unsigned int y) noexcept
+void MaleCharacter::setDirection(unsigned int ground_id, unsigned int column_number) noexcept
 {
-    direction.setAbcissa(x);
-    direction.setOrdinate(y);
+    direction.setAbcissa(ground_id / column_number);
+    direction.setOrdinate(ground_id % column_number);
 }
 
 /**
@@ -148,26 +110,39 @@ void MaleCharacter::setCharacterCurrentState(STATE new_state) noexcept
  * \brief Setteur sur la ressource transportee
  * \param new_type_ressources Nouvelle ressource transportee
  */
-void MaleCharacter::setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED new_type_ressources) noexcept
+void MaleCharacter::setTypeRessourceTransported(GROUND_TYPE new_type_ressources)
 {
-    type_ressource_transported = new_type_ressources;
+    switch (new_type_ressources)
+    {
+    case GROUND_TYPE::QUARRY:
+        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::ROCK;
+        break;
+    case GROUND_TYPE::FOREST:
+        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::WOOD;
+        break;
+    case GROUND_TYPE::LAKE:
+        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FISH;
+        break;
+    case GROUND_TYPE::FARM:
+        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FOOD;
+        break;
+    default:
+        throw std::invalid_argument("INVALID_GROUND_TYPE");
+    }
 }
 
 /**
- * \fn void MaleCharacter::setTimeAtWork() noexcept
+ * \fn void MaleCharacter::incrementTimeAtWork() noexcept
  * \brief Setteur sur le temps passe au travail
  */
-void MaleCharacter::setTimeAtWork() noexcept
+void MaleCharacter::incrementTimeAtWork() noexcept
 {
-    /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-    if (time_at_work == 3)
-    {
-        time_at_work = 0;
-    }
-    else
-    {
-        time_at_work++;
-    }
+    time_at_work++;
+}
+
+void MaleCharacter::resetTimeAtWork() noexcept
+{
+    time_at_work = 0;
 }
 
 /**

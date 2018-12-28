@@ -18,6 +18,7 @@ class Farm : public CollectionPoint
 {
   public:
     Farm(const unsigned int food_number = 1000);
+    Farm(const Farm &);
     ~Farm();
 
     void display(std::ostream &os = std::cout) const noexcept;

@@ -13,9 +13,9 @@
  * \brief Constructeur de la classe Lake
  * \param fish_number Nombre de poisson
  */
-Lake::Lake(const unsigned int fish_number) :
-CollectionPoint(GROUND_TYPE::LAKE, fish_number) {}
+Lake::Lake(const unsigned int fish_number) : CollectionPoint(GROUND_TYPE::LAKE, fish_number) {}
 
+Lake::Lake(const Lake &lake) : CollectionPoint(GROUND_TYPE::LAKE, lake.ressources_number, lake.ground_id, lake.vector_character) {}
 /**
  * \fn Lake::~Lake()
  * \brief Destructeur de la classe Lake
@@ -28,7 +28,7 @@ Lake::~Lake() {}
  * \brief Affichage d'un lac
  * \param os Flux ou l'on va afficher le lac
  */
-void Lake::display(std::ostream& os) const noexcept
+void Lake::display(std::ostream &os) const noexcept
 {
     os << "L ";
 }

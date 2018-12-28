@@ -14,15 +14,19 @@ class Game
   private:
     Grid map;
     Date turn;
+    void caseCollectionPoint(Character *, Ground *);
+    void caseTownHall(Character *, Ground *);
+    void movementCharacter(Character *, Ground *, unsigned int, unsigned int);
 
   public:
     Game(const Grid &, const Date &date = Date());
 
-    void run(Grid &, unsigned int);
-    void lifeOfCharacter(Grid &);
-    bool deathOfCharacter(Grid &grid, Character *character, unsigned int i, unsigned int &j);
-    void birthOfCharacter(Grid &grid, Character *character);
+    void run(unsigned int);
+    void lifeOfCharacter();
+    bool deathOfCharacter(Character *character, unsigned int i, unsigned int &j);
+    void birthOfCharacter(Character *character);
     void incrementMonthGestationIfPregnant(Character *);
+    static bool compare(GROUND_TYPE ground_type, JOB job);
 };
 
 #endif

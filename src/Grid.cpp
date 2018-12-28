@@ -107,7 +107,7 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
                     character->setCharacterTeam(ground->getGroundId());
                     if (character->getCharacterGender() == SEX::MALE)
                     {
-                        ((MaleCharacter *)character)->setDirection(i, j);
+                        ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
                     }
                     ground_grid[i][j]->addCharacter(character);
                     vector_character.erase(vector_character.begin());
@@ -125,9 +125,10 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
 
 Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.column_number)
 {
+    Ground *ground = nullptr;
+    Ground *map_ground = nullptr;
     ground_with_character.clear();
     ground_with_collection_point.clear();
-    Ground *ground = nullptr;
     ground_grid = new Ground **[row_number]();
     for (unsigned int i = 0; i < row_number; i++)
     {
@@ -135,21 +136,65 @@ Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.colu
 
         for (unsigned int j = 0; j < column_number; j++)
         {
-            ground = new Ground(*map.ground_grid[i][j]);
+            map_ground = map.ground_grid[i][j];
+            switch (map_ground->getGroundType())
+            {
+            case GROUND_TYPE::FARM:
+                ground = new Farm(*(Farm *)map_ground);
+                break;
+            case GROUND_TYPE::FOREST:
+                ground = new Forest(*(Forest *)map_ground);
+                break;
+            case GROUND_TYPE::LAKE:
+                ground = new Lake(*(Lake *)map_ground);
+                break;
+            case GROUND_TYPE::QUARRY:
+                ground = new Quarry(*(Quarry *)map_ground);
+                break;
+            case GROUND_TYPE::TOWN_HALL:
+                ground = new TownHall(*(TownHall *)map_ground);
+                break;
+            default:
+                ground = new Ground(*map_ground);
+                break;
+            }
             ground_grid[i][j] = ground;
             if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
             {
                 push_backGround(ground_with_collection_point, ground);
             }
-            if (ground->getVectorSize() != 0)
+            if (map_ground->getVectorSize() != 0)
             {
                 push_backGround(ground_with_character, ground);
             }
         }
     }
     ground = nullptr;
+    map_ground = nullptr;
 }
 
+void Grid::addGroundWithCharacter(Ground *ground)
+{
+    try
+    {
+        ground_with_character.push_back(ground);
+    }
+    catch (const std::bad_alloc &e)
+    {
+        std::cerr << "BAD_ALLOC" << std::endl;
+        throw e;
+    }
+}
+void Grid::removeGroundWithCharacter(const unsigned int index)
+{
+    if (index > ground_with_character.size() - 1)
+    {
+        std::cerr << "OUT_OF_RANGE_INDEX" << std::endl;
+        std::cerr << "REQUIRE_INDEX [0;< " << ground_with_character.size() - 1 << "], HERE = " << index << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    ground_with_character.erase(ground_with_character.begin() + index);
+}
 void Grid::push_backGround(std::vector<Ground *> &vector, Ground *ground)
 {
     try
@@ -238,13 +283,22 @@ Grid::~Grid()
 
 void Grid::displayMap(std::ostream &os) const noexcept
 {
+    std::vector<Ground *> town_hall;
     for (unsigned int i = 0; i < row_number; i++)
     {
         for (unsigned int j = 0; j < column_number; j++)
         {
+            if (ground_grid[i][j]->getGroundType() == GROUND_TYPE::TOWN_HALL)
+            {
+                push_backGround(town_hall, ground_grid[i][j]);
+            }
             ground_grid[i][j]->display(os);
         }
         os << std::endl;
+    }
+    for (unsigned int i = 0; i < town_hall.size(); i++)
+    {
+        ((TownHall *)town_hall[i])->displayRessources(os);
     }
     os << std::endl;
 }

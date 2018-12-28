@@ -51,6 +51,9 @@ class Grid
     Ground *getGroundWithCollectionPoint(unsigned int) const;
     Ground *getGroundGrid(unsigned int, unsigned int) const;
     Ground *getGroundGrid(unsigned int);
+
+    void addGroundWithCharacter(Ground *);
+    void removeGroundWithCharacter(const unsigned int);
 };
 
 #endif

@@ -459,15 +459,29 @@ TEST_CASE("InitialisationGrid")
     CHECK(12 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
-TEST_CASE("Compare")
+TEST_CASE("MethodeStatic")
 {
-    CHECK(true == Game::compare(GROUND_TYPE::QUARRY, JOB::QUARRY_MAN));
-    CHECK(true == Game::compare(GROUND_TYPE::LAKE, JOB::FISHERMAN));
-    CHECK(true == Game::compare(GROUND_TYPE::FOREST, JOB::LUMBERJACK));
-    CHECK(true == Game::compare(GROUND_TYPE::FARM, JOB::FARMER));
-    CHECK(false == Game::compare(GROUND_TYPE::FARM, JOB::LUMBERJACK));
-    CHECK(false == Game::compare(GROUND_TYPE::FARM, JOB::FISHERMAN));
-    CHECK(false == Game::compare(GROUND_TYPE::FARM, JOB::QUARRY_MAN));
+    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::QUARRY, JOB::QUARRY_MAN));
+    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::LAKE, JOB::FISHERMAN));
+    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::FOREST, JOB::LUMBERJACK));
+    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::FARMER));
+
+    CHECK(false == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::LUMBERJACK));
+    CHECK(false == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::FISHERMAN));
+    CHECK(false == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::QUARRY_MAN));
+
+    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::ROCK, JOB::QUARRY_MAN));
+    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::WOOD, JOB::LUMBERJACK));
+    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::FOOD, JOB::FARMER));
+    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::FISH, JOB::FISHERMAN));
+
+    CHECK(false == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::WOOD, JOB::FISHERMAN));
+    CHECK(false == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::FOOD, JOB::FISHERMAN));
+    CHECK(false == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::ROCK, JOB::FISHERMAN));
+    StructCoordinates a(0, 0);
+    StructCoordinates b(2, 0);
+    CHECK(2 == Game::euclidienneDistance(a, b));
+
 }
 TEST_CASE("GroundCopy")
 {
@@ -494,6 +508,6 @@ TEST_CASE("GroundCopy")
 TEST_CASE("Game")
 {
     Grid grid("map_one_male.txt");
-    Game game(grid, Date(10, 10, 50));
-    game.run(40);
+    Game game(grid, Date(10, 10, 70));
+    game.run(1);
 }

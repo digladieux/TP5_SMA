@@ -2,24 +2,20 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/TownHall.hpp"
 #include "../header/mt19937ar.h"
+#include "math.h"
 #include <unistd.h>
-
-Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date) {}
+#include <limits>
+Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date), number_of_death_this_turn(0), number_of_death_total(0) {}
 
 void Game::run(unsigned int round)
 {
-    system("clear");
-    std::cout << "Tour 0" << std::endl;
-    map.displayMap();
-    map.displayCharacter();
-    sleep(1);
     for (unsigned int i = 0; i < round; i++)
     {
+        number_of_death_this_turn = 0;
         system("clear");
         std::cout << "Tour " << i + 1 << std::endl;
         lifeOfCharacter();
-        map.displayMap();
-        map.displayCharacter();
+        this->display();
         sleep(1);
     }
 }
@@ -30,6 +26,10 @@ void Game::lifeOfCharacter()
     Ground *ground;
     for (unsigned int i = 0; i < map.getSizeVectorGroundWithCharacter(); i++)
     {
+        /* if (i == 1)
+        {
+            map.displayCharacter();
+        }*/
         ground = map.getGroundWithCharacter(i);
         for (unsigned int j = 0; j < ground->getVectorSize(); j++)
         {
@@ -38,7 +38,7 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-                if (character->getCharacterGender() == SEX::FEMALE) /* pas enfant a faire */
+                if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= 18)) /*RAND*/
                 {
                     if (((FemaleCharacter *)character)->getMonthNumberPregnancy() == 9)
                     {
@@ -47,7 +47,7 @@ void Game::lifeOfCharacter()
                     incrementMonthGestationIfPregnant(character);
                 }
 
-                else if (character->getCharacterGender() == SEX::MALE) /* pas enfant a gerer */
+                else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= 18)) /*RAND*/
                 {
                     if (((MaleCharacter *)character)->getDirection() == ground->getPosition(map.getColumnNumber()))
                     {
@@ -68,25 +68,24 @@ void Game::lifeOfCharacter()
                     }
                     else
                     {
-                        movementCharacter(character, ground, i, j);
+                        turnCharacter(character, ground, i, j);
                     }
                 }
                 /* RECHERCHE DE COUPLE */
             }
+            else
+            {
+                number_of_death_total++;
+                number_of_death_this_turn++;
+            }
         }
     }
 }
-void Game::movementCharacter(Character *character, Ground *ground, unsigned int index_ground_with_character, unsigned int index_character)
+void Game::turnCharacter(Character *character, Ground *ground, unsigned int index_ground_with_character, unsigned int index_character)
 {
     Character *temp_character;
-    Ground *next_place;
     unsigned int x, y;
     temp_character = new MaleCharacter(*(MaleCharacter *)character);
-    ground->removeCharacter(index_character);
-    if (ground->getVectorSize() == 0)
-    {
-        map.removeGroundWithCharacter(index_ground_with_character);
-    }
 
     x = ground->getPosition(map.getColumnNumber()).getAbscissa();
     y = ground->getPosition(map.getColumnNumber()).getOrdinate();
@@ -94,58 +93,77 @@ void Game::movementCharacter(Character *character, Ground *ground, unsigned int 
     {
         if (y < (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
         {
-            next_place = map.getGroundGrid(x, y + 1);
-            next_place->addCharacter(temp_character);
-            map.addGroundWithCharacter(next_place);
+            movementCharacter(temp_character, ground, x, y + 1, index_character, index_ground_with_character);
         }
         else
         {
-            next_place = map.getGroundGrid(x, y - 1);
-            next_place->addCharacter(temp_character);
-            map.addGroundWithCharacter(next_place);
+            movementCharacter(temp_character, ground, x, y - 1, index_character, index_ground_with_character);
         }
     }
     else if (x < (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
     {
-        next_place = map.getGroundGrid(x + 1, y);
-        next_place->addCharacter(temp_character);
-        map.addGroundWithCharacter(next_place);
+        movementCharacter(temp_character, ground, x + 1, y, index_character, index_ground_with_character);
     }
     else
     {
-        next_place = map.getGroundGrid(x - 1, y);
+        movementCharacter(temp_character, ground, x - 1, y, index_character, index_ground_with_character);
+    }
+}
+
+void Game::movementCharacter(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
+{
+    Ground *next_place;
+    next_place = map.getGroundGrid(x, y);
+    if ((next_place->getVectorSize() == 0) || ((next_place->getVectorSize() != 0) && (next_place->getCharacter(0)->getCharacterTeam() == temp_character->getCharacterTeam())))
+    {
+        ground->removeCharacter(index_character);
+        if (ground->getVectorSize() == 0)
+        {
+            map.removeGroundWithCharacter(index_ground_with_character);
+        }
         next_place->addCharacter(temp_character);
         map.addGroundWithCharacter(next_place);
     }
 }
+double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordinates &b)
+{
+
+    double substrate_abscissa = (b.getAbscissa() > a.getAbscissa()) ? b.getAbscissa() - a.getAbscissa() : a.getAbscissa() - b.getAbscissa();
+    double substrate_ordinate = (b.getOrdinate() > a.getOrdinate()) ? b.getOrdinate() - a.getOrdinate() : a.getOrdinate() - b.getOrdinate();
+    return sqrt(pow(substrate_abscissa, 2) + pow(substrate_ordinate, 2));
+}
 void Game::caseTownHall(Character *character, Ground *ground)
 {
     Ground *collection_point, *low_stock_collection_point;
-    unsigned int k;
-    bool is_collection_point;
-    GROUND_TYPE low_stock;
+    unsigned int k = 0, number_ressource = 4; /*RAND */
+    double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
+    bool is_collection_point = false;
+    GROUND_TYPE low_stock = ((TownHall *)ground)->lowStock();
+    if (!compareTypeRessourceTransportedJob(((MaleCharacter *)character)->getTypeRessourceTransported(), ((MaleCharacter *)character)->getSpeciality()))
+    {
+        number_ressource = 2;
+    }
+    ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource); /* RAND */
 
-    ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), 2); /* RAND */
-    k = 0;
-    is_collection_point = false;
-    low_stock = ((TownHall *)ground)->lowStock();
-
-    while ((!is_collection_point) && (k < map.getSizeVectorGroundWithCollectionPoint()))
+    while (k < map.getSizeVectorGroundWithCollectionPoint())
     {
         collection_point = map.getGroundWithCollectionPoint(k);
-        if (compare(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality()))
+        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point))
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;
+            distance_min_primer_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
         }
         else
         {
-            if (low_stock == collection_point->getGroundType()) /* TODO : distance plus courte */
+
+            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point)) 
             {
                 low_stock_collection_point = collection_point;
+                distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
             }
-            k++;
         }
+        k++;
     }
     if (!is_collection_point)
     {
@@ -155,12 +173,17 @@ void Game::caseTownHall(Character *character, Ground *ground)
 
 void Game::caseCollectionPoint(Character *character, Ground *ground)
 {
+    unsigned int work_time = 3; /* RAND */
+    if (!compareGroundTypeSpeciality(ground->getGroundType(), ((MaleCharacter *)character)->getSpeciality()))
+    {
+        work_time = 5; /* RAND */
+    }
     ((MaleCharacter *)character)->incrementTimeAtWork();
     if (((MaleCharacter *)character)->getTimeAtWork() == 1)
     {
         ((MaleCharacter *)character)->setTypeRessourceTransported(ground->getGroundType());
     }
-    else if (((MaleCharacter *)character)->getTimeAtWork() > 5) /* RAND */
+    else if (((MaleCharacter *)character)->getTimeAtWork() > work_time) /* RAND */
     {
 
         ((MaleCharacter *)character)->resetTimeAtWork();
@@ -203,7 +226,21 @@ void Game::incrementMonthGestationIfPregnant(Character *character)
     }
 }
 
-bool Game::compare(GROUND_TYPE ground_type, JOB job)
+bool Game::compareGroundTypeSpeciality(GROUND_TYPE ground_type, JOB job)
 {
     return (((ground_type == GROUND_TYPE::FARM) && (job == JOB::FARMER)) || ((ground_type == GROUND_TYPE::LAKE) && (job == JOB::FISHERMAN)) || ((ground_type == GROUND_TYPE::FOREST) && (job == JOB::LUMBERJACK)) || ((ground_type == GROUND_TYPE::QUARRY) && (job == JOB::QUARRY_MAN)));
+}
+
+bool Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED ressource, JOB job)
+{
+    return (((ressource == TYPE_RESSOURCE_TRANSPORTED::FOOD) && (job == JOB::FARMER)) || ((ressource == TYPE_RESSOURCE_TRANSPORTED::FISH) && (job == JOB::FISHERMAN)) || ((ressource == TYPE_RESSOURCE_TRANSPORTED::WOOD) && (job == JOB::LUMBERJACK)) || ((ressource == TYPE_RESSOURCE_TRANSPORTED::ROCK) && (job == JOB::QUARRY_MAN)));
+}
+
+void Game::display(std::ostream &os) const noexcept
+{
+    map.display();
+    //map.displayMap();
+    //map.displayCharacter();
+    os << "Number of death this turn " << number_of_death_this_turn << std::endl;
+    os << "Total death : " << number_of_death_total << std::endl;
 }

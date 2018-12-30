@@ -7,7 +7,7 @@
 
 #include "../header/Lake.hpp"
 #include <iostream>
-
+#include "../header/Color.hpp"
 /**
  * \fn Lake::Lake(const unsigned int fish_number)
  * \brief Constructeur de la classe Lake
@@ -30,5 +30,5 @@ Lake::~Lake() {}
  */
 void Lake::display(std::ostream &os) const noexcept
 {
-    os << "L ";
+    os << BLUE << "L " << RESET;
 }

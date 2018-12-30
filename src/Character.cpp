@@ -152,35 +152,35 @@ bool Character::isDead(const Date &current_date) const noexcept
     unsigned int age = this->getCharacterAge(current_date);
     if (age < 18)
     {
-        if (random < 0.005)
+        if (random < 0.0005)
         {
             dead = true;
         }
     }
     else if (age < 30)
     {
-        if (random < 0.010)
+        if (random < 0.0010)
         {
             dead = true;
         }
     }
     else if (age < 50)
     {
-        if (random < 0.015)
+        if (random < 0.0015)
         {
             dead = true;
         }
     }
     else if (age < 70)
     {
-        if (random < 0.020)
+        if (random < 0.0020)
         {
             dead = true;
         }
     }
     else if (age < 90)
     {
-        if (random < 0.025)
+        if (random < 0.0025)
         {
             dead = true;
         }

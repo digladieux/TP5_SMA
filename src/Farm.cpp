@@ -7,6 +7,7 @@
 
 #include "../header/Farm.hpp"
 #include <iostream>
+#include "../header/Color.hpp"
 
 /**
  * \fn Farm::Farm(const unsigned int food_number)
@@ -31,5 +32,5 @@ Farm::~Farm() {}
  */
 void Farm::display(std::ostream &os) const noexcept
 {
-    os << "f ";
+    os << YELLOW << "f " << RESET;
 }

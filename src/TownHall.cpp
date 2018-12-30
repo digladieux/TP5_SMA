@@ -5,6 +5,7 @@
  * \date 2018-12-06
  */
 #include "../header/TownHall.hpp"
+#include "../header/Color.hpp"
 #include <iostream>
 
 /**
@@ -214,7 +215,14 @@ GROUND_TYPE TownHall::lowStock() const noexcept
  */
 void TownHall::display(std::ostream &os) const noexcept
 {
-    os << "T ";
+    if (ground_id == 0) /* TODO : pour le test */
+    {
+        os << BOLDRED << "T " << RESET;
+    }
+    else
+    {
+        os << BOLDMAGENTA << "T " << RESET;
+    }
 }
 
 void TownHall::displayRessources(std::ostream &os) const noexcept

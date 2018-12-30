@@ -14,19 +14,27 @@ class Game
   private:
     Grid map;
     Date turn;
+    unsigned int number_of_death_this_turn;
+    unsigned int number_of_death_total;
+
     void caseCollectionPoint(Character *, Ground *);
     void caseTownHall(Character *, Ground *);
-    void movementCharacter(Character *, Ground *, unsigned int, unsigned int);
+    void turnCharacter(Character *, Ground *, unsigned int, unsigned int);
+    void movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
 
   public:
     Game(const Grid &, const Date &date = Date());
 
     void run(unsigned int);
     void lifeOfCharacter();
-    bool deathOfCharacter(Character *character, unsigned int i, unsigned int &j);
-    void birthOfCharacter(Character *character);
+    bool deathOfCharacter(Character *, unsigned int, unsigned int &);
+    void birthOfCharacter(Character *);
     void incrementMonthGestationIfPregnant(Character *);
-    static bool compare(GROUND_TYPE ground_type, JOB job);
+    static bool compareGroundTypeSpeciality(GROUND_TYPE, JOB);
+    static bool compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED, JOB); /* TODO : test unitaire a faire */
+    static double euclidienneDistance(const StructCoordinates &, const StructCoordinates &);
+
+        void display(std::ostream &os = std::cout) const noexcept;
 };
 
 #endif

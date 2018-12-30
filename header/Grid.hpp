@@ -25,6 +25,7 @@ class Grid
     Ground ***ground_grid;                              /*! Matrice de tous les terrains */
     std::vector<Ground *> ground_with_character;        /*! Tableau dynamique de l'emplacement des joueurs sur le terrain de jeux */
     std::vector<Ground *> ground_with_collection_point; /*! Tableau dynamique de l'emplacement des lieux interessants sur le terrain de jeux */
+    void addCharacterToGround(std::vector<Character *> &, Ground *, unsigned int, unsigned int);
 
   public:
     Grid(std::string);
@@ -32,6 +33,7 @@ class Grid
     ~Grid();
     void displayMap(std::ostream &os = std::cout) const noexcept;
     void displayCharacter(std::ostream &os = std::cout) const noexcept;
+    void display(std::ostream &os = std::cout) const noexcept;
 
     static Ground *initGround(char);
     static JOB choiceJob(unsigned int);

@@ -3,6 +3,7 @@
 #include "../header/Lake.hpp"
 #include "../header/Farm.hpp"
 #include "../header/Forest.hpp"
+#include "../header/Color.hpp"
 #include "../header/Quarry.hpp"
 #include "../header/FemaleCharacter.hpp"
 
@@ -35,16 +36,17 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
         exit(EXIT_FAILURE);
     }
     file >> character_number;
-
     try
     {
-        character_per_town = new unsigned int[character_number]; /* TODO : grid.cpp:40 plus opti */
-        vector_character.resize(character_number);
-
-        for (unsigned int i = 0; i < character_number; i++)
+        if (character_number > 1)
         {
-            character_per_town[i] = 0;
+            character_per_town = new unsigned int[character_number]; /* TODO : grid.cpp:40 plus opti */
+            for (unsigned int i = 0; i < character_number; i++)
+            {
+                character_per_town[i] = 0;
+            }
         }
+        vector_character.resize(character_number);
     }
     catch (const std::bad_alloc &e)
     {
@@ -71,7 +73,11 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
             std::cerr << "INVALID_GENDER" << std::endl;
             exit(EXIT_FAILURE);
         }
-        character_per_town[town_hall_number]++;
+        if (character_number > 1)
+        {
+            character_per_town[town_hall_number]++;
+        }
+
         vector_character[i] = character;
         character = nullptr;
     }
@@ -101,18 +107,14 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
             if (ground->getGroundType() == GROUND_TYPE::TOWN_HALL)
             {
                 push_backGround(ground_with_character, ground);
-                for (unsigned int k = 0; k < character_per_town[counter]; k++)
+                if (character_number > 1)
                 {
-                    character = vector_character[0];
-                    character->setCharacterTeam(ground->getGroundId());
-                    if (character->getCharacterGender() == SEX::MALE)
+                    for (unsigned int k = 0; k < character_per_town[counter]; k++)
                     {
-                        ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
+                        addCharacterToGround(vector_character, ground, i, j);
                     }
-                    ground_grid[i][j]->addCharacter(character);
-                    vector_character.erase(vector_character.begin());
+                    counter++;
                 }
-                counter++;
             }
         }
     }
@@ -122,7 +124,18 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
     character_per_town = nullptr;
     file.close();
 }
-
+void Grid::addCharacterToGround(std::vector<Character *> &vector_character, Ground *ground, unsigned int i, unsigned int j)
+{
+    Character *character;
+    character = vector_character[0];
+    character->setCharacterTeam(ground->getGroundId());
+    if (character->getCharacterGender() == SEX::MALE)
+    {
+        ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
+    }
+    ground_grid[i][j]->addCharacter(character);
+    vector_character.erase(vector_character.begin());
+}
 Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.column_number)
 {
     Ground *ground = nullptr;
@@ -281,7 +294,7 @@ Grid::~Grid()
     delete[] ground_grid;
 }
 
-void Grid::displayMap(std::ostream &os) const noexcept
+void Grid::displayMap(std::ostream& os) const noexcept
 {
     std::vector<Ground *> town_hall;
     for (unsigned int i = 0; i < row_number; i++)
@@ -303,13 +316,58 @@ void Grid::displayMap(std::ostream &os) const noexcept
     os << std::endl;
 }
 
+
+void Grid::display(std::ostream &os) const noexcept
+{
+    std::vector<Ground *> town_hall;
+    for (unsigned int i = 0; i < row_number; i++)
+    {
+        for (unsigned int j = 0; j < column_number; j++)
+        {
+            if (ground_grid[i][j]->getGroundType() == GROUND_TYPE::TOWN_HALL)
+            {
+                push_backGround(town_hall, ground_grid[i][j]);
+            }
+            if (ground_grid[i][j]->getVectorSize() == 0) /* TODO : pour le test */
+            {
+                ground_grid[i][j]->display(os) ;
+            }
+            else if (ground_grid[i][j]->getCharacter(0)->getCharacterTeam() == 0)
+            {
+                os << BOLDRED << ground_grid[i][j]->getVectorSize() << RESET << " ";
+            }
+            else
+            {
+                os << BOLDMAGENTA << ground_grid[i][j]->getVectorSize() << RESET << " ";
+            }
+        }
+        os << std::endl;
+    }
+    for (unsigned int i = 0; i < town_hall.size(); i++)
+    {
+        ((TownHall *)town_hall[i])->displayRessources(os);
+    }
+    os << std::endl;
+}
+
 void Grid::displayCharacter(std::ostream &os) const noexcept
 {
     for (unsigned int i = 0; i < row_number; i++)
     {
         for (unsigned int j = 0; j < column_number; j++)
         {
-            os << ground_grid[i][j]->getVectorSize() << " ";
+            if (ground_grid[i][j]->getVectorSize() == 0) /* TODO : pour le test */
+            {
+                os << ground_grid[i][j]->getVectorSize() << " ";
+            }
+            else if (ground_grid[i][j]->getCharacter(0)->getCharacterTeam() == 0)
+            {
+                os << BOLDRED << ground_grid[i][j]->getVectorSize() << RESET << " ";
+            }
+            else
+            {
+                os << BOLDMAGENTA << ground_grid[i][j]->getVectorSize() << RESET << " ";
+            }
         }
         os << std::endl;
     }

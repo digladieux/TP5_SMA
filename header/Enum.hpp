@@ -64,4 +64,5 @@ enum class GROUND_TYPE
     FARM,      /*! Ferme */
     FOREST,    /*! Foret */
 };
+
 #endif

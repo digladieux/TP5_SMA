@@ -7,6 +7,8 @@
 
 #include "../header/Forest.hpp"
 #include <iostream>
+#include "../header/Color.hpp"
+
 
 /**
  * \fn Forest::Forest(const unsigned int wood_number)
@@ -30,5 +32,5 @@ Forest::~Forest() {}
  */
 void Forest::display(std::ostream &os) const noexcept
 {
-    os << "F ";
+    os << GREEN << "F " << RESET;
 }

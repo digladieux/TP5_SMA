@@ -6,6 +6,7 @@
  */
 
 #include "../header/Quarry.hpp"
+#include "../header/Color.hpp"
 #include <iostream>
 
 /**
@@ -30,5 +31,5 @@ Quarry::~Quarry() {}
  */
 void Quarry::display(std::ostream &os) const noexcept
 {
-    os << "Q ";
+    os << CYAN "Q " << RESET;
 }

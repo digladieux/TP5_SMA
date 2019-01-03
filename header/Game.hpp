@@ -20,7 +20,9 @@ class Game
     void caseCollectionPoint(Character *, Ground *);
     void caseTownHall(Character *, Ground *);
     void turnCharacter(Character *, Ground *, unsigned int, unsigned int);
-    void movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
+    bool movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
+    bool movementOrdinate(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
+    bool movementAbscissa(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
 
   public:
     Game(const Grid &, const Date &date = Date());
@@ -34,7 +36,7 @@ class Game
     static bool compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED, JOB); /* TODO : test unitaire a faire */
     static double euclidienneDistance(const StructCoordinates &, const StructCoordinates &);
 
-        void display(std::ostream &os = std::cout) const noexcept;
+    void display(std::ostream &os = std::cout) const noexcept;
 };
 
 #endif

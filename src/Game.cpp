@@ -2,6 +2,7 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/TownHall.hpp"
 #include "../header/mt19937ar.h"
+#include "../header/CollectionPoint.hpp"
 #include "math.h"
 #include <unistd.h>
 #include <limits>
@@ -16,7 +17,7 @@ void Game::run(unsigned int round)
         std::cout << "Tour " << i + 1 << std::endl;
         lifeOfCharacter();
         this->display();
-        sleep(1);
+        usleep(100000);
     }
 }
 
@@ -89,33 +90,46 @@ void Game::turnCharacter(Character *character, Ground *ground, unsigned int inde
 
     x = ground->getPosition(map.getColumnNumber()).getAbscissa();
     y = ground->getPosition(map.getColumnNumber()).getOrdinate();
-    if (((MaleCharacter *)temp_character)->getDirection().getAbscissa() == x)
+    if (!movementOrdinate(temp_character, ground, x, y, index_character, index_ground_with_character))
     {
-        if (y < (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
-        {
-            movementCharacter(temp_character, ground, x, y + 1, index_character, index_ground_with_character);
-        }
-        else
-        {
-            movementCharacter(temp_character, ground, x, y - 1, index_character, index_ground_with_character);
-        }
-    }
-    else if (x < (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
-    {
-        movementCharacter(temp_character, ground, x + 1, y, index_character, index_ground_with_character);
-    }
-    else
-    {
-        movementCharacter(temp_character, ground, x - 1, y, index_character, index_ground_with_character);
+        movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character);
     }
 }
-
-void Game::movementCharacter(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
+bool Game::movementOrdinate(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
 {
+    bool movement_possible = false;
+    if (y < (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
+    {
+        movement_possible = movementCharacter(temp_character, ground, x, y + 1, index_character, index_ground_with_character);
+    }
+    else if (y > (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
+    {
+        movement_possible = movementCharacter(temp_character, ground, x, y - 1, index_character, index_ground_with_character);
+    }
+    return movement_possible;
+}
+
+bool Game::movementAbscissa(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
+{
+    bool movement_possible = false;
+    if (x < (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
+    {
+        movement_possible = movementCharacter(temp_character, ground, x + 1, y, index_character, index_ground_with_character);
+    }
+    else if (x > (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
+    {
+        movement_possible = movementCharacter(temp_character, ground, x - 1, y, index_character, index_ground_with_character);
+    }
+    return movement_possible;
+}
+bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
+{
+    bool movement_possible = false;
     Ground *next_place;
     next_place = map.getGroundGrid(x, y);
     if ((next_place->getVectorSize() == 0) || ((next_place->getVectorSize() != 0) && (next_place->getCharacter(0)->getCharacterTeam() == temp_character->getCharacterTeam())))
     {
+        movement_possible = true;
         ground->removeCharacter(index_character);
         if (ground->getVectorSize() == 0)
         {
@@ -124,6 +138,7 @@ void Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         next_place->addCharacter(temp_character);
         map.addGroundWithCharacter(next_place);
     }
+    return movement_possible;
 }
 double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordinates &b)
 {
@@ -132,23 +147,24 @@ double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordin
     double substrate_ordinate = (b.getOrdinate() > a.getOrdinate()) ? b.getOrdinate() - a.getOrdinate() : a.getOrdinate() - b.getOrdinate();
     return sqrt(pow(substrate_abscissa, 2) + pow(substrate_ordinate, 2));
 }
-void Game::caseTownHall(Character *character, Ground *ground)
+void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout est vide ?? */
 {
-    Ground *collection_point, *low_stock_collection_point;
+    Ground *collection_point, *low_stock_collection_point = nullptr;
     unsigned int k = 0, number_ressource = 4; /*RAND */
     double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
     bool is_collection_point = false;
     GROUND_TYPE low_stock = ((TownHall *)ground)->lowStock();
     if (!compareTypeRessourceTransportedJob(((MaleCharacter *)character)->getTypeRessourceTransported(), ((MaleCharacter *)character)->getSpeciality()))
     {
-        number_ressource = 2;
+        number_ressource = 2; /* RAND */
     }
-    ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource); /* RAND */
+    ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource);
 
     while (k < map.getSizeVectorGroundWithCollectionPoint())
     {
         collection_point = map.getGroundWithCollectionPoint(k);
-        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point))
+        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality()))
+        && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && ( ((CollectionPoint*)collection_point)->getRessourcesNumber() > 4 )) /* RAND */
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;
@@ -157,7 +173,7 @@ void Game::caseTownHall(Character *character, Ground *ground)
         else
         {
 
-            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point)) 
+            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && ( ((CollectionPoint*)collection_point)->getRessourcesNumber() > 2 )) /*RAND*/
             {
                 low_stock_collection_point = collection_point;
                 distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
@@ -165,7 +181,7 @@ void Game::caseTownHall(Character *character, Ground *ground)
         }
         k++;
     }
-    if (!is_collection_point)
+    if ((!is_collection_point) && (low_stock_collection_point != nullptr) )
     {
         ((MaleCharacter *)character)->setDirection(low_stock_collection_point->getGroundId(), map.getColumnNumber());
     }
@@ -183,9 +199,8 @@ void Game::caseCollectionPoint(Character *character, Ground *ground)
     {
         ((MaleCharacter *)character)->setTypeRessourceTransported(ground->getGroundType());
     }
-    else if (((MaleCharacter *)character)->getTimeAtWork() > work_time) /* RAND */
+    else if (((MaleCharacter *)character)->getTimeAtWork() > work_time)
     {
-
         ((MaleCharacter *)character)->resetTimeAtWork();
         ((MaleCharacter *)character)->setDirection(character->getCharacterTeam(), map.getColumnNumber());
     }

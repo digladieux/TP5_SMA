@@ -509,5 +509,5 @@ TEST_CASE("Game")
 {
     Grid grid("map_one_male.txt");
     Game game(grid, Date(10, 10, 70));
-    game.run(1);
+    game.run(100);
 }

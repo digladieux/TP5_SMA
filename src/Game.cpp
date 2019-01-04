@@ -3,11 +3,16 @@
 #include "../header/TownHall.hpp"
 #include "../header/mt19937ar.h"
 #include "../header/CollectionPoint.hpp"
+#include "../header/Constantes.hpp"
+#include "../header/json.hpp"
 #include "math.h"
 #include <unistd.h>
 #include <limits>
-Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0) {}
-
+using json = nlohmann::json;
+Game::Game(unsigned int config, const Grid &grid, const Date &date) : map(grid), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
+{
+    Constantes::openingConfiguration(config);
+}
 void Game::run(unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)
@@ -42,12 +47,17 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-                if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= 18)) /*RAND*/
+                if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::MAJORITY))
                 {
 
-                    if (((FemaleCharacter *)character)->getPregnancyTime() == Date())
+                    if (((FemaleCharacter *)character)->getBabyPerPregnancy() == 0)
                     {
-                        ((FemaleCharacter *)character)->setTimePregnancy(turn);
+                        ((FemaleCharacter *)character)->randomBabyPerPregnancy();
+                        if (((FemaleCharacter *)character)->getBabyPerPregnancy() == 0)
+                        {
+
+                            ((FemaleCharacter *)character)->setTimePregnancy(turn);
+                        }
                     }
                     else if (((FemaleCharacter *)character)->getMonthPregnancy(turn) == 9)
                     {
@@ -55,7 +65,7 @@ void Game::lifeOfCharacter()
                     }
                 }
 
-                else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= 18)) /*RAND*/
+                else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::MAJORITY))
                 {
                     if (((MaleCharacter *)character)->getDirection() == ground->getPosition(map.getColumnNumber()))
                     {
@@ -157,20 +167,20 @@ double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordin
 void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout est vide ?? */
 {
     Ground *collection_point, *low_stock_collection_point = nullptr;
-    unsigned int k = 0, number_ressource = 4; /*RAND */
+    unsigned int k = 0, number_ressource = Constantes::RESSOURCES_TRANSPORTED_SPECIALITY;
     double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
     bool is_collection_point = false;
     GROUND_TYPE low_stock = ((TownHall *)ground)->lowStock();
     if (!compareTypeRessourceTransportedJob(((MaleCharacter *)character)->getTypeRessourceTransported(), ((MaleCharacter *)character)->getSpeciality()))
     {
-        number_ressource = 2; /* RAND */
+        number_ressource = Constantes::RESSOURCES_TRANSPORTED_NOT_SPECIALITY;
     }
     ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource);
 
     while (k < map.getSizeVectorGroundWithCollectionPoint())
     {
         collection_point = map.getGroundWithCollectionPoint(k);
-        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > 4)) /* RAND */
+        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::RESSOURCES_TRANSPORTED_SPECIALITY))
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;
@@ -179,7 +189,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
         else
         {
 
-            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > 2)) /*RAND*/
+            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::RESSOURCES_TRANSPORTED_NOT_SPECIALITY))
             {
                 low_stock_collection_point = collection_point;
                 distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
@@ -195,10 +205,10 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
 
 void Game::caseCollectionPoint(Character *character, Ground *ground)
 {
-    unsigned int work_time = 3; /* RAND */
+    unsigned int work_time = Constantes::WORK_TIME_SPECIALITY;
     if (!compareGroundTypeSpeciality(ground->getGroundType(), ((MaleCharacter *)character)->getSpeciality()))
     {
-        work_time = 5; /* RAND */
+        work_time = Constantes::WORK_TIME_NOT_SPECIALITY;
     }
     ((MaleCharacter *)character)->incrementTimeAtWork();
     if (((MaleCharacter *)character)->getTimeAtWork() == 1)

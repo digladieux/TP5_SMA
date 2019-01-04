@@ -6,6 +6,7 @@
  */
 
 #include "../header/CollectionPoint.hpp"
+#include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
 #include <iostream>
 #include <exception>
@@ -73,11 +74,9 @@ bool CollectionPoint::ressourcesNumberExtracted(const unsigned int ressources_nu
 void CollectionPoint::evolutionRessources() noexcept
 {
     double evolution = genrand_real1();
-    double ressources_nb = genrand_int31() % 10;
+    double ressources_nb = genrand_int31() % Constantes::MAX_NUMBER_OF_RESSOURCES_GROW_UP;
 
-    /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-
-    if (evolution < 0.1)
+    if (evolution < Constantes::CHANCE_OF_EVOLUTION_RESSOURCES)
     {
         ressources_number += ressources_nb;
     }

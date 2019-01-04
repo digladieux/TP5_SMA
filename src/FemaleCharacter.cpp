@@ -7,14 +7,14 @@
 
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
+#include "../header/Constantes.hpp"
 
 FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
 /**
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
-FemaleCharacter::FemaleCharacter(const Date &age) : /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-                                                    Character(SEX::FEMALE, age), baby_per_pregnancy((genrand_int31() % 2) + 1), pregnancy_time(Date())
+FemaleCharacter::FemaleCharacter(const Date &age) : Character(SEX::FEMALE, age), baby_per_pregnancy(genrand_int31() % Constantes::MAX_BABY_PER_PREGNANCY), pregnancy_time(Date())
 {
 }
 
@@ -50,8 +50,7 @@ Date FemaleCharacter::getPregnancyTime() const noexcept
  */
 void FemaleCharacter::randomBabyPerPregnancy() noexcept
 {
-    /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-    baby_per_pregnancy = (genrand_int31() % 2) + 1;
+    baby_per_pregnancy = genrand_int31() % Constantes::MAX_BABY_PER_PREGNANCY;
 }
 
 void FemaleCharacter::setTimePregnancy(const Date &date) noexcept

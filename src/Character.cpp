@@ -6,6 +6,7 @@
  */
 
 #include "../header/Character.hpp"
+#include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
 unsigned int Character::character_number = 0;
 
@@ -23,8 +24,7 @@ Character::Character(const Character &character) : character_id(character.charac
 Character::Character(const Date &age) : character_id(character_number), character_date_of_birth(age), character_team(-1)
 {
     character_number++;
-    /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-    if (genrand_real1() < 0.5)
+    if (genrand_real1() < Constantes::CHANCE_TO_HAVE_MALE)
     {
         character_gender = SEX::MALE;
     }
@@ -156,39 +156,43 @@ bool Character::isDead(const Date &current_date) const noexcept
 {
     bool dead = false;
     double random = genrand_real1();
-    /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
+    /* RAND */
     unsigned int age = this->getCharacterAge(current_date);
+    /*if (random < 0.0000000025 * age + 0.00025)
+    {
+        dead = true;
+    }*/
     /*if (age < 18)
     {
-        if (random < 0.0005)
+        if (random < ConstantesDeath::DEATH_UNDER_18)
         {
             dead = true;
         }
     }
     else if (age < 30)
     {
-        if (random < 0.0010)
+        if (random < ConstantesDeath::DEATH_UNDER_30)
         {
             dead = true;
         }
     }
     else if (age < 50)
     {
-        if (random < 0.0015)
+        if (random < ConstantesDeath::DEATH_UNDER_50)
         {
             dead = true;
         }
     }
     else if (age < 70)
     {
-        if (random < 0.0020)
+        if (random < ConstantesDeath::DEATH_UNDER_70)
         {
             dead = true;
         }
     }
     else if (age < 90)
     {
-        if (random < 0.0025)
+        if (random < ConstantesDeath::DEATH_UNDER_90)
         {
             dead = true;
         }

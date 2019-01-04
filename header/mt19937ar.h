@@ -8,10 +8,10 @@
 #ifndef MT19937AR_H
 #define MT19937AR_H
 /**
- * \def N
+ * \def _N_
  * \brief Period parameters
  */
-#define N 624
+#define _N_ 624
 
 /**
   * \def M

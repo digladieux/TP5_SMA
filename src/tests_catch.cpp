@@ -12,10 +12,12 @@
 #include "../header/Grid.hpp"
 #include "../header/Game.hpp"
 #include "../header/Date.hpp"
+#include "../header/json.hpp"
+#include "../header/Constantes.hpp"
 #include <fstream>
 #include <iostream>
+using json = nlohmann::json;
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
-/*TODO : passer l'age et la grille en pointeur */
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -217,12 +219,32 @@ TEST_CASE("MaleCharacter")
     delete character1;
     delete character2;
 }
-
+TEST_CASE("Json")
+{
+    system("clear");
+    std::ifstream file("./INSTANCES/config_simulation.json");
+    if (!file.fail())
+    {
+        json j;
+        file >> j;
+        json j1 = j["config0"];
+        CHECK(0.0005 == j["config0"]["death18"]);
+        CHECK(0.0001 == j["config1"]["death18"]);
+        CHECK(0.0005 == j1["death18"]);
+        file.close();
+    }
+    else
+    {
+        std::cerr << "INVALID_FILE";
+    }
+}
 TEST_CASE("FemaleCharacter")
 {
+    Constantes::openingConfiguration(0);
+    CHECK(Constantes::DEATH_UNDER_18 == 0.0005);
+
     Character *character1 = new FemaleCharacter(Date());
     Character *character2 = new FemaleCharacter(Date(01, 05, 1997));
-
     CHECK(Date(1, 1, 0) == character1->getDateOfBirth());
     CHECK(Date(1, 5, 1997) == character2->getDateOfBirth());
 
@@ -252,6 +274,7 @@ TEST_CASE("MonthOfPregnancy")
     CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(15, 1, 2019)));
     CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(14, 1, 2019)));
     ((FemaleCharacter *)character1)->setTimePregnancy(Date());
+    delete character1;
 }
 
 TEST_CASE("CollectionPoint")
@@ -426,7 +449,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
     CHECK(8 == grid.getSizeVectorGroundWithCollectionPoint());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(3 == grid.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(4 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
     Grid grid_copy(grid);
     CHECK(10 == grid_copy.getColumnNumber());
@@ -440,7 +463,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(8 == grid_copy.getSizeVectorGroundWithCollectionPoint());
     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(3 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(4 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
 TEST_CASE("MethodeStatic")
@@ -490,8 +513,8 @@ TEST_CASE("GroundCopy")
 
 TEST_CASE("Game")
 {
-  //  Grid grid("map_test_read.txt");
-   Grid grid("map_test_read.txt");
-   Game game(grid, Date(10, 10, 70));
-   game.run(100);
+    //  Grid grid("map_test_read.txt");
+    Grid grid("map_test_read.txt");
+    Game game(0, grid, Date(1, 1, 19));
+    //game.run(100);
 }

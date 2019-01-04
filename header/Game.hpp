@@ -27,7 +27,7 @@ class Game
     bool movementAbscissa(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
 
   public:
-    Game(const Grid &, const Date &date = Date());
+    Game(unsigned int, const Grid &, const Date &date = Date());
 
     void run(unsigned int);
     void lifeOfCharacter();

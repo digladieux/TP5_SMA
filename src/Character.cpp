@@ -98,11 +98,19 @@ int Character::getCharacterTeam() const noexcept
 unsigned int Character::getCharacterAge(const Date &current_date) const
 {
     unsigned int age;
-    /*if (!(character_date_of_birth < current_date))
+    if (current_date == character_date_of_birth)
+    {
+        age = 0;
+    }
+    else if (!(character_date_of_birth < current_date))
     {
         throw std::invalid_argument("INVALID_COMPARAISON");
-    }*/
-    if (Date(character_date_of_birth.getDay(), character_date_of_birth.getMonth(), 0) < Date(current_date.getDay(), current_date.getMonth(), 0))
+    }
+    else if (character_date_of_birth.getYear() == current_date.getYear())
+    {
+        age = 0;
+    }
+    else if (Date(character_date_of_birth.getDay(), character_date_of_birth.getMonth(), 0) < Date(current_date.getDay(), current_date.getMonth(), 0))
     {
         age = current_date.getYear() - character_date_of_birth.getYear() - 1;
     }
@@ -150,7 +158,7 @@ bool Character::isDead(const Date &current_date) const noexcept
     double random = genrand_real1();
     /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
     unsigned int age = this->getCharacterAge(current_date);
-    if (age < 18)
+    /*if (age < 18)
     {
         if (random < 0.0005)
         {
@@ -188,6 +196,6 @@ bool Character::isDead(const Date &current_date) const noexcept
     else
     {
         dead = true;
-    }
+    }*/
     return dead;
 }

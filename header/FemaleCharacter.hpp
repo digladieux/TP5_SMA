@@ -9,6 +9,7 @@
 #define FEMALE_CHARACTER_HPP
 
 #include "Character.hpp"
+#include "Date.hpp"
 
 /**
  * \class FemaleCharacter
@@ -16,19 +17,20 @@
  */
 class FemaleCharacter : public Character
 {
-  private:
-    unsigned int baby_per_pregnancy;     /*! Nombre de bebe par couche */
-    unsigned int month_number_pregnancy; /*! Nombre de mois avant la couche */
+private:
+  unsigned int baby_per_pregnancy; /*! Nombre de bebe par couche */
+  Date pregnancy_time;             /*! Nombre de mois avant la couche */
 
-  public:
-    FemaleCharacter(const Date &);
-    FemaleCharacter(const FemaleCharacter&);
-    ~FemaleCharacter();
+public:
+  FemaleCharacter(const Date &);
+  FemaleCharacter(const FemaleCharacter &);
+  ~FemaleCharacter();
 
-    unsigned int getBabyPerPregnancy() const noexcept;
-    unsigned int getMonthNumberPregnancy() const noexcept;
+  unsigned int getBabyPerPregnancy() const noexcept;
+  Date getPregnancyTime() const noexcept;
 
-    void randomBabyPerPregnancy() noexcept;
-    void setMonthPregnancy() noexcept;
+  void randomBabyPerPregnancy() noexcept;
+  void setTimePregnancy(const Date &date) noexcept;
+  unsigned int getMonthPregnancy(const Date &) const;
 };
 #endif

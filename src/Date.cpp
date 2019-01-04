@@ -18,7 +18,7 @@ unsigned int Date::getYear() const noexcept
     return year;
 }
 
-bool Date::operator<(const Date &date)
+bool Date::operator<(const Date &date) const
 {
     if ((!this->isDateValid()) || (!date.isDateValid()))
     {
@@ -94,6 +94,20 @@ Date &Date::operator=(const Date &date) noexcept
         year = date.year;
     }
     return *this;
+}
+bool Date::operator==(const Date &date) const noexcept
+{
+    bool valid = false;
+    if ((this->isDateValid()) && (date.isDateValid()))
+    {
+        if ((this->getDay() == date.getDay()) &&
+            (this->getMonth() == date.getMonth()) &&
+            (this->getYear() == date.getYear()))
+        {
+            valid = true;
+        }
+    }
+    return valid;
 }
 Date Date::operator++()
 {

@@ -91,11 +91,10 @@ TEST_CASE("Town Hall")
 TEST_CASE("DateInit")
 {
     Date date_init;
-    date_init.display();
-
     CHECK(1 == date_init.getDay());
     CHECK(1 == date_init.getMonth());
     CHECK(0 == date_init.getYear());
+    CHECK(Date() == date_init);
     CHECK(true == date_init.isDateValid());
 
     ++date_init;
@@ -115,20 +114,14 @@ TEST_CASE("Date")
 {
     Date date(31, 1, 0);
     ++date;
-    CHECK(1 == date.getDay());
-    CHECK(2 == date.getMonth());
-    CHECK(0 == date.getYear());
+    CHECK(Date(1, 2, 0) == date);
 
     date = Date(31, 12, 2018);
     ++date;
-    CHECK(1 == date.getDay());
-    CHECK(1 == date.getMonth());
-    CHECK(2019 == date.getYear());
+    CHECK(Date(1, 1, 2019) == date);
 
     Date date_copy = Date(date);
-    CHECK(1 == date_copy.getDay());
-    CHECK(1 == date_copy.getMonth());
-    CHECK(2019 == date_copy.getYear());
+    CHECK(Date(1, 1, 2019) == date_copy);
 }
 
 TEST_CASE("DateOperator<")
@@ -159,12 +152,8 @@ TEST_CASE("Character")
     Character character1(date_character1);
     Character character2(SEX::FEMALE, date_character2);
 
-    CHECK(1 == character1.getDateOfBirth().getDay());
-    CHECK(1 == character1.getDateOfBirth().getMonth());
-    CHECK(0 == character1.getDateOfBirth().getYear());
-    CHECK(1 == character2.getDateOfBirth().getDay());
-    CHECK(1 == character2.getDateOfBirth().getMonth());
-    CHECK(20 == character2.getDateOfBirth().getYear());
+    CHECK(Date() == character1.getDateOfBirth());
+    CHECK(Date(1, 1, 20) == character2.getDateOfBirth());
 
     CHECK(0 == character1.getCharacterId());
     CHECK(1 == character2.getCharacterId());
@@ -177,9 +166,7 @@ TEST_CASE("Character")
     CHECK(3 == character1.getCharacterTeam());
     Character character_copy(character1);
     CHECK(character1.getCharacterTeam() == character_copy.getCharacterTeam());
-    CHECK(character1.getDateOfBirth().getDay() == character_copy.getDateOfBirth().getDay());
-    CHECK(character1.getDateOfBirth().getMonth() == character_copy.getDateOfBirth().getMonth());
-    CHECK(character1.getDateOfBirth().getYear() == character_copy.getDateOfBirth().getYear());
+    CHECK(character1.getDateOfBirth() == character_copy.getDateOfBirth());
     CHECK(character1.getCharacterGender() == character_copy.getCharacterGender());
     CHECK(character1.getCharacterId() == character_copy.getCharacterId());
 }
@@ -203,13 +190,8 @@ TEST_CASE("MaleCharacter")
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
     CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
-    CHECK(20 == character1->getDateOfBirth().getDay());
-    CHECK(5 == character1->getDateOfBirth().getMonth());
-    CHECK(2018 == character1->getDateOfBirth().getYear());
-
-    CHECK(1 == character2->getDateOfBirth().getDay());
-    CHECK(1 == character2->getDateOfBirth().getMonth());
-    CHECK(0 == character2->getDateOfBirth().getYear());
+    CHECK(Date(20, 5, 2018) == character1->getDateOfBirth());
+    CHECK(Date() == character2->getDateOfBirth());
 
     CHECK(3 == character1->getCharacterId());
     CHECK(4 == character2->getCharacterId());
@@ -241,32 +223,35 @@ TEST_CASE("FemaleCharacter")
     Character *character1 = new FemaleCharacter(Date());
     Character *character2 = new FemaleCharacter(Date(01, 05, 1997));
 
-    CHECK(1 == character1->getDateOfBirth().getDay());
-    CHECK(1 == character1->getDateOfBirth().getMonth());
-    CHECK(0 == character1->getDateOfBirth().getYear());
-
-    CHECK(1 == character2->getDateOfBirth().getDay());
-    CHECK(5 == character2->getDateOfBirth().getMonth());
-    CHECK(1997 == character2->getDateOfBirth().getYear());
+    CHECK(Date(1, 1, 0) == character1->getDateOfBirth());
+    CHECK(Date(1, 5, 1997) == character2->getDateOfBirth());
 
     CHECK(5 == character1->getCharacterId());
     CHECK(6 == character2->getCharacterId());
-    CHECK(0 == ((FemaleCharacter *)character1)->getMonthNumberPregnancy());
-    CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
+    CHECK(Date() == ((FemaleCharacter *)character1)->getPregnancyTime());
+    CHECK(Date() == ((FemaleCharacter *)character2)->getPregnancyTime());
     CHECK(SEX::FEMALE == character1->getCharacterGender());
     CHECK(SEX::FEMALE == character2->getCharacterGender());
 
-    ((FemaleCharacter *)character1)->setMonthPregnancy();
-    for (unsigned int i = 1; i < 11; i++)
-    {
-        ((FemaleCharacter *)character2)->setMonthPregnancy();
-        CHECK(i % 10 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
-    }
-    CHECK(1 == ((FemaleCharacter *)character1)->getMonthNumberPregnancy());
-    CHECK(0 == ((FemaleCharacter *)character2)->getMonthNumberPregnancy());
-
     delete character1;
     delete character2;
+}
+TEST_CASE("MonthOfPregnancy")
+{
+    Character *character1 = new FemaleCharacter(Date());
+    CHECK(Date() == ((FemaleCharacter *)character1)->getPregnancyTime());
+    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(1, 1, 0)));
+    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(15, 1, 0)));
+    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(1, 2, 0)));
+    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(3, 2, 0)));
+    ((FemaleCharacter *)character1)->setTimePregnancy(Date(15, 6, 2018));
+    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(15, 7, 2018)));
+    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(14, 7, 2018)));
+    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(14, 8, 2018)));
+    ((FemaleCharacter *)character1)->setTimePregnancy(Date(15, 12, 2018));
+    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(15, 1, 2019)));
+    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(14, 1, 2019)));
+    ((FemaleCharacter *)character1)->setTimePregnancy(Date());
 }
 
 TEST_CASE("CollectionPoint")
@@ -293,7 +278,7 @@ TEST_CASE("CollectionPoint")
     collection_point->addCharacter(worker);
 
     CHECK(1 == collection_point->getVectorSize());
-    //  CHECK(worker == collection_point->getCharacter(0));
+    CHECK(worker == collection_point->getCharacter(0));
 
     REQUIRE_THROWS_AS(collection_point->removeCharacter(1), std::out_of_range);
     REQUIRE_THROWS_AS(collection_point->getCharacter(5), std::out_of_range);
@@ -351,14 +336,14 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(1 == quarry->getVectorSize());
     CHECK(1 == lake->getVectorSize());
     CHECK(2 == farm->getVectorSize());
-    // CHECK(lumberjack == forest->getCharacter(0));
-    // CHECK(fisherman == lake->getCharacter(0));
-    // CHECK(quarryman == quarry->getCharacter(0));
-    // CHECK(farmer == farm->getCharacter(0));
-    // CHECK(farmer->getDateOfBirth().getDay() == farm->getCharacter(0)->getDateOfBirth().getDay());
-    // CHECK(farmer->getDateOfBirth().getMonth() == farm->getCharacter(0)->getDateOfBirth().getMonth());
-    // CHECK(farmer->getDateOfBirth().getYear() == farm->getCharacter(0)->getDateOfBirth().getYear());
-    // REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
+    CHECK(lumberjack == forest->getCharacter(0));
+    CHECK(fisherman == lake->getCharacter(0));
+    CHECK(quarryman == quarry->getCharacter(0));
+    CHECK(farmer == farm->getCharacter(0));
+    CHECK(farmer->getDateOfBirth().getDay() == farm->getCharacter(0)->getDateOfBirth().getDay());
+    CHECK(farmer->getDateOfBirth().getMonth() == farm->getCharacter(0)->getDateOfBirth().getMonth());
+    CHECK(farmer->getDateOfBirth().getYear() == farm->getCharacter(0)->getDateOfBirth().getYear());
+    REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), std::out_of_range);
     delete farm;
     delete lake;
     delete quarry;
@@ -481,7 +466,6 @@ TEST_CASE("MethodeStatic")
     StructCoordinates a(0, 0);
     StructCoordinates b(2, 0);
     CHECK(2 == Game::euclidienneDistance(a, b));
-
 }
 TEST_CASE("GroundCopy")
 {
@@ -507,7 +491,8 @@ TEST_CASE("GroundCopy")
 
 TEST_CASE("Game")
 {
-    Grid grid("map_one_male.txt");
+  //  Grid grid("map_test_read.txt");
+   Grid grid("map_female.txt");
     Game game(grid, Date(10, 10, 70));
-    game.run(100);
+   game.run(1000);
 }

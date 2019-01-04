@@ -20,11 +20,11 @@ class Date
     unsigned int getYear() const noexcept;
 
     bool isDateValid() const noexcept;
-    bool operator < (const Date &);
+    bool operator<(const Date &) const;
 
     Date operator++();
     Date &operator=(const Date &) noexcept;
-
+    bool operator==(const Date &) const noexcept;
     void display(std::ostream &os = std::cout) const noexcept;
 };
 

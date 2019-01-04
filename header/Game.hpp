@@ -14,6 +14,8 @@ class Game
   private:
     Grid map;
     Date turn;
+    unsigned int number_of_birth_this_turn;
+    unsigned int number_of_birth_total;
     unsigned int number_of_death_this_turn;
     unsigned int number_of_death_total;
 
@@ -31,7 +33,6 @@ class Game
     void lifeOfCharacter();
     bool deathOfCharacter(Character *, unsigned int, unsigned int &);
     void birthOfCharacter(Character *);
-    void incrementMonthGestationIfPregnant(Character *);
     static bool compareGroundTypeSpeciality(GROUND_TYPE, JOB);
     static bool compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED, JOB); /* TODO : test unitaire a faire */
     static double euclidienneDistance(const StructCoordinates &, const StructCoordinates &);

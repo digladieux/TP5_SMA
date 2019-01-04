@@ -6,18 +6,21 @@
 #include "math.h"
 #include <unistd.h>
 #include <limits>
-Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date), number_of_death_this_turn(0), number_of_death_total(0) {}
+Game::Game(const Grid &grid, const Date &date) : map(grid), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0) {}
 
 void Game::run(unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)
     {
+        ++turn;
         number_of_death_this_turn = 0;
+        number_of_birth_this_turn = 0;
         system("clear");
         std::cout << "Tour " << i + 1 << std::endl;
+        turn.display();
         lifeOfCharacter();
         this->display();
-        usleep(100000);
+        usleep(10000);
     }
 }
 
@@ -41,15 +44,22 @@ void Game::lifeOfCharacter()
             {
                 if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= 18)) /*RAND*/
                 {
-                    if (((FemaleCharacter *)character)->getMonthNumberPregnancy() == 9)
+
+                    if (((FemaleCharacter *)character)->getPregnancyTime() == Date())
+                    {
+                        ((FemaleCharacter *)character)->setTimePregnancy(turn);
+                    }
+                    else if (((FemaleCharacter *)character)->getMonthPregnancy(turn) == 9)
                     {
                         birthOfCharacter(character);
                     }
-                    incrementMonthGestationIfPregnant(character);
                 }
 
                 else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= 18)) /*RAND*/
                 {
+                    turn.display();
+                    character->getDateOfBirth().display();
+                    std::cout << character->getCharacterAge(turn) << std::endl;
                     if (((MaleCharacter *)character)->getDirection() == ground->getPosition(map.getColumnNumber()))
                     {
                         switch (ground->getGroundType())
@@ -163,8 +173,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
     while (k < map.getSizeVectorGroundWithCollectionPoint())
     {
         collection_point = map.getGroundWithCollectionPoint(k);
-        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality()))
-        && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && ( ((CollectionPoint*)collection_point)->getRessourcesNumber() > 4 )) /* RAND */
+        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > 4)) /* RAND */
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;
@@ -173,7 +182,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
         else
         {
 
-            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && ( ((CollectionPoint*)collection_point)->getRessourcesNumber() > 2 )) /*RAND*/
+            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > 2)) /*RAND*/
             {
                 low_stock_collection_point = collection_point;
                 distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
@@ -181,7 +190,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
         }
         k++;
     }
-    if ((!is_collection_point) && (low_stock_collection_point != nullptr) )
+    if ((!is_collection_point) && (low_stock_collection_point != nullptr))
     {
         ((MaleCharacter *)character)->setDirection(low_stock_collection_point->getGroundId(), map.getColumnNumber());
     }
@@ -229,16 +238,14 @@ void Game::birthOfCharacter(Character *character)
         {
             new_character = new FemaleCharacter(turn);
         }
-        map.getGroundGrid(character->getCharacterTeam())->addCharacter(new_character);
+        new_character->setCharacterTeam(character->getCharacterTeam());
+        map.getGroundGrid(new_character->getCharacterTeam())->addCharacter(new_character);
     }
-}
+    ((FemaleCharacter *)character)->setTimePregnancy(Date());
+    ((FemaleCharacter *)character)->randomBabyPerPregnancy();
 
-void Game::incrementMonthGestationIfPregnant(Character *character)
-{
-    if (((FemaleCharacter *)character)->getMonthNumberPregnancy() != 0)
-    {
-        ((FemaleCharacter *)character)->setMonthPregnancy();
-    }
+    number_of_birth_this_turn += ((FemaleCharacter *)character)->getBabyPerPregnancy();
+    number_of_birth_total += ((FemaleCharacter *)character)->getBabyPerPregnancy();
 }
 
 bool Game::compareGroundTypeSpeciality(GROUND_TYPE ground_type, JOB job)
@@ -256,6 +263,8 @@ void Game::display(std::ostream &os) const noexcept
     map.display();
     //map.displayMap();
     //map.displayCharacter();
-    os << "Number of death this turn " << number_of_death_this_turn << std::endl;
+    os << "Number of birth this turn : " << number_of_birth_this_turn << std::endl;
+    os << "Number of death this turn : " << number_of_death_this_turn << std::endl;
+    os << "Total birth : " << number_of_birth_total << std::endl;
     os << "Total death : " << number_of_death_total << std::endl;
 }

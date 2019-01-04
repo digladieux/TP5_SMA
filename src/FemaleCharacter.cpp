@@ -8,13 +8,13 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
 
-FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), baby_per_pregnancy(character.getBabyPerPregnancy()), month_number_pregnancy(character.getMonthNumberPregnancy()) {}
+FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
 /**
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
 FemaleCharacter::FemaleCharacter(const Date &age) : /* RAND : CARACTERE ALEATOIRE MODIFIABLE */
-Character(SEX::FEMALE, age), baby_per_pregnancy((genrand_int31() % 1) + 1), month_number_pregnancy(0)
+                                                    Character(SEX::FEMALE, age), baby_per_pregnancy((genrand_int31() % 1) + 1), pregnancy_time(Date())
 {
 }
 
@@ -35,13 +35,13 @@ unsigned int FemaleCharacter::getBabyPerPregnancy() const noexcept
 }
 
 /**
- * \fn unsigned int FemaleCharacter::getMonthNumberPregnancy() const noexcept
+ * \fn Date FemaleCharacter::getPregnancyTime() const noexcept
  * \brief Getteur sur le numero du mois de la grossesse
  * \return Nombre de mois de grossesse
  */
-unsigned int FemaleCharacter::getMonthNumberPregnancy() const noexcept
+Date FemaleCharacter::getPregnancyTime() const noexcept
 {
-    return month_number_pregnancy;
+    return pregnancy_time;
 }
 
 /**
@@ -54,18 +54,55 @@ void FemaleCharacter::randomBabyPerPregnancy() noexcept
     baby_per_pregnancy = genrand_int31() % 1 + 1;
 }
 
-/**
- * \fn void FemaleCharacter::setMonthPregnancy() noexcept
- * \brief Incremente le nombre de mois de grossesse ou bien le met a 0 si on a atteind les 9 mois
- */
-void FemaleCharacter::setMonthPregnancy() noexcept
+void FemaleCharacter::setTimePregnancy(const Date &date) noexcept
 {
-    if (month_number_pregnancy == 9)
+    pregnancy_time = date;
+}
+
+unsigned int FemaleCharacter::getMonthPregnancy(const Date &current_date) const
+{
+    unsigned int month;
+    if (pregnancy_time == current_date)
     {
-        month_number_pregnancy = 0;
+        month = 0;
+    }
+    else if (!(character_date_of_birth < current_date))
+    {
+        throw std::invalid_argument("INVALID_COMPARAISON");
+    }
+    else if (pregnancy_time.getMonth() == current_date.getMonth())
+    {
+        month = 0;
+    }
+    else if (pregnancy_time.getMonth() < current_date.getMonth())
+    {
+        if (pregnancy_time.getDay() == current_date.getDay())
+        {
+            month = current_date.getMonth() - pregnancy_time.getMonth();
+        }
+        else if (pregnancy_time.getDay() < current_date.getDay())
+        {
+            month = current_date.getMonth() - pregnancy_time.getMonth();
+        }
+        else
+        {
+            month = current_date.getMonth() - pregnancy_time.getMonth() - 1;
+        }
     }
     else
     {
-        month_number_pregnancy++;
+        if (pregnancy_time.getDay() == current_date.getDay())
+        {
+            month = 12 + current_date.getMonth() - pregnancy_time.getMonth();
+        }
+        else if (pregnancy_time.getDay() < current_date.getDay())
+        {
+            month = 12 - pregnancy_time.getMonth() + current_date.getMonth();
+        }
+        else
+        {
+            month = 12 - pregnancy_time.getMonth() + current_date.getMonth() - 1;
+        }
     }
+    return month;
 }

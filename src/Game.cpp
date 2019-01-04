@@ -20,7 +20,7 @@ void Game::run(unsigned int round)
         turn.display();
         lifeOfCharacter();
         this->display();
-        usleep(10000);
+        usleep(100000);
     }
 }
 
@@ -57,9 +57,6 @@ void Game::lifeOfCharacter()
 
                 else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= 18)) /*RAND*/
                 {
-                    turn.display();
-                    character->getDateOfBirth().display();
-                    std::cout << character->getCharacterAge(turn) << std::endl;
                     if (((MaleCharacter *)character)->getDirection() == ground->getPosition(map.getColumnNumber()))
                     {
                         switch (ground->getGroundType())

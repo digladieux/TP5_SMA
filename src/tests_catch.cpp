@@ -417,17 +417,16 @@ TEST_CASE("InitialisationGrid")
     std::cout << std::endl;
 
     std::cout << " . = ";
-    grid.getGroundGrid(2, 0)->display();
+    grid.getGroundGrid(9, 0)->display();
     std::cout << std::endl;
 
     Character *character = grid.getGroundGrid(0, 0)->getCharacter(0);
     CHECK(0 == character->getCharacterTeam());
     CHECK(character->getCharacterGender() == SEX::MALE);
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
-    CHECK(6 == grid.getSizeVectorGroundWithCollectionPoint());
-    CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
+    CHECK(8 == grid.getSizeVectorGroundWithCollectionPoint());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(12 == grid.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(3 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
     Grid grid_copy(grid);
     CHECK(10 == grid_copy.getColumnNumber());
@@ -438,10 +437,10 @@ TEST_CASE("InitialisationGrid")
     CHECK(0 == character->getCharacterTeam());
     CHECK(character->getCharacterGender() == SEX::MALE);
     CHECK(2 == grid_copy.getSizeVectorGroundWithCharacter());
-    CHECK(6 == grid_copy.getSizeVectorGroundWithCollectionPoint());
+    CHECK(8 == grid_copy.getSizeVectorGroundWithCollectionPoint());
     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(12 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(3 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
 TEST_CASE("MethodeStatic")
@@ -492,7 +491,7 @@ TEST_CASE("GroundCopy")
 TEST_CASE("Game")
 {
   //  Grid grid("map_test_read.txt");
-   Grid grid("map_female.txt");
-    Game game(grid, Date(10, 10, 70));
-   game.run(1000);
+   Grid grid("map_test_read.txt");
+   Game game(grid, Date(10, 10, 70));
+   game.run(100);
 }

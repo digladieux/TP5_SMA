@@ -516,7 +516,7 @@ TEST_CASE("Game")
 {
     Grid grid("map_test_read.txt");
     Game game(0, grid, Date(1, 1, 19));
-    //game.run(100);
+    game.run(10);
 }
 
 TEST_CASE("Menu")

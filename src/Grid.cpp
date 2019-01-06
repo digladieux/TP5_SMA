@@ -12,26 +12,24 @@
 #include <array>
 #include <iostream>
 
-
 Grid::Grid(std::string file_name_map) : ground_with_character(0)
 {
 
-    std::ifstream file("INSTANCES/" + file_name_map);
+    std::ifstream file_map("INSTANCES/" + file_name_map);
     std::vector<Character *> vector_character;
     // unsigned int *character_per_town = nullptr;
 
     Ground::resetGroundNumber();
     unsigned int
         character_number,
-        town_hall_number,
-        counter = 0;
+        town_hall_number;
 
-    if (file.fail())
+    if (file_map.fail())
     {
         std::cerr << "INVALID_FILE" << std::endl;
         exit(EXIT_FAILURE);
     }
-    file >> character_number >> town_hall_number;
+    file_map >> character_number >> town_hall_number;
 
     unsigned int *character_per_town = new unsigned int[town_hall_number];
     try
@@ -49,11 +47,18 @@ Grid::Grid(std::string file_name_map) : ground_with_character(0)
     }
 
     /*! CHARACTER */
-    initialisationCharacter(file, character_per_town, vector_character, character_number);
+    initialisationCharacter(file_map, character_per_town, vector_character, character_number);
 
     /*! MAP */
+    initialisationMap(file_map, character_per_town,vector_character);
+    delete[] character_per_town;
+    file_map.close();
+}
 
-    file >> row_number >> column_number;
+void Grid::initialisationMap(std::ifstream &file_map, unsigned int *character_per_town, std::vector<Character *> &vector_character)
+{
+    unsigned int counter = 0;
+    file_map >> row_number >> column_number;
     char type_ground;
     Ground *ground;
     ground_grid = new Ground **[row_number]();
@@ -64,7 +69,7 @@ Grid::Grid(std::string file_name_map) : ground_with_character(0)
 
         for (unsigned int j = 0; j < column_number; j++)
         {
-            file >> type_ground;
+            file_map >> type_ground;
             ground = initGround(type_ground);
             ground_grid[i][j] = ground;
 
@@ -76,21 +81,15 @@ Grid::Grid(std::string file_name_map) : ground_with_character(0)
             if (ground->getGroundType() == GROUND_TYPE::TOWN_HALL)
             {
                 push_backGround(ground_with_character, ground);
-                if (character_number > 1)
+                for (unsigned int k = 0; k < character_per_town[counter]; k++)
                 {
-                    for (unsigned int k = 0; k < character_per_town[counter]; k++)
-                    {
-                        addCharacterToGround(vector_character, ground, i, j);
-                    }
-                    counter++;
+                    addCharacterToGround(vector_character, ground, i, j);
                 }
+                counter++;
             }
         }
     }
-    delete[] character_per_town;
-    file.close();
 }
-
 void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_per_town, std::vector<Character *> &vector_character, unsigned int character_number)
 {
     Character *character = nullptr;

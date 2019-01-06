@@ -27,7 +27,7 @@ class Grid
     std::vector<Ground *> ground_with_collection_point; /*! Tableau dynamique de l'emplacement des lieux interessants sur le terrain de jeux */
 
     void initialisationCharacter(std::ifstream &, unsigned int[], std::vector<Character *> &, unsigned int);
-
+    void initialisationMap(std::ifstream &, unsigned int *, std::vector<Character *> &);
     void addCharacterToGround(std::vector<Character *> &, Ground *, unsigned int, unsigned int);
 
   public:

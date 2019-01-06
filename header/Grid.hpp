@@ -25,6 +25,9 @@ class Grid
     Ground ***ground_grid;                              /*! Matrice de tous les terrains */
     std::vector<Ground *> ground_with_character;        /*! Tableau dynamique de l'emplacement des joueurs sur le terrain de jeux */
     std::vector<Ground *> ground_with_collection_point; /*! Tableau dynamique de l'emplacement des lieux interessants sur le terrain de jeux */
+
+    void initialisationCharacter(std::ifstream &, unsigned int[], std::vector<Character *> &, unsigned int);
+
     void addCharacterToGround(std::vector<Character *> &, Ground *, unsigned int, unsigned int);
 
   public:

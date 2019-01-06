@@ -9,25 +9,21 @@
 
 #include <fstream>
 #include <string>
+#include <array>
 #include <iostream>
 
-Grid::Grid(std::string file_name) : ground_with_character(0)
+
+Grid::Grid(std::string file_name_map) : ground_with_character(0)
 {
 
-    std::ifstream file("INSTANCES/" + file_name);
-    Character *character = nullptr;
+    std::ifstream file("INSTANCES/" + file_name_map);
     std::vector<Character *> vector_character;
-    unsigned int *character_per_town = nullptr;
+    // unsigned int *character_per_town = nullptr;
+
     Ground::resetGroundNumber();
-    JOB job;
     unsigned int
         character_number,
-        type_character,
         town_hall_number,
-        file_job,
-        day,
-        month,
-        year,
         counter = 0;
 
     if (file.fail())
@@ -35,52 +31,25 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
         std::cerr << "INVALID_FILE" << std::endl;
         exit(EXIT_FAILURE);
     }
-    file >> character_number;
+    file >> character_number >> town_hall_number;
+
+    unsigned int *character_per_town = new unsigned int[town_hall_number];
     try
     {
-        if (character_number > 1)
-        {
-            character_per_town = new unsigned int[character_number]; /* TODO : grid.cpp:40 plus opti */
-            for (unsigned int i = 0; i < character_number; i++)
-            {
-                character_per_town[i] = 0;
-            }
-        }
         vector_character.resize(character_number);
+        for (unsigned int i = 0; i < town_hall_number; i++)
+        {
+            character_per_town[i] = 0;
+        }
     }
+
     catch (const std::bad_alloc &e)
     {
         throw e;
     }
 
     /*! CHARACTER */
-
-    for (unsigned int i = 0; i < character_number; i++)
-    {
-        file >> type_character >> town_hall_number >> day >> month >> year;
-        switch (type_character)
-        {
-        case 0:
-            file >> file_job;
-            job = choiceJob(file_job);
-            character = new MaleCharacter(job, Date(day, month, year));
-            break;
-        case 1:
-            character = new FemaleCharacter(Date(day, month, year));
-            break;
-        default:
-
-            std::cerr << "INVALID_GENDER" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-        if (character_number > 1)
-        {
-            character_per_town[town_hall_number]++;
-        }
-
-        vector_character[i] = character;
-        character = nullptr;
-    }
+    initialisationCharacter(file, character_per_town, vector_character, character_number);
 
     /*! MAP */
 
@@ -118,12 +87,44 @@ Grid::Grid(std::string file_name) : ground_with_character(0)
             }
         }
     }
-
-    character = nullptr;
     delete[] character_per_town;
-    character_per_town = nullptr;
     file.close();
 }
+
+void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_per_town, std::vector<Character *> &vector_character, unsigned int character_number)
+{
+    Character *character = nullptr;
+    JOB job;
+    unsigned int
+        file_job,
+        type_character,
+        town_hall_number,
+        day,
+        month,
+        year;
+    for (unsigned int i = 0; i < character_number; i++)
+    {
+        file >> type_character >> town_hall_number >> day >> month >> year;
+        switch (type_character)
+        {
+        case 0:
+            file >> file_job;
+            job = choiceJob(file_job);
+            character = new MaleCharacter(job, Date(day, month, year));
+            break;
+        case 1:
+            character = new FemaleCharacter(Date(day, month, year));
+            break;
+        default:
+
+            std::cerr << "INVALID_GENDER" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        character_per_town[town_hall_number]++;
+        vector_character[i] = character;
+    }
+}
+
 void Grid::addCharacterToGround(std::vector<Character *> &vector_character, Ground *ground, unsigned int i, unsigned int j)
 {
     Character *character;
@@ -294,7 +295,7 @@ Grid::~Grid()
     delete[] ground_grid;
 }
 
-void Grid::displayMap(std::ostream& os) const noexcept
+void Grid::displayMap(std::ostream &os) const noexcept
 {
     std::vector<Ground *> town_hall;
     for (unsigned int i = 0; i < row_number; i++)
@@ -316,7 +317,6 @@ void Grid::displayMap(std::ostream& os) const noexcept
     os << std::endl;
 }
 
-
 void Grid::display(std::ostream &os) const noexcept
 {
     std::vector<Ground *> town_hall;
@@ -330,7 +330,7 @@ void Grid::display(std::ostream &os) const noexcept
             }
             if (ground_grid[i][j]->getVectorSize() == 0) /* TODO : pour le test */
             {
-                ground_grid[i][j]->display(os) ;
+                ground_grid[i][j]->display(os);
             }
             else if (ground_grid[i][j]->getCharacter(0)->getCharacterTeam() == 0)
             {

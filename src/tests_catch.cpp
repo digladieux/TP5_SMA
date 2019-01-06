@@ -13,6 +13,7 @@
 #include "../header/Game.hpp"
 #include "../header/Date.hpp"
 #include "../header/json.hpp"
+#include "../header/Menu.hpp"
 #include "../header/Constantes.hpp"
 #include <fstream>
 #include <iostream>
@@ -513,8 +514,17 @@ TEST_CASE("GroundCopy")
 
 TEST_CASE("Game")
 {
-    //  Grid grid("map_test_read.txt");
     Grid grid("map_test_read.txt");
     Game game(0, grid, Date(1, 1, 19));
     //game.run(100);
+}
+
+TEST_CASE("Menu")
+{
+    int map_choice, character_choice, config_choice;
+    Menu::displayWelcome();
+    map_choice = Menu::displayMapChoice();
+    character_choice = Menu::displayCharacterChoice();
+    config_choice = Menu::displayConfigChoice();
+
 }

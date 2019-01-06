@@ -13,6 +13,12 @@ Game::Game(unsigned int config, const Grid &grid, const Date &date) : map(grid),
 {
     Constantes::openingConfiguration(config);
 }
+
+/*Game::Game(unsigned int map_choice, unsigned int character_choice, unsigned int config_choice)
+{
+    Constantes::openingConfiguration(config_choice);
+
+}*/
 void Game::run(unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)

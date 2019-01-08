@@ -223,14 +223,14 @@ TEST_CASE("MaleCharacter")
 TEST_CASE("Json")
 {
     system("clear");
-    std::ifstream file("./INSTANCES/config_simulation.json");
+    std::ifstream file("./INSTANCES/Configuration.json");
     if (!file.fail())
     {
         json j;
         file >> j;
-        json j1 = j["config0"];
-        CHECK(0.0005 == j["config0"]["death18"]);
-        CHECK(0.0001 == j["config1"]["death18"]);
+        json j1 = j["config1"];
+        CHECK(0.0005 == j["config1"]["death18"]);
+        CHECK(0.0001 == j["config2"]["death18"]);
         CHECK(0.0005 == j1["death18"]);
         file.close();
     }
@@ -241,8 +241,8 @@ TEST_CASE("Json")
 }
 TEST_CASE("FemaleCharacter")
 {
-    Constantes::openingConfiguration(0);
-    CHECK(Constantes::DEATH_UNDER_18 == 0.0005);
+    Constantes::openingConfiguration(1);
+    CHECK(Constantes::CONFIG_SIMU["death18"] == 0.0005);
 
     Character *character1 = new FemaleCharacter(Date());
     Character *character2 = new FemaleCharacter(Date(01, 05, 1997));
@@ -415,7 +415,7 @@ TEST_CASE("Afficher")
 
 TEST_CASE("InitialisationGrid")
 {
-    Grid grid("map_test_read.txt");
+    Grid grid(1, 3);
     grid.displayMap();
     grid.displayCharacter();
 
@@ -448,9 +448,9 @@ TEST_CASE("InitialisationGrid")
     CHECK(0 == character->getCharacterTeam());
     CHECK(character->getCharacterGender() == SEX::MALE);
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
-    CHECK(8 == grid.getSizeVectorGroundWithCollectionPoint());
+    CHECK(9 == grid.getSizeVectorGroundWithCollectionPoint());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(4 == grid.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(5 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
     Grid grid_copy(grid);
     CHECK(10 == grid_copy.getColumnNumber());
@@ -461,10 +461,10 @@ TEST_CASE("InitialisationGrid")
     CHECK(0 == character->getCharacterTeam());
     CHECK(character->getCharacterGender() == SEX::MALE);
     CHECK(2 == grid_copy.getSizeVectorGroundWithCharacter());
-    CHECK(8 == grid_copy.getSizeVectorGroundWithCollectionPoint());
+    CHECK(9 == grid_copy.getSizeVectorGroundWithCollectionPoint());
     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(4 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(5 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
 TEST_CASE("MethodeStatic")
@@ -514,9 +514,8 @@ TEST_CASE("GroundCopy")
 
 TEST_CASE("Game")
 {
-    Grid grid("map_test_read.txt");
-    Game game(0, grid, Date(1, 1, 19));
-    game.run(10);
+    Game game(1, 3, 1, Date(1, 1, 19));
+    game.run(1);
 }
 
 TEST_CASE("Menu")
@@ -526,5 +525,6 @@ TEST_CASE("Menu")
     map_choice = Menu::displayMapChoice();
     character_choice = Menu::displayCharacterChoice();
     config_choice = Menu::displayConfigChoice();
-
+    Game game(map_choice, character_choice, config_choice, Date(1, 1, 20));
+    game.run(10);
 }

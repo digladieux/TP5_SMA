@@ -24,7 +24,7 @@ Character::Character(const Character &character) : character_id(character.charac
 Character::Character(const Date &age) : character_id(character_number), character_date_of_birth(age), character_team(-1)
 {
     character_number++;
-    if (genrand_real1() < Constantes::CHANCE_TO_HAVE_MALE)
+    if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
     {
         character_gender = SEX::MALE;
     }

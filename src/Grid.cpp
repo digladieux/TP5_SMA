@@ -12,24 +12,26 @@
 #include <array>
 #include <iostream>
 
-Grid::Grid(std::string file_name_map) : ground_with_character(0)
+Grid::Grid(unsigned int choice_map, unsigned int choice_character) : ground_with_character(0)
 {
-
-    std::ifstream file_map("INSTANCES/" + file_name_map);
+    std::string file_name_map = "./MAPS/Map" + std::to_string(choice_map) + ".txt";
+    std::string file_name_character = "./CHARACTERS/Character" + std::to_string(choice_character) + ".txt";
+    std::ifstream file_map(file_name_map);
+    std::ifstream file_character(file_name_character);
     std::vector<Character *> vector_character;
-    // unsigned int *character_per_town = nullptr;
-
     Ground::resetGroundNumber();
     unsigned int
         character_number,
         town_hall_number;
 
-    if (file_map.fail())
+    if ((file_map.fail()) || (file_character.fail()))
     {
-        std::cerr << "INVALID_FILE" << std::endl;
+        std::cerr << "INVALID_FILE : " << std::endl;
+        std::cerr << "MAP_FILE : " << file_name_map << std::endl;
+        std::cerr << "CHARACTER_FILE : " << file_name_character << std::endl;
         exit(EXIT_FAILURE);
     }
-    file_map >> character_number >> town_hall_number;
+    file_character >> character_number >> town_hall_number;
 
     unsigned int *character_per_town = new unsigned int[town_hall_number];
     try
@@ -45,12 +47,11 @@ Grid::Grid(std::string file_name_map) : ground_with_character(0)
     {
         throw e;
     }
-
     /*! CHARACTER */
-    initialisationCharacter(file_map, character_per_town, vector_character, character_number);
+    initialisationCharacter(file_character, character_per_town, vector_character, character_number);
 
     /*! MAP */
-    initialisationMap(file_map, character_per_town,vector_character);
+    initialisationMap(file_map, character_per_town, vector_character);
     delete[] character_per_town;
     file_map.close();
 }
@@ -101,6 +102,7 @@ void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_
         day,
         month,
         year;
+
     for (unsigned int i = 0; i < character_number; i++)
     {
         file >> type_character >> town_hall_number >> day >> month >> year;

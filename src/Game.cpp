@@ -9,16 +9,11 @@
 #include <unistd.h>
 #include <limits>
 using json = nlohmann::json;
-Game::Game(unsigned int config, const Grid &grid, const Date &date) : map(grid), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
-{
-    Constantes::openingConfiguration(config);
-}
-
-/*Game::Game(unsigned int map_choice, unsigned int character_choice, unsigned int config_choice)
+Game::Game(unsigned int map_choice, unsigned int character_choice, unsigned int config_choice, const Date &date) : map(map_choice, character_choice), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
 {
     Constantes::openingConfiguration(config_choice);
+}
 
-}*/
 void Game::run(unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)
@@ -41,10 +36,6 @@ void Game::lifeOfCharacter()
     Ground *ground;
     for (unsigned int i = 0; i < map.getSizeVectorGroundWithCharacter(); i++)
     {
-        /* if (i == 1)
-        {
-            map.displayCharacter();
-        }*/
         ground = map.getGroundWithCharacter(i);
         for (unsigned int j = 0; j < ground->getVectorSize(); j++)
         {
@@ -53,7 +44,7 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-                if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::MAJORITY))
+                if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
                 {
 
                     if (((FemaleCharacter *)character)->getBabyPerPregnancy() == 0)
@@ -71,7 +62,7 @@ void Game::lifeOfCharacter()
                     }
                 }
 
-                else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::MAJORITY))
+                else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
                 {
                     if (((MaleCharacter *)character)->getDirection() == ground->getPosition(map.getColumnNumber()))
                     {
@@ -118,6 +109,7 @@ void Game::turnCharacter(Character *character, Ground *ground, unsigned int inde
         movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character);
     }
 }
+
 bool Game::movementOrdinate(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
 {
     bool movement_possible = false;
@@ -158,8 +150,11 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         {
             map.removeGroundWithCharacter(index_ground_with_character);
         }
+        if (next_place->getVectorSize() == 0)
+        {
+            map.addGroundWithCharacter(next_place);
+        }
         next_place->addCharacter(temp_character);
-        map.addGroundWithCharacter(next_place);
     }
     return movement_possible;
 }
@@ -173,20 +168,20 @@ double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordin
 void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout est vide ?? */
 {
     Ground *collection_point, *low_stock_collection_point = nullptr;
-    unsigned int k = 0, number_ressource = Constantes::RESSOURCES_TRANSPORTED_SPECIALITY;
+    unsigned int k = 0, number_ressource = Constantes::CONFIG_SIMU["ressourceSpecialityNumber"];
     double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
     bool is_collection_point = false;
     GROUND_TYPE low_stock = ((TownHall *)ground)->lowStock();
     if (!compareTypeRessourceTransportedJob(((MaleCharacter *)character)->getTypeRessourceTransported(), ((MaleCharacter *)character)->getSpeciality()))
     {
-        number_ressource = Constantes::RESSOURCES_TRANSPORTED_NOT_SPECIALITY;
+        number_ressource = Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"];
     }
     ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource);
 
     while (k < map.getSizeVectorGroundWithCollectionPoint())
-    {
+    { /* TODO : s'arrete si 2 ressource low */
         collection_point = map.getGroundWithCollectionPoint(k);
-        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::RESSOURCES_TRANSPORTED_SPECIALITY))
+        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;
@@ -195,7 +190,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
         else
         {
 
-            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::RESSOURCES_TRANSPORTED_NOT_SPECIALITY))
+            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"]))
             {
                 low_stock_collection_point = collection_point;
                 distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
@@ -211,10 +206,10 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
 
 void Game::caseCollectionPoint(Character *character, Ground *ground)
 {
-    unsigned int work_time = Constantes::WORK_TIME_SPECIALITY;
+    unsigned int work_time = Constantes::CONFIG_SIMU["workTimeSpeciality"];
     if (!compareGroundTypeSpeciality(ground->getGroundType(), ((MaleCharacter *)character)->getSpeciality()))
     {
-        work_time = Constantes::WORK_TIME_NOT_SPECIALITY;
+        work_time = Constantes::CONFIG_SIMU["workTimeNotSpeciality"];
     }
     ((MaleCharacter *)character)->incrementTimeAtWork();
     if (((MaleCharacter *)character)->getTimeAtWork() == 1)
@@ -243,7 +238,7 @@ void Game::birthOfCharacter(Character *character)
     Character *new_character;
     for (unsigned int i = 0; i < ((FemaleCharacter *)character)->getBabyPerPregnancy(); ++i)
     {
-        if (genrand_real1() < 0.5)
+        if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
         {
             new_character = new MaleCharacter(turn);
         }

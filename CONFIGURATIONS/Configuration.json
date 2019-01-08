@@ -1,0 +1,34 @@
+{
+    "config1": {
+        "death18": 0.0005,
+        "death30": 0.0010,
+        "death50": 0.0015,
+        "death70": 0.0020,
+        "death90": 0.0025,
+        "chanceMale": 0.5,
+        "maxBaby": 3,
+        "majority": 18,
+        "ressourceSpecialityNumber": 4,
+        "ressourceNotSpecialityNumber": 2,
+        "workTimeSpeciality": 3,
+        "workTimeNotSpeciality": 5,
+        "chanceEvolution": 0.1,
+        "maxRessourceEvolution": 100
+    },
+    "config2": {
+        "death18": 0.0001,
+        "death30": 0.0010,
+        "death50": 0.0015,
+        "death70": 0.0020,
+        "death90": 0.0025,
+        "chanceMale": 0.5,
+        "maxBaby": 3,
+        "majority": 18,
+        "ressourceSpecialityNumber": 4,
+        "ressourceNotSpecialityNumber": 2,
+        "workTimeSpeciality": 3,
+        "workTimeNotSpeciality": 5,
+        "chanceEvolution": 0.1,
+        "maxRessourceEvolution": 100
+    }
+}

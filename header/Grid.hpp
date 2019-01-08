@@ -31,7 +31,7 @@ class Grid
     void addCharacterToGround(std::vector<Character *> &, Ground *, unsigned int, unsigned int);
 
   public:
-    Grid(std::string);
+    Grid(unsigned int, unsigned int);
     Grid(const Grid &);
     ~Grid();
     void displayMap(std::ostream &os = std::cout) const noexcept;

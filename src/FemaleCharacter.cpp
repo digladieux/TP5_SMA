@@ -14,7 +14,7 @@ FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(c
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
-FemaleCharacter::FemaleCharacter(const Date &age) : Character(SEX::FEMALE, age), baby_per_pregnancy(genrand_int31() % Constantes::MAX_BABY_PER_PREGNANCY), pregnancy_time(Date())
+FemaleCharacter::FemaleCharacter(const Date &age) : Character(SEX::FEMALE, age), baby_per_pregnancy(genrand_int31() % (unsigned int) Constantes::CONFIG_SIMU["maxBaby"]), pregnancy_time(Date())
 {
 }
 
@@ -50,7 +50,8 @@ Date FemaleCharacter::getPregnancyTime() const noexcept
  */
 void FemaleCharacter::randomBabyPerPregnancy() noexcept
 {
-    baby_per_pregnancy = genrand_int31() % Constantes::MAX_BABY_PER_PREGNANCY;
+    unsigned int max_baby = Constantes::CONFIG_SIMU["maxBaby"];
+    baby_per_pregnancy = genrand_int31() % max_baby;
 }
 
 void FemaleCharacter::setTimePregnancy(const Date &date) noexcept

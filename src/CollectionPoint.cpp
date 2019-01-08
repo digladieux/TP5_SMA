@@ -74,9 +74,9 @@ bool CollectionPoint::ressourcesNumberExtracted(const unsigned int ressources_nu
 void CollectionPoint::evolutionRessources() noexcept
 {
     double evolution = genrand_real1();
-    double ressources_nb = genrand_int31() % Constantes::MAX_NUMBER_OF_RESSOURCES_GROW_UP;
+    double ressources_nb = genrand_int31() %(int) Constantes::CONFIG_SIMU["maxRessourceEvolution"];
 
-    if (evolution < Constantes::CHANCE_OF_EVOLUTION_RESSOURCES)
+    if (evolution < (int) Constantes::CONFIG_SIMU["chanceEvolution"])
     {
         ressources_number += ressources_nb;
     }

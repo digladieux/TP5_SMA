@@ -1,13 +1,13 @@
 #include "../header/Menu.hpp"
 #include "../header/Constantes.hpp"
-#include <fstream> /* TODO : constantes sur le nombre de map, character, config */
+#include <fstream> 
 void Menu::displayWelcome(std::ostream &os) noexcept
 {
     os << "Welcome to our game : CiviliZZation" << std::endl;
 }
 unsigned int Menu::displayMapChoice(std::ostream &os) noexcept
 {
-    int map;
+    unsigned int map;
     do
     {
         os << "Here you are all the map : " << std::endl;
@@ -15,14 +15,14 @@ unsigned int Menu::displayMapChoice(std::ostream &os) noexcept
         os << "Where do you want to play ?" << std::endl;
         std::cin >> map;
         os << std::endl;
-    } while ((map > 3) || (map <= 0));
+    } while ((map > Constantes::MAP_NUMBER)|| (map < 1));
     return map;
 }
 
 void displayAllMap(std::ostream &os)
 {
     std::string file_name;
-    for (unsigned int i = 1; i < 4; i++)
+    for (unsigned int i = 1; i <= Constantes::MAP_NUMBER; i++)
     {
         file_name = "./MAPS/Map" + std::to_string(i) + ".txt";
         displayMapFile(os, file_name);
@@ -60,7 +60,7 @@ void displayMapFile(std::ostream &os, std::string file_name)
 
 unsigned int Menu::displayCharacterChoice(std::ostream &os) noexcept
 {
-    int character;
+    unsigned int character;
     os << "Here you are all of our character :" << std::endl;
     do
     {
@@ -69,14 +69,14 @@ unsigned int Menu::displayCharacterChoice(std::ostream &os) noexcept
         std::cin >> character;
         os << std::endl;
 
-    } while ((character > 4) || (character <= 0));
+    } while ((character > Constantes::CHARACTER_NUMBER) || (character < 1));
     return character;
 }
 
 void displayAllCharacter(std::ostream &os)
 {
     std::string file_name;
-    for (unsigned int i = 1; i < 4; i++)
+    for (unsigned int i = 1; i <= Constantes::CHARACTER_NUMBER; i++)
     {
         file_name = "./CHARACTERS/Character" + std::to_string(i) + ".txt";
         displayCharacterFile(os, file_name);
@@ -111,21 +111,22 @@ void displayCharacterFile(std::ostream &os, std::string file_name)
 unsigned int Menu::displayConfigChoice(std::ostream &os) noexcept
 {
     int config;
-    os << "Here you are all the config : "<< std::endl;
+    os << "Here you are all the config : " << std::endl;
     do
     {
         displayAllConfig(os);
-        os << "Which config do you want to use ?" << std::endl;
+        os << std::endl << "Which config do you want to use ?" << std::endl;
         std::cin >> config;
-    } while ((config > 3) || (config <= 0));
+    } while ((config > Constantes::CONFIG_SIMU) || (config < 1));
     return config;
 }
 
 void displayAllConfig(std::ostream &os)
 {
-    for (unsigned int i = 1; i < 3; i++)
+    for (unsigned int i = 1; i <= Constantes::CONFIG_NUMBER; i++)
     {
-        os << "Config " << i << " : " << std::endl;
+        os << std::endl << "Config " << i << " : " << std::endl;
         Constantes::openingConfiguration(i);
+        Constantes::displayConstantes(os);
     }
 }

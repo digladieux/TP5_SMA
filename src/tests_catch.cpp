@@ -222,8 +222,7 @@ TEST_CASE("MaleCharacter")
 }
 TEST_CASE("Json")
 {
-    system("clear");
-    std::ifstream file("./INSTANCES/Configuration.json");
+    std::ifstream file("./CONFIGURATIONS/Configuration.json");
     if (!file.fail())
     {
         json j;
@@ -238,6 +237,14 @@ TEST_CASE("Json")
     {
         std::cerr << "INVALID_FILE";
     }
+}
+
+TEST_CASE("JsonClass")
+{
+    Constantes::openingConfiguration(1);
+    CHECK(Constantes::CONFIG_SIMU["death18"] == 0.0005);
+    Constantes::displayConstantes(std::cout);
+
 }
 TEST_CASE("FemaleCharacter")
 {
@@ -467,25 +474,28 @@ TEST_CASE("InitialisationGrid")
     CHECK(5 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
-TEST_CASE("MethodeStatic")
+TEST_CASE("MethodeStatic&Comparaison")
 {
-    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::QUARRY, JOB::QUARRY_MAN));
-    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::LAKE, JOB::FISHERMAN));
-    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::FOREST, JOB::LUMBERJACK));
-    CHECK(true == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::FARMER));
+    CHECK(JOB::QUARRY_MAN == (JOB) GROUND_TYPE::QUARRY);
+    CHECK(JOB::LUMBERJACK == (JOB) GROUND_TYPE::FOREST);
+    CHECK(JOB::FISHERMAN == (JOB) GROUND_TYPE::LAKE);
+    CHECK(JOB::FARMER == (JOB) GROUND_TYPE::FARM);
 
-    CHECK(false == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::LUMBERJACK));
-    CHECK(false == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::FISHERMAN));
-    CHECK(false == Game::compareGroundTypeSpeciality(GROUND_TYPE::FARM, JOB::QUARRY_MAN));
+    CHECK( (GROUND_TYPE) JOB::QUARRY_MAN == GROUND_TYPE::QUARRY);
+    CHECK( (GROUND_TYPE) JOB::LUMBERJACK == GROUND_TYPE::FOREST);
+    CHECK( (GROUND_TYPE) JOB::FISHERMAN == GROUND_TYPE::LAKE);
+    CHECK( (GROUND_TYPE) JOB::FARMER == GROUND_TYPE::FARM);
 
-    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::ROCK, JOB::QUARRY_MAN));
-    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::WOOD, JOB::LUMBERJACK));
-    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::FOOD, JOB::FARMER));
-    CHECK(true == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::FISH, JOB::FISHERMAN));
+    CHECK( (TYPE_RESSOURCE_TRANSPORTED) JOB::QUARRY_MAN == TYPE_RESSOURCE_TRANSPORTED::ROCK);
+    CHECK( (TYPE_RESSOURCE_TRANSPORTED) JOB::LUMBERJACK == TYPE_RESSOURCE_TRANSPORTED::WOOD);
+    CHECK( (TYPE_RESSOURCE_TRANSPORTED) JOB::FISHERMAN == TYPE_RESSOURCE_TRANSPORTED::FISH);
+    CHECK( (TYPE_RESSOURCE_TRANSPORTED) JOB::FARMER == TYPE_RESSOURCE_TRANSPORTED::FOOD);
 
-    CHECK(false == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::WOOD, JOB::FISHERMAN));
-    CHECK(false == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::FOOD, JOB::FISHERMAN));
-    CHECK(false == Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED::ROCK, JOB::FISHERMAN));
+    CHECK( JOB::QUARRY_MAN == (JOB) TYPE_RESSOURCE_TRANSPORTED::ROCK);
+    CHECK( JOB::LUMBERJACK == (JOB) TYPE_RESSOURCE_TRANSPORTED::WOOD);
+    CHECK( JOB::FISHERMAN == (JOB) TYPE_RESSOURCE_TRANSPORTED::FISH);
+    CHECK( JOB::FARMER == (JOB) TYPE_RESSOURCE_TRANSPORTED::FOOD);
+
     StructCoordinates a(0, 0);
     StructCoordinates b(2, 0);
     CHECK(2 == Game::euclidienneDistance(a, b));

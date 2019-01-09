@@ -33,8 +33,6 @@ class Game
     void lifeOfCharacter();
     bool deathOfCharacter(Character *, unsigned int, unsigned int &);
     void birthOfCharacter(Character *);
-    static bool compareGroundTypeSpeciality(GROUND_TYPE, JOB);
-    static bool compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED, JOB); /* TODO : test unitaire a faire */
     static double euclidienneDistance(const StructCoordinates &, const StructCoordinates &);
 
     void display(std::ostream &os = std::cout) const noexcept;

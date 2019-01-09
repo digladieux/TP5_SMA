@@ -4,6 +4,11 @@
 #include <iostream>
 using json = nlohmann::json;
 
+json Constantes::CONFIG_SIMU = R"({})"_json;
+const unsigned int Constantes::MAP_NUMBER = 3;
+const unsigned int Constantes::CHARACTER_NUMBER = 3;
+const unsigned int Constantes::CONFIG_NUMBER = 2;
+
 void Constantes::openingConfiguration(int config)
 {
     if ((config < 0) || (config > 3))
@@ -18,7 +23,6 @@ void Constantes::openingConfiguration(int config)
         json configuration_simulation;
         file >> configuration_simulation;
         CONFIG_SIMU = configuration_simulation[key];
-        Constantes::displayConstantes(std::cout, CONFIG_SIMU);
         file.close();
     }
     else
@@ -28,7 +32,8 @@ void Constantes::openingConfiguration(int config)
     }
 }
 
-void Constantes::displayConstantes(std::ostream &os, json &config) noexcept
+void Constantes::displayConstantes(std::ostream &os) noexcept
 {
-    os << config.dump(4);
+    os << CONFIG_SIMU.dump(4);
+    os << std::endl;
 }

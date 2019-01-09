@@ -329,7 +329,7 @@ void Grid::display(std::ostream &os) const noexcept
             {
                 push_backGround(town_hall, ground_grid[i][j]);
             }
-            if (ground_grid[i][j]->getVectorSize() == 0) /* TODO : pour le test */
+            if (ground_grid[i][j]->getVectorSize() == 0)
             {
                 ground_grid[i][j]->display(os);
             }
@@ -357,7 +357,7 @@ void Grid::displayCharacter(std::ostream &os) const noexcept
     {
         for (unsigned int j = 0; j < column_number; j++)
         {
-            if (ground_grid[i][j]->getVectorSize() == 0) /* TODO : pour le test */
+            if (ground_grid[i][j]->getVectorSize() == 0)
             {
                 os << ground_grid[i][j]->getVectorSize() << " ";
             }

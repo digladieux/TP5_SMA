@@ -7,24 +7,10 @@
 enum class JOB
 {
     NO_JOB,     /*! Sans professionnalisation (enfant) */
-    FARMER,     /*! Fermier */
-    LUMBERJACK, /*! Bucheron */
     QUARRY_MAN, /*! Mineur */
-    FISHERMAN   /*! Pecheur */
-};
-/**
- * \enum class STATE
- * \brief Enumeration de tous les etats possibles d'un personnage
- *
- */
-enum class STATE
-{
-    NO_STATE,                  /*! Pas d'etat (etat initial) */
-    GOING_TO_COLLECTION_POINT, /*! Se diriger vers un point de collecte */
-    GOING_TO_TOWN_HALL,        /*! Se dirige vers l'hotel de ville */
-    WORKING,                   /*! Travaille sur le point de collecte */
-    BUILDING,                  /*! Ameliore l'hotel de ville */
-    HAVING_SEX                 /*! Fait l'amour avec sa compagne */
+    LUMBERJACK, /*! Bucheron */
+    FISHERMAN,   /*! Pecheur */
+    FARMER     /*! Fermier */
 };
 
 /**
@@ -35,9 +21,23 @@ enum class TYPE_RESSOURCE_TRANSPORTED
 {
     NO_RESSOURCE, /*! Pas de ressource */
     ROCK,         /*! Pierre */
-    FISH,         /*! Poisson */
     WOOD,         /*! Bois */
+    FISH,         /*! Poisson */
     FOOD,         /*! Nourriture */
+};
+
+/**
+ * \enum class
+ * \brief Enumeration de tous les types possibles de case sur notre terrain de jeu possible
+ */
+enum class GROUND_TYPE
+{
+    LAND,      /*! Terrain (aucune caracteristique) */
+    QUARRY,    /*! Carriere de pierre */
+    FOREST,    /*! Foret */
+    LAKE,      /*! Lac */
+    FARM,      /*! Ferme */
+    TOWN_HALL, /*! Hotel de ville */
 };
 
 /**
@@ -51,18 +51,20 @@ enum class SEX
     FEMALE
 };
 
+
 /**
- * \enum class
- * \brief Enumeration de tous les types possibles de case sur notre terrain de jeu possible
+ * \enum class STATE
+ * \brief Enumeration de tous les etats possibles d'un personnage
+ *
  */
-enum class GROUND_TYPE
+enum class STATE
 {
-    LAND,      /*! Terrain (aucune caracteristique) */
-    TOWN_HALL, /*! Hotel de ville */
-    QUARRY,    /*! Carriere de pierre */
-    LAKE,      /*! Lac */
-    FARM,      /*! Ferme */
-    FOREST,    /*! Foret */
+    NO_STATE,                  /*! Pas d'etat (etat initial) */
+    GOING_TO_COLLECTION_POINT, /*! Se diriger vers un point de collecte */
+    GOING_TO_TOWN_HALL,        /*! Se dirige vers l'hotel de ville */
+    WORKING,                   /*! Travaille sur le point de collecte */
+    BUILDING,                  /*! Ameliore l'hotel de ville */
+    HAVING_SEX                 /*! Fait l'amour avec sa compagne */
 };
 
 #endif

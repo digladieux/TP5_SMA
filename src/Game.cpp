@@ -172,7 +172,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
     double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
     bool is_collection_point = false;
     GROUND_TYPE low_stock = ((TownHall *)ground)->lowStock();
-    if (!compareTypeRessourceTransportedJob(((MaleCharacter *)character)->getTypeRessourceTransported(), ((MaleCharacter *)character)->getSpeciality()))
+    if ( (JOB) ((MaleCharacter *)character)->getTypeRessourceTransported() != ((MaleCharacter *)character)->getSpeciality())
     {
         number_ressource = Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"];
     }
@@ -181,7 +181,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
     while (k < map.getSizeVectorGroundWithCollectionPoint())
     { /* TODO : s'arrete si 2 ressource low */
         collection_point = map.getGroundWithCollectionPoint(k);
-        if ((compareGroundTypeSpeciality(collection_point->getGroundType(), ((MaleCharacter *)character)->getSpeciality())) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
+        if ((collection_point->getGroundType() == (GROUND_TYPE) ((MaleCharacter *)character)->getSpeciality()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;
@@ -207,7 +207,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
 void Game::caseCollectionPoint(Character *character, Ground *ground)
 {
     unsigned int work_time = Constantes::CONFIG_SIMU["workTimeSpeciality"];
-    if (!compareGroundTypeSpeciality(ground->getGroundType(), ((MaleCharacter *)character)->getSpeciality()))
+    if (ground->getGroundType() != (GROUND_TYPE)((MaleCharacter *)character)->getSpeciality())
     {
         work_time = Constantes::CONFIG_SIMU["workTimeNotSpeciality"];
     }
@@ -254,16 +254,6 @@ void Game::birthOfCharacter(Character *character)
 
     number_of_birth_this_turn += ((FemaleCharacter *)character)->getBabyPerPregnancy();
     number_of_birth_total += ((FemaleCharacter *)character)->getBabyPerPregnancy();
-}
-
-bool Game::compareGroundTypeSpeciality(GROUND_TYPE ground_type, JOB job)
-{
-    return (((ground_type == GROUND_TYPE::FARM) && (job == JOB::FARMER)) || ((ground_type == GROUND_TYPE::LAKE) && (job == JOB::FISHERMAN)) || ((ground_type == GROUND_TYPE::FOREST) && (job == JOB::LUMBERJACK)) || ((ground_type == GROUND_TYPE::QUARRY) && (job == JOB::QUARRY_MAN)));
-}
-
-bool Game::compareTypeRessourceTransportedJob(TYPE_RESSOURCE_TRANSPORTED ressource, JOB job)
-{
-    return (((ressource == TYPE_RESSOURCE_TRANSPORTED::FOOD) && (job == JOB::FARMER)) || ((ressource == TYPE_RESSOURCE_TRANSPORTED::FISH) && (job == JOB::FISHERMAN)) || ((ressource == TYPE_RESSOURCE_TRANSPORTED::WOOD) && (job == JOB::LUMBERJACK)) || ((ressource == TYPE_RESSOURCE_TRANSPORTED::ROCK) && (job == JOB::QUARRY_MAN)));
 }
 
 void Game::display(std::ostream &os) const noexcept

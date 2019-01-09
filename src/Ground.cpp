@@ -8,6 +8,7 @@
 #include "../header/Ground.hpp"
 #include "../header/MaleCharacter.hpp"
 #include "../header/FemaleCharacter.hpp"
+#include "../header/Exception.hpp"
 #include <iostream>
 #include <exception>
 
@@ -139,7 +140,7 @@ void Ground::addCharacter(Character *new_worker)
  */
 void Ground::removeCharacter(const unsigned int index)
 {
-    if (((int)index < 0) || (index >= vector_character.size()))
+    if (index >= vector_character.size())
     {
         /* On verifie que l'index est compris dans les bornes du vecteur */
         std::cerr << "ERROR-  [0;" << vector_character.size() - 1 << "], INDEX = " << index << std::endl;
@@ -149,6 +150,20 @@ void Ground::removeCharacter(const unsigned int index)
     Character *character = vector_character[index];
     vector_character.erase(vector_character.begin() + index);
     delete character;
+    // try
+    // {
+    //     /* On verifie que l'index est compris dans les bornes du vecteur */
+    //     Character *character = vector_character[index];
+    //     vector_character.erase(vector_character.begin() + index);
+    //     delete character;
+    // }
+    // catch (const OutOfRangeSuperior &e)
+    // {
+    //     throw e;
+    // }
+
+    /*    std::cerr << "ERROR-  [0;" << vector_character.size() - 1 << "], INDEX = " << index << std::endl;
+    throw std::out_of_range("OUT_OF_RANGE_EXCEPTION");*/
 }
 
 /**

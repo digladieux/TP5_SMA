@@ -1,5 +1,6 @@
 #include "../header/Constantes.hpp"
 #include "../header/json.hpp"
+#include "../header/Exception.hpp"
 #include <fstream>
 #include <iostream>
 using json = nlohmann::json;
@@ -9,9 +10,9 @@ const unsigned int Constantes::MAP_NUMBER = 3;
 const unsigned int Constantes::CHARACTER_NUMBER = 3;
 const unsigned int Constantes::CONFIG_NUMBER = 2;
 
-void Constantes::openingConfiguration(int config)
+void Constantes::openingConfiguration(unsigned int config)
 {
-    if ((config < 0) || (config > 3))
+    if ((config <= 0) || (config > Constantes::CONFIG_NUMBER))
     {
         std::cerr << "INVALID_CONFIGURATION" << std::endl;
         exit(EXIT_FAILURE);

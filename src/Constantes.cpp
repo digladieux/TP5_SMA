@@ -14,10 +14,10 @@ void Constantes::openingConfiguration(unsigned int config)
 {
     if ((config <= 0) || (config > Constantes::CONFIG_NUMBER))
     {
-        std::cerr << "INVALID_CONFIGURATION" << std::endl;
-        exit(EXIT_FAILURE);
+        throw InvalidConfiguration(config);
     }
-    std::ifstream file("./CONFIGURATIONS/Configuration.json");
+    std::string file_name = "./CONFIGURATIONS/Configuration.json";
+    std::ifstream file(file_name);
     std::string key = "config" + std::to_string(config);
     if (!file.fail())
     {
@@ -28,8 +28,7 @@ void Constantes::openingConfiguration(unsigned int config)
     }
     else
     {
-        std::cerr << "INVALID_FILE";
-        exit(EXIT_FAILURE);
+        throw InvalidFile(file_name);
     }
 }
 

@@ -6,6 +6,8 @@
 #include "../header/Color.hpp"
 #include "../header/Quarry.hpp"
 #include "../header/FemaleCharacter.hpp"
+#include "../header/Exception.hpp"
+
 
 #include <fstream>
 #include <string>
@@ -24,12 +26,13 @@ Grid::Grid(unsigned int choice_map, unsigned int choice_character) : ground_with
         character_number,
         town_hall_number;
 
-    if ((file_map.fail()) || (file_character.fail()))
+    if (file_map.fail())
     {
-        std::cerr << "INVALID_FILE : " << std::endl;
-        std::cerr << "MAP_FILE : " << file_name_map << std::endl;
-        std::cerr << "CHARACTER_FILE : " << file_name_character << std::endl;
-        exit(EXIT_FAILURE);
+        throw InvalidFile(file_name_map);
+    }
+    else if (file_character.fail())
+    {
+        throw InvalidFile(file_name_character);
     }
     file_character >> character_number >> town_hall_number;
 
@@ -117,9 +120,7 @@ void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_
             character = new FemaleCharacter(Date(day, month, year));
             break;
         default:
-
-            std::cerr << "INVALID_GENDER" << std::endl;
-            exit(EXIT_FAILURE);
+            throw InvalidGender(type_character);
         }
         character_per_town[town_hall_number]++;
         vector_character[i] = character;

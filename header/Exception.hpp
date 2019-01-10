@@ -5,17 +5,16 @@
 #include <iostream>
 class Exception : std::exception
 {
-
   public:
     Exception();
     virtual ~Exception() throw();
     virtual const char *what() const throw();
 };
 
-class InvalidFile : Exception
+class InvalidFile : std::invalid_argument
 {
   private:
-    std::string file_name_error;
+    std::string message_error;
 
   public:
     InvalidFile(std::string);
@@ -23,10 +22,10 @@ class InvalidFile : Exception
     virtual const char *what() const throw();
 };
 
-class InvalidConfiguration : Exception
+class InvalidConfiguration : std::invalid_argument
 {
   private:
-    unsigned int config_error;
+    std::string message_error;
 
   public:
     InvalidConfiguration(unsigned int);
@@ -34,16 +33,34 @@ class InvalidConfiguration : Exception
     virtual const char *what() const throw();
 };
 
-class OutOfRangeSuperior : Exception
+class OutOfRangeSuperior : std::out_of_range
 {
   private:
-    unsigned int range_error;
-    unsigned int range_max;
+    std::string message_error;
 
   public:
-    OutOfRangeSuperior(unsigned int, unsigned int);
+    OutOfRangeSuperior(const unsigned int, const unsigned int);
     virtual ~OutOfRangeSuperior() throw();
     virtual const char *what() const throw();
 };
 
+class BadAllocation : std::bad_alloc
+{
+
+  public:
+    BadAllocation();
+    virtual ~BadAllocation() throw();
+    virtual const char *what() const throw();
+};
+
+class InvalidGender : std::invalid_argument
+{
+  private:
+    std::string message_error;
+
+  public:
+    InvalidGender(const unsigned int);
+    virtual ~InvalidGender() throw();
+    virtual const char *what() const throw();
+};
 #endif

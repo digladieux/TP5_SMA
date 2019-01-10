@@ -8,6 +8,7 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/mt19937ar.h"
 #include "../header/Constantes.hpp"
+#include "../header/Exception.hpp"
 
 FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
 /**
@@ -68,7 +69,7 @@ unsigned int FemaleCharacter::getMonthPregnancy(const Date &current_date) const
     }
     else if (!(character_date_of_birth < current_date))
     {
-        throw std::invalid_argument("INVALID_COMPARAISON");
+        throw CurrentDateBeforeBirthException(current_date, character_date_of_birth);
     }
     else if (pregnancy_time.getMonth() == current_date.getMonth())
     {

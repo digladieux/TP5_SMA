@@ -7,6 +7,7 @@
 
 #include "../header/MaleCharacter.hpp"
 #include "../header/Ground.hpp"
+#include "../header/Exception.hpp"
 #include "../header/StructCoordinates.hpp"
 
 MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
@@ -107,7 +108,7 @@ void MaleCharacter::setCharacterCurrentState(STATE new_state) noexcept
 
 /**
  * \fn void MaleCharacter::setTypeRessourceTransported(TYPE_RESSOURCE_TRANSPORTED new_type_ressources) noexcept
- * \brief Setteur sur la ressource transportee
+ * \brief Seteur sur la ressource transportee
  * \param new_type_ressources Nouvelle ressource transportee
  */
 void MaleCharacter::setTypeRessourceTransported(GROUND_TYPE new_type_ressources)
@@ -127,7 +128,7 @@ void MaleCharacter::setTypeRessourceTransported(GROUND_TYPE new_type_ressources)
         type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FOOD;
         break;
     default:
-        throw std::invalid_argument("INVALID_GROUND_TYPE");
+        throw InvalidGroundType( (unsigned int) new_type_ressources);
     }
 }
 

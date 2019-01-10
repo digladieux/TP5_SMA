@@ -25,6 +25,8 @@ class Date
     Date operator++();
     Date &operator=(const Date &) noexcept;
     bool operator==(const Date &) const noexcept;
+
+    std::string to_string() const noexcept;
     void display(std::ostream &os = std::cout) const noexcept;
 };
 

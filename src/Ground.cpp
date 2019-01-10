@@ -126,9 +126,8 @@ void Ground::addCharacter(Character *new_worker)
         /* On verifie que l'allocation d'un personnage est possible */
         vector_character.push_back(new_worker);
     }
-    catch (const std::bad_alloc &e)
+    catch (const BadAllocation &e)
     {
-        std::cerr << "VECTOR_TOO_HIGH" << std::endl;
         throw e;
     }
 }
@@ -158,11 +157,9 @@ void Ground::removeCharacter(const unsigned int index)
  */
 Character *Ground::getCharacter(const unsigned int index) const
 {
-    if (((int)index < 0) || (index >= vector_character.size()))
+    if (index >= vector_character.size())
     {
-        /* On verifie que l'index est compris dans les bornes du vecteur */
-        std::cerr << "ERROR - [0;" << vector_character.size() - 1 << "], INDEX = " << index << std::endl;
-        throw std::out_of_range("OUT_OF_RANGE_EXCEPTION");
+        throw OutOfRangeSuperior(index, vector_character.size() - 1);
     }
 
     return vector_character[index];

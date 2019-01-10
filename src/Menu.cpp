@@ -1,6 +1,7 @@
 #include "../header/Menu.hpp"
 #include "../header/Constantes.hpp"
-#include <fstream> 
+#include "../header/Exception.hpp"
+#include <fstream>
 void Menu::displayWelcome(std::ostream &os) noexcept
 {
     os << "Welcome to our game : CiviliZZation" << std::endl;
@@ -52,9 +53,7 @@ void displayMapFile(std::ostream &os, std::string file_name)
     }
     else
     {
-        std::cerr << "INVALID_FILE" << std::endl;
-        std::cerr << file_name << std::endl;
-        exit(EXIT_FAILURE);
+        throw InvalidFile(file_name);
     }
 }
 
@@ -104,8 +103,7 @@ void displayCharacterFile(std::ostream &os, std::string file_name)
     }
     else
     {
-        std::cerr << "INVALID_FILE" << std::endl;
-        exit(EXIT_FAILURE);
+        throw InvalidFile(file_name);
     }
 }
 unsigned int Menu::displayConfigChoice(std::ostream &os) noexcept

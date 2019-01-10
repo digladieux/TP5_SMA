@@ -35,8 +35,21 @@ const char *InvalidConfiguration::what() const throw()
     return message_error.c_str();
 }
 
-OutOfRangeSuperior::OutOfRangeSuperior(const unsigned int range_out, const unsigned int range_maximum) : std::out_of_range(""), message_error("MAX_RANGE_EXPECTED : " + std::to_string(range_out) + "\nYOUR_RANGE : " + std::to_string(range_maximum))
+InvalidJob::InvalidJob(unsigned int job_error) : std::invalid_argument(""), message_error("JOB_MAX_EXPECTED : 4\nHERE : " + std::to_string(job_error))
 {
+    std::cerr << what() << std::endl;
+}
+
+InvalidJob::~InvalidJob() throw() {}
+
+const char *InvalidJob::what() const throw()
+{
+    return message_error.c_str();
+}
+
+OutOfRangeSuperior::OutOfRangeSuperior(const unsigned int range_maximum, const unsigned int range_out) : std::out_of_range("")
+{
+    setValueOutOfRange(range_out, range_maximum);
     std::cerr << what() << std::endl;
 }
 
@@ -46,8 +59,14 @@ const char *OutOfRangeSuperior::what() const throw()
 {
     return message_error.c_str();
 }
+void OutOfRangeSuperior::setValueOutOfRange(const unsigned int range_out, const unsigned int range_maximum)
+{
+    message_error = "MAX_RANGE_EXPECTED : " + std::to_string(range_out) + "\nYOUR_RANGE : " + std::to_string(range_maximum);
+}
 
-BadAllocation::BadAllocation() {}
+BadAllocation::BadAllocation()
+{
+}
 BadAllocation::~BadAllocation() throw() {}
 const char *BadAllocation::what() const throw()
 {
@@ -64,4 +83,68 @@ InvalidGender::~InvalidGender() throw() {}
 const char *InvalidGender::what() const throw()
 {
     return message_error.c_str();
+}
+
+CurrentDateBeforeBirthException::CurrentDateBeforeBirthException(const Date &current_date, const Date &date_of_birth) : std::invalid_argument(""), message_error("CURRENT_DATE : " + current_date.to_string() + "DATE_OF_BIRTH : " + date_of_birth.to_string())
+{
+    std::cerr << what() << std::endl;
+}
+
+CurrentDateBeforeBirthException::~CurrentDateBeforeBirthException() throw() {}
+
+const char *CurrentDateBeforeBirthException::what() const throw()
+{
+    return message_error.c_str();
+}
+
+ConstructorDateException::ConstructorDateException(const unsigned int day, const unsigned int month, const unsigned int year) : std::invalid_argument(""), message_error("DATE_INVALID : " + std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year))
+{
+    std::cerr << what() << std::endl;
+}
+
+ConstructorDateException::~ConstructorDateException() throw() {}
+
+const char *ConstructorDateException::what() const throw()
+{
+    return message_error.c_str();
+}
+
+InvalidGroundType::InvalidGroundType(unsigned int ground_type_error) : std::invalid_argument(""), message_error("GROUND_TYPE_MAX_EXPECTED : 4\nHERE : " + std::to_string(ground_type_error))
+{
+    std::cerr << what() << std::endl;
+}
+
+InvalidGroundType::~InvalidGroundType() throw() {}
+
+const char *InvalidGroundType::what() const throw()
+{
+    return message_error.c_str();
+}
+
+InvalidGroundTypeReadingFile::InvalidGroundTypeReadingFile(char ground_type_error) : std::invalid_argument(""), message_error("GROUND_TYPE_MUST_BE : ., T, F, f, L, Q\nHERE : " + std::to_string(ground_type_error))
+{
+    std::cerr << what() << std::endl;
+}
+
+InvalidGroundTypeReadingFile::~InvalidGroundTypeReadingFile() throw() {}
+
+const char *InvalidGroundTypeReadingFile::what() const throw()
+{
+    return message_error.c_str();
+}
+
+InvalidDirection::InvalidDirection(const unsigned int x, const unsigned int y, const unsigned int row_number, const unsigned int column_number) : std::invalid_argument("")
+{
+    setValueDirectionException(x, y, row_number, column_number);
+}
+InvalidDirection::~InvalidDirection() throw() {}
+
+const char *InvalidDirection::what() const throw()
+{
+    return message_error.c_str();
+}
+
+void InvalidDirection::setValueDirectionException(const unsigned int x, const unsigned int y, const unsigned int row_number, const unsigned int column_number)
+{
+    message_error = "MAP : [" + std::to_string(row_number) + "][" + std::to_string(column_number) + "]\nHERE_DIRECTION : [" + std::to_string(x) + "][" + std::to_string(y) + "]\n";
 }

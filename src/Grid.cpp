@@ -8,7 +8,6 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/Exception.hpp"
 
-
 #include <fstream>
 #include <string>
 #include <array>
@@ -46,7 +45,7 @@ Grid::Grid(unsigned int choice_map, unsigned int choice_character) : ground_with
         }
     }
 
-    catch (const std::bad_alloc &e)
+    catch (const BadAllocation &e)
     {
         throw e;
     }
@@ -195,9 +194,8 @@ void Grid::addGroundWithCharacter(Ground *ground)
     {
         ground_with_character.push_back(ground);
     }
-    catch (const std::bad_alloc &e)
+    catch (const BadAllocation &e)
     {
-        std::cerr << "BAD_ALLOC" << std::endl;
         throw e;
     }
 }
@@ -205,9 +203,7 @@ void Grid::removeGroundWithCharacter(const unsigned int index)
 {
     if (index > ground_with_character.size() - 1)
     {
-        std::cerr << "OUT_OF_RANGE_INDEX" << std::endl;
-        std::cerr << "REQUIRE_INDEX [0;< " << ground_with_character.size() - 1 << "], HERE = " << index << std::endl;
-        exit(EXIT_FAILURE);
+        throw OutOfRangeSuperior(index, ground_with_character.size());
     }
     ground_with_character.erase(ground_with_character.begin() + index);
 }
@@ -217,9 +213,8 @@ void Grid::push_backGround(std::vector<Ground *> &vector, Ground *ground)
     {
         vector.push_back(ground);
     }
-    catch (const std::bad_alloc &e)
+    catch (const BadAllocation &e)
     {
-        std::cerr << "BAD_ALLOC" << std::endl;
         throw e;
     }
 }
@@ -245,8 +240,7 @@ JOB Grid::choiceJob(unsigned int file_job)
         job = JOB::FISHERMAN;
         break;
     default:
-        std::cerr << "INVALID_JOB" << std::endl;
-        exit(EXIT_FAILURE);
+        throw InvalidJob((unsigned int)job);
         break;
     }
     return job;
@@ -276,8 +270,7 @@ Ground *Grid::initGround(char type_ground)
         ground = new Ground();
         break;
     default:
-        std::cerr << "INVALID_CHARACTER_FILE";
-        ground = nullptr;
+        throw InvalidGroundTypeReadingFile(type_ground);
         break;
     }
     return ground;
@@ -397,39 +390,36 @@ unsigned int Grid::getSizeVectorGroundWithCollectionPoint() const noexcept
 
 Ground *Grid::getGroundGrid(unsigned int index)
 {
-    try
+    if (index / column_number >= row_number)
     {
-        return ground_grid[index / column_number][index % column_number];
+        throw OutOfRangeSuperior(index / column_number, row_number - 1);
     }
-    catch (const std::out_of_range &e)
+    else if (index % column_number >= column_number)
     {
-        std::cerr << "INVALID_GROUND_ID" << std::endl;
-        throw e;
+        throw OutOfRangeSuperior(index % column_number, column_number - 1);
     }
+    return ground_grid[index / column_number][index % column_number];
 }
 
 Ground *Grid::getDirectionCharacter(StructCoordinates direction)
 {
-    try
+    if (direction.getAbscissa() >= row_number)
     {
-        return ground_grid[direction.getAbscissa()][direction.getOrdinate()];
+        throw OutOfRangeSuperior(direction.getAbscissa(), row_number - 1);
     }
-    catch (const std::out_of_range &e)
+    else if (direction.getOrdinate() >= column_number)
     {
-        std::cerr << "INVALID_DIRECTION" << std::endl;
-        throw e;
+        throw OutOfRangeSuperior(direction.getOrdinate(), column_number - 1);
     }
+    return ground_grid[direction.getAbscissa()][direction.getOrdinate()];
 }
 
 Ground *Grid::getGroundWithCharacter(unsigned int index) const
 {
     if (index > ground_with_character.size() - 1)
     {
-        std::cerr << "OUT_OF_RANGE_INDEX" << std::endl;
-        std::cerr << "REQUIRE_INDEX [0;< " << ground_with_character.size() - 1 << "], HERE = " << index << std::endl;
-        exit(EXIT_FAILURE);
+        throw OutOfRangeSuperior(index, ground_with_character.size() - 1);
     }
-
     return ground_with_character[index];
 }
 
@@ -437,9 +427,7 @@ Ground *Grid::getGroundWithCollectionPoint(unsigned int index) const
 {
     if (index > ground_with_collection_point.size() - 1)
     {
-        std::cerr << "OUT_OF_RANGE_INDEX" << std::endl;
-        std::cerr << "REQUIRE_INDEX [0;< " << ground_with_collection_point.size() - 1 << "], HERE = " << index << std::endl;
-        exit(EXIT_FAILURE);
+        throw OutOfRangeSuperior(index, ground_with_collection_point.size() - 1);
     }
 
     return ground_with_collection_point[index];
@@ -447,12 +435,13 @@ Ground *Grid::getGroundWithCollectionPoint(unsigned int index) const
 
 Ground *Grid::getGroundGrid(unsigned int row_index, unsigned int column_index) const
 {
-    if ((row_index > row_number - 1) || (column_index > column_number - 1))
+    if (row_index > row_number - 1)
     {
-        std::cerr << "OUT_OF_RANGE_INDEX" << std::endl;
-        std::cerr << "REQUIRE_ROW < " << row_number << " HERE = " << row_index << std::endl;
-        std::cerr << "REQUIRE_COLUMN < " << column_number << " HERE = " << column_index << std::endl;
-        exit(EXIT_FAILURE);
+        throw OutOfRangeSuperior(row_index, row_number - 1);
+    }
+    else if (column_index > column_number - 1)
+    {
+        throw OutOfRangeSuperior(column_index, column_number - 1);
     }
 
     return ground_grid[row_index][column_index];

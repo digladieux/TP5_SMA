@@ -6,6 +6,7 @@
  */
 
 #include "../header/Character.hpp"
+#include "../header/Exception.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
 unsigned int Character::character_number = 0;
@@ -104,7 +105,7 @@ unsigned int Character::getCharacterAge(const Date &current_date) const
     }
     else if (!(character_date_of_birth < current_date))
     {
-        throw std::invalid_argument("INVALID_COMPARAISON");
+        throw CurrentDateBeforeBirthException(current_date, character_date_of_birth);
     }
     else if (character_date_of_birth.getYear() == current_date.getYear())
     {

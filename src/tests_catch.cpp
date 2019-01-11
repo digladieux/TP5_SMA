@@ -525,16 +525,22 @@ TEST_CASE("GroundCopy")
 
 TEST_CASE("Exception")
 {
-    /*TODO : fichier content des exceptions */
     Constantes::openingConfiguration(1);
     Ground *ground1 = new Ground();
-    Character *character = new Character(Date(20, 10, 2018));
+    Character *character = new MaleCharacter(Date(20, 10, 2018));
     Grid map(1, 3);
 
     REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
     REQUIRE_THROWS_AS(Constantes::openingConfiguration(8), InvalidConfiguration);
     REQUIRE_THROWS_AS(Grid(8, 1), InvalidFile);
     REQUIRE_THROWS_AS(Grid(3, 8), InvalidFile);
+    REQUIRE_THROWS_AS(Grid(1,100), InvalidGender);
+    REQUIRE_THROWS_AS(Grid(1,101), ConstructorDateException);
+    REQUIRE_THROWS_AS(Grid(1,102), InvalidJob);
+    REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
+    REQUIRE_THROWS_AS(Grid(100,1), InvalidGroundTypeReadingFile);
+    REQUIRE_THROWS_AS(((MaleCharacter*)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
+    
     REQUIRE_THROWS_AS(map.getGroundGrid(11, 8), OutOfRangeSuperior);
     REQUIRE_THROWS_AS(map.getGroundGrid(8, 11), OutOfRangeSuperior);
     REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);

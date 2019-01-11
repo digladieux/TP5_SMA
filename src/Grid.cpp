@@ -45,7 +45,7 @@ Grid::Grid(unsigned int choice_map, unsigned int choice_character) : ground_with
         }
     }
 
-    catch (const BadAllocation &e)
+    catch (const std::bad_alloc &e)
     {
         throw e;
     }
@@ -96,6 +96,7 @@ void Grid::initialisationMap(std::ifstream &file_map, unsigned int *character_pe
 void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_per_town, std::vector<Character *> &vector_character, unsigned int character_number)
 {
     Character *character = nullptr;
+    Date date_of_birth ;
     JOB job;
     unsigned int
         file_job,
@@ -108,15 +109,23 @@ void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_
     for (unsigned int i = 0; i < character_number; i++)
     {
         file >> type_character >> town_hall_number >> day >> month >> year;
+        try
+        {
+            date_of_birth = Date(day, month, year);
+        }
+        catch (const ConstructorDateException& e)
+        {
+            throw e ;
+        }
         switch (type_character)
         {
         case 0:
             file >> file_job;
             job = choiceJob(file_job);
-            character = new MaleCharacter(job, Date(day, month, year));
+            character = new MaleCharacter(job, date_of_birth);
             break;
         case 1:
-            character = new FemaleCharacter(Date(day, month, year));
+            character = new FemaleCharacter(date_of_birth);
             break;
         default:
             throw InvalidGender(type_character);
@@ -194,7 +203,7 @@ void Grid::addGroundWithCharacter(Ground *ground)
     {
         ground_with_character.push_back(ground);
     }
-    catch (const BadAllocation &e)
+    catch (const std::bad_alloc &e)
     {
         throw e;
     }
@@ -213,7 +222,7 @@ void Grid::push_backGround(std::vector<Ground *> &vector, Ground *ground)
     {
         vector.push_back(ground);
     }
-    catch (const BadAllocation &e)
+    catch (const std::bad_alloc &e)
     {
         throw e;
     }
@@ -240,11 +249,12 @@ JOB Grid::choiceJob(unsigned int file_job)
         job = JOB::FISHERMAN;
         break;
     default:
-        throw InvalidJob((unsigned int)job);
+        throw InvalidJob(file_job);
         break;
     }
     return job;
 }
+
 
 Ground *Grid::initGround(char type_ground)
 {

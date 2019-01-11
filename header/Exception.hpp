@@ -59,14 +59,6 @@ class OutOfRangeSuperior : std::out_of_range
     virtual const char *what() const throw();
 };
 
-class BadAllocation : std::bad_alloc
-{
-
-  public:
-    BadAllocation();
-    virtual ~BadAllocation() throw();
-    virtual const char *what() const throw();
-};
 
 class InvalidGender : std::invalid_argument
 {

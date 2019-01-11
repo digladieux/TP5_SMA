@@ -126,7 +126,7 @@ void Ground::addCharacter(Character *new_worker)
         /* On verifie que l'allocation d'un personnage est possible */
         vector_character.push_back(new_worker);
     }
-    catch (const BadAllocation &e)
+    catch (const std::bad_alloc &e)
     {
         throw e;
     }

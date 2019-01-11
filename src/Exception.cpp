@@ -64,15 +64,6 @@ void OutOfRangeSuperior::setValueOutOfRange(const unsigned int range_out, const 
     message_error = "MAX_RANGE_EXPECTED : " + std::to_string(range_out) + "\nYOUR_RANGE : " + std::to_string(range_maximum);
 }
 
-BadAllocation::BadAllocation()
-{
-}
-BadAllocation::~BadAllocation() throw() {}
-const char *BadAllocation::what() const throw()
-{
-    return "VECTOR_TOO_HIGH";
-}
-
 InvalidGender::InvalidGender(const unsigned int gender_error) : std::invalid_argument(""), message_error("GENDER_EXPECTED_0_1, HERE : " + std::to_string(gender_error))
 {
     std::cerr << what() << std::endl;

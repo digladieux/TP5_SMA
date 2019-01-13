@@ -1,6 +1,7 @@
 #include "../header/Date.hpp"
 #include "../header/Exception.hpp"
 
+
 Date::Date() : day(1), month(1), year(0) {}
 Date::Date(const unsigned int &d, const unsigned int &m, const unsigned int &y) : day(d), month(m), year(y)
 {
@@ -140,4 +141,32 @@ std::string Date::to_string() const noexcept
 void Date::display(std::ostream &os) const noexcept
 {
     os << "Day " << day << ", Month " << month << ", Year " << year << std::endl;
+}
+unsigned int Date::getAge(const Date& current_date) const 
+{
+    unsigned int age;
+    if (current_date == *this)
+    {
+        age = 0;
+    }
+    else if (!(*this < current_date))
+    {
+        throw CurrentDateBeforeBirthException(current_date, *this);
+    }
+
+    
+    else if (this->getYear() == current_date.getYear())
+    {
+        age = 0;
+    }
+    else if (Date(this->getDay(), this->getMonth(), 0) < Date(current_date.getDay(), current_date.getMonth(), 0))
+    {
+        age = current_date.getYear() - this->getYear() - 1;
+    }
+    else
+    {
+        age = current_date.getYear() - this->getYear();
+    }
+
+    return age;
 }

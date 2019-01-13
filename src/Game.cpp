@@ -25,8 +25,8 @@ void Game::run(unsigned int round)
         std::cout << "Tour " << i + 1 << std::endl;
         turn.display();
         lifeOfCharacter();
-        this->display();
-        usleep(100000);
+        display();
+        usleep(1000000);
     }
 }
 
@@ -150,11 +150,11 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         {
             map.removeGroundWithCharacter(index_ground_with_character);
         }
-        if (next_place->getVectorSize() == 0)
+        next_place->addCharacter(temp_character);
+        if (next_place->getVectorSize() == 1)
         {
             map.addGroundWithCharacter(next_place);
         }
-        next_place->addCharacter(temp_character);
     }
     return movement_possible;
 }

@@ -126,4 +126,15 @@ class InvalidDirection : std::invalid_argument
     virtual ~InvalidDirection() throw();
     virtual const char *what() const throw();
 };
+
+class InvalidNumberOfCharacter : std::invalid_argument
+{
+  private:
+    std::string message_error;
+
+  public:
+    InvalidNumberOfCharacter(const unsigned int, const unsigned int);
+    virtual ~InvalidNumberOfCharacter() throw();
+    virtual const char *what() const throw();
+};
 #endif

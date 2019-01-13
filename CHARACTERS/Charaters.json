@@ -1,0 +1,182 @@
+{
+    "character_number": 20,
+    "character1":
+    { 
+        "sex": 0,
+        "day": 24,
+        "month": 7,
+        "year": 50,
+        "job": 0    
+    },
+
+    "character2":
+    { 
+        "sex": 0,
+        "day": 4,
+        "month": 6,
+        "year": 40,
+        "job": 1
+    },
+
+    "character3":
+    { 
+        "sex": 0,
+        "day": 5,
+        "month": 1,
+        "year": 38,
+        "job": 2
+    },
+
+    "character4":
+    { 
+        "sex": 0,
+        "day": 1,
+        "month": 12,
+        "year": 20,
+        "job": 3
+    },
+
+    "character5":
+    { 
+        "sex": 0,
+        "day": 27,
+        "month": 12,
+        "year": 35,
+        "job": 4
+    },
+
+    "character6":
+    { 
+        "sex": 0,
+        "day": 6,
+        "month": 5,
+        "year": 58,
+        "job": 0
+    },
+
+    "character7":
+    { 
+        "sex": 0,
+        "day": 7,
+        "month": 3,
+        "year": 15,
+        "job": 1
+    },
+
+    "character8":
+    { 
+        "sex": 0,
+        "day": 8,
+        "month": 6,
+        "year": 36,
+        "job": 2
+    },
+
+    "character9":
+    { 
+        "sex": 0,
+        "day": 5,
+        "month": 11,
+        "year": 1,
+        "job": 3
+    },
+
+    "character10":
+    { 
+        "sex": 0,
+        "day": 6,
+        "month": 8,
+        "year": 22,
+        "job": 4
+    },
+
+    "character11":
+    { 
+        "sex": 1,
+        "day": 1,
+        "month": 8,
+        "year": 50,
+        "baby": 0
+    },
+
+    "character12":
+    { 
+        "sex": 1,
+        "day": 17,
+        "month": 4,
+        "year": 45,
+        "baby" : 0
+    },
+
+    "character13":
+    { 
+        "sex": 1,
+        "day": 26,
+        "month": 2,
+        "year": 5,
+        "baby" : 2
+    },
+
+    "character14":
+    { 
+        "sex": 1,
+        "day": 7,
+        "month": 8,
+        "year": 23,
+        "baby" : 1
+    },
+
+    "character15":
+    { 
+        "sex": 1,
+        "day": 3,
+        "month": 11,
+        "year": 27,
+        "baby" : 1
+    },
+
+    "character16":
+    { 
+        "sex": 1,
+        "day": 4,
+        "month": 6,
+        "year": 30,
+        "baby" : 3
+    },
+
+    "character17":
+    { 
+        "sex": 1,
+        "day": 19,
+        "month": 2,
+        "year": 40,
+        "baby" : 0
+    },
+
+    "character18":
+    { 
+        "sex": 1,
+        "day": 11,
+        "month": 7,
+        "year": 4,
+        "baby" : 0
+    },
+
+    "character19":
+    { 
+        "sex": 1,
+        "day": 6,
+        "month": 10,
+        "year": 32,
+        "baby" : 1
+    },
+
+    "character20":
+    { 
+        "sex": 1,
+        "day": 13,
+        "month": 3,
+        "year": 15,
+        "baby" : 2
+    }
+}

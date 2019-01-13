@@ -16,6 +16,7 @@
 #include "../header/Menu.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/Exception.hpp"
+#include <string>
 #include <fstream>
 #include <iostream>
 using json = nlohmann::json;
@@ -534,13 +535,13 @@ TEST_CASE("Exception")
     REQUIRE_THROWS_AS(Constantes::openingConfiguration(8), InvalidConfiguration);
     REQUIRE_THROWS_AS(Grid(8, 1), InvalidFile);
     REQUIRE_THROWS_AS(Grid(3, 8), InvalidFile);
-    REQUIRE_THROWS_AS(Grid(1,100), InvalidGender);
-    REQUIRE_THROWS_AS(Grid(1,101), ConstructorDateException);
-    REQUIRE_THROWS_AS(Grid(1,102), InvalidJob);
-    REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
-    REQUIRE_THROWS_AS(Grid(100,1), InvalidGroundTypeReadingFile);
-    REQUIRE_THROWS_AS(((MaleCharacter*)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
-    
+    REQUIRE_THROWS_AS(Grid(1, 100), InvalidGender);
+    REQUIRE_THROWS_AS(Grid(1, 101), ConstructorDateException);
+    REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
+    //REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
+    REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);
+    REQUIRE_THROWS_AS(((MaleCharacter *)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
+
     REQUIRE_THROWS_AS(map.getGroundGrid(11, 8), OutOfRangeSuperior);
     REQUIRE_THROWS_AS(map.getGroundGrid(8, 11), OutOfRangeSuperior);
     REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);
@@ -556,21 +557,54 @@ TEST_CASE("Exception")
     delete character;
     delete ground1;
 }
+
+TEST_CASE("JsonCharacterValid?")
+{
+    std::string file_name = "CHARACTERS/Charaters.json";
+    std::ifstream file(file_name);
+    unsigned int male_number;
+    unsigned int female_number;
+    Character *test_character;
+    std::string character;
+    if (!file.fail())
+    {
+        json configuration_simulation;
+        file >> configuration_simulation;
+
+        unsigned int character_number = configuration_simulation["character_number"];
+        /* TODO: test */
+        file.close();
+    }
+    else
+    {
+        throw InvalidFile(file_name);
+    }
+}
 /*
 TEST_CASE("Game")
 {
+    system("clear") ;
     Game game(1, 3, 1, Date(1, 1, 19));
     game.run(1);
 }
+*/
 
 TEST_CASE("Menu")
 {
-    int map_choice, character_choice, config_choice;
     Menu::displayWelcome();
-    map_choice = Menu::displayMapChoice();
-    character_choice = Menu::displayCharacterChoice();
-    config_choice = Menu::displayConfigChoice();
-    Game game(map_choice, character_choice, config_choice, Date(1, 1, 20));
-    game.run(10);
+    Menu menu;
+
+    menu.displayAllCharacter();
+    std::vector<unsigned int> character_choice = menu.characterChoice();
+
+    menu.displayAllMap();
+    unsigned int map_choice = menu.mapChoice();
+
+    menu.displayAllConfig();
+    unsigned config_choice = menu.configChoice();
+    Game game(map_choice,/*character_choice*/3, config_choice, Date(1, 1, 60));
+    //game.run(menu.displayTurnChoice());
 }
-*/
+
+/* TODO quand il passe a l'age adulte il gagne un metier ? */
+/* TODO menopose */

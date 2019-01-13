@@ -98,29 +98,7 @@ int Character::getCharacterTeam() const noexcept
 
 unsigned int Character::getCharacterAge(const Date &current_date) const
 {
-    unsigned int age;
-    if (current_date == character_date_of_birth)
-    {
-        age = 0;
-    }
-    else if (!(character_date_of_birth < current_date))
-    {
-        throw CurrentDateBeforeBirthException(current_date, character_date_of_birth);
-    }
-    else if (character_date_of_birth.getYear() == current_date.getYear())
-    {
-        age = 0;
-    }
-    else if (Date(character_date_of_birth.getDay(), character_date_of_birth.getMonth(), 0) < Date(current_date.getDay(), current_date.getMonth(), 0))
-    {
-        age = current_date.getYear() - character_date_of_birth.getYear() - 1;
-    }
-    else
-    {
-        age = current_date.getYear() - character_date_of_birth.getYear();
-    }
-
-    return age;
+    return character_date_of_birth.getAge(current_date) ;
 }
 /**
  * \fn void Character::setCharacterTeam(unsigned int new_team) noexcept

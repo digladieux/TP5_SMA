@@ -7,11 +7,133 @@
 #include "../header/Quarry.hpp"
 #include "../header/FemaleCharacter.hpp"
 #include "../header/Exception.hpp"
+#include "../header/json.hpp"
 
 #include <fstream>
 #include <string>
-#include <array>
 #include <iostream>
+using json = nlohmann::json;
+
+Grid::Grid(unsigned int choice_map, std::vector<unsigned int> choice_character) : ground_with_character(0)
+{
+    std::string file_name_map = "./MAPS/Map" + std::to_string(choice_map) + ".txt";
+    std::string file_name_character = "./CHARACTERS/Characters.json";
+    std::ifstream file_map(file_name_map);
+    std::ifstream file_character(file_name_character);
+    std::vector<Character *> vector_character;
+    Ground::resetGroundNumber();
+    if (file_map.fail())
+    {
+        throw InvalidFile(file_name_map);
+    }
+    else if (file_character.fail())
+    {
+        throw InvalidFile(file_name_character);
+    }
+
+    /*! CHARACTER */
+    //initialisationCharacter(file_character, character_per_town, vector_character, character_number);
+    initialisationCharacter(file_character, choice_character, vector_character);
+    /*! MAP */
+
+    initialisationMap(file_map, vector_character);
+    file_map.close();
+}
+
+void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character)
+{
+    try
+    {
+        vector_character.resize(choice_character.size());
+    }
+    catch (const std::bad_alloc &e)
+    {
+        throw e;
+    }
+    Character *character;
+    json json_character;
+    file_character >> json_character;
+    std::string key_character;
+    Date date_of_birth;
+    unsigned int sex;
+    for (unsigned int i = 0; i < choice_character.size(); i++)
+    {
+        key_character = "character" + std::to_string(choice_character[i]);
+        try
+        {
+            date_of_birth = Date(json_character[key_character]["day"], json_character[key_character]["month"], json_character[key_character]["year"]);
+        }
+        catch (const ConstructorDateException &e)
+        {
+            throw e;
+        }
+        sex = json_character[key_character]["sex"];
+        switch (sex)
+        {
+        case 0:
+            character = new MaleCharacter(json_character[key_character]["job"], date_of_birth);
+            /* TODO : cette fonction et on supprimera la ligne dans le initialisation map 
+            ((MaleCharacter *)character)->setDirection(0);*/
+            break;
+
+        case 1:
+            // TODO : faire un new constructeur
+            character = new FemaleCharacter(date_of_birth);
+            break;
+
+        default:
+            throw InvalidGender(sex);
+        }
+        character->setCharacterTeam(json_character[key_character]["team"]);
+        vector_character[i] = character;
+    }
+}
+
+void Grid::initialisationMap(std::ifstream &file_map, std::vector<Character *> &vector_character)
+{
+    file_map >> row_number >> column_number;
+    char type_ground;
+    Ground *ground;
+    ground_grid = new Ground **[row_number]();
+
+    for (unsigned int i = 0; i < row_number; i++)
+    {
+        ground_grid[i] = new Ground *[column_number]();
+
+        for (unsigned int j = 0; j < column_number; j++)
+        {
+            file_map >> type_ground;
+            ground = initGround(type_ground);
+            ground_grid[i][j] = ground;
+
+            /*! Ajout des personnages dans la ville */
+            if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
+            {
+                push_backGround(ground_with_collection_point, ground);
+            }
+            if (ground->getGroundType() == GROUND_TYPE::TOWN_HALL)
+            {
+                push_backGround(ground_with_character, ground);
+                for (unsigned int k = 0; k < vector_character.size(); k++)
+                {
+                    if (vector_character[k]->getCharacterTeam() == ground->getGroundId())
+                    {
+                        {
+                            Character *character;
+                            character = vector_character[k];
+                            if (character->getCharacterGender() == SEX::MALE)
+                            {
+                                ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
+                            }
+                            ground_grid[i][j]->addCharacter(character);
+                            vector_character.erase(vector_character.begin() + k);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 Grid::Grid(unsigned int choice_map, unsigned int choice_character) : ground_with_character(0)
 {
@@ -56,6 +178,7 @@ Grid::Grid(unsigned int choice_map, unsigned int choice_character) : ground_with
     initialisationMap(file_map, character_per_town, vector_character);
     delete[] character_per_town;
     file_map.close();
+    /* TODO : file_character.close() ? */
 }
 
 void Grid::initialisationMap(std::ifstream &file_map, unsigned int *character_per_town, std::vector<Character *> &vector_character)
@@ -96,7 +219,7 @@ void Grid::initialisationMap(std::ifstream &file_map, unsigned int *character_pe
 void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_per_town, std::vector<Character *> &vector_character, unsigned int character_number)
 {
     Character *character = nullptr;
-    Date date_of_birth ;
+    Date date_of_birth;
     JOB job;
     unsigned int
         file_job,
@@ -113,9 +236,9 @@ void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_
         {
             date_of_birth = Date(day, month, year);
         }
-        catch (const ConstructorDateException& e)
+        catch (const ConstructorDateException &e)
         {
-            throw e ;
+            throw e;
         }
         switch (type_character)
         {
@@ -254,7 +377,6 @@ JOB Grid::choiceJob(unsigned int file_job)
     }
     return job;
 }
-
 
 Ground *Grid::initGround(char type_ground)
 {

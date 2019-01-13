@@ -11,7 +11,7 @@ DEP=$(addprefix build/,$(OBJ:.o=.d))
 all: $(OBJ)
 	$(CXX) -o $(EXE) $^ $(LDFLAGS)
 
-build/%.o: src/%.cpp
+build/%.o: src/%.cpp 
 	@mkdir -p build
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 

@@ -18,6 +18,7 @@ class Date
     unsigned int getDay() const noexcept;
     unsigned int getMonth() const noexcept;
     unsigned int getYear() const noexcept;
+    unsigned int getAge(const Date&) const ;
 
     bool isDateValid() const noexcept;
     bool operator<(const Date &) const;
@@ -29,5 +30,4 @@ class Date
     std::string to_string() const noexcept;
     void display(std::ostream &os = std::cout) const noexcept;
 };
-
 #endif

@@ -139,3 +139,11 @@ void InvalidDirection::setValueDirectionException(const unsigned int x, const un
 {
     message_error = "MAP : [" + std::to_string(row_number) + "][" + std::to_string(column_number) + "]\nHERE_DIRECTION : [" + std::to_string(x) + "][" + std::to_string(y) + "]\n";
 }
+
+InvalidNumberOfCharacter::InvalidNumberOfCharacter(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) {}
+InvalidNumberOfCharacter::~InvalidNumberOfCharacter() throw() {}
+
+const char *InvalidNumberOfCharacter::what() const throw()
+{
+    return message_error.c_str();
+}

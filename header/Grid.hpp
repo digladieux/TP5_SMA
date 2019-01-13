@@ -19,46 +19,50 @@
  */
 class Grid
 {
-  private:
-    unsigned int row_number;                            /*! Nombre de ligne sur le plateau */
-    unsigned int column_number;                         /*! Nombre de colonne sur le plateau */
-    Ground ***ground_grid;                              /*! Matrice de tous les terrains */
-    std::vector<Ground *> ground_with_character;        /*! Tableau dynamique de l'emplacement des joueurs sur le terrain de jeux */
-    std::vector<Ground *> ground_with_collection_point; /*! Tableau dynamique de l'emplacement des lieux interessants sur le terrain de jeux */
+private:
+  unsigned int row_number;                            /*! Nombre de ligne sur le plateau */
+  unsigned int column_number;                         /*! Nombre de colonne sur le plateau */
+  Ground ***ground_grid;                              /*! Matrice de tous les terrains */
+  std::vector<Ground *> ground_with_character;        /*! Tableau dynamique de l'emplacement des joueurs sur le terrain de jeux */
+  std::vector<Ground *> ground_with_collection_point; /*! Tableau dynamique de l'emplacement des lieux interessants sur le terrain de jeux */
 
-    void initialisationCharacter(std::ifstream &, unsigned int[], std::vector<Character *> &, unsigned int);
-    void initialisationMap(std::ifstream &, unsigned int *, std::vector<Character *> &);
-    void addCharacterToGround(std::vector<Character *> &, Ground *, unsigned int, unsigned int);
+  void initialisationCharacter(std::ifstream &, unsigned int[], std::vector<Character *> &, unsigned int);
+  void initialisationMap(std::ifstream &, unsigned int *, std::vector<Character *> &);
+  void addCharacterToGround(std::vector<Character *> &, Ground *, unsigned int, unsigned int);
 
-  public:
-    Grid(unsigned int, unsigned int);
-    Grid(const Grid &);
-    ~Grid();
-    void displayMap(std::ostream &os = std::cout) const noexcept;
-    void displayCharacter(std::ostream &os = std::cout) const noexcept;
-    void display(std::ostream &os = std::cout) const noexcept;
+  void initialisationCharacter(std::ifstream &, std::vector<unsigned int>, std::vector<Character *> &);
+  void initialisationMap(std::ifstream &, std::vector<Character *> &);
 
-    static Ground *initGround(char);
-    static JOB choiceJob(unsigned int);
-    static void push_backGround(std::vector<Ground *> &, Ground *);
+public:
+  Grid(unsigned int, unsigned int);
+  Grid(unsigned int, std::vector<unsigned int>);
+  Grid(const Grid &);
+  ~Grid();
+  void displayMap(std::ostream &os = std::cout) const noexcept;
+  void displayCharacter(std::ostream &os = std::cout) const noexcept;
+  void display(std::ostream &os = std::cout) const noexcept;
 
-    SEX choiceGender(unsigned int);
+  static Ground *initGround(char);
+  static JOB choiceJob(unsigned int);
+  static void push_backGround(std::vector<Ground *> &, Ground *);
 
-    unsigned int getRowNumber() const noexcept;
-    unsigned int getColumnNumber() const noexcept;
+  SEX choiceGender(unsigned int);
 
-    unsigned int getSizeVectorGroundWithCharacter() const noexcept;
-    unsigned int getSizeVectorGroundWithCollectionPoint() const noexcept;
+  unsigned int getRowNumber() const noexcept;
+  unsigned int getColumnNumber() const noexcept;
 
-    Ground *getDirectionCharacter(StructCoordinates);
+  unsigned int getSizeVectorGroundWithCharacter() const noexcept;
+  unsigned int getSizeVectorGroundWithCollectionPoint() const noexcept;
 
-    Ground *getGroundWithCharacter(unsigned int) const;
-    Ground *getGroundWithCollectionPoint(unsigned int) const;
-    Ground *getGroundGrid(unsigned int, unsigned int) const;
-    Ground *getGroundGrid(unsigned int);
+  Ground *getDirectionCharacter(StructCoordinates);
 
-    void addGroundWithCharacter(Ground *);
-    void removeGroundWithCharacter(const unsigned int);
+  Ground *getGroundWithCharacter(unsigned int) const;
+  Ground *getGroundWithCollectionPoint(unsigned int) const;
+  Ground *getGroundGrid(unsigned int, unsigned int) const;
+  Ground *getGroundGrid(unsigned int);
+
+  void addGroundWithCharacter(Ground *);
+  void removeGroundWithCharacter(const unsigned int);
 };
 
 #endif

@@ -14,6 +14,10 @@ Game::Game(unsigned int map_choice, unsigned int character_choice, unsigned int 
     Constantes::openingConfiguration(config_choice);
 }
 
+Game::Game(unsigned int map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(map_choice, character_choice), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
+{
+    Constantes::openingConfiguration(config_choice);
+}
 void Game::run(unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)
@@ -25,7 +29,7 @@ void Game::run(unsigned int round)
         std::cout << "Tour " << i + 1 << std::endl;
         turn.display();
         lifeOfCharacter();
-        this->display();
+        display();
         usleep(100000);
     }
 }
@@ -150,11 +154,11 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         {
             map.removeGroundWithCharacter(index_ground_with_character);
         }
-        if (next_place->getVectorSize() == 0)
+        next_place->addCharacter(temp_character);
+        if (next_place->getVectorSize() == 1)
         {
             map.addGroundWithCharacter(next_place);
         }
-        next_place->addCharacter(temp_character);
     }
     return movement_possible;
 }
@@ -172,7 +176,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
     double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
     bool is_collection_point = false;
     GROUND_TYPE low_stock = ((TownHall *)ground)->lowStock();
-    if ( (JOB) ((MaleCharacter *)character)->getTypeRessourceTransported() != ((MaleCharacter *)character)->getSpeciality())
+    if ((JOB)((MaleCharacter *)character)->getTypeRessourceTransported() != ((MaleCharacter *)character)->getSpeciality())
     {
         number_ressource = Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"];
     }
@@ -181,7 +185,7 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
     while (k < map.getSizeVectorGroundWithCollectionPoint())
     { /* TODO : s'arrete si 2 ressource low */
         collection_point = map.getGroundWithCollectionPoint(k);
-        if ((collection_point->getGroundType() == (GROUND_TYPE) ((MaleCharacter *)character)->getSpeciality()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
+        if ((collection_point->getGroundType() == (GROUND_TYPE)((MaleCharacter *)character)->getSpeciality()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;

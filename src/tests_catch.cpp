@@ -590,6 +590,7 @@ TEST_CASE("Game")
     Game game(1, vector, 1, Date(1, 1, 19));
     game.run(100);
 }
+*/
 
 /*
 TEST_CASE("Menu")

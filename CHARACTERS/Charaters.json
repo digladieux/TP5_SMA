@@ -6,7 +6,8 @@
         "day": 24,
         "month": 7,
         "year": 50,
-        "job": 0    
+        "job": 0,
+	"team": 0
     },
 
     "character2":
@@ -15,7 +16,8 @@
         "day": 4,
         "month": 6,
         "year": 40,
-        "job": 1
+        "job": 1,
+	"team": 0
     },
 
     "character3":
@@ -24,7 +26,9 @@
         "day": 5,
         "month": 1,
         "year": 38,
-        "job": 2
+        "job": 2,
+	"team": 0
+	
     },
 
     "character4":
@@ -33,7 +37,8 @@
         "day": 1,
         "month": 12,
         "year": 20,
-        "job": 3
+        "job": 3,
+	"team": 0
     },
 
     "character5":
@@ -42,7 +47,8 @@
         "day": 27,
         "month": 12,
         "year": 35,
-        "job": 4
+        "job": 4,
+	"team": 0
     },
 
     "character6":
@@ -51,7 +57,9 @@
         "day": 6,
         "month": 5,
         "year": 58,
-        "job": 0
+        "job": 0,
+	"team": 1
+	
     },
 
     "character7":
@@ -60,7 +68,8 @@
         "day": 7,
         "month": 3,
         "year": 15,
-        "job": 1
+        "job": 1,
+	"team": 1
     },
 
     "character8":
@@ -69,7 +78,8 @@
         "day": 8,
         "month": 6,
         "year": 36,
-        "job": 2
+        "job": 2,
+	"team": 1
     },
 
     "character9":
@@ -78,7 +88,8 @@
         "day": 5,
         "month": 11,
         "year": 1,
-        "job": 3
+        "job": 3,
+	"team": 1
     },
 
     "character10":
@@ -87,7 +98,8 @@
         "day": 6,
         "month": 8,
         "year": 22,
-        "job": 4
+        "job": 4,
+	"team": 1
     },
 
     "character11":
@@ -96,7 +108,8 @@
         "day": 1,
         "month": 8,
         "year": 50,
-        "baby": 0
+        "baby": 0,
+	"team": 0
     },
 
     "character12":
@@ -105,7 +118,8 @@
         "day": 17,
         "month": 4,
         "year": 45,
-        "baby" : 0
+        "baby" : 0,
+	"team": 0
     },
 
     "character13":
@@ -114,7 +128,8 @@
         "day": 26,
         "month": 2,
         "year": 5,
-        "baby" : 2
+        "baby" : 2,
+	"team": 0
     },
 
     "character14":
@@ -123,7 +138,8 @@
         "day": 7,
         "month": 8,
         "year": 23,
-        "baby" : 1
+        "baby" : 1,
+	"team": 0
     },
 
     "character15":
@@ -132,7 +148,8 @@
         "day": 3,
         "month": 11,
         "year": 27,
-        "baby" : 1
+        "baby" : 1,
+	"team": 0
     },
 
     "character16":
@@ -141,7 +158,8 @@
         "day": 4,
         "month": 6,
         "year": 30,
-        "baby" : 3
+        "baby" : 3,
+	"team": 1
     },
 
     "character17":
@@ -150,7 +168,8 @@
         "day": 19,
         "month": 2,
         "year": 40,
-        "baby" : 0
+        "baby" : 0,
+	"team": 1
     },
 
     "character18":
@@ -159,7 +178,8 @@
         "day": 11,
         "month": 7,
         "year": 4,
-        "baby" : 0
+        "baby" : 0,
+	"team": 1
     },
 
     "character19":
@@ -168,7 +188,8 @@
         "day": 6,
         "month": 10,
         "year": 32,
-        "baby" : 1
+        "baby" : 1,
+	"team": 1
     },
 
     "character20":
@@ -177,6 +198,7 @@
         "day": 13,
         "month": 3,
         "year": 15,
-        "baby" : 2
+        "baby" : 2,
+	"team": 1
     }
 }

@@ -17,7 +17,6 @@ public:
   static void displayWelcome(std::ostream &os = std::cout) noexcept;
 
   void displayAllMap(std::ostream &os = std::cout) const;
-  void displayMapFile(std::ostream &, std::string) const;
   unsigned int mapChoice() const noexcept;
 
   void displayAllCharacter(std::ostream &os = std::cout) const;

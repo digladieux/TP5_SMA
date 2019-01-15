@@ -11,17 +11,17 @@ Menu::Menu()
 
 void Menu::openningMaps()
 {
-    //std::string file_name_map = "MAP/Maps.json";
-    //std::ifstream file_map(file_name_map);
-    //if (!file_map.fail())
-    //{
-    //    file_map >> json_map;
-    //    file_map.close();
-    //}
-    //else
-    //{
-    //    throw InvalidFile(file_name_map);
-    //}
+    std::string file_name_map = "MAP/Maps.json";
+    std::ifstream file_map(file_name_map);
+    if (!file_map.fail())
+    {
+        file_map >> json_map;
+        file_map.close();
+    }
+    else
+    {
+        throw InvalidFile(file_name_map);
+    }
 }
 
 void Menu::openningCharacters()
@@ -55,43 +55,25 @@ unsigned int Menu::mapChoice() const noexcept
 
 void Menu::displayAllMap(std::ostream &os) const
 {
-    std::string file_name;
-    os << "Here you are all the map : " << std::endl;
 
-    for (unsigned int i = 1; i <= Constantes::MAP_NUMBER; i++)
-    {
-        file_name = "./MAPS/Map" + std::to_string(i) + ".txt";
-        displayMapFile(os, file_name);
-    }
-    os << "Where do you want to play ?" << std::endl;
+	std::string collection_point;
+	unsigned int collection_point_number = json_maps["collection_point_number"];
+	os << "Here you are all of our collection point:" << std::endl;
+	
+	for(unsigned i = 1; i <= collection_point_number; i++)
+	{
+		os << i << " : ";
+		collection_point = "collection_point" + std::to_string(i);
+		os << json_maps[collection_point]["type"];
+		os << "\t" << "x: " <<json_maps[collection_point]["x"] << " y: " << json_maps[collection_point["y"] << " ressources left: " << json_maps[collection_point]["ressource_number"] << endl;
+		
+	
+	}
+	
+
+    	os << "Where do you want to play ?" << std::endl;
 }
 
-void Menu::displayMapFile(std::ostream &os, std::string file_name) const
-{
-    std::ifstream file(file_name);
-    std::string line;
-    int row_number, column_number;
-    if (!file.fail())
-    {
-        file >> row_number >> column_number;
-        os << "File's name : " << file_name << std::endl;
-        os << "Number of row : " << row_number << std::endl;
-        os << "Number of column : " << column_number << std::endl;
-        os << "Number of square :" << row_number * column_number << std::endl;
-        getline(file, line);
-        while (row_number != 0)
-        {
-            getline(file, line);
-            os << line << std::endl;
-            row_number--;
-        }
-        os << std::endl;
-    }
-    else
-    {
-        throw InvalidFile(file_name);
-    }
-}
 
 std::vector<unsigned int> Menu::characterChoice() const
 {

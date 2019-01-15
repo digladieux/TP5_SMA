@@ -1,0 +1,172 @@
+{
+	"collection_point_number": 5,
+
+
+	"collection_point1":
+	{
+		"x": 2,
+		"y": 3,
+		"ressource_number": 500,
+		"type": 1
+	},
+
+	"collection_point2":
+	{
+		"x": 8,
+		"y": 9,
+		"ressource_number": 700,
+		"type": 1
+	},
+	"collection_point3":
+	{
+		"x": 6,
+		"y": 4,
+		"ressource_number": 900,
+		"type": 1
+	},
+
+	"collection_point4":
+	{
+		"x": 7,
+		"y": 6,
+		"ressource_number": 1700,
+		"type": 1
+	},
+	"collection_point5":
+	{
+		"x": 5,
+		"y": 5,
+		"ressource_number": 150,
+		"type": 1
+	},
+
+
+
+
+	"collection_point6":
+	{
+		"x": 1,
+		"y": 7,
+		"ressource_number": 500,
+		"type": 2
+	},
+
+	"collection_point7":
+	{
+		"x": 6,
+		"y": 9,
+		"ressource_number": 700,
+		"type": 2
+	},
+	"collection_point8":
+	{
+		"x": 5,
+		"y": 4,
+		"ressource_number": 900,
+		"type": 2
+	},
+
+	"collection_point9":
+	{
+		"x": 9,
+		"y": 6,
+		"ressource_number": 1700,
+		"type": 2
+	},
+	"collection_point10":
+	{
+		"x": 4,
+		"y": 5,
+		"ressource_number": 150,
+		"type": 2
+	},
+
+
+
+
+
+
+	"collection_point11":
+	{
+		"x": 1,
+		"y": 3,
+		"ressource_number": 500,
+		"type": 3
+	},
+
+	"collection_point12":
+	{
+		"x": 7,
+		"y": 9,
+		"ressource_number": 700,
+		"type": 3
+	},
+	"collection_point13":
+	{
+		"x": 6,
+		"y": 6,
+		"ressource_number": 900,
+		"type": 3
+	},
+
+	"collection_point14":
+	{
+		"x": 7,
+		"y": 7,
+		"ressource_number": 1700,
+		"type": 3
+	},
+	"collection_point15":
+	{
+		"x": 5,
+		"y": 2,
+		"ressource_number": 150,
+		"type": 3
+	},
+
+
+
+
+
+
+	"collection_point16":
+	{
+		"x": 4,
+		"y": 3,
+		"ressource_number": 500,
+		"type": 4
+	},
+
+	"collection_point17":
+	{
+		"x": 8,
+		"y": 8,
+		"ressource_number": 700,
+		"type": 4
+	},
+	"collection_point18":
+	{
+		"x": 4,
+		"y": 4,
+		"ressource_number": 900,
+		"type": 4
+	},
+
+	"collection_point19":
+	{
+		"x": 1,
+		"y": 6,
+		"ressource_number": 1700,
+		"type": 4
+	},
+	"collection_point20":
+	{
+		"x": 1,
+		"y": 5,
+		"ressource_number": 150,
+		"type": 4
+	},
+
+	
+
+}

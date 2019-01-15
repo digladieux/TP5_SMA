@@ -19,6 +19,15 @@ FemaleCharacter::FemaleCharacter(const Date &age) : Character(SEX::FEMALE, age),
 {
 }
 
+
+/**
+ * \fn FemaleCharacter::FemaleCharacter()
+ * \brief Constructeur par default de la classe Female Character
+ */
+FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby) : Character(SEX::FEMALE, age), baby_per_pregnancy(number_of_baby), pregnancy_time(Date())
+{
+}
+
 /**
  * \fn FemaleCharacter::~FemaleCharacter()
  * \brief Destructeur de la classe Female Character:: Female Character

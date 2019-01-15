@@ -44,7 +44,7 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-                if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
+	      if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) //TODO inferieur a menopose
                 {
 
                     if (((FemaleCharacter *)character)->getBabyPerPregnancy() == 0)

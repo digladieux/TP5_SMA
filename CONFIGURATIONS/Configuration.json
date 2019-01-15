@@ -13,7 +13,8 @@
         "workTimeSpeciality": 3,
         "workTimeNotSpeciality": 5,
         "chanceEvolution": 0.1,
-        "maxRessourceEvolution": 100
+        "maxRessourceEvolution": 100,
+	"menopose": 45
     },
     "config2": {
         "death18": 0.0001,
@@ -29,6 +30,7 @@
         "workTimeSpeciality": 3,
         "workTimeNotSpeciality": 5,
         "chanceEvolution": 0.1,
-        "maxRessourceEvolution": 100
+        "maxRessourceEvolution": 100,
+	"menopose":40
     }
 }

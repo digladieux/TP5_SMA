@@ -421,7 +421,7 @@ TEST_CASE("Afficher")
     delete lake;
     delete farm;
 }
-
+/*
 TEST_CASE("InitialisationGrid")
 {
     Grid grid(1, 3);
@@ -475,7 +475,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
     CHECK(5 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
-
+*/
 TEST_CASE("MethodeStatic&Comparaison")
 {
     CHECK(JOB::QUARRY_MAN == (JOB)GROUND_TYPE::QUARRY);
@@ -523,7 +523,7 @@ TEST_CASE("GroundCopy")
     delete ground1;
     delete ground2;
 }
-
+/*
 TEST_CASE("Exception")
 {
     Constantes::openingConfiguration(1);
@@ -557,27 +557,41 @@ TEST_CASE("Exception")
     delete character;
     delete ground1;
 }
-
+*/
 TEST_CASE("JsonCharacterValid?")
 {
-    std::string file_name = "CHARACTERS/Charaters.json";
+    std::string file_name = "./CHARACTERS/Characters.json";
     std::ifstream file(file_name);
     unsigned int male_number;
     unsigned int female_number;
     Character *test_character;
+    Date date_of_birth;
     std::string character;
     if (!file.fail())
     {
-        json configuration_simulation;
-        file >> configuration_simulation;
+        json json_character;
+        file >> json_character;
+        unsigned int character_number = json_character["character_number"];
+        for (unsigned int i = 1; i <= character_number; i++)
+        {
+            character = "character" + std::to_string(i);
+            date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
+            unsigned int sex = json_character[character]["sex"];
+            switch (sex)
+            {
+            case 0:
+                test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
+                /* TODO : cette fonction et on supprimera la ligne dans le initialisation map 
+            ((MaleCharacter *)character)->setDirection(0);*/
+                break;
 
-        unsigned int character_number = configuration_simulation["character_number"];
-        /* TODO: test */
-        file.close();
-    }
-    else
-    {
-        throw InvalidFile(file_name);
+            case 1:
+                test_character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[character]["baby"]);
+                break;
+            }
+            delete test_character;
+            file.close();
+        }
     }
 }
 
@@ -586,13 +600,12 @@ TEST_CASE("Game")
     system("clear");
     //Game game(1, 3, 1, Date(1, 1, 19));
     //game.run(100);
-    std::vector<unsigned int> vector = {2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 16, 17};
-    Game game(1, vector, 1, Date(1, 1, 19));
-    game.run(100);
+    std::vector<unsigned int> vector = {2, 3, 8, 9, 15, 16};
+    Game game(1, vector, 1, Date(1, 1, 60));
+    //game.run(20);
 }
-*/
 
-/*
+
 TEST_CASE("Menu")
 {
     Menu::displayWelcome();
@@ -606,9 +619,10 @@ TEST_CASE("Menu")
 
     menu.displayAllConfig();
     unsigned config_choice = menu.configChoice();
-    Game game(map_choice,3, config_choice, Date(1, 1, 60));
-    Game game(1,3, 1, Date(1, 1, 60));
-    game.run(menu.displayTurnChoice());
-}*/
+    Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
+    menu.displayTurnChoice();
+    unsigned turn_choice = menu.turnChoice(); 
+    game.run(turn_choice);
+}
 
 /* TODO quand il passe a l'age adulte il gagne un metier ? */

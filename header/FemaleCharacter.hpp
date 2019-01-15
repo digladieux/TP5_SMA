@@ -23,7 +23,7 @@ private:
 
 public:
   FemaleCharacter(const Date &);
-  FemaleCharacter(const Date, unsigned int);
+  FemaleCharacter(const Date &, unsigned int);
   FemaleCharacter(const FemaleCharacter &);
   ~FemaleCharacter();
 

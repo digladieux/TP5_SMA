@@ -9,10 +9,6 @@
 #include <unistd.h>
 #include <limits>
 using json = nlohmann::json;
-Game::Game(unsigned int map_choice, unsigned int character_choice, unsigned int config_choice, const Date &date) : map(map_choice, character_choice), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
-{
-    Constantes::openingConfiguration(config_choice);
-}
 
 Game::Game(unsigned int map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(map_choice, character_choice), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
 {
@@ -30,7 +26,7 @@ void Game::run(unsigned int round)
         turn.display();
         lifeOfCharacter();
         display();
-        usleep(1000000);
+        usleep(100000);
     }
 }
 

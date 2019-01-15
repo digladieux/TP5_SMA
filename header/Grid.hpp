@@ -26,15 +26,10 @@ private:
   std::vector<Ground *> ground_with_character;        /*! Tableau dynamique de l'emplacement des joueurs sur le terrain de jeux */
   std::vector<Ground *> ground_with_collection_point; /*! Tableau dynamique de l'emplacement des lieux interessants sur le terrain de jeux */
 
-  void initialisationCharacter(std::ifstream &, unsigned int[], std::vector<Character *> &, unsigned int);
-  void initialisationMap(std::ifstream &, unsigned int *, std::vector<Character *> &);
-  void addCharacterToGround(std::vector<Character *> &, Ground *, unsigned int, unsigned int);
-
   void initialisationCharacter(std::ifstream &, std::vector<unsigned int>, std::vector<Character *> &);
   void initialisationMap(std::ifstream &, std::vector<Character *> &);
 
 public:
-  Grid(unsigned int, unsigned int);
   Grid(unsigned int, std::vector<unsigned int>);
   Grid(const Grid &);
   ~Grid();

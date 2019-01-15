@@ -30,6 +30,7 @@ public:
 
   static void displaySex(std::ostream &, unsigned int);
   static void displayJob(std::ostream &, unsigned int);
+  static void displayGroundType(std::ostream &, unsigned int);
 };
 
 #endif

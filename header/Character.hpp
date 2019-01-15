@@ -16,30 +16,30 @@
  */
 class Character
 {
-  protected:
-    static unsigned int character_number;
-    unsigned int character_id;
-    Date character_date_of_birth;
-    int character_team;
-    SEX character_gender;
+protected:
+  static unsigned int character_number;
+  unsigned int character_id;
+  Date character_date_of_birth;
+  unsigned int character_team;
+  SEX character_gender;
 
-  public:
-    Character(const Date &);
-    Character(SEX, const Date &);
-    Character(const Character &);
-    Character(unsigned int, const Date &, int, SEX);
+public:
+  Character(const Date &);
+  Character(SEX, const Date &);
+  Character(const Character &);
+  Character(unsigned int, const Date &, int, SEX);
 
-    virtual ~Character();
+  virtual ~Character();
 
-    const Character &operator=(const Character &);
-    unsigned int getCharacterId() const noexcept;
-    Date getDateOfBirth() const noexcept;
-    unsigned int getCharacterAge(const Date&) const ;
-    int getCharacterTeam() const noexcept;
-    SEX getCharacterGender() const noexcept;
+  const Character &operator=(const Character &);
+  unsigned int getCharacterId() const noexcept;
+  Date getDateOfBirth() const noexcept;
+  unsigned int getCharacterAge(const Date &) const;
+  unsigned int getCharacterTeam() const noexcept;
+  SEX getCharacterGender() const noexcept;
 
-    void setCharacterTeam(unsigned int) noexcept;
+  void setCharacterTeam(unsigned int) noexcept;
 
-    bool isDead(const Date &) const noexcept;
+  bool isDead(const Date &) const noexcept;
 };
 #endif

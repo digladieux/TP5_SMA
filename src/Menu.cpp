@@ -11,11 +11,11 @@ Menu::Menu()
 
 void Menu::openningMaps()
 {
-    std::string file_name_map = "MAP/Maps.json";
+    std::string file_name_map = "./MAPS/Maps.json";
     std::ifstream file_map(file_name_map);
     if (!file_map.fail())
     {
-        file_map >> json_map;
+        file_map >> json_maps;
         file_map.close();
     }
     else
@@ -26,7 +26,7 @@ void Menu::openningMaps()
 
 void Menu::openningCharacters()
 {
-    std::string file_name_character = "CHARACTERS/Charaters.json";
+    std::string file_name_character = "./CHARACTERS/Characters.json";
     std::ifstream file_character(file_name_character);
 
     if (!file_character.fail())
@@ -56,24 +56,19 @@ unsigned int Menu::mapChoice() const noexcept
 void Menu::displayAllMap(std::ostream &os) const
 {
 
-	std::string collection_point;
-	unsigned int collection_point_number = json_maps["collection_point_number"];
-	os << "Here you are all of our collection point:" << std::endl;
-	
-	for(unsigned i = 1; i <= collection_point_number; i++)
-	{
-		os << i << " : ";
-		collection_point = "collection_point" + std::to_string(i);
-		os << json_maps[collection_point]["type"];
-		os << "\t" << "x: " <<json_maps[collection_point]["x"] << " y: " << json_maps[collection_point["y"] << " ressources left: " << json_maps[collection_point]["ressource_number"] << endl;
-		
-	
-	}
-	
+    std::string collection_point;
+    unsigned int collection_point_number = json_maps["collection_point_number"];
+    os << "Here you are all of our collection point:" << std::endl;
 
-    	os << "Where do you want to play ?" << std::endl;
+    for (unsigned i = 1; i <= collection_point_number; i++)
+    {
+        os << i << " : ";
+        collection_point = "collection_point" + std::to_string(i);
+        displayGroundType(os,json_maps[collection_point]["type"]);
+        os << "\t" << "[" << json_maps[collection_point]["x"] << "," << json_maps[collection_point]["y"] << "]\t RESSOURCES_NUMBER : " << json_maps[collection_point]["ressource_number"] << std::endl;
+    }
+    os << "Where do you want to play ?" << std::endl;
 }
-
 
 std::vector<unsigned int> Menu::characterChoice() const
 {
@@ -114,8 +109,7 @@ void Menu::displayAllCharacter(std::ostream &os) const
         os << i << " : ";
         character = "character" + std::to_string(i);
         displaySex(os, json_characters[character]["sex"]);
-        os << "\t" << Date(json_characters[character]["day"], json_characters[character]["month"], json_characters[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD ";
-        os << " ";
+        os << "\t" << Date(json_characters[character]["day"], json_characters[character]["month"], json_characters[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tTEAM " << json_characters[character]["team"] << "\t";
         if (json_characters[character]["sex"] == 0)
         {
             displayJob(os, json_characters[character]["job"]);
@@ -131,12 +125,12 @@ void Menu::displayAllCharacter(std::ostream &os) const
 
 unsigned int Menu::configChoice() const noexcept
 {
-    unsigned int config ;
+    unsigned int config;
     do
     {
-        std::cin >> config ;
-    }while (config < Constantes::CONFIG_NUMBER) ;
-    return config ;
+        std::cin >> config;
+    } while (config < Constantes::CONFIG_NUMBER);
+    return config;
 }
 void Menu::displayAllConfig(std::ostream &os) const
 {
@@ -177,6 +171,28 @@ void Menu::displaySex(std::ostream &os, unsigned int sex)
         break;
     default:
         throw InvalidGender(sex);
+    }
+}
+
+void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
+{
+    switch (ground_type)
+    {
+    case 1:
+        os << "QUARRY ";
+        break;
+    case 2:
+        os << "FOREST ";
+        break;
+    case 3:
+        os << "LAKE ";
+        break;
+    case 4:
+        os << "FARM ";
+        break;
+    default:
+        throw InvalidGroundType(ground_type);
+        break;
     }
 }
 

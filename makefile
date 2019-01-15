@@ -14,7 +14,8 @@ all: $(OBJ)
 build/%.o: src/%.cpp 
 	@mkdir -p build
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
-
+run: all 
+	./$(EXE)
 #build/main.o: main.cpp
 #	@mkdir -p build
 #	$(CXX) $(CXXFLAGS) -o $@ -c $<

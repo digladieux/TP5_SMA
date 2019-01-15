@@ -38,6 +38,7 @@ Grid::Grid(unsigned int choice_map, std::vector<unsigned int> choice_character) 
 
     initialisationMap(file_map, vector_character);
     file_map.close();
+    file_character.close() ;
 }
 
 void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character)
@@ -78,7 +79,7 @@ void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<un
 
         case 1:
             // TODO : faire un new constructeur
-            character = new FemaleCharacter(date_of_birth);
+            character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[key_character]["baby"]);
             break;
 
         default:
@@ -87,39 +88,15 @@ void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<un
         character->setCharacterTeam(json_character[key_character]["team"]);
         vector_character[i] = character;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 }
 
 void Grid::initialisationMap(std::ifstream &file_map, std::vector<Character *> &vector_character)
 {
     file_map >> row_number >> column_number;
     char type_ground;
+    unsigned int k;
     Ground *ground;
+    Character *character;
     ground_grid = new Ground **[row_number]();
 
     for (unsigned int i = 0; i < row_number; i++)
@@ -140,161 +117,27 @@ void Grid::initialisationMap(std::ifstream &file_map, std::vector<Character *> &
             if (ground->getGroundType() == GROUND_TYPE::TOWN_HALL)
             {
                 push_backGround(ground_with_character, ground);
-                for (unsigned int k = 0; k < vector_character.size(); k++)
+                k = 0;
+                while (k < vector_character.size())
                 {
                     if (vector_character[k]->getCharacterTeam() == ground->getGroundId())
                     {
+                        character = vector_character[k];
+                        if (character->getCharacterGender() == SEX::MALE)
                         {
-                            Character *character;
-                            character = vector_character[k];
-                            if (character->getCharacterGender() == SEX::MALE)
-                            {
-                                ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
-                            }
-                            ground_grid[i][j]->addCharacter(character);
-                            vector_character.erase(vector_character.begin() + k);
+                            ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
                         }
+                        ground_grid[i][j]->addCharacter(character);
+                        vector_character.erase(vector_character.begin() + k);
+                    }
+                    else
+                    {
+                        k++ ;
                     }
                 }
             }
         }
     }
-}
-
-Grid::Grid(unsigned int choice_map, unsigned int choice_character) : ground_with_character(0)
-{
-    std::string file_name_map = "./MAPS/Map" + std::to_string(choice_map) + ".txt";
-    std::string file_name_character = "./CHARACTERS/Character" + std::to_string(choice_character) + ".txt";
-    std::ifstream file_map(file_name_map);
-    std::ifstream file_character(file_name_character);
-    std::vector<Character *> vector_character;
-    Ground::resetGroundNumber();
-    unsigned int
-        character_number,
-        town_hall_number;
-
-    if (file_map.fail())
-    {
-        throw InvalidFile(file_name_map);
-    }
-    else if (file_character.fail())
-    {
-        throw InvalidFile(file_name_character);
-    }
-    file_character >> character_number >> town_hall_number;
-
-    unsigned int *character_per_town = new unsigned int[town_hall_number];
-    try
-    {
-        vector_character.resize(character_number);
-        for (unsigned int i = 0; i < town_hall_number; i++)
-        {
-            character_per_town[i] = 0;
-        }
-    }
-
-    catch (const std::bad_alloc &e)
-    {
-        throw e;
-    }
-    /*! CHARACTER */
-    initialisationCharacter(file_character, character_per_town, vector_character, character_number);
-
-    /*! MAP */
-    initialisationMap(file_map, character_per_town, vector_character);
-    delete[] character_per_town;
-    file_map.close();
-    /* TODO : file_character.close() ? */
-}
-
-void Grid::initialisationMap(std::ifstream &file_map, unsigned int *character_per_town, std::vector<Character *> &vector_character)
-{
-    unsigned int counter = 0;
-    file_map >> row_number >> column_number;
-    char type_ground;
-    Ground *ground;
-    ground_grid = new Ground **[row_number]();
-
-    for (unsigned int i = 0; i < row_number; i++)
-    {
-        ground_grid[i] = new Ground *[column_number]();
-
-        for (unsigned int j = 0; j < column_number; j++)
-        {
-            file_map >> type_ground;
-            ground = initGround(type_ground);
-            ground_grid[i][j] = ground;
-
-            /*! Ajout des personnages dans la ville */
-            if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
-            {
-                push_backGround(ground_with_collection_point, ground);
-            }
-            if (ground->getGroundType() == GROUND_TYPE::TOWN_HALL)
-            {
-                push_backGround(ground_with_character, ground);
-                for (unsigned int k = 0; k < character_per_town[counter]; k++)
-                {
-                    addCharacterToGround(vector_character, ground, i, j);
-                }
-                counter++;
-            }
-        }
-    }
-}
-void Grid::initialisationCharacter(std::ifstream &file, unsigned int *character_per_town, std::vector<Character *> &vector_character, unsigned int character_number)
-{
-    Character *character = nullptr;
-    Date date_of_birth;
-    JOB job;
-    unsigned int
-        file_job,
-        type_character,
-        town_hall_number,
-        day,
-        month,
-        year;
-
-    for (unsigned int i = 0; i < character_number; i++)
-    {
-        file >> type_character >> town_hall_number >> day >> month >> year;
-        try
-        {
-            date_of_birth = Date(day, month, year);
-        }
-        catch (const ConstructorDateException &e)
-        {
-            throw e;
-        }
-        switch (type_character)
-        {
-        case 0:
-            file >> file_job;
-            job = choiceJob(file_job);
-            character = new MaleCharacter(job, date_of_birth);
-            break;
-        case 1:
-            character = new FemaleCharacter(date_of_birth);
-            break;
-        default:
-            throw InvalidGender(type_character);
-        }
-        character_per_town[town_hall_number]++;
-        vector_character[i] = character;
-    }
-}
-
-void Grid::addCharacterToGround(std::vector<Character *> &vector_character, Ground *ground, unsigned int i, unsigned int j)
-{
-    Character *character;
-    character = vector_character[0];
-    character->setCharacterTeam(ground->getGroundId());
-    if (character->getCharacterGender() == SEX::MALE)
-    {
-        ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
-    }
-    ground_grid[i][j]->addCharacter(character);
-    vector_character.erase(vector_character.begin());
 }
 Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.column_number)
 {

@@ -91,7 +91,7 @@ SEX Character::getCharacterGender() const noexcept
  * \brief Getteur sur l'equipe du personnage
  * \return Equipe du personnage
  */
-int Character::getCharacterTeam() const noexcept
+unsigned int Character::getCharacterTeam() const noexcept
 {
     return character_team;
 }
@@ -134,14 +134,14 @@ const Character &Character::operator=(const Character &new_character)
 bool Character::isDead(const Date &current_date) const noexcept
 {
     bool dead = false;
-    double random = genrand_real1();
     /* RAND */
+    /*double random = genrand_real1();
     unsigned int age = this->getCharacterAge(current_date);
-    /*if (random < 0.0000000025 * age + 0.00025)
+    if (random < 0.0000000025 * age + 0.00025)
     {
         dead = true;
-    }*/
-    /*if (age < 18)
+    }
+    if (age < 18)
     {
         if (random < ConstantesDeath::DEATH_UNDER_18)
         {

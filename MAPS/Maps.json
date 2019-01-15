@@ -1,7 +1,5 @@
 {
-	"collection_point_number": 5,
-
-
+	"collection_point_number": 20,
 	"collection_point1":
 	{
 		"x": 2,
@@ -9,7 +7,6 @@
 		"ressource_number": 500,
 		"type": 1
 	},
-
 	"collection_point2":
 	{
 		"x": 8,
@@ -24,7 +21,6 @@
 		"ressource_number": 900,
 		"type": 1
 	},
-
 	"collection_point4":
 	{
 		"x": 7,
@@ -39,10 +35,6 @@
 		"ressource_number": 150,
 		"type": 1
 	},
-
-
-
-
 	"collection_point6":
 	{
 		"x": 1,
@@ -80,12 +72,6 @@
 		"ressource_number": 150,
 		"type": 2
 	},
-
-
-
-
-
-
 	"collection_point11":
 	{
 		"x": 1,
@@ -93,7 +79,6 @@
 		"ressource_number": 500,
 		"type": 3
 	},
-
 	"collection_point12":
 	{
 		"x": 7,
@@ -108,7 +93,6 @@
 		"ressource_number": 900,
 		"type": 3
 	},
-
 	"collection_point14":
 	{
 		"x": 7,
@@ -123,12 +107,6 @@
 		"ressource_number": 150,
 		"type": 3
 	},
-
-
-
-
-
-
 	"collection_point16":
 	{
 		"x": 4,
@@ -136,7 +114,6 @@
 		"ressource_number": 500,
 		"type": 4
 	},
-
 	"collection_point17":
 	{
 		"x": 8,
@@ -151,7 +128,6 @@
 		"ressource_number": 900,
 		"type": 4
 	},
-
 	"collection_point19":
 	{
 		"x": 1,
@@ -165,8 +141,5 @@
 		"y": 5,
 		"ressource_number": 150,
 		"type": 4
-	},
-
-	
-
+	}
 }

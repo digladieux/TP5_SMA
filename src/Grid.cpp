@@ -87,6 +87,32 @@ void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<un
         character->setCharacterTeam(json_character[key_character]["team"]);
         vector_character[i] = character;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 }
 
 void Grid::initialisationMap(std::ifstream &file_map, std::vector<Character *> &vector_character)

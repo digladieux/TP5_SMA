@@ -634,7 +634,7 @@ TEST_CASE("Game")
 }
 
 
-/*TEST_CASE("Menu")
+TEST_CASE("Menu")
 {
     Menu::displayWelcome();
     Menu menu;
@@ -647,10 +647,12 @@ TEST_CASE("Game")
 
     menu.displayAllConfig();
     unsigned config_choice = menu.configChoice();
-    Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
+ 
     menu.displayTurnChoice();
     unsigned turn_choice = menu.turnChoice(); 
+ 
+    Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
     game.run(turn_choice);
-}*/
+}
 
 /* TODO quand il passe a l'age adulte il gagne un metier ? */

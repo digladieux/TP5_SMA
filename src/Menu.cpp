@@ -148,7 +148,7 @@ unsigned int Menu::configChoice() const noexcept
     do
     {
         std::cin >> config;
-    } while (config < Constantes::CONFIG_NUMBER);
+    } while (config > Constantes::CONFIG_NUMBER);
     return config;
 }
 void Menu::displayAllConfig(std::ostream &os) const

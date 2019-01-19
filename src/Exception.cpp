@@ -140,10 +140,50 @@ void InvalidDirection::setValueDirectionException(const unsigned int x, const un
     message_error = "MAP : [" + std::to_string(row_number) + "][" + std::to_string(column_number) + "]\nHERE_DIRECTION : [" + std::to_string(x) + "][" + std::to_string(y) + "]\n";
 }
 
-InvalidNumberOfCharacter::InvalidNumberOfCharacter(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) {}
+InvalidNumberOfCharacter::InvalidNumberOfCharacter(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) 
+{
+        std::cerr << what() << std::endl;
+}
 InvalidNumberOfCharacter::~InvalidNumberOfCharacter() throw() {}
 
 const char *InvalidNumberOfCharacter::what() const throw()
+{
+    return message_error.c_str();
+}
+
+
+InvalidNumberOfMap::InvalidNumberOfMap(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) 
+{
+        std::cerr << what() << std::endl;
+}
+InvalidNumberOfMap::~InvalidNumberOfMap() throw() {}
+
+const char *InvalidNumberOfMap::what() const throw()
+{
+    return message_error.c_str();
+}
+
+
+InvalidKey::InvalidKey(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("INVALID_KEY_MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) 
+{
+        std::cerr << what() << std::endl;
+
+}
+InvalidKey::~InvalidKey() throw() {}
+
+const char *InvalidKey::what() const throw()
+{
+    return message_error.c_str();
+}
+
+InvalidTeam::InvalidTeam(const unsigned int index_out) : std::invalid_argument(""), message_error("MAXIMUM_TEAM_EXPECTED : 1\nHERE : " + std::to_string(index_out)) 
+{
+        std::cerr << what() << std::endl;
+
+}
+InvalidTeam::~InvalidTeam() throw() {}
+
+const char *InvalidTeam::what() const throw()
 {
     return message_error.c_str();
 }

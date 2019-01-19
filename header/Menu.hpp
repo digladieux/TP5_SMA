@@ -17,7 +17,7 @@ public:
   static void displayWelcome(std::ostream &os = std::cout) noexcept;
 
   void displayAllMap(std::ostream &os = std::cout) const;
-  unsigned int mapChoice() const noexcept;
+  std::vector<unsigned int> mapChoice() const;
 
   void displayAllCharacter(std::ostream &os = std::cout) const;
   std::vector<unsigned int> characterChoice() const;

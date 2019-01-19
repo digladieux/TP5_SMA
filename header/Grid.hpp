@@ -27,18 +27,20 @@ private:
   std::vector<Ground *> ground_with_collection_point; /*! Tableau dynamique de l'emplacement des lieux interessants sur le terrain de jeux */
 
   void initialisationCharacter(std::ifstream &, std::vector<unsigned int>, std::vector<Character *> &);
-  void initialisationMap(std::ifstream &, std::vector<Character *> &);
+  void initialisationMap(std::ifstream &file_map, std::vector<unsigned int> choice_map, std::vector<Character *> &vector_character);
 
 public:
-  Grid(unsigned int, std::vector<unsigned int>);
+  Grid(std::vector<unsigned int>&, std::vector<unsigned int>&);
   Grid(const Grid &);
   ~Grid();
   void displayMap(std::ostream &os = std::cout) const noexcept;
   void displayCharacter(std::ostream &os = std::cout) const noexcept;
   void display(std::ostream &os = std::cout) const noexcept;
 
-  static Ground *initGround(char);
   static JOB choiceJob(unsigned int);
+  static Ground *initGround(unsigned int, unsigned int);
+  static Ground * initGround(Ground *, unsigned int) ;
+
   static void push_backGround(std::vector<Ground *> &, Ground *);
 
   SEX choiceGender(unsigned int);

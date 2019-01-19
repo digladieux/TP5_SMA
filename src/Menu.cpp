@@ -43,14 +43,33 @@ void Menu::displayWelcome(std::ostream &os) noexcept
 {
     os << "Welcome to our game : CiviliZZation" << std::endl;
 }
-unsigned int Menu::mapChoice() const noexcept
+std::vector<unsigned int> Menu::mapChoice() const
 {
     unsigned int map;
-    do
+    std::vector<unsigned int> map_vector;
+    std::string line;
+    std::getline(std::cin, line);
+    std::istringstream is(line);
+    while (is >> map)
     {
-        std::cin >> map;
-    } while ((map > Constantes::MAP_NUMBER) || (map < 1));
-    return map;
+        if (map > json_maps["collection_point_number"])
+        {
+            throw InvalidNumberOfMap(map, json_maps["collection_point_number"]);
+        }
+        else
+        {
+            try
+            {
+                map_vector.push_back(map);
+            }
+            catch (const std::bad_alloc &e)
+            {
+                throw e;
+            }
+        }
+    }
+
+    return map_vector;
 }
 
 void Menu::displayAllMap(std::ostream &os) const

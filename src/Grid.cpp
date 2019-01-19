@@ -14,9 +14,9 @@
 #include <iostream>
 using json = nlohmann::json;
 
-Grid::Grid(unsigned int choice_map, std::vector<unsigned int> choice_character) : ground_with_character(0)
+Grid::Grid(std::vector<unsigned int>& choice_map, std::vector<unsigned int>& choice_character) : ground_with_character(0)
 {
-    std::string file_name_map = "./MAPS/Map" + std::to_string(choice_map) + ".txt";
+    std::string file_name_map = "./MAPS/Maps.json";
     std::string file_name_character = "./CHARACTERS/Characters.json";
     std::ifstream file_map(file_name_map);
     std::ifstream file_character(file_name_character);
@@ -32,13 +32,12 @@ Grid::Grid(unsigned int choice_map, std::vector<unsigned int> choice_character) 
     }
 
     /*! CHARACTER */
-    //initialisationCharacter(file_character, character_per_town, vector_character, character_number);
     initialisationCharacter(file_character, choice_character, vector_character);
     /*! MAP */
 
-    initialisationMap(file_map, vector_character);
+    initialisationMap(file_map, choice_map, vector_character);
     file_map.close();
-    file_character.close() ;
+    file_character.close();
 }
 
 void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character)
@@ -59,6 +58,10 @@ void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<un
     unsigned int sex;
     for (unsigned int i = 0; i < choice_character.size(); i++)
     {
+        if ((unsigned int)choice_character[i] > json_character["character_number"] )
+        {
+            throw InvalidKey(choice_character[i], json_character["character_number"] ) ;
+        }
         key_character = "character" + std::to_string(choice_character[i]);
         try
         {
@@ -85,18 +88,35 @@ void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<un
         default:
             throw InvalidGender(sex);
         }
-        character->setCharacterTeam(json_character[key_character]["team"]);
+        switch((int)json_character[key_character]["team"])
+        {
+            case 0:
+                character->setCharacterTeam(0);
+                break ;
+            case 1:
+         /*TODO : a changer par   (int)json_map[key_map]["row_number"] * (int)json[key_map]["column_number"] - 1*/
+                character->setCharacterTeam(399);
+                break ;
+            default:
+                throw InvalidTeam((int)json_character[key_character]["team"]) ;
+                break ; 
+        }
         vector_character[i] = character;
     }
 }
 
-void Grid::initialisationMap(std::ifstream &file_map, std::vector<Character *> &vector_character)
+void Grid::initialisationMap(std::ifstream &file_map, std::vector<unsigned int> choice_map, std::vector<Character *> &vector_character)
 {
-    file_map >> row_number >> column_number;
-    char type_ground;
-    unsigned int k;
+    json json_maps;
+    unsigned int k, x, y;
     Ground *ground;
+    Ground * collection_point ;
     Character *character;
+    std::string key;
+
+    file_map >> json_maps;
+    row_number = json_maps["row_number"];
+    column_number = json_maps["column_number"];
     ground_grid = new Ground **[row_number]();
 
     for (unsigned int i = 0; i < row_number; i++)
@@ -105,19 +125,14 @@ void Grid::initialisationMap(std::ifstream &file_map, std::vector<Character *> &
 
         for (unsigned int j = 0; j < column_number; j++)
         {
-            file_map >> type_ground;
-            ground = initGround(type_ground);
-            ground_grid[i][j] = ground;
-
-            /*! Ajout des personnages dans la ville */
-            if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
+            // TownHall
+            if (((i == 0) && (j == 0)) || ((i == row_number - 1) && (j == column_number - 1)))
             {
-                push_backGround(ground_with_collection_point, ground);
-            }
-            if (ground->getGroundType() == GROUND_TYPE::TOWN_HALL)
-            {
+                ground = new TownHall();
+                ground_grid[i][j] = ground;
                 push_backGround(ground_with_character, ground);
                 k = 0;
+                /*! Ajout des personnages dans la ville */
                 while (k < vector_character.size())
                 {
                     if (vector_character[k]->getCharacterTeam() == ground->getGroundId())
@@ -132,13 +147,84 @@ void Grid::initialisationMap(std::ifstream &file_map, std::vector<Character *> &
                     }
                     else
                     {
-                        k++ ;
+                        k++;
                     }
                 }
             }
+            else
+            {
+                ground = new Ground();
+                ground_grid[i][j] = ground;
+            }
         }
     }
+
+    for (unsigned int i = 0; i < choice_map.size(); i++)
+    {
+        if ((unsigned int)choice_map[i] > json_maps["collection_point_number"] )
+        {
+            throw InvalidKey(choice_map[i], json_maps["collection_point_number"] ) ;
+        }
+        key = "collection_point" + std::to_string(choice_map[i]);
+        x = json_maps[key]["x"] ;
+        y = json_maps[key]["y"] ;
+        ground = this->getGroundGrid(x, y);
+        collection_point = initGround(ground, (int)json_maps[key]["type"] );
+        push_backGround(ground_with_collection_point, collection_point);
+        //ground = initGround(json_maps[key]["type"], json_maps[key]["ressource_number"]);
+        ground_grid[x][y] = collection_point;
+        delete ground;
+    }
 }
+
+Ground *Grid::initGround(Ground * ground, unsigned int ground_type)
+{
+    Ground *collection_point;
+    switch (ground_type)
+    {
+    case 1 :
+        collection_point = new Quarry(*(Quarry*)ground);
+        break;
+    case 2 :
+        collection_point = new Forest(*(Forest*)ground);
+        break;
+    case 3 :
+        collection_point = new Lake(*(Lake*)ground);
+        break;
+    case 4 :
+        collection_point = new Farm(*(Farm*)ground);
+        break;
+    default:
+        throw InvalidGroundTypeReadingFile(ground_type);
+        break;
+    }
+    return collection_point;
+}
+
+Ground *Grid::initGround(unsigned int type_ground, unsigned int ressource_number)
+{
+    Ground *ground;
+    switch (type_ground)
+    {
+    case 1:
+        ground = new Quarry(ressource_number);
+        break;
+    case 2:
+        ground = new Forest(ressource_number);
+        break;
+    case 3:
+        ground = new Lake(ressource_number);
+        break;
+    case 4:
+        ground = new Farm(ressource_number);
+        break;
+    default:
+        throw InvalidGroundTypeReadingFile(type_ground);
+        break;
+    }
+    return ground;
+}
+
 Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.column_number)
 {
     Ground *ground = nullptr;
@@ -245,36 +331,6 @@ JOB Grid::choiceJob(unsigned int file_job)
         break;
     }
     return job;
-}
-
-Ground *Grid::initGround(char type_ground)
-{
-    Ground *ground;
-    switch (type_ground)
-    {
-    case 'T':
-        ground = new TownHall();
-        break;
-    case 'L':
-        ground = new Lake();
-        break;
-    case 'Q':
-        ground = new Quarry();
-        break;
-    case 'F':
-        ground = new Forest();
-        break;
-    case 'f':
-        ground = new Farm();
-        break;
-    case '.':
-        ground = new Ground();
-        break;
-    default:
-        throw InvalidGroundTypeReadingFile(type_ground);
-        break;
-    }
-    return ground;
 }
 
 Grid::~Grid()

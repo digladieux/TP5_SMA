@@ -137,4 +137,37 @@ class InvalidNumberOfCharacter : std::invalid_argument
     virtual ~InvalidNumberOfCharacter() throw();
     virtual const char *what() const throw();
 };
+
+class InvalidNumberOfMap : std::invalid_argument
+{
+  private:
+    std::string message_error;
+
+  public:
+    InvalidNumberOfMap(const unsigned int, const unsigned int);
+    virtual ~InvalidNumberOfMap() throw();
+    virtual const char *what() const throw();
+};
+
+class InvalidKey : std::invalid_argument
+{
+  private:
+    std::string message_error;
+
+  public:
+    InvalidKey(const unsigned int, const unsigned int);
+    virtual ~InvalidKey() throw();
+    virtual const char *what() const throw();
+};
+
+class InvalidTeam : std::invalid_argument
+{
+  private:
+    std::string message_error;
+
+  public:
+    InvalidTeam(const unsigned int);
+    virtual ~InvalidTeam() throw();
+    virtual const char *what() const throw();
+};
 #endif

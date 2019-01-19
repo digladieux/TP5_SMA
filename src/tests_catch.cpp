@@ -246,7 +246,6 @@ TEST_CASE("JsonClass")
 {
     Constantes::openingConfiguration(1);
     CHECK(Constantes::CONFIG_SIMU["death18"] == 0.0005);
-    Constantes::displayConstantes(std::cout);
 }
 TEST_CASE("FemaleCharacter")
 {
@@ -421,10 +420,12 @@ TEST_CASE("Afficher")
     delete lake;
     delete farm;
 }
-/*
+
 TEST_CASE("InitialisationGrid")
 {
-    Grid grid(1, 3);
+    std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
+    Grid grid(vector_map, vector_character);
     grid.displayMap();
     grid.displayCharacter();
     std::string file_name = "INSTANCES/map_test_write.txt";
@@ -440,8 +441,8 @@ TEST_CASE("InitialisationGrid")
         throw InvalidFile(file_name);
     }
 
-    CHECK(10 == grid.getColumnNumber());
-    CHECK(10 == grid.getRowNumber());
+    CHECK(20 == grid.getColumnNumber());
+    CHECK(20 == grid.getRowNumber());
     CHECK(0 == grid.getGroundGrid(0, 0)->getGroundId());
 
     std::cout << "VERIFIER SI CORRECT" << std::endl;
@@ -457,25 +458,25 @@ TEST_CASE("InitialisationGrid")
     CHECK(0 == character->getCharacterTeam());
     CHECK(character->getCharacterGender() == SEX::MALE);
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
-    CHECK(9 == grid.getSizeVectorGroundWithCollectionPoint());
+    CHECK(6 == grid.getSizeVectorGroundWithCollectionPoint());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(5 == grid.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(169 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
     Grid grid_copy(grid);
-    CHECK(10 == grid_copy.getColumnNumber());
-    CHECK(10 == grid_copy.getRowNumber());
+    CHECK(20 == grid_copy.getColumnNumber());
+    CHECK(20 == grid_copy.getRowNumber());
     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
 
     character = grid_copy.getGroundGrid(0, 0)->getCharacter(0);
     CHECK(0 == character->getCharacterTeam());
     CHECK(character->getCharacterGender() == SEX::MALE);
     CHECK(2 == grid_copy.getSizeVectorGroundWithCharacter());
-    CHECK(9 == grid_copy.getSizeVectorGroundWithCollectionPoint());
+    CHECK(6 == grid_copy.getSizeVectorGroundWithCollectionPoint());
     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(5 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(83 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
-*/
+
 TEST_CASE("MethodeStatic&Comparaison")
 {
     CHECK(JOB::QUARRY_MAN == (JOB)GROUND_TYPE::QUARRY);
@@ -523,41 +524,47 @@ TEST_CASE("GroundCopy")
     delete ground1;
     delete ground2;
 }
-/*
-TEST_CASE("Exception")
-{
-    Constantes::openingConfiguration(1);
-    Ground *ground1 = new Ground();
-    Character *character = new MaleCharacter(Date(20, 10, 2018));
-    Grid map(1, 3);
 
-    REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(Constantes::openingConfiguration(8), InvalidConfiguration);
-    REQUIRE_THROWS_AS(Grid(8, 1), InvalidFile);
-    REQUIRE_THROWS_AS(Grid(3, 8), InvalidFile);
-    REQUIRE_THROWS_AS(Grid(1, 100), InvalidGender);
-    REQUIRE_THROWS_AS(Grid(1, 101), ConstructorDateException);
-    REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
-    //REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
-    REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);
-    REQUIRE_THROWS_AS(((MaleCharacter *)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
+// TEST_CASE("Exception")
+// {
+//     Constantes::openingConfiguration(1);
+//     Ground *ground1 = new Ground();
+//         Character *character = new MaleCharacter(Date(20, 10, 2018));
 
-    REQUIRE_THROWS_AS(map.getGroundGrid(11, 8), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(map.getGroundGrid(8, 11), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(map.getGroundWithCharacter(2), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(map.getDirectionCharacter(StructCoordinates(11, 11)), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(map.getGroundGrid(110), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(character->getCharacterAge(Date(1, 1, 1)), CurrentDateBeforeBirthException);
-    REQUIRE_THROWS_AS(Date(1, 155, 2), ConstructorDateException);
-    REQUIRE_THROWS_AS(Date(1, 58, 1) < Date(1, 1, 0), ConstructorDateException);
-    REQUIRE_THROWS_AS(Date(1, 2, 1) < Date(32, 1, 0), ConstructorDateException);
-    REQUIRE_THROWS_AS(++Date(1, 82, 1), ConstructorDateException);
+//     std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+//     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
+//     std::vector<unsigned int> vector_map_error = {80};
+//     std::vector<unsigned int> vector_character_error = {80};
+    
+//         Grid map(vector_map, vector_character);
 
-    delete character;
-    delete ground1;
-}
-*/
+//     REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
+//     REQUIRE_THROWS_AS(Constantes::openingConfiguration(8), InvalidConfiguration);
+//     REQUIRE_THROWS_AS(Grid(vector_character,vector_map_error), InvalidKey) ;
+//     REQUIRE_THROWS_AS(Grid(vector_character_error,vector_map), InvalidKey) ;
+//     /*REQUIRE_THROWS_AS(Grid(1, 100), InvalidGender);
+//     REQUIRE_THROWS_AS(Grid(1, 101), ConstructorDateException);
+//     REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
+//     REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
+//     REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);*/
+//     REQUIRE_THROWS_AS(((MaleCharacter *)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
+
+//     REQUIRE_THROWS_AS(map.getGroundGrid(24, 8), OutOfRangeSuperior);
+//     REQUIRE_THROWS_AS(map.getGroundGrid(8, 111), OutOfRangeSuperior);
+//     REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);
+//     REQUIRE_THROWS_AS(map.getGroundWithCharacter(2), OutOfRangeSuperior);
+//     REQUIRE_THROWS_AS(map.getDirectionCharacter(StructCoordinates(41, 11)), OutOfRangeSuperior);
+//     REQUIRE_THROWS_AS(map.getGroundGrid(510), OutOfRangeSuperior);
+//     REQUIRE_THROWS_AS(character->getCharacterAge(Date(1, 1, 1)), CurrentDateBeforeBirthException);
+//     REQUIRE_THROWS_AS(Date(1, 155, 2), ConstructorDateException);
+//     REQUIRE_THROWS_AS(Date(1, 58, 1) < Date(1, 1, 0), ConstructorDateException);
+//     REQUIRE_THROWS_AS(Date(1, 2, 1) < Date(32, 1, 0), ConstructorDateException);
+//     REQUIRE_THROWS_AS(++Date(1, 82, 1), ConstructorDateException);
+
+//     delete character;
+//     delete ground1;
+// }
+
 TEST_CASE("JsonCharacterValid?")
 {
     std::string file_name = "./CHARACTERS/Characters.json";
@@ -595,18 +602,39 @@ TEST_CASE("JsonCharacterValid?")
     }
 }
 
-TEST_CASE("Game")
+TEST_CASE("JsonMapValid?")
 {
-    system("clear");
-    //Game game(1, 3, 1, Date(1, 1, 19));
-    //game.run(100);
-    std::vector<unsigned int> vector = {2, 3, 8, 9, 15, 16};
-    Game game(1, vector, 1, Date(1, 1, 60));
-    //game.run(20);
+    std::string file_name = "./MAPS/Maps.json";
+    std::ifstream file(file_name);
+    Ground *ground;
+    std::string map;
+    if (!file.fail())
+    {
+        json json_map;
+        file >> json_map;
+        unsigned int collection_point_number = json_map["collection_point_number"];
+        for (unsigned int i = 1; i <= collection_point_number; i++)
+        {
+            map = "collection_point" + std::to_string(i);
+            ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]) ;
+            delete ground;
+        }
+        file.close();
+    }
 }
 
 
-TEST_CASE("Menu")
+TEST_CASE("Game")
+{
+    system("clear");
+    std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
+    Game game(vector_map, vector_character, 1, Date(1, 1, 60));
+    game.run(20);
+}
+
+
+/*TEST_CASE("Menu")
 {
     Menu::displayWelcome();
     Menu menu;
@@ -615,7 +643,7 @@ TEST_CASE("Menu")
     std::vector<unsigned int> character_choice = menu.characterChoice();
 
     menu.displayAllMap();
-    unsigned int map_choice = menu.mapChoice();
+    std::vector<unsigned int> map_choice = menu.mapChoice();
 
     menu.displayAllConfig();
     unsigned config_choice = menu.configChoice();
@@ -623,6 +651,6 @@ TEST_CASE("Menu")
     menu.displayTurnChoice();
     unsigned turn_choice = menu.turnChoice(); 
     game.run(turn_choice);
-}
+}*/
 
 /* TODO quand il passe a l'age adulte il gagne un metier ? */

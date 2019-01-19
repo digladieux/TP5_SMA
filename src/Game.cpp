@@ -10,7 +10,7 @@
 #include <limits>
 using json = nlohmann::json;
 
-Game::Game(unsigned int map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(map_choice, character_choice), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
+Game::Game(std::vector<unsigned int> & map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(map_choice, character_choice), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
 {
     Constantes::openingConfiguration(config_choice);
 }
@@ -44,7 +44,7 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-	      if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) //TODO inferieur a menopose
+	            if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) //TODO inferieur a menopose
                 {
 
                     if (((FemaleCharacter *)character)->getBabyPerPregnancy() == 0)

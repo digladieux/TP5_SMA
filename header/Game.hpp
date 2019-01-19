@@ -27,7 +27,7 @@ private:
   bool movementAbscissa(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
 
 public:
-  Game(unsigned int, std::vector<unsigned int> &, unsigned int, const Date &);
+  Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &);
   void run(unsigned int);
   void lifeOfCharacter();
   bool deathOfCharacter(Character *, unsigned int, unsigned int &);

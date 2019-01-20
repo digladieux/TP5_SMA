@@ -21,10 +21,10 @@ private:
 
   void caseCollectionPoint(Character *, Ground *);
   void caseTownHall(Character *, Ground *);
-  void turnCharacter(Character *, Ground *, unsigned int, unsigned int);
-  bool movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
-  bool movementOrdinate(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
-  bool movementAbscissa(Character *, Ground *, unsigned int, unsigned int, unsigned int, unsigned int);
+  void turnCharacter(Character *, Ground *, unsigned int&, unsigned int&,  unsigned int&, unsigned int&);
+  bool movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&, unsigned int&, unsigned int&);
+  bool movementOrdinate(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&,  unsigned int&, unsigned int&);
+  bool movementAbscissa(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&,  unsigned int&, unsigned int&);
 
 public:
   Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &);

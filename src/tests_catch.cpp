@@ -627,12 +627,13 @@ TEST_CASE("JsonMapValid?")
 TEST_CASE("Game")
 {
     system("clear");
-    std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+    //std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+   std::vector<unsigned int> vector_character = {2, 8};
     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
-    game.run(20);
+    game.run(30);
 }
-
+/*
 
 TEST_CASE("Menu")
 {
@@ -653,6 +654,6 @@ TEST_CASE("Menu")
  
     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
     game.run(turn_choice);
-}
+}*/
 
 /* TODO quand il passe a l'age adulte il gagne un metier ? */

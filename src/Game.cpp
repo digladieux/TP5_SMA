@@ -26,18 +26,24 @@ void Game::run(unsigned int round)
         turn.display();
         lifeOfCharacter();
         display();
-        usleep(100000);
+        usleep(1000000);
     }
 }
 
 void Game::lifeOfCharacter()
 {
+    /*TODO : erreur sur le i, dans turnCharacter si on supprime une case dans le ground with character ca merde hors ca arrive souvent */
     Character *character;
     Ground *ground;
-    for (unsigned int i = 0; i < map.getSizeVectorGroundWithCharacter(); i++)
+    unsigned int number_ground_with_character = map.getSizeVectorGroundWithCharacter() , number_character_ground,
+    i = 0,
+    j = 0 ;
+    while (i < number_ground_with_character)
     {
+        j = 0 ;
         ground = map.getGroundWithCharacter(i);
-        for (unsigned int j = 0; j < ground->getVectorSize(); j++)
+        number_character_ground = ground->getVectorSize() ;
+        while(j < number_character_ground)
         {
 
             character = ground->getCharacter(j);
@@ -80,23 +86,28 @@ void Game::lifeOfCharacter()
                         default:
                             break;
                         }
+                        j++ ;   
+
                     }
                     else
                     {
-                        turnCharacter(character, ground, i, j);
+                        turnCharacter(character, ground, i, j, number_ground_with_character, number_character_ground);
+                        
                     }
                 }
                 /* RECHERCHE DE COUPLE */
             }
             else
             {
+                number_character_ground -- ;
                 number_of_death_total++;
                 number_of_death_this_turn++;
             }
         }
+        i++ ;
     }
 }
-void Game::turnCharacter(Character *character, Ground *ground, unsigned int index_ground_with_character, unsigned int index_character)
+void Game::turnCharacter(Character *character, Ground *ground, unsigned int& index_ground_with_character, unsigned int& index_character, unsigned int& number_ground_with_character, unsigned int& number_character_ground )
 {
     Character *temp_character;
     unsigned int x, y;
@@ -104,40 +115,40 @@ void Game::turnCharacter(Character *character, Ground *ground, unsigned int inde
 
     x = ground->getPosition(map.getColumnNumber()).getAbscissa();
     y = ground->getPosition(map.getColumnNumber()).getOrdinate();
-    if (!movementOrdinate(temp_character, ground, x, y, index_character, index_ground_with_character))
+    if (!movementOrdinate(temp_character, ground, x, y, index_character, index_ground_with_character,number_ground_with_character,number_character_ground))
     {
-        movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character);
+        movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
     }
 }
 
-bool Game::movementOrdinate(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
+bool Game::movementOrdinate(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character, unsigned int& number_ground_with_character, unsigned int& number_character_ground)
 {
     bool movement_possible = false;
     if (y < (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x, y + 1, index_character, index_ground_with_character);
+        movement_possible = movementCharacter(temp_character, ground, x, y + 1, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
     }
     else if (y > (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x, y - 1, index_character, index_ground_with_character);
+        movement_possible = movementCharacter(temp_character, ground, x, y - 1, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
     }
     return movement_possible;
 }
 
-bool Game::movementAbscissa(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
+bool Game::movementAbscissa(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character,  unsigned int& number_ground_with_character, unsigned int& number_character_ground)
 {
     bool movement_possible = false;
     if (x < (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x + 1, y, index_character, index_ground_with_character);
+        movement_possible = movementCharacter(temp_character, ground, x + 1, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
     }
     else if (x > (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x - 1, y, index_character, index_ground_with_character);
+        movement_possible = movementCharacter(temp_character, ground, x - 1, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
     }
     return movement_possible;
 }
-bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int index_character, unsigned int index_ground_with_character)
+bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character,  unsigned int& number_ground_with_character, unsigned int& number_character_ground)
 {
     bool movement_possible = false;
     Ground *next_place;
@@ -146,8 +157,11 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
     {
         movement_possible = true;
         ground->removeCharacter(index_character);
+        number_character_ground -- ;
         if (ground->getVectorSize() == 0)
         {
+            index_character --;
+            number_ground_with_character -- ;
             map.removeGroundWithCharacter(index_ground_with_character);
         }
         next_place->addCharacter(temp_character);

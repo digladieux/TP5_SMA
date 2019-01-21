@@ -23,7 +23,7 @@ const char *InvalidFile::what() const throw()
     return message_error.c_str();
 }
 
-InvalidConfiguration::InvalidConfiguration(unsigned int config) : std::invalid_argument(""), message_error("MAX_CONFIGURATION : " + std::to_string(Constantes::CONFIG_NUMBER) + "\nYOUR_CHOICE : " + std::to_string(config))
+InvalidConfiguration::InvalidConfiguration(unsigned int config) : std::invalid_argument(""), message_error("MAX_CONFIGURATION : " + std::to_string((unsigned int) Constantes::CONFIG_SIMU["maxConfig"]) + "\nYOUR_CHOICE : " + std::to_string(config))
 {
     std::cerr << what() << std::endl;
 }

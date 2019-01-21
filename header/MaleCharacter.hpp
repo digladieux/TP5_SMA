@@ -27,8 +27,8 @@ class MaleCharacter : public Character
     unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
 
   public:
-    MaleCharacter(const Date &);
-    MaleCharacter(JOB, const Date &);
+    MaleCharacter(const Date &, unsigned int team = 0, unsigned column_number = 0);
+    MaleCharacter(JOB, const Date &,  unsigned int team = 0, unsigned column_number = 0);
     MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 
@@ -46,5 +46,6 @@ class MaleCharacter : public Character
     void resetTimeAtWork() noexcept;
     void setSpeciality(JOB job) noexcept;
     const MaleCharacter &operator=(const MaleCharacter &new_character);
+    static JOB jobIdToJob(unsigned int);
 };
 #endif

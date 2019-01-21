@@ -215,7 +215,7 @@ GROUND_TYPE TownHall::lowStock() const noexcept
  */
 void TownHall::display(std::ostream &os) const noexcept
 {
-    if (ground_id == 0) /* TODO : pour le test */
+    if (ground_id == 0)
     {
         os << BOLDRED << "T " << RESET;
     }

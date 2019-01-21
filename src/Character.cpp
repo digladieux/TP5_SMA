@@ -18,11 +18,9 @@ unsigned int Character::character_number = 0;
  */
 Character::Character(const Character &character) : character_id(character.character_id), character_date_of_birth(character.character_date_of_birth), character_team(character.character_team), character_gender(character.character_gender)
 {
-    {
-        character_number++;
-    }
+    character_number++;
 }
-Character::Character(const Date &age) : character_id(character_number), character_date_of_birth(age), character_team(-1)
+Character::Character(const Date &age, unsigned int team) : character_id(character_number), character_date_of_birth(age), character_team(team)
 {
     character_number++;
     if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
@@ -44,7 +42,7 @@ Character::Character(unsigned int id, const Date &age, int team, SEX gender) : c
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-Character::Character(SEX gender, const Date &age) : character_id(character_number), character_date_of_birth(age), character_team(-1), character_gender(gender)
+Character::Character(SEX gender, const Date &age, unsigned int team) : character_id(character_number), character_date_of_birth(age), character_team(team), character_gender(gender)
 {
     character_number++;
 }

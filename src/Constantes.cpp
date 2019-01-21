@@ -6,23 +6,21 @@
 using json = nlohmann::json;
 
 json Constantes::CONFIG_SIMU = R"({})"_json;
-const unsigned int Constantes::MAP_NUMBER = 3;
-const unsigned int Constantes::CHARACTER_NUMBER = 3;
-const unsigned int Constantes::CONFIG_NUMBER = 2;
 
 void Constantes::openingConfiguration(unsigned int config)
 {
-    if ((config <= 0) || (config > Constantes::CONFIG_NUMBER))
-    {
-        throw InvalidConfiguration(config);
-    }
     std::string file_name = "./CONFIGURATIONS/Configuration.json";
     std::ifstream file(file_name);
-    std::string key = "config" + std::to_string(config);
     if (!file.fail())
     {
         json configuration_simulation;
         file >> configuration_simulation;
+        if ((config <= 0) || (config > configuration_simulation["maxConfig"]))
+        {
+            throw InvalidConfiguration(config);
+        }
+
+        std::string key = "config" + std::to_string(config);
         CONFIG_SIMU = configuration_simulation[key];
         file.close();
     }

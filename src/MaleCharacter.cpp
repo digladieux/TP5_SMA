@@ -9,15 +9,27 @@
 #include "../header/Ground.hpp"
 #include "../header/Exception.hpp"
 #include "../header/StructCoordinates.hpp"
+#include "../header/Constantes.hpp"
+#include "../header/mt19937ar.h"
 
-MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
-{
-}
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork()){}
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age) : Character(SEX::MALE, age), direction(0, 0), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(JOB::NO_JOB), time_at_work(0) {}
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
+{
+    //  direction(team / column_number, team % column_number)
+    if (team != 0)
+    {
+        /* TODO : a changer */
+        direction.setAbcissa(19) ;
+        direction.setOrdinate(19) ;
+    }
+    int id_job =  (genrand_int31() % 3) + 1 ; 
+    speciality = jobIdToJob(id_job);
+    
+}
 
 /**
  * \fn MaleCharacter::MaleCharacter(JOB job, SEX gender, const unsigned int age)
@@ -26,7 +38,15 @@ MaleCharacter::MaleCharacter(const Date &age) : Character(SEX::MALE, age), direc
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age) : Character(SEX::MALE, age), direction(0, 0), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0) {}
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
+{
+    if (team != 0)
+    {
+        /* TODO : a changer */
+        direction.setAbcissa(19) ;
+        direction.setOrdinate(19) ;
+    }
+}
 
 /**
  * \fn MaleCharacter::~MaleCharacter()
@@ -170,4 +190,32 @@ const MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character
         speciality = new_character.speciality;
     }
     return *this;
+}
+
+
+JOB MaleCharacter::jobIdToJob(unsigned int job_id){
+    JOB job;
+    switch (job_id)
+    {
+        case 1 : 
+            job = JOB::QUARRY_MAN;
+            break;
+
+        case 2 : 
+            job = JOB::LUMBERJACK;
+            break;
+
+        case 3 : 
+            job = JOB::FISHERMAN;
+            break;
+
+        case 4 : 
+            job = JOB::FARMER;
+            break;
+
+        default: 
+            throw InvalidJob(job_id);
+    }
+
+    return job;
 }

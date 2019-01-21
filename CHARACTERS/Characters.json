@@ -109,7 +109,8 @@
         "month": 8,
         "year": 50,
         "baby": 0,
-	    "team": 0
+        "team": 0,
+        "menopause": 40
     },
 
     "character12":
@@ -119,7 +120,8 @@
         "month": 4,
         "year": 45,
         "baby" : 0,
-	    "team": 0
+        "team": 0,
+        "menopause": 42
     },
 
     "character13":
@@ -129,7 +131,8 @@
         "month": 2,
         "year": 5,
         "baby" : 2,
-	    "team": 0
+        "team": 0,
+        "menopause": 38
     },
 
     "character14":
@@ -139,7 +142,8 @@
         "month": 8,
         "year": 23,
         "baby" : 1,
-	    "team": 0
+        "team": 0,
+        "menopause": 45
     },
 
     "character15":
@@ -149,7 +153,8 @@
         "month": 11,
         "year": 27,
         "baby" : 1,
-	    "team": 0
+        "team": 0,
+        "menopause": 35
     },
 
     "character16":
@@ -159,7 +164,8 @@
         "month": 6,
         "year": 30,
         "baby" : 3,
-	    "team": 1
+        "team": 1,
+        "menopause": 41
     },
 
     "character17":
@@ -169,7 +175,8 @@
         "month": 2,
         "year": 40,
         "baby" : 0,
-	    "team": 1
+        "team": 1,
+        "menopause": 43
     },
 
     "character18":
@@ -179,7 +186,8 @@
         "month": 7,
         "year": 4,
         "baby" : 0,
-	    "team": 1
+        "team": 1,
+        "menopause": 39
     },
 
     "character19":
@@ -189,7 +197,8 @@
         "month": 10,
         "year": 32,
         "baby" : 1,
-	    "team": 1
+        "team": 1,
+        "menopause": 38
     },
 
     "character20":
@@ -199,6 +208,7 @@
         "month": 3,
         "year": 15,
         "baby" : 2,
-	    "team": 1
+        "team": 1,
+        "menopause": 40
     }
 }

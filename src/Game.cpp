@@ -26,20 +26,22 @@ void Game::run(unsigned int round)
         turn.display();
         lifeOfCharacter();
         display();
-        usleep(1000000);
+        usleep(10000);
     }
 }
 
 void Game::lifeOfCharacter()
 {
-    /*TODO : erreur sur le i, dans turnCharacter si on supprime une case dans le ground with character ca merde hors ca arrive souvent */
     Character *character;
     Ground *ground;
     unsigned int number_ground_with_character = map.getSizeVectorGroundWithCharacter() , number_character_ground,
     i = 0,
     j = 0 ;
+    bool is_ground_deleted ;
+
     while (i < number_ground_with_character)
     {
+        is_ground_deleted = false ;
         j = 0 ;
         ground = map.getGroundWithCharacter(i);
         number_character_ground = ground->getVectorSize() ;
@@ -50,7 +52,7 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-	            if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) //TODO inferieur a menopose
+	            if (character->getCharacterGender() == SEX::FEMALE && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]) && (character->getCharacterAge(turn) <= Constantes::CONFIG_SIMU["menopause"]))
                 {
 
                     if (((FemaleCharacter *)character)->getBabyPerPregnancy() == 0)
@@ -92,7 +94,7 @@ void Game::lifeOfCharacter()
                     }
                     else
                     {
-                        turnCharacter(character, ground, i, j, number_ground_with_character, number_character_ground);
+                        turnCharacter(character, ground, i, j, number_ground_with_character, number_character_ground,is_ground_deleted);
                         
                     }
                 }
@@ -105,10 +107,13 @@ void Game::lifeOfCharacter()
                 number_of_death_this_turn++;
             }
         }
-        i++ ;
+        if (!is_ground_deleted)
+        {
+            i++ ;
+        }
     }
 }
-void Game::turnCharacter(Character *character, Ground *ground, unsigned int& index_ground_with_character, unsigned int& index_character, unsigned int& number_ground_with_character, unsigned int& number_character_ground )
+void Game::turnCharacter(Character *character, Ground *ground, unsigned int& index_ground_with_character, unsigned int& index_character, unsigned int& number_ground_with_character, unsigned int& number_character_ground, bool& is_ground_deleted )
 {
     Character *temp_character;
     unsigned int x, y;
@@ -116,40 +121,40 @@ void Game::turnCharacter(Character *character, Ground *ground, unsigned int& ind
 
     x = ground->getPosition(map.getColumnNumber()).getAbscissa();
     y = ground->getPosition(map.getColumnNumber()).getOrdinate();
-    if (!movementOrdinate(temp_character, ground, x, y, index_character, index_ground_with_character,number_ground_with_character,number_character_ground))
+    if (!movementOrdinate(temp_character, ground, x, y, index_character, index_ground_with_character,number_ground_with_character,number_character_ground, is_ground_deleted))
     {
-        movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
+        movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted);
     }
 }
 
-bool Game::movementOrdinate(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character, unsigned int& number_ground_with_character, unsigned int& number_character_ground)
+bool Game::movementOrdinate(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character, unsigned int& number_ground_with_character, unsigned int& number_character_ground, bool& is_ground_deleted )
 {
     bool movement_possible = false;
     if (y < (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x, y + 1, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
+        movement_possible = movementCharacter(temp_character, ground, x, y + 1, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted);
     }
     else if (y > (((MaleCharacter *)temp_character)->getDirection().getOrdinate()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x, y - 1, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
+        movement_possible = movementCharacter(temp_character, ground, x, y - 1, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted);
     }
     return movement_possible;
 }
 
-bool Game::movementAbscissa(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character,  unsigned int& number_ground_with_character, unsigned int& number_character_ground)
+bool Game::movementAbscissa(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character,  unsigned int& number_ground_with_character, unsigned int& number_character_ground, bool& is_ground_deleted )
 {
     bool movement_possible = false;
     if (x < (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x + 1, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
+        movement_possible = movementCharacter(temp_character, ground, x + 1, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted);
     }
     else if (x > (((MaleCharacter *)temp_character)->getDirection().getAbscissa()))
     {
-        movement_possible = movementCharacter(temp_character, ground, x - 1, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground);
+        movement_possible = movementCharacter(temp_character, ground, x - 1, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted);
     }
     return movement_possible;
 }
-bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character,  unsigned int& number_ground_with_character, unsigned int& number_character_ground)
+bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned int x, unsigned int y, unsigned int& index_character, unsigned int& index_ground_with_character,  unsigned int& number_ground_with_character, unsigned int& number_character_ground, bool& is_ground_deleted )
 {
     bool movement_possible = false;
     Ground *next_place;
@@ -161,7 +166,7 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         number_character_ground -- ;
         if (ground->getVectorSize() == 0)
         {
-
+            is_ground_deleted = true ;
             number_ground_with_character -- ;
             map.removeGroundWithCharacter(index_ground_with_character);
         }
@@ -194,29 +199,48 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
     }
     ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource);
 
-    while (k < map.getSizeVectorGroundWithCollectionPoint())
-    { /* TODO : s'arrete si 2 ressource low */
-        collection_point = map.getGroundWithCollectionPoint(k);
-        if ((collection_point->getGroundType() == (GROUND_TYPE)((MaleCharacter *)character)->getSpeciality()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
-        {
-            ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
-            is_collection_point = true;
-            distance_min_primer_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
-        }
-        else
-        {
 
-            if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"]))
-            {
-                low_stock_collection_point = collection_point;
-                distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
-            }
-        }
-        k++;
-    }
-    if ((!is_collection_point) && (low_stock_collection_point != nullptr))
+    unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"] ;
+    if((((TownHall *)ground)->getWoodNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up) && (((TownHall *)ground)->getRockNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up))
     {
-        ((MaleCharacter *)character)->setDirection(low_stock_collection_point->getGroundId(), map.getColumnNumber());
+        ((MaleCharacter *)character)->incrementTimeAtWork();
+
+    }
+    else if ( ((MaleCharacter *)character)->getTimeAtWork() > Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
+    {
+        ((TownHall*)ground)->removeRockNumber((((TownHall *)ground)->getLevel() *  ressource_level_up));
+        ((TownHall*)ground)->removeWoodNumber((((TownHall *)ground)->getLevel() * ressource_level_up));        
+        ((MaleCharacter *)character)->resetTimeAtWork();
+        ((TownHall *)ground)->incrementLevel();
+    
+    }
+        
+    else
+    {
+        while (k < map.getSizeVectorGroundWithCollectionPoint())
+        { /* TODO : s'arrete si 2 ressource low */
+            collection_point = map.getGroundWithCollectionPoint(k);
+            if ((collection_point->getGroundType() == (GROUND_TYPE)((MaleCharacter *)character)->getSpeciality()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
+            {
+                ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
+                is_collection_point = true;
+                distance_min_primer_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
+            }
+            else
+            {
+
+                if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"]))
+                {
+                    low_stock_collection_point = collection_point;
+                    distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
+                }
+            }
+            k++;
+        }
+        if ((!is_collection_point) && (low_stock_collection_point != nullptr))
+        {
+            ((MaleCharacter *)character)->setDirection(low_stock_collection_point->getGroundId(), map.getColumnNumber());
+        }
     }
 }
 
@@ -256,13 +280,12 @@ void Game::birthOfCharacter(Character *character)
     {
         if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
         {
-            new_character = new MaleCharacter(turn);
+            new_character = new MaleCharacter(turn, map.getColumnNumber(), character->getCharacterTeam());
         }
         else
         {
-            new_character = new FemaleCharacter(turn);
+            new_character = new FemaleCharacter(turn, character->getCharacterTeam());
         }
-        new_character->setCharacterTeam(character->getCharacterTeam());
         map.getGroundGrid(new_character->getCharacterTeam())->addCharacter(new_character);
     }
     ((FemaleCharacter *)character)->setTimePregnancy(Date());

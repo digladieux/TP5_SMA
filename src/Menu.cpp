@@ -148,13 +148,13 @@ unsigned int Menu::configChoice() const noexcept
     do
     {
         std::cin >> config;
-    } while (config > Constantes::CONFIG_NUMBER);
+    } while (config > Constantes::CONFIG_SIMU["maxConfig"]);
     return config;
 }
 void Menu::displayAllConfig(std::ostream &os) const
 {
     os << "Here you are all the config" << std::endl;
-    for (unsigned int i = 1; i <= Constantes::CONFIG_NUMBER; i++)
+    for (unsigned int i = 1; i <= Constantes::CONFIG_SIMU["maxConfig"]; i++)
     {
         os << std::endl
            << "Config " << i << " : " << std::endl;

@@ -15,8 +15,12 @@ FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(c
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
-FemaleCharacter::FemaleCharacter(const Date &age) : Character(SEX::FEMALE, age), baby_per_pregnancy(genrand_int31() % (unsigned int) Constantes::CONFIG_SIMU["maxBaby"]), pregnancy_time(Date())
+FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team) : Character(SEX::FEMALE, age, team), baby_per_pregnancy(genrand_int31() % (unsigned int) Constantes::CONFIG_SIMU["maxBaby"]), pregnancy_time(Date())
 {
+    unsigned int menopause_min = Constantes::CONFIG_SIMU["menopauseMin"] ;
+    unsigned int menopause_max = Constantes::CONFIG_SIMU["menopauseMax"] ;
+    menopause = genrand_int31() % ( menopause_max  -  menopause_min) + menopause_min ;
+    menopause += (unsigned int) Constantes::CONFIG_SIMU["menopauseMin"] ;
 }
 
 
@@ -24,7 +28,7 @@ FemaleCharacter::FemaleCharacter(const Date &age) : Character(SEX::FEMALE, age),
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
-FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby) : Character(SEX::FEMALE, age), baby_per_pregnancy(number_of_baby), pregnancy_time(Date())
+FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, unsigned int age_of_menopause, unsigned int team) : Character(SEX::FEMALE, age, team), baby_per_pregnancy(number_of_baby), pregnancy_time(Date()), menopause(age_of_menopause)
 {
 }
 

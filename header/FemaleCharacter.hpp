@@ -20,10 +20,11 @@ class FemaleCharacter : public Character
 private:
   unsigned int baby_per_pregnancy; /*! Nombre de bebe par couche */
   Date pregnancy_time;             /*! Nombre de mois avant la couche */
+  unsigned int menopause;
 
 public:
-  FemaleCharacter(const Date &);
-  FemaleCharacter(const Date &, unsigned int);
+  FemaleCharacter(const Date &, unsigned int team = 0);
+  FemaleCharacter(const Date &, unsigned int, unsigned int, unsigned int team = 0);
   FemaleCharacter(const FemaleCharacter &);
   ~FemaleCharacter();
 

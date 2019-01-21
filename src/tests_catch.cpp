@@ -163,7 +163,7 @@ TEST_CASE("Character")
     CHECK(0 == character1.getCharacterId());
     CHECK(1 == character2.getCharacterId());
     CHECK(SEX::FEMALE == character2.getCharacterGender());
-    CHECK(-1 == character1.getCharacterTeam());
+    CHECK(0 == character1.getCharacterTeam());
     CHECK(20 == character2.getCharacterAge(Date(1, 1, 40)));
     CHECK(19 == character2.getCharacterAge(Date(2, 1, 40)));
     character1.setCharacterTeam(3);
@@ -627,11 +627,11 @@ TEST_CASE("JsonMapValid?")
 TEST_CASE("Game")
 {
     system("clear");
-    std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
-   //std::vector<unsigned int> vector_character = {2, 8};
+    //std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_character = {2, 8, 3, 9};
     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
-    game.run(30);
+    game.run(3000);
 }
 /*
 

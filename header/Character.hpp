@@ -24,8 +24,8 @@ protected:
   SEX character_gender;
 
 public:
-  Character(const Date &);
-  Character(SEX, const Date &);
+  Character(const Date &, unsigned int team = 0);
+  Character(SEX, const Date &, unsigned int team = 0);
   Character(const Character &);
   Character(unsigned int, const Date &, int, SEX);
 

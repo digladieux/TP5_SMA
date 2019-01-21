@@ -75,14 +75,12 @@ void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<un
         switch (sex)
         {
         case 0:
-            character = new MaleCharacter(json_character[key_character]["job"], date_of_birth);
-            /* TODO : cette fonction et on supprimera la ligne dans le initialisation map 
-            ((MaleCharacter *)character)->setDirection(0);*/
+            character = new MaleCharacter(json_character[key_character]["job"], date_of_birth, (int)json_character[key_character]["team"], column_number);
+           
             break;
 
         case 1:
-            // TODO : faire un new constructeur
-            character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[key_character]["baby"]);
+            character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[key_character]["baby"], column_number, (unsigned int)json_character[key_character]["team"]);
             break;
 
         default:

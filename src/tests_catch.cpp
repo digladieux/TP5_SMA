@@ -627,8 +627,8 @@ TEST_CASE("JsonMapValid?")
 TEST_CASE("Game")
 {
     system("clear");
-    //std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
-   std::vector<unsigned int> vector_character = {2, 8};
+    std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+   //std::vector<unsigned int> vector_character = {2, 8};
     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
     game.run(30);

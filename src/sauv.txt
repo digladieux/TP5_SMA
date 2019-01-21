@@ -66,7 +66,6 @@ void Game::lifeOfCharacter()
                     {
                         birthOfCharacter(character);
                     }
-                        j++ ;   
                 }
 
                 else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
@@ -161,11 +160,10 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         number_character_ground -- ;
         if (ground->getVectorSize() == 0)
         {
-
+            index_character --;
             number_ground_with_character -- ;
             map.removeGroundWithCharacter(index_ground_with_character);
         }
-
         next_place->addCharacter(temp_character);
         if (next_place->getVectorSize() == 1)
         {

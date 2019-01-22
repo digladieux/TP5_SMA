@@ -24,6 +24,10 @@ void Game::run(unsigned int round)
         system("clear");
         std::cout << "Tour " << i + 1 << std::endl;
         turn.display();
+        if (i == 1082)
+        {
+            std::cout <<"kk";
+        }
         lifeOfCharacter();
         display();
         usleep(10000);
@@ -34,9 +38,10 @@ void Game::lifeOfCharacter()
 {
     Character *character;
     Ground *ground;
-    unsigned int number_ground_with_character = map.getSizeVectorGroundWithCharacter() , number_character_ground,
-    i = 0,
-    j = 0 ;
+    unsigned int number_ground_with_character = map.getSizeVectorGroundWithCharacter() , 
+                    number_character_ground,
+                    i = 0,
+                    j = 0 ;
     bool is_ground_deleted ;
 
     while (i < number_ground_with_character)
@@ -123,7 +128,10 @@ void Game::turnCharacter(Character *character, Ground *ground, unsigned int& ind
     y = ground->getPosition(map.getColumnNumber()).getOrdinate();
     if (!movementOrdinate(temp_character, ground, x, y, index_character, index_ground_with_character,number_ground_with_character,number_character_ground, is_ground_deleted))
     {
-        movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted);
+        if(!movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted))
+        {
+            index_character ++ ;
+        }
     }
 }
 
@@ -177,6 +185,10 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
             map.addGroundWithCharacter(next_place);
         }
     }
+    else
+    {
+        // TODO : aller a gauche ou droite ou bas 
+    }
     return movement_possible;
 }
 double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordinates &b)
@@ -188,24 +200,25 @@ double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordin
 }
 void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout est vide ?? */
 {
-    Ground *collection_point, *low_stock_collection_point = nullptr;
+    Ground *collection_point, *other_collection_point = nullptr;
     unsigned int k = 0, number_ressource = Constantes::CONFIG_SIMU["ressourceSpecialityNumber"];
     double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
     bool is_collection_point = false;
-    GROUND_TYPE low_stock = ((TownHall *)ground)->lowStock();
     if ((JOB)((MaleCharacter *)character)->getTypeRessourceTransported() != ((MaleCharacter *)character)->getSpeciality())
     {
         number_ressource = Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"];
     }
     ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource);
-
-
-    unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"] ;
+/* TODO : faire utiliser le state pour un personnage masculin */
+    /*unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"] ;
     if((((TownHall *)ground)->getWoodNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up) && (((TownHall *)ground)->getRockNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up))
     {
+        ((MaleCharacter*)character)->setCharacterCurrentState(STATE::BUILDING) ;
         ((MaleCharacter *)character)->incrementTimeAtWork();
 
     }
+
+
     else if ( ((MaleCharacter *)character)->getTimeAtWork() > Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
     {
         ((TownHall*)ground)->removeRockNumber((((TownHall *)ground)->getLevel() *  ressource_level_up));
@@ -214,9 +227,9 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
         ((TownHall *)ground)->incrementLevel();
     
     }
-        
+    ????? switch state ?    
     else
-    {
+    {*/
         while (k < map.getSizeVectorGroundWithCollectionPoint())
         { /* TODO : s'arrete si 2 ressource low */
             collection_point = map.getGroundWithCollectionPoint(k);
@@ -229,19 +242,23 @@ void Game::caseTownHall(Character *character, Ground *ground) /* ToDO : si tout 
             else
             {
 
-                if ((!is_collection_point) && (low_stock == collection_point->getGroundType()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"]))
+                if ((!is_collection_point) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"]))
                 {
-                    low_stock_collection_point = collection_point;
+                    other_collection_point = collection_point;
                     distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
                 }
             }
             k++;
         }
-        if ((!is_collection_point) && (low_stock_collection_point != nullptr))
+        if (!is_collection_point)
         {
-            ((MaleCharacter *)character)->setDirection(low_stock_collection_point->getGroundId(), map.getColumnNumber());
+            ((MaleCharacter *)character)->setDirection(other_collection_point->getGroundId(), map.getColumnNumber());
         }
-    }
+        if (other_collection_point == nullptr)
+        {
+            // throw plus de ressource dispo 
+        }
+    //}
 }
 
 void Game::caseCollectionPoint(Character *character, Ground *ground)
@@ -254,6 +271,7 @@ void Game::caseCollectionPoint(Character *character, Ground *ground)
     ((MaleCharacter *)character)->incrementTimeAtWork();
     if (((MaleCharacter *)character)->getTimeAtWork() == 1)
     {
+
         ((MaleCharacter *)character)->setTypeRessourceTransported(ground->getGroundType());
     }
     else if (((MaleCharacter *)character)->getTimeAtWork() > work_time)

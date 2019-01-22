@@ -17,6 +17,7 @@
 Quarry::Quarry(const unsigned int rock_number) : CollectionPoint(GROUND_TYPE::QUARRY, rock_number) {}
 
 Quarry::Quarry(const Quarry &quarry) : CollectionPoint(GROUND_TYPE::QUARRY, quarry.ressources_number, quarry.ground_id, quarry.vector_character) {}
+Quarry::Quarry(const Ground &quarry, const unsigned int ressources_number) : CollectionPoint(quarry, GROUND_TYPE::QUARRY, ressources_number) {}
 /**
  * \fn Quarry::~Quarry()
  * \brief Destructeur de la classe Quarry

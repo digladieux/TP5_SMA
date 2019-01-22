@@ -23,7 +23,8 @@ class CollectionPoint : public Ground
     unsigned int ressources_number; /*! Nombre de ressources encore disponible sur le point de collecte */
 
   public:
-    CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb = 1000);
+    CollectionPoint(const Ground& , GROUND_TYPE, const unsigned int);
+    CollectionPoint(GROUND_TYPE, const unsigned int ressources_nb = 1000);
     CollectionPoint(GROUND_TYPE, const unsigned int, unsigned int, std::vector<Character *>);
     virtual ~CollectionPoint();
 

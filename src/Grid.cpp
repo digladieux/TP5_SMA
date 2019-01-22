@@ -167,30 +167,29 @@ void Grid::initialisationMap(std::ifstream &file_map, std::vector<unsigned int> 
         x = json_maps[key]["x"] ;
         y = json_maps[key]["y"] ;
         ground = this->getGroundGrid(x, y);
-        collection_point = initGround(ground, (int)json_maps[key]["type"] );
+        collection_point = initGround(ground, (int)json_maps[key]["type"], (const unsigned int)json_maps[key]["ressource_number"] );
         push_backGround(ground_with_collection_point, collection_point);
-        //ground = initGround(json_maps[key]["type"], json_maps[key]["ressource_number"]);
         ground_grid[x][y] = collection_point;
         delete ground;
     }
 }
 
-Ground *Grid::initGround(Ground * ground, unsigned int ground_type)
+Ground *Grid::initGround(Ground * ground, unsigned int ground_type, const unsigned int ressource_number)
 {
     Ground *collection_point;
     switch (ground_type)
     {
     case 1 :
-        collection_point = new Quarry(*(Quarry*)ground);
+        collection_point = new Quarry(*ground, ressource_number);
         break;
     case 2 :
-        collection_point = new Forest(*(Forest*)ground);
+        collection_point = new Forest(*ground, ressource_number);
         break;
     case 3 :
-        collection_point = new Lake(*(Lake*)ground);
+        collection_point = new Lake(*ground, ressource_number);
         break;
     case 4 :
-        collection_point = new Farm(*(Farm*)ground);
+        collection_point = new Farm(*ground, ressource_number);
         break;
     default:
         throw InvalidGroundTypeReadingFile(ground_type);

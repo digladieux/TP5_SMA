@@ -16,6 +16,7 @@
 Lake::Lake(const unsigned int fish_number) : CollectionPoint(GROUND_TYPE::LAKE, fish_number) {}
 
 Lake::Lake(const Lake &lake) : CollectionPoint(GROUND_TYPE::LAKE, lake.ressources_number, lake.ground_id, lake.vector_character) {}
+Lake::Lake(const Ground &lake, const unsigned int ressources_number) : CollectionPoint(lake, GROUND_TYPE::LAKE, ressources_number) {}
 /**
  * \fn Lake::~Lake()
  * \brief Destructeur de la classe Lake

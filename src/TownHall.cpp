@@ -228,7 +228,14 @@ void TownHall::display(std::ostream &os) const noexcept
 void TownHall::displayRessources(std::ostream &os) const noexcept
 {
     os << std::endl;
-    os << "TownHall " << ground_id << std::endl;
+    if (ground_id == 0)
+    {
+        os << BOLDRED << "TownHall 0" << RESET << std::endl;
+    }
+    else
+    {
+        os << BOLDMAGENTA << "TownHall 1" << RESET << std::endl;    
+    }
     os << "Wood " << wood_number << "\tRock " << rock_number << std::endl;
     os << "Fish " << fish_number << "\tFood " << food_number << std::endl;
 }

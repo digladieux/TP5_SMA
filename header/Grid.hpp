@@ -39,7 +39,7 @@ public:
 
   static JOB choiceJob(unsigned int);
   static Ground *initGround(unsigned int, unsigned int);
-  static Ground * initGround(Ground *, unsigned int) ;
+  static Ground * initGround(Ground *, unsigned int, const unsigned int) ;
 
   static void push_backGround(std::vector<Ground *> &, Ground *);
 

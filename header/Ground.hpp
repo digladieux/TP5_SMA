@@ -30,6 +30,7 @@ class Ground
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
     Ground(GROUND_TYPE, unsigned int, std::vector<Character *>);
+    Ground(const Ground &, GROUND_TYPE);
     Ground(const Ground &);
     virtual ~Ground();
 

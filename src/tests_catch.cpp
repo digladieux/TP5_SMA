@@ -200,7 +200,6 @@ TEST_CASE("MaleCharacter")
 
     CHECK(3 == character1->getCharacterId());
     CHECK(4 == character2->getCharacterId());
-    CHECK(JOB::NO_JOB == ((MaleCharacter *)character1)->getSpeciality());
     CHECK(JOB::FARMER == ((MaleCharacter *)character2)->getSpeciality());
 
     CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
@@ -460,7 +459,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(2 == grid.getSizeVectorGroundWithCharacter());
     CHECK(6 == grid.getSizeVectorGroundWithCollectionPoint());
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(169 == grid.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(338 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
     Grid grid_copy(grid);
     CHECK(20 == grid_copy.getColumnNumber());
@@ -474,7 +473,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(6 == grid_copy.getSizeVectorGroundWithCollectionPoint());
     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
     CHECK(grid_copy.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
-    CHECK(83 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
+    CHECK(166 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
 TEST_CASE("MethodeStatic&Comparaison")
@@ -588,8 +587,6 @@ TEST_CASE("JsonCharacterValid?")
             {
             case 0:
                 test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
-                /* TODO : cette fonction et on supprimera la ligne dans le initialisation map 
-            ((MaleCharacter *)character)->setDirection(0);*/
                 break;
 
             case 1:
@@ -631,7 +628,7 @@ TEST_CASE("Game")
     std::vector<unsigned int> vector_character = {2, 8, 3, 9};
     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
-    game.run(3000);
+    game.run(300);
 }
 /*
 

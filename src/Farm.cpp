@@ -17,6 +17,7 @@
 Farm::Farm(const unsigned int food_number) : CollectionPoint(GROUND_TYPE::FARM, food_number) {}
 
 Farm::Farm(const Farm &farm) : CollectionPoint(GROUND_TYPE::FARM, farm.ressources_number, farm.ground_id, farm.vector_character) {}
+Farm::Farm(const Ground &farm, const unsigned int ressources_number) : CollectionPoint(farm, GROUND_TYPE::FARM, ressources_number) {}
 
 /**
  * \fn Farm::~Farm()

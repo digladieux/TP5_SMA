@@ -1,4 +1,7 @@
 #include <iostream>
+/*
+make -j4 -l */
+
 /*#include "../header/Menu.hpp"
 #include "../header/Game.hpp"
 

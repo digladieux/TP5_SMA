@@ -21,6 +21,9 @@
 #include <iostream>
 using json = nlohmann::json;
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
+/*TODO : les nourrir, barre de vie ? */
+/*TODO : Si ressource specialite 2 fois plus grande que la plus petite, changer de destination */ 
+/*TODO : trouver une fonction pour les faire mourrir */
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -183,7 +186,7 @@ TEST_CASE("MaleCharacter")
     CHECK(SEX::MALE == character1->getCharacterGender());
     CHECK(SEX::MALE == character2->getCharacterGender());
 
-    CHECK(STATE::NO_STATE == ((MaleCharacter *)character1)->getCharacterCurrentState());
+    CHECK(STATE::GOING_TO_COLLECTION_POINT == ((MaleCharacter *)character1)->getCharacterCurrentState());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == ((MaleCharacter *)character1)->getTypeRessourceTransported());
 
     ((MaleCharacter *)character1)->setDirection(4, 10);
@@ -230,6 +233,7 @@ TEST_CASE("Json")
         json j;
         file >> j;
         json j1 = j["config1"];
+        CHECK(2 == j["maxConfig"]) ;
         CHECK(0.0005 == j["config1"]["death18"]);
         CHECK(0.0001 == j["config2"]["death18"]);
         CHECK(0.0005 == j1["death18"]);
@@ -624,13 +628,13 @@ TEST_CASE("JsonMapValid?")
 TEST_CASE("Game")
 {
     system("clear");
-    //std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
-    std::vector<unsigned int> vector_character = {2, 8, 3, 9};
-    std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_character = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    //std::vector<unsigned int> vector_character = {2, 8, 3, 9};
+    std::vector<unsigned int> vector_map = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
-    game.run(300);
+    //game.run(10000);
 }
-/*
+
 
 TEST_CASE("Menu")
 {
@@ -651,6 +655,6 @@ TEST_CASE("Menu")
  
     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
     game.run(turn_choice);
-}*/
+}
 
 /* TODO quand il passe a l'age adulte il gagne un metier ? */

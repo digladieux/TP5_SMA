@@ -133,13 +133,13 @@ bool Character::isDead(const Date &current_date) const noexcept
 {
     bool dead = false;
     /* RAND */
-    /*double random = genrand_real1();
+    double random = genrand_real1();
     unsigned int age = this->getCharacterAge(current_date);
     if (random < 0.0000000025 * age + 0.00025)
     {
         dead = true;
     }
-    if (age < 18)
+    /*if (age < 18)
     {
         if (random < ConstantesDeath::DEATH_UNDER_18)
         {

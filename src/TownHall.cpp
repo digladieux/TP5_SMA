@@ -230,11 +230,12 @@ void TownHall::displayRessources(std::ostream &os) const noexcept
     os << std::endl;
     if (ground_id == 0)
     {
-        os << BOLDRED << "TownHall 0" << RESET << std::endl;
+        os << BOLDRED << "TownHall 0" << RESET << "\tlevel: " << level << std::endl;
+        
     }
     else
     {
-        os << BOLDMAGENTA << "TownHall 1" << RESET << std::endl;    
+        os << BOLDMAGENTA << "TownHall 1" << RESET << "\tlevel: " << level << std::endl;    
     }
     os << "Wood " << wood_number << "\tRock " << rock_number << std::endl;
     os << "Fish " << fish_number << "\tFood " << food_number << std::endl;

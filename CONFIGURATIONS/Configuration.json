@@ -8,7 +8,7 @@
         "death90": 0.0025,
         "chanceMale": 0.5,
         "maxBaby": 3,
-        "majority": 18,
+        "majority": 2,
         "ressourceSpecialityNumber": 4,
         "ressourceNotSpecialityNumber": 2,
         "workTimeSpeciality": 3,

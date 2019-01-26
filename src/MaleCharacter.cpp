@@ -17,16 +17,14 @@ MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(charact
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
 {
-    //  direction(team / column_number, team % column_number)
     if (team != 0)
     {
-        /* TODO : a changer */
-        direction.setAbcissa(19) ;
-        direction.setOrdinate(19) ;
+        direction.setAbcissa(column_number - 1) ;
+        direction.setOrdinate(column_number - 1) ;
     }
-    int id_job =  (genrand_int31() % 3) + 1 ; 
+    int id_job =  (genrand_int31() % 4) + 1 ; 
     speciality = jobIdToJob(id_job);
     
 }
@@ -38,13 +36,12 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int c
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::NO_STATE), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
 {
     if (team != 0)
     {
-        /* TODO : a changer */
-        direction.setAbcissa(19) ;
-        direction.setOrdinate(19) ;
+        direction.setAbcissa(column_number -1 ) ;
+        direction.setOrdinate(column_number -1 ) ;
     }
 }
 

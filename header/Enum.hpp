@@ -59,12 +59,11 @@ enum class SEX
  */
 enum class STATE
 {
-    NO_STATE,                  /*! Pas d'etat (etat initial) */
+    ADD_RESSOURCES_TO_TOWNHALL,
     GOING_TO_COLLECTION_POINT, /*! Se diriger vers un point de collecte */
     GOING_TO_TOWN_HALL,        /*! Se dirige vers l'hotel de ville */
-    WORKING,                   /*! Travaille sur le point de collecte */
-    BUILDING,                  /*! Ameliore l'hotel de ville */
-    HAVING_SEX                 /*! Fait l'amour avec sa compagne */
+    WORKING,
+    HAVING_SEX,             /*! Fait l'amour avec sa compagne */
 };
 
 #endif

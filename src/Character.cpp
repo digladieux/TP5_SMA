@@ -16,12 +16,16 @@ unsigned int Character::character_number = 0;
  * \brief Constructeur par default d'un Personnage
  *
  */
-Character::Character(const Character &character) : character_id(character.character_id), character_date_of_birth(character.character_date_of_birth), character_team(character.character_team), character_gender(character.character_gender)
+Character::Character(const Character &character) : character_id(character.character_id), character_date_of_birth(character.character_date_of_birth), character_team(character.character_team), character_gender(character.character_gender), character_life(character.character_life), character_current_life(character.character_current_life)
 {
     character_number++;
 }
 Character::Character(const Date &age, unsigned int team) : character_id(character_number), character_date_of_birth(age), character_team(team)
 {
+    unsigned int life_min = Constantes::CONFIG_SIMU["lifeMin"] ;
+    unsigned int life_max = Constantes::CONFIG_SIMU["lifeMax"] ;
+    character_life = (genrand_int31() % ( life_max - life_min )) + life_min;
+    character_current_life = character_life;
     character_number++;
     if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
     {
@@ -32,7 +36,7 @@ Character::Character(const Date &age, unsigned int team) : character_id(characte
         character_gender = SEX::FEMALE;
     }
 }
-Character::Character(unsigned int id, const Date &age, int team, SEX gender) : character_id(id), character_date_of_birth(age), character_team(team), character_gender(gender)
+Character::Character(unsigned int id, const Date &age, int team, SEX gender, unsigned int life, unsigned int current_life) : character_id(id), character_date_of_birth(age), character_team(team), character_gender(gender), character_life(life), character_current_life(current_life)
 {
     character_number++;
 }
@@ -42,7 +46,7 @@ Character::Character(unsigned int id, const Date &age, int team, SEX gender) : c
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-Character::Character(SEX gender, const Date &age, unsigned int team) : character_id(character_number), character_date_of_birth(age), character_team(team), character_gender(gender)
+Character::Character(SEX gender, const Date &age, unsigned int team, unsigned int life) : character_id(character_number), character_date_of_birth(age), character_team(team), character_gender(gender), character_life(life), character_current_life(life)
 {
     character_number++;
 }
@@ -96,7 +100,7 @@ unsigned int Character::getCharacterTeam() const noexcept
 
 unsigned int Character::getCharacterAge(const Date &current_date) const
 {
-    return character_date_of_birth.getAge(current_date) ;
+    return character_date_of_birth.getAge(current_date);
 }
 /**
  * \fn void Character::setCharacterTeam(unsigned int new_team) noexcept
@@ -139,44 +143,21 @@ bool Character::isDead(const Date &current_date) const noexcept
     {
         dead = true;
     }
-    /*if (age < 18)
-    {
-        if (random < ConstantesDeath::DEATH_UNDER_18)
-        {
-            dead = true;
-        }
-    }
-    else if (age < 30)
-    {
-        if (random < ConstantesDeath::DEATH_UNDER_30)
-        {
-            dead = true;
-        }
-    }
-    else if (age < 50)
-    {
-        if (random < ConstantesDeath::DEATH_UNDER_50)
-        {
-            dead = true;
-        }
-    }
-    else if (age < 70)
-    {
-        if (random < ConstantesDeath::DEATH_UNDER_70)
-        {
-            dead = true;
-        }
-    }
-    else if (age < 90)
-    {
-        if (random < ConstantesDeath::DEATH_UNDER_90)
-        {
-            dead = true;
-        }
-    }
-    else
-    {
-        dead = true;
-    }*/
+
     return dead;
+}
+
+bool Character::decrementCharacterLife() noexcept
+{
+    character_current_life -= (int)Constantes::CONFIG_SIMU["lifePerTurn"];
+    return character_current_life < 0;
+}
+void Character::giveCharacterLife(unsigned int life) noexcept
+{
+    character_current_life = (character_current_life + life >= character_life) ? character_life : character_current_life + life;
+}
+
+int Character::getCharacterCurrentLife() const noexcept
+{
+    return character_current_life;
 }

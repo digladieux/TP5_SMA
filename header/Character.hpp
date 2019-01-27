@@ -22,12 +22,14 @@ protected:
   Date character_date_of_birth;
   unsigned int character_team;
   SEX character_gender;
+  unsigned int character_life ;
+  int character_current_life ;
 
 public:
   Character(const Date &, unsigned int team = 0);
-  Character(SEX, const Date &, unsigned int team = 0);
+  Character(SEX, const Date &, unsigned int team = 0, unsigned int life = 200);
   Character(const Character &);
-  Character(unsigned int, const Date &, int, SEX);
+  Character(unsigned int, const Date &, int, SEX, unsigned int, unsigned int);
 
   virtual ~Character();
 
@@ -37,9 +39,11 @@ public:
   unsigned int getCharacterAge(const Date &) const;
   unsigned int getCharacterTeam() const noexcept;
   SEX getCharacterGender() const noexcept;
-
+  int getCharacterCurrentLife() const noexcept;
+  bool decrementCharacterLife() noexcept;
+  void giveCharacterLife(unsigned int) noexcept;
   void setCharacterTeam(unsigned int) noexcept;
-
+  
   bool isDead(const Date &) const noexcept;
 };
 #endif

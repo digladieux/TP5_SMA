@@ -1,11 +1,6 @@
 {
     "maxConfig" : 2,
     "config1": {
-        "death18": 0.0005,
-        "death30": 0.0010,
-        "death50": 0.0015,
-        "death70": 0.0020,
-        "death90": 0.0025,
         "chanceMale": 0.5,
         "maxBaby": 3,
         "majority": 2,
@@ -17,16 +12,17 @@
         "maxRessourceEvolution": 100,
 	    "menopauseMin": 37,
         "menopauseMax": 45,
-        "levelUp" : 100
+        "levelUp" : 100,
+        "lifeMin" : 100,
+        "lifeMax" : 200,
+        "lifePerTurn" : 1,
+        "lifeWin" : 100
     },
     "config2": {
-        "death18": 0.0001,
-        "death30": 0.0010,
-        "death50": 0.0015,
-        "death70": 0.0020,
-        "death90": 0.0025,
-        "chanceMale": 0.5,
-        "maxBaby": 3,
+        "a": 0.0000000025,
+        "b" : 0.00025,
+        "chanceMale": 0.45,
+            "maxBaby": 3,
         "majority": 18,
         "ressourceSpecialityNumber": 4,
         "ressourceNotSpecialityNumber": 2,
@@ -36,7 +32,10 @@
         "maxRessourceEvolution": 100,
 	    "menopauseMin": 35,
         "menopauseMax": 47,
-        "levelUp": 200
-
+        "levelUp": 200,
+        "lifeMin" : 100,
+        "lifeMax" : 200,
+        "lifePerTurn" : 2,
+        "lifeWin" : 100
     }
 }

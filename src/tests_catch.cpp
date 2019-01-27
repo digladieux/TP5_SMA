@@ -21,7 +21,7 @@
 #include <iostream>
 using json = nlohmann::json;
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
-/*TODO : les nourrir, barre de vie ? */
+/*TODO : test unitaire vie */
 /*TODO : Si ressource specialite 2 fois plus grande que la plus petite, changer de destination */ 
 /*TODO : trouver une fonction pour les faire mourrir */
 TEST_CASE("Ground")
@@ -155,6 +155,7 @@ TEST_CASE("DateOperator<")
 
 TEST_CASE("Character")
 {
+    Constantes::openingConfiguration(1) ;
     Date date_character1;
     Date date_character2(1, 1, 20);
     Character character1(date_character1);
@@ -234,9 +235,9 @@ TEST_CASE("Json")
         file >> j;
         json j1 = j["config1"];
         CHECK(2 == j["maxConfig"]) ;
-        CHECK(0.0005 == j["config1"]["death18"]);
-        CHECK(0.0001 == j["config2"]["death18"]);
-        CHECK(0.0005 == j1["death18"]);
+        CHECK(0.5 == j["config1"]["chanceMale"]);
+        CHECK(0.45 == j["config2"]["chanceMale"]);
+        CHECK(0.5 == j1["chanceMale"]);
         file.close();
     }
     else
@@ -248,12 +249,12 @@ TEST_CASE("Json")
 TEST_CASE("JsonClass")
 {
     Constantes::openingConfiguration(1);
-    CHECK(Constantes::CONFIG_SIMU["death18"] == 0.0005);
+    CHECK(Constantes::CONFIG_SIMU["chanceMale"] == 0.5);
 }
 TEST_CASE("FemaleCharacter")
 {
     Constantes::openingConfiguration(1);
-    CHECK(Constantes::CONFIG_SIMU["death18"] == 0.0005);
+    CHECK(Constantes::CONFIG_SIMU["chanceMale"] == 0.5);
 
     Character *character1 = new FemaleCharacter(Date());
     Character *character2 = new FemaleCharacter(Date(01, 05, 1997));
@@ -656,5 +657,3 @@ TEST_CASE("Menu")
     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
     game.run(turn_choice);
 }
-
-/* TODO quand il passe a l'age adulte il gagne un metier ? */

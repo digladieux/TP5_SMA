@@ -31,6 +31,7 @@ private:
   void caseHavingSex(Ground *,Character *);
   void caseGoTownhall(Character *);
   void caseAddRessources(Ground *, Character *);
+  void caseEating(Ground *, Character *) ;
 
 public:
   Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &);
@@ -39,6 +40,7 @@ public:
   bool deathOfCharacter(Character *, unsigned int, unsigned int &);
   void birthOfCharacter(Character *);
   static double euclidienneDistance(const StructCoordinates &, const StructCoordinates &);
+
 
   void display(std::ostream &os = std::cout) const noexcept;
 

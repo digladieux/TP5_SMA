@@ -77,6 +77,7 @@ void Menu::displayAllMap(std::ostream &os) const
 
     std::string collection_point;
     unsigned int collection_point_number = json_maps["collection_point_number"];
+    system("clear");
     os << "Here you are all of our collection point:" << std::endl;
 
     for (unsigned i = 1; i <= collection_point_number; i++)
@@ -121,14 +122,18 @@ std::vector<unsigned int> Menu::characterChoice() const
 void Menu::displayAllCharacter(std::ostream &os) const
 {
     std::string character;
-    unsigned int character_number = json_characters["character_number"];
+    unsigned int character_number = json_characters["character_number"],
+                 character_sex;
+                 
+    system("clear");
     os << "Here you are all of our character :" << std::endl;
     for (unsigned int i = 1; i <= character_number; i++)
     {
         os << i << " : ";
         character = "character" + std::to_string(i);
-        displaySex(os, json_characters[character]["sex"]);
-        os << "\t" << Date(json_characters[character]["day"], json_characters[character]["month"], json_characters[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tTEAM " << json_characters[character]["team"] << "\t";
+        character_sex = json_characters[character]["sex"];
+        displaySex(os, character_sex);
+        os << "\t" << Date(json_characters[character]["day"], json_characters[character]["month"], json_characters[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tLIFE "  << json_characters[character]["life"] << "\tTEAM " << json_characters[character]["team"] << "\t";
         if (json_characters[character]["sex"] == 0)
         {
             displayJob(os, json_characters[character]["job"]);
@@ -153,6 +158,7 @@ unsigned int Menu::configChoice() const noexcept
 }
 void Menu::displayAllConfig(std::ostream &os) const
 {
+    system("clear");
     os << "Here you are all the config" << std::endl;
     for (unsigned int i = 1; i <= 2 ; i++) /*TODO : a changer */
     {

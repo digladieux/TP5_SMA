@@ -10,7 +10,7 @@
 #include "../header/Constantes.hpp"
 #include "../header/Exception.hpp"
 
-FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender()), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
+FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.character_id, character.character_date_of_birth, character.character_team, character.character_gender, character.character_life, character.character_current_life), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
 /**
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
@@ -28,7 +28,7 @@ FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team) : Character
  * \fn FemaleCharacter::FemaleCharacter()
  * \brief Constructeur par default de la classe Female Character
  */
-FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, unsigned int age_of_menopause, unsigned int team) : Character(SEX::FEMALE, age, team), baby_per_pregnancy(number_of_baby), pregnancy_time(Date()), menopause(age_of_menopause)
+FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, unsigned int age_of_menopause, unsigned int team, unsigned int life) : Character(SEX::FEMALE, age, team, life), baby_per_pregnancy(number_of_baby), pregnancy_time(Date()), menopause(age_of_menopause)
 {
 }
 

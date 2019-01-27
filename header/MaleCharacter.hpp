@@ -28,7 +28,7 @@ class MaleCharacter : public Character
 
   public:
     MaleCharacter(const Date &, unsigned int team = 0, unsigned column_number = 0);
-    MaleCharacter(JOB, const Date &,  unsigned int team = 0, unsigned column_number = 0);
+    MaleCharacter(JOB, const Date &,  unsigned int team = 0, unsigned column_number = 0, unsigned int life = 200);
     MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 

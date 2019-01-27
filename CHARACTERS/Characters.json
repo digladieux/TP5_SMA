@@ -7,7 +7,8 @@
         "month": 7,
         "year": 50,
         "job": 0,
-	    "team": 0
+        "team":0,
+        "life":200
     },
 
     "character2":
@@ -17,7 +18,8 @@
         "month": 6,
         "year": 40,
         "job": 1,
-	    "team": 0
+        "team":0,
+        "life":200
     },
 
     "character3":
@@ -27,8 +29,8 @@
         "month": 1,
         "year": 38,
         "job": 2,
-	    "team": 0
-	
+        "team":0,
+        "life":200
     },
 
     "character4":
@@ -38,7 +40,8 @@
         "month": 12,
         "year": 20,
         "job": 3,
-	    "team": 0
+        "team":0,
+        "life":200
     },
 
     "character5":
@@ -48,7 +51,8 @@
         "month": 12,
         "year": 35,
         "job": 4,
-	    "team": 0
+        "team":0,
+        "life":200
     },
 
     "character6":
@@ -58,8 +62,8 @@
         "month": 5,
         "year": 58,
         "job": 0,
-	    "team": 1
-	
+        "team":1,
+        "life":200
     },
 
     "character7":
@@ -69,7 +73,9 @@
         "month": 3,
         "year": 15,
         "job": 1,
-	    "team": 1
+        "team":1,
+        "life":200
+        
     },
 
     "character8":
@@ -79,7 +85,9 @@
         "month": 6,
         "year": 36,
         "job": 2,
-	    "team": 1
+        "team":1,
+        "life":200
+        
     },
 
     "character9":
@@ -89,7 +97,9 @@
         "month": 11,
         "year": 1,
         "job": 3,
-	    "team": 1
+        "team":1,
+        "life":200
+        
     },
 
     "character10":
@@ -99,7 +109,8 @@
         "month": 8,
         "year": 22,
         "job": 4,
-	    "team": 1
+        "team":1,
+        "life":200
     },
 
     "character11":
@@ -109,7 +120,8 @@
         "month": 8,
         "year": 50,
         "baby": 0,
-        "team": 0,
+        "team":0,
+        "life":200,
         "menopause": 40
     },
 
@@ -120,7 +132,8 @@
         "month": 4,
         "year": 45,
         "baby" : 0,
-        "team": 0,
+        "team":0,
+        "life":200,
         "menopause": 42
     },
 
@@ -131,7 +144,8 @@
         "month": 2,
         "year": 5,
         "baby" : 2,
-        "team": 0,
+        "team":0,
+        "life":200,
         "menopause": 38
     },
 
@@ -142,7 +156,8 @@
         "month": 8,
         "year": 23,
         "baby" : 1,
-        "team": 0,
+        "team":0,
+        "life":200,
         "menopause": 45
     },
 
@@ -153,7 +168,8 @@
         "month": 11,
         "year": 27,
         "baby" : 1,
-        "team": 0,
+        "team":0,
+        "life":200,
         "menopause": 35
     },
 
@@ -164,7 +180,8 @@
         "month": 6,
         "year": 30,
         "baby" : 3,
-        "team": 1,
+        "team":1,
+        "life":200,
         "menopause": 41
     },
 
@@ -175,7 +192,8 @@
         "month": 2,
         "year": 40,
         "baby" : 0,
-        "team": 1,
+        "team":1,
+        "life":200,
         "menopause": 43
     },
 
@@ -186,7 +204,8 @@
         "month": 7,
         "year": 4,
         "baby" : 0,
-        "team": 1,
+        "team":1,
+        "life":200,
         "menopause": 39
     },
 
@@ -197,7 +216,8 @@
         "month": 10,
         "year": 32,
         "baby" : 1,
-        "team": 1,
+        "team":1,
+        "life":200,
         "menopause": 38
     },
 
@@ -208,7 +228,8 @@
         "month": 3,
         "year": 15,
         "baby" : 2,
-        "team": 1,
+        "team":1,
+        "life":200,
         "menopause": 40
     }
 }

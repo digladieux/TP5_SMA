@@ -64,6 +64,7 @@ enum class STATE
     GOING_TO_TOWN_HALL,        /*! Se dirige vers l'hotel de ville */
     WORKING,
     HAVING_SEX,             /*! Fait l'amour avec sa compagne */
+    EATING
 };
 
 #endif

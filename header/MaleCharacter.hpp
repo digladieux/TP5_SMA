@@ -32,7 +32,7 @@ class MaleCharacter : public Character
     MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 
-    getCharacterCurrentState() const noexcept; //TODO virer le getState et faire fonctionner le nouveau type de state
+    STATE getCharacterCurrentState() const noexcept; //TODO virer le getState et faire fonctionner le nouveau type de state
     TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
     JOB getSpeciality() const noexcept;
     unsigned int getTimeAtWork() const noexcept;

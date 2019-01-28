@@ -21,7 +21,7 @@ class MaleCharacter : public Character
 {
   private:
     StructCoordinates direction;
-    STATE character_current_state;
+    State* character_current_state;
     TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
     JOB speciality;            /*! Specialite du personnage */
     unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
@@ -32,7 +32,7 @@ class MaleCharacter : public Character
     MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 
-    STATE getCharacterCurrentState() const noexcept;
+    getCharacterCurrentState() const noexcept; //TODO virer le getState et faire fonctionner le nouveau type de state
     TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
     JOB getSpeciality() const noexcept;
     unsigned int getTimeAtWork() const noexcept;
@@ -47,5 +47,7 @@ class MaleCharacter : public Character
     void setSpeciality(JOB job) noexcept;
     const MaleCharacter &operator=(const MaleCharacter &new_character);
     static JOB jobIdToJob(unsigned int);
+
+    void executeState(Ground *, Character *);
 };
 #endif

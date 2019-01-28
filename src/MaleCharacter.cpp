@@ -216,3 +216,9 @@ JOB MaleCharacter::jobIdToJob(unsigned int job_id){
 
     return job;
 }
+
+
+void MaleCharacter::executeState(Ground * ground, Character * character)
+{
+    character_current_state.run();
+}

@@ -74,7 +74,7 @@ void Game::lifeOfCharacter()
                         switch (ground->getGroundType())
                         {
                         case GROUND_TYPE::TOWN_HALL:
-                            caseTownHall(character, ground);
+                            ((MaleCharacter *)character)->executeState();
                             break;
                         case GROUND_TYPE::QUARRY:
                         case GROUND_TYPE::LAKE:
@@ -188,40 +188,9 @@ double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordin
     double substrate_ordinate = (b.getOrdinate() > a.getOrdinate()) ? b.getOrdinate() - a.getOrdinate() : a.getOrdinate() - b.getOrdinate();
     return sqrt(pow(substrate_abscissa, 2) + pow(substrate_ordinate, 2));
 }
-void Game::caseTownHall(Character *character, Ground *ground)
-{
 
-    switch (((MaleCharacter *)character)->getCharacterCurrentState())
-    {
 
-    case STATE::GOING_TO_TOWN_HALL:
 
-        caseGoTownhall(character);
-        break;
-
-    case STATE::ADD_RESSOURCES_TO_TOWNHALL:
-
-        caseAddRessources(ground, character);
-        break;
-
-    case STATE::HAVING_SEX:
-
-        caseHavingSex(ground, character);
-        break;
-
-    case STATE::WORKING:
-
-        caseWorking(ground, character);
-        break;
-
-    case STATE::GOING_TO_COLLECTION_POINT:
-
-        caseGoCollectionPoint(ground, character);
-        break;
-    case STATE::EATING:
-        caseEating(ground, character);
-    }
-}
 
 void Game::caseCollectionPoint(Character *character, Ground *ground) /* ToDO : si tout est vide ?? */
 {
@@ -287,148 +256,4 @@ void Game::display(std::ostream &os) const noexcept
     os << "Total death : " << number_of_death_total << std::endl;
 }
 
-void Game::caseGoTownhall(Character *character)
-{
-    ((MaleCharacter *)character)->setCharacterCurrentState(STATE::ADD_RESSOURCES_TO_TOWNHALL);
-}
 
-void Game::caseWorking(Ground *ground, Character *character)
-{
-    unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
-
-    if (((MaleCharacter *)character)->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
-    {
-        ((TownHall *)ground)->removeRockNumber((((TownHall *)ground)->getLevel() * ressource_level_up));
-        ((TownHall *)ground)->removeWoodNumber((((TownHall *)ground)->getLevel() * ressource_level_up));
-        ((MaleCharacter *)character)->resetTimeAtWork();
-        ((TownHall *)ground)->incrementLevel();
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-    }
-    else
-    {
-        ((MaleCharacter *)character)->incrementTimeAtWork();
-    }
-}
-
-void Game::caseGoCollectionPoint(Ground *ground, Character *character)
-{
-    Ground *collection_point, *other_collection_point = nullptr;
-    unsigned int k = 0;
-    double distance_min_primer_collection_point = std::numeric_limits<double>::max(), distance_min_secondary_collection_point = std::numeric_limits<double>::max();
-    bool is_collection_point = false;
-
-    while (k < map.getSizeVectorGroundWithCollectionPoint())
-    {
-        /* TODO : s'arrete si 2 ressource low */
-        collection_point = map.getGroundWithCollectionPoint(k);
-        if ((collection_point->getGroundType() == (GROUND_TYPE)((MaleCharacter *)character)->getSpeciality()) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceSpecialityNumber"]))
-        {
-            ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
-            is_collection_point = true;
-            distance_min_primer_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
-        }
-        else
-        {
-
-            if ((!is_collection_point) && (euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber())) < distance_min_secondary_collection_point) && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"]))
-            {
-                other_collection_point = collection_point;
-                distance_min_secondary_collection_point = euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), ground->getPosition(map.getColumnNumber()));
-            }
-        }
-        k++;
-    }
-    if (!is_collection_point)
-    {
-        ((MaleCharacter *)character)->setDirection(other_collection_point->getGroundId(), map.getColumnNumber());
-    }
-    if (other_collection_point == nullptr)
-    {
-        // throw plus de ressource dispo
-    }
-}
-
-void Game::caseHavingSex(Ground *ground, Character *character)
-{
-
-    if (((MaleCharacter *)character)->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
-    {
-        ((MaleCharacter *)character)->incrementTimeAtWork();
-
-        unsigned int index = 0;
-        bool flag = false;
-        while ((index < ground->getVectorSize()) && (!(flag)))
-        {
-            if ((SEX::FEMALE == (ground->getCharacter(index)->getCharacterGender())) && (Date() == (((FemaleCharacter *)ground->getCharacter(index))->getPregnancyTime())) && ((FemaleCharacter *)ground->getCharacter(index))->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])
-            {
-                ((FemaleCharacter *)ground->getCharacter(index))->randomBabyPerPregnancy();
-                if (((FemaleCharacter *)ground->getCharacter(index))->getBabyPerPregnancy() > 0)
-                {
-                    flag = true;
-                }
-            }
-            else
-            {
-                index++;
-            }
-        }
-
-        if (flag)
-        {
-            ((MaleCharacter *)character)->setCharacterCurrentState(STATE::HAVING_SEX);
-            ((FemaleCharacter *)ground->getCharacter(index))->setTimePregnancy(turn);
-        }
-
-        else
-        {
-            ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-        }
-    }
-    else
-    {
-        ((MaleCharacter *)character)->resetTimeAtWork();
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-    }
-}
-
-void Game::caseAddRessources(Ground *ground, Character *character)
-{
-    unsigned int number_ressource = Constantes::CONFIG_SIMU["ressourceSpecialityNumber"];
-    unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
-
-    if ((JOB)((MaleCharacter *)character)->getTypeRessourceTransported() != ((MaleCharacter *)character)->getSpeciality())
-    {
-        number_ressource = Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"];
-    }
-
-    ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource);
-
-    if (character->getCharacterCurrentLife() < 50) /* TODO RAND */
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::EATING);
-    }
-    else if ((((TownHall *)ground)->getWoodNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up) && (((TownHall *)ground)->getRockNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up))
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::WORKING);
-    }
-    else
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::HAVING_SEX);
-    }
-}
-
-void Game::caseEating(Ground *ground, Character *character)
-{
-    if (((TownHall *)ground)->removeFishNumber(1))
-    {
-        character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
-    }
-    else if (((TownHall *)ground)->removeFishNumber(1))
-    {
-        character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
-    }
-    if (character->getCharacterGender() == SEX::MALE)
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-    }
-}

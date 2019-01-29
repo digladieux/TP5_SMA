@@ -12,9 +12,7 @@
 #include "Ground.hpp"
 #include "StructCoordinates.hpp"
 #include "MaleCharacter.hpp"
-<<<<<<< HEAD
 #include "Strategy.hpp"
-=======
 #include "Game.hpp"
 #include "Grid.hpp"
 
@@ -22,7 +20,6 @@ class State;
 class Ground;
 class Game;
 class Grid;
->>>>>>> rene
 
 class Grid ;
 class Strategy ;

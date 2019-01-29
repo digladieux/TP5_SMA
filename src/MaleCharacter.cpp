@@ -12,7 +12,7 @@
 #include "../header/StrategyJob.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
-#include "../header/GoToCollectionPoint.hpp"
+#include "../header/StateGoingCollectionPoint.hpp"
 
 MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_strategy(new StrategyJob()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
 {
@@ -22,7 +22,7 @@ MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(charact
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new GoToCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), character_strategy(new StrategyJob()),time_at_work(0)
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), character_strategy(new StrategyJob()),time_at_work(0)
 {
     if (team != 0)
     {
@@ -40,7 +40,7 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int c
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new GoToCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), character_strategy(new StrategyJob()), time_at_work(0)
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), character_strategy(new StrategyJob()), time_at_work(0)
 {
     if (team != 0)
     {
@@ -231,5 +231,5 @@ bool MaleCharacter::runStrategy(Grid& map)
 
 void MaleCharacter::executeState(Game& game, Grid& grid, Ground * ground, Character * character)
 {
-    character_current_state->run(game, grid, ground, character);
+    character_current_state->run();
 }

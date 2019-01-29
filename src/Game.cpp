@@ -9,7 +9,7 @@
 #include "../header/StrategyJob.hpp"
 #include "../header/StrategyLowRessources.hpp"
 #include "../header/StrategyClosestCollectionPoint.hpp"
-#include "../header/GoToTownHall.hpp"
+#include "../header/StateGoingTownHall.hpp"
 #include "math.h"
 #include <unistd.h>
 #include <limits>
@@ -217,7 +217,7 @@ void Game::caseCollectionPoint(Character *character, Ground *ground) /* ToDO : S
     ((MaleCharacter *)character)->incrementTimeAtWork();
     if (((MaleCharacter *)character)->getTimeAtWork() == 1)
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToTownHall());
+        ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingTownHall());
         ((MaleCharacter *)character)->setTypeRessourceTransported(ground->getGroundType());
     }
     else if (((MaleCharacter *)character)->getTimeAtWork() > work_time)

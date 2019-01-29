@@ -1,21 +1,21 @@
-#include "../header/Eating.hpp"
+#include "../header/StateEating.hpp"
 #include "../header/TownHall.hpp"
-#include "../header/GoToCollectionPoint.hpp"
+#include "../header/StateGoingCollectionPoint.hpp"
 #include "../header/Constantes.hpp"
 
 
-Eating::Eating()
+StateEating::StateEating()
 {
 }
 
-Eating::~Eating()
+StateEating::~StateEating()
 {
 }
-Eating* Eating::clone()
+StateEating* StateEating::clone()
 {
-    return new Eating();
+    return new StateEating();
 }
-void Eating::run(Game& game, Grid& map, Ground* ground, Character* character)
+void StateEating::run(Ground* ground, Character* character)
 {
     if (((TownHall *)ground)->removeFishNumber(1))
     {
@@ -27,7 +27,7 @@ void Eating::run(Game& game, Grid& map, Ground* ground, Character* character)
     }
     if (character->getCharacterGender() == SEX::MALE)
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
+        ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingCollectionPoint());
     }    
 }
 

@@ -30,13 +30,6 @@ private:
   bool movementOrdinate(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&,  unsigned int&, unsigned int&, bool&);
   bool movementAbscissa(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&,  unsigned int&, unsigned int&, bool&);
 
-  void caseWorking(Ground *, Character *);
-  void caseGoCollectionPoint(Ground *, Character *);
-  void caseHavingSex(Ground *,Character *);
-  void caseGoTownhall(Character *);
-  void caseAddRessources(Ground *, Character *);
-  void caseEating(Ground *, Character *) ;
-
 public:
   Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &);
   ~Game();

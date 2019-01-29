@@ -1,19 +1,19 @@
-#include "../header/HavingSex.hpp"
+#include "../header/StateHavingSex.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/Grid.hpp"
 #include "../header/FemaleCharacter.hpp"
-#include "../header/GoToCollectionPoint.hpp"
+#include "../header/StateGoingCollectionPoint.hpp"
 
-HavingSex::HavingSex() {}
+StateHavingSex::StateHavingSex() {}
 
-HavingSex::~HavingSex() {}
+StateHavingSex::~StateHavingSex() {}
 
-HavingSex * HavingSex::clone()
+StateHavingSex * StateHavingSex::clone()
 {
-    return new HavingSex();
+    return new StateHavingSex();
 }
 
-void HavingSex::run(Game &game, Grid &map, Ground *ground, Character *character)
+void StateHavingSex::run(Game &game, Ground *ground, Character *character)
 {
     if (((MaleCharacter *)character)->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
     {
@@ -39,18 +39,18 @@ void HavingSex::run(Game &game, Grid &map, Ground *ground, Character *character)
 
         if (flag)
         {
-            ((MaleCharacter *)character)->setCharacterCurrentState(new HavingSex());
+            ((MaleCharacter *)character)->setCharacterCurrentState(new StateHavingSex());
             ((FemaleCharacter *)ground->getCharacter(index))->setTimePregnancy(game.getTurn());
         }
 
         else
         {
-            ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
+            ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingCollectionPoint());
         }
     }
     else
     {
         ((MaleCharacter *)character)->resetTimeAtWork();
-        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
+        ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingCollectionPoint());
     }
 }

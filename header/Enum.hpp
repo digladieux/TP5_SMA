@@ -62,9 +62,9 @@ enum class STATE
     ADD_RESSOURCES_TO_TOWNHALL,
     GOING_TO_COLLECTION_POINT, /*! Se diriger vers un point de collecte */
     GOING_TO_TOWN_HALL,        /*! Se dirige vers l'hotel de ville */
-    WORKING,
+    StateWorking,
     HAVING_SEX,             /*! Fait l'amour avec sa compagne */
-    EATING
+    StateEating
 };
 
 #endif

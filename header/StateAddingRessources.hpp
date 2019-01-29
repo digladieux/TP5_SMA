@@ -10,13 +10,13 @@
 
 
 
-class AddRessources : public State
+class StateAddingRessources : public State
 {
     public:
-        AddRessources();
-        ~AddRessources();
-        AddRessources *clone();
-        void run(Game&, Grid&, Ground *, Character *);
+        StateAddingRessources();
+        ~StateAddingRessources();
+        StateAddingRessources *clone();
+        void run(Ground *, Character *);
 };
 
 #endif

@@ -116,7 +116,7 @@ bool TownHall::addRessources(TYPE_RESSOURCE_TRANSPORTED type, const int ressourc
 bool TownHall::removeRockNumber(const int rock_nb) noexcept
 {
     bool flag = true;
-    if (rock_nb < 0)
+    if ((int)rock_number < rock_nb)
     {
         flag = false;
     }
@@ -136,7 +136,7 @@ bool TownHall::removeRockNumber(const int rock_nb) noexcept
 bool TownHall::removeWoodNumber(const int wood_nb) noexcept
 {
     bool flag = true;
-    if (wood_nb < 0)
+    if ((int)wood_number < wood_nb)
     {
         flag = false;
     }
@@ -156,7 +156,7 @@ bool TownHall::removeWoodNumber(const int wood_nb) noexcept
 bool TownHall::removeFoodNumber(const int food_nb) noexcept
 {
     bool flag = true;
-    if (food_nb < 0)
+    if ((int)food_number < food_nb)
     {
         flag = false;
     }
@@ -176,7 +176,7 @@ bool TownHall::removeFoodNumber(const int food_nb) noexcept
 bool TownHall::removeFishNumber(const int fish_nb) noexcept
 {
     bool flag = true;
-    if (fish_number - fish_nb < 0)
+    if ((int)fish_number < fish_nb)
     {
         flag = false;
     }
@@ -188,7 +188,7 @@ bool TownHall::removeFishNumber(const int fish_nb) noexcept
 }
 
 GROUND_TYPE TownHall::lowStock() const noexcept
-{ /* RAND */
+{
     GROUND_TYPE ground_type;
     if ((rock_number <= wood_number) && (rock_number <= fish_number) && (rock_number <= food_number))
     {

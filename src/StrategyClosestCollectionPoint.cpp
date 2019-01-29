@@ -16,12 +16,12 @@ bool StrategyClosestCollectionPoint::run(Grid& map, MaleCharacter *character)
     while (k < map.getSizeVectorGroundWithCollectionPoint())
     {
         collection_point = map.getGroundWithCollectionPoint(k);
-        if ((Game::euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), collection_point->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) 
+        if ((Game::euclidienneDistance(map.getGroundGrid(character->getCharacterTeam())->getPosition(map.getColumnNumber()), collection_point->getPosition(map.getColumnNumber())) < distance_min_primer_collection_point) 
         && (((CollectionPoint *)collection_point)->getRessourcesNumber() > Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"])) 
         {
             ((MaleCharacter *)character)->setDirection(collection_point->getGroundId(), map.getColumnNumber());
             is_collection_point = true;
-            distance_min_primer_collection_point = Game::euclidienneDistance(collection_point->getPosition(map.getColumnNumber()), collection_point->getPosition(map.getColumnNumber()));
+            distance_min_primer_collection_point = Game::euclidienneDistance(map.getGroundGrid(character->getCharacterTeam())->getPosition(map.getColumnNumber()), collection_point->getPosition(map.getColumnNumber()));
         }
         k++;
     }

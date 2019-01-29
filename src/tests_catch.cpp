@@ -21,21 +21,19 @@
 #include <iostream>
 using json = nlohmann::json;
 /*TODO : test sur les strategies et state */
-/*TODO : verifier tous les commentaires partout plus rien ne marche */
 /*TODO : test unitaire vie */
-/*TODO : Si ressource specialite 2 fois plus grande que la plus petite, changer de destination */ 
-/*TODO : trouver une fonction pour les faire mourrir */
-// TEST_CASE("Ground")
-// {
-//     Ground ground0;
-//     Ground ground1(GROUND_TYPE::LAKE);
+/*TODO : verifier tous les commentaires partout plus rien ne marche */
+TEST_CASE("Ground")
+{
+    Ground ground0;
+    Ground ground1(GROUND_TYPE::LAKE);
 
-//     CHECK(0 == ground0.getGroundId());
-//     CHECK(1 == ground1.getGroundId());
-//     CHECK(GROUND_TYPE::LAND == ground0.getGroundType());
-//     CHECK(GROUND_TYPE::LAKE == ground1.getGroundType());
-// }
-/*
+    CHECK(0 == ground0.getGroundId());
+    CHECK(1 == ground1.getGroundId());
+    CHECK(GROUND_TYPE::LAND == ground0.getGroundType());
+    CHECK(GROUND_TYPE::LAKE == ground1.getGroundType());
+}
+
 TEST_CASE("Town Hall")
 {
     TownHall *town_hall_start = new TownHall();
@@ -84,10 +82,10 @@ TEST_CASE("Town Hall")
     CHECK(8 == town_hall_in_game->getFoodNumber());
     CHECK(6 == town_hall_in_game->getFishNumber());
 
-    CHECK(false == town_hall_in_game->removeRockNumber(-8));
-    CHECK(false == town_hall_in_game->removeWoodNumber(-2));
-    CHECK(false == town_hall_in_game->removeFoodNumber(-10));
-    CHECK(false == town_hall_in_game->removeFishNumber(-20));
+    CHECK(false == town_hall_in_game->removeRockNumber(10));
+    CHECK(false == town_hall_in_game->removeWoodNumber(10));
+    CHECK(false == town_hall_in_game->removeFoodNumber(10));
+    CHECK(false == town_hall_in_game->removeFishNumber(10));
     CHECK(1 == town_hall_in_game->getRockNumber());
     CHECK(2 == town_hall_in_game->getWoodNumber());
     CHECK(8 == town_hall_in_game->getFoodNumber());
@@ -187,17 +185,14 @@ TEST_CASE("MaleCharacter")
     CHECK(SEX::MALE == character1->getCharacterGender());
     CHECK(SEX::MALE == character2->getCharacterGender());
 
-    // CHECK(STATE::GOING_TO_COLLECTION_POINT == ((MaleCharacter *)character1)->getCharacterCurrentState());
     CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == ((MaleCharacter *)character1)->getTypeRessourceTransported());
 
     ((MaleCharacter *)character1)->setDirection(4, 10);
-    // ((MaleCharacter *)character1)->setCharacterCurrentState(STATE::WORKING);
     ((MaleCharacter *)character1)->setTypeRessourceTransported(GROUND_TYPE::FARM);
 
     CHECK(((MaleCharacter *)character1)->getDirection().getAbscissa() == 0);
     CHECK(((MaleCharacter *)character1)->getDirection().getOrdinate() == 4);
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
-    // CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
     CHECK(Date(20, 5, 2018) == character1->getDateOfBirth());
     CHECK(Date() == character2->getDateOfBirth());
@@ -208,7 +203,6 @@ TEST_CASE("MaleCharacter")
 
     CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
 
-    // ((MaleCharacter *)character1)->setCharacterCurrentState(STATE::WORKING);
     ((MaleCharacter *)character1)->setTypeRessourceTransported(GROUND_TYPE::FARM);
     for (int i = 1; i < 4; i++)
     {
@@ -220,7 +214,6 @@ TEST_CASE("MaleCharacter")
     CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
 
     CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
-    // CHECK(STATE::WORKING == ((MaleCharacter *)character1)->getCharacterCurrentState());
 
     delete character1;
     delete character2;
@@ -569,68 +562,68 @@ TEST_CASE("GroundCopy")
 //     delete ground1;
 // }
 
-// TEST_CASE("JsonCharacterValid?")
-// {
-//     std::string file_name = "./CHARACTERS/Characters.json";
-//     std::ifstream file(file_name);
-//     unsigned int male_number;
-//     unsigned int female_number;
-//     Character *test_character;
-//     Date date_of_birth;
-//     std::string character;
-//     if (!file.fail())
-//     {
-//         json json_character;
-//         file >> json_character;
-//         unsigned int character_number = json_character["character_number"];
-//         for (unsigned int i = 1; i <= character_number; i++)
-//         {
-//             character = "character" + std::to_string(i);
-//             date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
-//             unsigned int sex = json_character[character]["sex"];
-//             switch (sex)
-//             {
-//             case 0:
-//                 test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
-//                 break;
+TEST_CASE("JsonCharacterValid?")
+{
+    std::string file_name = "./CHARACTERS/Characters.json";
+    std::ifstream file(file_name);
+    unsigned int male_number;
+    unsigned int female_number;
+    Character *test_character;
+    Date date_of_birth;
+    std::string character;
+    if (!file.fail())
+    {
+        json json_character;
+        file >> json_character;
+        unsigned int character_number = json_character["character_number"];
+        for (unsigned int i = 1; i <= character_number; i++)
+        {
+            character = "character" + std::to_string(i);
+            date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
+            unsigned int sex = json_character[character]["sex"];
+            switch (sex)
+            {
+            case 0:
+                test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
+                break;
 
-//             case 1:
-//                 test_character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[character]["baby"]);
-//                 break;
-//             }
-//             delete test_character;
-//             file.close();
-//         }
-//     }
-// }
+            case 1:
+                test_character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[character]["baby"]);
+                break;
+            }
+            delete test_character;
+            file.close();
+        }
+    }
+}
 
-// TEST_CASE("JsonMapValid?")
-// {
-//     std::string file_name = "./MAPS/Maps.json";
-//     std::ifstream file(file_name);
-//     Ground *ground;
-//     std::string map;
-//     if (!file.fail())
-//     {
-//         json json_map;
-//         file >> json_map;
-//         unsigned int collection_point_number = json_map["collection_point_number"];
-//         for (unsigned int i = 1; i <= collection_point_number; i++)
-//         {
-//             map = "collection_point" + std::to_string(i);
-//             ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]) ;
-//             delete ground;
-//         }
-//         file.close();
-//     }
-// }
+TEST_CASE("JsonMapValid?")
+{
+    std::string file_name = "./MAPS/Maps.json";
+    std::ifstream file(file_name);
+    Ground *ground;
+    std::string map;
+    if (!file.fail())
+    {
+        json json_map;
+        file >> json_map;
+        unsigned int collection_point_number = json_map["collection_point_number"];
+        for (unsigned int i = 1; i <= collection_point_number; i++)
+        {
+            map = "collection_point" + std::to_string(i);
+            ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]) ;
+            delete ground;
+        }
+        file.close();
+    }
+}
 
 
 TEST_CASE("Game")
 {
     system("clear");
-    //std::vector<unsigned int> vector_character = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-    std::vector<unsigned int> vector_character = {2};
+    std::vector<unsigned int> vector_character = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    //std::vector<unsigned int> vector_character = {2};
     std::vector<unsigned int> vector_map = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
     game.run(100);
@@ -642,17 +635,17 @@ TEST_CASE("Menu")
     Menu::displayWelcome();
     Menu menu;
 
-//     menu.displayAllCharacter();
-//     std::vector<unsigned int> character_choice = menu.characterChoice();
+    menu.displayAllCharacter();
+    std::vector<unsigned int> character_choice = menu.characterChoice();
 
-//     menu.displayAllMap();
-//     std::vector<unsigned int> map_choice = menu.mapChoice();
+    menu.displayAllMap();
+    std::vector<unsigned int> map_choice = menu.mapChoice();
 
-//     menu.displayAllConfig();
-//     unsigned config_choice = menu.configChoice();
+    menu.displayAllConfig();
+    unsigned config_choice = menu.configChoice();
  
-//     menu.displayTurnChoice();
-//     unsigned turn_choice = menu.turnChoice(); 
+    menu.displayTurnChoice();
+    unsigned turn_choice = menu.turnChoice(); 
  
     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
     game.run(turn_choice);

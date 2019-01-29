@@ -1,19 +1,19 @@
-#include "../header/Working.hpp"
+#include "../header/StateWorking.hpp"
 #include "../header/Constantes.hpp"
 
 
-Working::Working()
+StateWorking::StateWorking()
 {
 }
 
-Working::~Working()
+StateWorking::~StateWorking()
 {
 }
-Working* Working::clone()
+StateWorking* StateWorking::clone()
 {
-    return new Working();
+    return new StateWorking();
 }
-void Working::run(Game& game, Grid& grid, Ground *ground, Character * character)
+void StateWorking::run(Ground *ground, Character * character)
 {
     unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
 
@@ -24,7 +24,7 @@ void Working::run(Game& game, Grid& grid, Ground *ground, Character * character)
         ((MaleCharacter *)character)->resetTimeAtWork();
         ((TownHall *)ground)->incrementLevel();
 
-        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
+        ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingCollectionPoint());
 
     }
     else

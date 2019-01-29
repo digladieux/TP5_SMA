@@ -75,7 +75,7 @@ void Game::lifeOfCharacter()
                         switch (ground->getGroundType())
                         {
                         case GROUND_TYPE::TOWN_HALL:
-                            ((MaleCharacter *)character)->executeState();
+                            ((MaleCharacter *)character)->executeState(); //TODO caster en Malecharacter et non Character
                             break;
                         case GROUND_TYPE::QUARRY:
                         case GROUND_TYPE::LAKE:

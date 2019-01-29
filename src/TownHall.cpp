@@ -176,7 +176,7 @@ bool TownHall::removeFoodNumber(const int food_nb) noexcept
 bool TownHall::removeFishNumber(const int fish_nb) noexcept
 {
     bool flag = true;
-    if (fish_nb < 0)
+    if (fish_number - fish_nb < 0)
     {
         flag = false;
     }

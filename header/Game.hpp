@@ -7,12 +7,16 @@
 
 #ifndef GAME_HPP
 #define GAME_HPP
-
+#include <vector>
+#include "Ground.hpp"
 #include "Grid.hpp"
+class Grid;
+class Ground;
+
 class Game
 {
 private:
-  Grid map;
+  Grid * map;
   Date turn;
   unsigned int number_of_birth_this_turn;
   unsigned int number_of_birth_total;
@@ -35,12 +39,13 @@ private:
 
 public:
   Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &);
+  ~Game();
   void run(unsigned int);
   void lifeOfCharacter();
   bool deathOfCharacter(Character *, unsigned int, unsigned int &);
   void birthOfCharacter(Character *);
   static double euclidienneDistance(const StructCoordinates &, const StructCoordinates &);
-
+  Date getTurn() const noexcept ;
 
   void display(std::ostream &os = std::cout) const noexcept;
 

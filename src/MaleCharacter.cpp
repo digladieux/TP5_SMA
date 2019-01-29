@@ -12,14 +12,17 @@
 #include "../header/StrategyJob.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
-#include "../header/Grid.hpp"
+#include "../header/GoToCollectionPoint.hpp"
 
-MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), character_strategy(new StrategyJob()), time_at_work(character.getTimeAtWork()) {}
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_strategy(new StrategyJob()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
+{
+     character_current_state = character.character_current_state->clone() ;
+}
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), character_strategy(new StrategyJob()), time_at_work(0)
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new GoToCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), character_strategy(new StrategyJob()),time_at_work(0)
 {
     if (team != 0)
     {
@@ -37,7 +40,7 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int co
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), character_strategy(new StrategyJob()), time_at_work(0)
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new GoToCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), character_strategy(new StrategyJob()), time_at_work(0)
 {
     if (team != 0)
     {
@@ -53,13 +56,14 @@ MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsign
 MaleCharacter::~MaleCharacter()
 {
     delete character_strategy;
+    delete character_current_state;
 }
 
 /**
  * \fn JOB MaleCharacter::getSpeciality() const noexcept
  * \brief Getteur sur la specialite du personnage masculin
  * \return Specialite du personnage
- */
+ up*/
 JOB MaleCharacter::getSpeciality() const noexcept
 {
     return speciality;
@@ -75,15 +79,6 @@ unsigned int MaleCharacter::getTimeAtWork() const noexcept
     return time_at_work;
 }
 
-/**
- * \fn STATE MaleCharacter::getCharacterCurrentState() const noexcept
- * \brief Getteur sur l'etat actuel du personnage
- * \return Etat actuel du personnage
- */
-STATE MaleCharacter::getCharacterCurrentState() const noexcept
-{
-    return character_current_state;
-}
 
 /**
  * \fn TYPE_RESSOURCE_TRANSPORTED MaleCharacter::getTypeRessourceTransported() const noexcept
@@ -122,8 +117,9 @@ void MaleCharacter::setDirection(unsigned int ground_id, unsigned int column_num
  * \brief Setteur sur l'etat actuel du personnage masculin
  * \param new_state Nouvel etat du personnage
  */
-void MaleCharacter::setCharacterCurrentState(STATE new_state) noexcept
+void MaleCharacter::setCharacterCurrentState(State *new_state) noexcept
 {
+    delete character_current_state ;
     character_current_state = new_state;
 }
 
@@ -231,4 +227,9 @@ void MaleCharacter::setCharacterStrategy(Strategy *new_strategy)
 bool MaleCharacter::runStrategy(Grid& map)
 {
     return character_strategy->run(map, this) ;
+}
+
+void MaleCharacter::executeState(Game& game, Grid& grid, Ground * ground, Character * character)
+{
+    character_current_state->run(game, grid, ground, character);
 }

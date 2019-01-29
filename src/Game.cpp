@@ -1,4 +1,5 @@
 #include "../header/Game.hpp"
+#include "../header/Grid.hpp"
 #include "../header/FemaleCharacter.hpp"
 #include "../header/TownHall.hpp"
 #include "../header/mt19937ar.h"
@@ -8,14 +9,20 @@
 #include "../header/StrategyJob.hpp"
 #include "../header/StrategyLowRessources.hpp"
 #include "../header/StrategyClosestCollectionPoint.hpp"
+#include "../header/GoToTownHall.hpp"
 #include "math.h"
 #include <unistd.h>
 #include <limits>
 using json = nlohmann::json;
 
-Game::Game(std::vector<unsigned int> &map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(map_choice, character_choice), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
+Game::Game(std::vector<unsigned int> &map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(new Grid(map_choice, character_choice)), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
 {
     Constantes::openingConfiguration(config_choice);
+}
+
+Game::~Game()
+{
+    delete map ;
 }
 void Game::run(unsigned int round)
 {
@@ -37,7 +44,7 @@ void Game::lifeOfCharacter()
 {
     Character *character;
     Ground *ground;
-    unsigned int number_ground_with_character = map.getSizeVectorGroundWithCharacter(),
+    unsigned int number_ground_with_character = map->getSizeVectorGroundWithCharacter(),
                  number_character_ground,
                  i = 0,
                  j = 0;
@@ -47,7 +54,7 @@ void Game::lifeOfCharacter()
     {
         is_ground_deleted = false;
         j = 0;
-        ground = map.getGroundWithCharacter(i);
+        ground = map->getGroundWithCharacter(i);
         number_character_ground = ground->getVectorSize();
         while (j < number_character_ground)
         {
@@ -58,9 +65,16 @@ void Game::lifeOfCharacter()
             {
                 if (character->getCharacterGender() == SEX::FEMALE && !(Date() == (((FemaleCharacter *)character)->getPregnancyTime())))
                 {
-                    if (character->getCharacterCurrentLife() < 50) /* TODO RAND */
+                    if (character->getCharacterCurrentLife() < 50) /* TODO RAND , STATE MALE A CHANGER*/
                     {
-                        caseEating(ground, character) ;
+                        if (((TownHall *)ground)->removeFishNumber(1))
+                        {
+                            character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
+                        }
+                        else if (((TownHall *)ground)->removeFishNumber(1))
+                        {
+                            character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
+                        }
                     }
 
                     if (((FemaleCharacter *)character)->getMonthPregnancy(turn) == 9)
@@ -72,12 +86,12 @@ void Game::lifeOfCharacter()
 
                 else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
                 {
-                    if (((MaleCharacter *)character)->getDirection() == ground->getPosition(map.getColumnNumber()))
+                    if (((MaleCharacter *)character)->getDirection() == ground->getPosition(map->getColumnNumber()))
                     {
                         switch (ground->getGroundType())
                         {
                         case GROUND_TYPE::TOWN_HALL:
-                            caseTownHall(character, ground);
+                            ((MaleCharacter *)character)->executeState(*this, *map, ground, character); //TODO caster en Malecharacter et non Character
                             break;
                         case GROUND_TYPE::QUARRY:
                         case GROUND_TYPE::LAKE:
@@ -120,8 +134,8 @@ void Game::turnCharacter(Character *character, Ground *ground, unsigned int &ind
     unsigned int x, y;
     temp_character = new MaleCharacter(*(MaleCharacter *)character);
 
-    x = ground->getPosition(map.getColumnNumber()).getAbscissa();
-    y = ground->getPosition(map.getColumnNumber()).getOrdinate();
+    x = ground->getPosition(map->getColumnNumber()).getAbscissa();
+    y = ground->getPosition(map->getColumnNumber()).getOrdinate();
     if (!movementOrdinate(temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted))
     {
         if (!movementAbscissa(temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted))
@@ -162,7 +176,7 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
 {
     bool movement_possible = false;
     Ground *next_place;
-    next_place = map.getGroundGrid(x, y);
+    next_place = map->getGroundGrid(x, y);
     if ((next_place->getVectorSize() == 0) || ((next_place->getVectorSize() != 0) && (next_place->getCharacter(0)->getCharacterTeam() == temp_character->getCharacterTeam())))
     {
         movement_possible = true;
@@ -172,13 +186,13 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         {
             is_ground_deleted = true;
             number_ground_with_character--;
-            map.removeGroundWithCharacter(index_ground_with_character);
+            map->removeGroundWithCharacter(index_ground_with_character);
         }
 
         next_place->addCharacter(temp_character);
         if (next_place->getVectorSize() == 1)
         {
-            map.addGroundWithCharacter(next_place);
+            map->addGroundWithCharacter(next_place);
         }
     }
 
@@ -191,42 +205,8 @@ double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordin
     double substrate_ordinate = (b.getOrdinate() > a.getOrdinate()) ? b.getOrdinate() - a.getOrdinate() : a.getOrdinate() - b.getOrdinate();
     return sqrt(pow(substrate_abscissa, 2) + pow(substrate_ordinate, 2));
 }
-void Game::caseTownHall(Character *character, Ground *ground)
-{
 
-    switch (((MaleCharacter *)character)->getCharacterCurrentState())
-    {
-
-    case STATE::GOING_TO_TOWN_HALL:
-
-        caseGoTownhall(character);
-        break;
-
-    case STATE::ADD_RESSOURCES_TO_TOWNHALL:
-
-        caseAddRessources(ground, character);
-        break;
-
-    case STATE::HAVING_SEX:
-
-        caseHavingSex(ground, character);
-        break;
-
-    case STATE::WORKING:
-
-        caseWorking(ground, character);
-        break;
-
-    case STATE::GOING_TO_COLLECTION_POINT:
-
-        caseGoCollectionPoint(ground, character);
-        break;
-    case STATE::EATING:
-        caseEating(ground, character);
-    }
-}
-
-void Game::caseCollectionPoint(Character *character, Ground *ground) /* ToDO : si tout est vide ?? */
+void Game::caseCollectionPoint(Character *character, Ground *ground) /* ToDO : State new*/
 {
     unsigned int work_time = Constantes::CONFIG_SIMU["workTimeSpeciality"];
     if (ground->getGroundType() != (GROUND_TYPE)((MaleCharacter *)character)->getSpeciality())
@@ -237,13 +217,13 @@ void Game::caseCollectionPoint(Character *character, Ground *ground) /* ToDO : s
     ((MaleCharacter *)character)->incrementTimeAtWork();
     if (((MaleCharacter *)character)->getTimeAtWork() == 1)
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_TOWN_HALL);
+        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToTownHall());
         ((MaleCharacter *)character)->setTypeRessourceTransported(ground->getGroundType());
     }
     else if (((MaleCharacter *)character)->getTimeAtWork() > work_time)
     {
         ((MaleCharacter *)character)->resetTimeAtWork();
-        ((MaleCharacter *)character)->setDirection(character->getCharacterTeam(), map.getColumnNumber());
+        ((MaleCharacter *)character)->setDirection(character->getCharacterTeam(), map->getColumnNumber());
     }
 }
 bool Game::deathOfCharacter(Character *character, unsigned int i, unsigned int &j)
@@ -252,7 +232,7 @@ bool Game::deathOfCharacter(Character *character, unsigned int i, unsigned int &
     if (character->isDead(turn) || character->decrementCharacterLife())
     {
         dead = true;
-        map.getGroundWithCharacter(i)->removeCharacter(j);
+        map->getGroundWithCharacter(i)->removeCharacter(j);
         j--;
     }
     return dead;
@@ -264,13 +244,13 @@ void Game::birthOfCharacter(Character *character)
     {
         if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
         {
-            new_character = new MaleCharacter(turn, character->getCharacterTeam(), map.getColumnNumber());
+            new_character = new MaleCharacter(turn, character->getCharacterTeam(), map->getColumnNumber());
         }
         else
         {
             new_character = new FemaleCharacter(turn, character->getCharacterTeam());
         }
-        map.getGroundGrid(new_character->getCharacterTeam())->addCharacter(new_character);
+        map->getGroundGrid(new_character->getCharacterTeam())->addCharacter(new_character);
     }
     ((FemaleCharacter *)character)->setTimePregnancy(Date());
     ((FemaleCharacter *)character)->randomBabyPerPregnancy();
@@ -281,128 +261,16 @@ void Game::birthOfCharacter(Character *character)
 
 void Game::display(std::ostream &os) const noexcept
 {
-    map.display();
-    //map.displayMap();
-    //map.displayCharacter();
+    map->display();
+    //map->displayMap->);
+    //map->displayCharacter();
     os << "Number of birth this turn : " << number_of_birth_this_turn << std::endl;
     os << "Number of death this turn : " << number_of_death_this_turn << std::endl;
     os << "Total birth : " << number_of_birth_total << std::endl;
     os << "Total death : " << number_of_death_total << std::endl;
 }
-void Game::caseGoTownhall(Character *character)
+
+Date Game::getTurn() const noexcept
 {
-    ((MaleCharacter *)character)->setCharacterCurrentState(STATE::ADD_RESSOURCES_TO_TOWNHALL);
-}
-
-void Game::caseWorking(Ground *ground, Character *character)
-{
-    unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
-
-    if (((MaleCharacter *)character)->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
-    {
-        ((TownHall *)ground)->removeRockNumber((((TownHall *)ground)->getLevel() * ressource_level_up));
-        ((TownHall *)ground)->removeWoodNumber((((TownHall *)ground)->getLevel() * ressource_level_up));
-        ((MaleCharacter *)character)->resetTimeAtWork();
-        ((TownHall *)ground)->incrementLevel();
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-    }
-    else
-    {
-        ((MaleCharacter *)character)->incrementTimeAtWork();
-    }
-}
-
-void Game::caseGoCollectionPoint(Ground *ground, Character *character)
-{
-        ((MaleCharacter *)character)->setCharacterStrategy(new StrategyClosestCollectionPoint()) ; 
-    if(!(((MaleCharacter *)character)->runStrategy(map) ))
-    {
-        ((MaleCharacter *)character)->setCharacterStrategy(new StrategyLowRessources()) ; 
-        ((MaleCharacter *)character)->runStrategy(map) ;
-    }
-}
-
-void Game::caseHavingSex(Ground *ground, Character *character)
-{
-
-    if (((MaleCharacter *)character)->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
-    {
-        ((MaleCharacter *)character)->incrementTimeAtWork();
-
-        unsigned int index = 0;
-        bool flag = false;
-        while ((index < ground->getVectorSize()) && (!(flag)))
-        {
-            if ((SEX::FEMALE == (ground->getCharacter(index)->getCharacterGender())) && (Date() == (((FemaleCharacter *)ground->getCharacter(index))->getPregnancyTime())) && ((FemaleCharacter *)ground->getCharacter(index))->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])
-            {
-                ((FemaleCharacter *)ground->getCharacter(index))->randomBabyPerPregnancy();
-                if (((FemaleCharacter *)ground->getCharacter(index))->getBabyPerPregnancy() > 0)
-                {
-                    flag = true;
-                }
-            }
-            else
-            {
-                index++;
-            }
-        }
-
-        if (flag)
-        {
-            ((MaleCharacter *)character)->setCharacterCurrentState(STATE::HAVING_SEX);
-            ((FemaleCharacter *)ground->getCharacter(index))->setTimePregnancy(turn);
-        }
-
-        else
-        {
-            ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-        }
-    }
-    else
-    {
-        ((MaleCharacter *)character)->resetTimeAtWork();
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-    }
-}
-
-void Game::caseAddRessources(Ground *ground, Character *character)
-{
-    unsigned int number_ressource = Constantes::CONFIG_SIMU["ressourceSpecialityNumber"];
-    unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
-
-    if ((JOB)((MaleCharacter *)character)->getTypeRessourceTransported() != ((MaleCharacter *)character)->getSpeciality())
-    {
-        number_ressource = Constantes::CONFIG_SIMU["ressourceNotSpecialityNumber"];
-    }
-
-    ((TownHall *)ground)->addRessources(((MaleCharacter *)character)->getTypeRessourceTransported(), number_ressource);
-
-    if (character->getCharacterCurrentLife() < 50) /* TODO RAND */
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::EATING);
-    }
-    else if ((((TownHall *)ground)->getWoodNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up) && (((TownHall *)ground)->getRockNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up))
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::WORKING);
-    }
-    else
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::HAVING_SEX);
-    }
-}
-
-void Game::caseEating(Ground *ground, Character *character)
-{
-    if (((TownHall *)ground)->removeFishNumber(1))
-    {
-        character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
-    }
-    else if (((TownHall *)ground)->removeFishNumber(1))
-    {
-        character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
-    }
-    if (character->getCharacterGender() == SEX::MALE)
-    {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
-    }
+    return turn;
 }

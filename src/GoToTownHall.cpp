@@ -1,20 +1,15 @@
+#include "../header/GoToTownHall.hpp"
 
-
-
-class GoToTownHall : public State
-{
-    public:
-
-        virtual void GoToTownHall();
-        virtual void run(Ground *, Character *);
-}
-
-virtual void GoToTownHall::GoToTownHall()
+GoToTownHall::GoToTownHall()
 {
 }
 
-virtual void run(Ground *ground, Character * character)
+GoToTownHall::~GoToTownHall()
 {
-    ((MaleCharacter *)character)->setCharacterCurrentState(STATE::ADD_RESSOURCES_TO_TOWNHALL);    
+}
+
+void run(Ground *ground, Character * character)
+{
+    ((MaleCharacter *)character)->setCharacterCurrentState(new AddRessources());    
 }
 

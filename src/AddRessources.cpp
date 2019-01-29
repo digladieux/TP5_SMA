@@ -1,21 +1,20 @@
+#include "../header/AddRessources.hpp"
+#include "../header/Eating.hpp"
+#include "../header/Working.hpp"
+#include "../header/HavingSex.hpp"
 
 
 
-class AddRessources : public State
+AddRessources::AddRessources()
 {
-    public:
-        virtual void AddREssources();
-        virtual void run(Ground*, Character *);
+}
+
+AddRessources::~AddRessources()
+{
 }
 
 
-virtual void AddREssources::AddREssources()
-{
-
-}
-
-
-virtual void AddREssources::run(Ground *ground, Character *character)
+void AddRessources::run(Ground *ground, Character *character)
 {
     unsigned int number_ressource = Constantes::CONFIG_SIMU["ressourceSpecialityNumber"];
     unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
@@ -29,14 +28,14 @@ virtual void AddREssources::run(Ground *ground, Character *character)
 
     if (character->getCharacterCurrentLife() < 50) /* TODO RAND */
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::EATING);
+        ((MaleCharacter *)character)->setCharacterCurrentState(new Eating());
     }
     else if ((((TownHall *)ground)->getWoodNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up) && (((TownHall *)ground)->getRockNumber() >= ((TownHall *)ground)->getLevel() * ressource_level_up))
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::WORKING);
+        ((MaleCharacter *)character)->setCharacterCurrentState(new Working());
     }
     else
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::HAVING_SEX);
+        ((MaleCharacter *)character)->setCharacterCurrentState(new HavingSex());
     }
 }

@@ -5,6 +5,7 @@
 #include "../header/CollectionPoint.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/json.hpp"
+#include "../header/GoToTownHall.hpp"
 #include "math.h"
 #include <unistd.h>
 #include <limits>
@@ -203,7 +204,7 @@ void Game::caseCollectionPoint(Character *character, Ground *ground) /* ToDO : s
     ((MaleCharacter *)character)->incrementTimeAtWork();
     if (((MaleCharacter *)character)->getTimeAtWork() == 1)
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_TOWN_HALL);
+        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToTownHall());
         ((MaleCharacter *)character)->setTypeRessourceTransported(ground->getGroundType());
     }
     else if (((MaleCharacter *)character)->getTimeAtWork() > work_time)

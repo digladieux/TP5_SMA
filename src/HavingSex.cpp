@@ -1,19 +1,14 @@
+#include "../header/HavingSex.hpp"
 
-
-
-class HavingSex : public State
-{
-    public:
-
-        virtual void HavingSex();
-        virtual void run(Ground *, Character *);
-}
-
-virtual void HavingSex::HavingSex()
+HavingSex::HavingSex()
 {
 }
 
-virtual void HavingSex::run(Ground* ground, Character* character)
+HavingSex::~HavingSex()
+{
+}
+
+void HavingSex::run(Ground* ground, Character* character)
 {
     if (((MaleCharacter *)character)->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
     {
@@ -39,18 +34,18 @@ virtual void HavingSex::run(Ground* ground, Character* character)
 
         if (flag)
         {
-            ((MaleCharacter *)character)->setCharacterCurrentState(STATE::HAVING_SEX);
+            ((MaleCharacter *)character)->setCharacterCurrentState(new HavingSex());
             ((FemaleCharacter *)ground->getCharacter(index))->setTimePregnancy(turn);
         }
 
         else
         {
-            ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
+            ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
         }
     }
     else
     {
         ((MaleCharacter *)character)->resetTimeAtWork();
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
+        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
     }    
 }

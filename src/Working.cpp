@@ -1,25 +1,17 @@
+#include "../header/Working.hpp"
+#include "../header/Constantes.hpp"
 
 
-
-class Working : public State
+Working::Working()
 {
-    public:
-
-        virtual void Working();
-        virtual void run(Ground *, Character *);
 }
 
-
-
-
-
-
-virtual void Working::Working()
+Working::~Working()
 {
 }
 
 
-virtual void Working::run(Ground *ground, Character * character)
+void Working::run(Ground *ground, Character * character)
 {
     unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
 
@@ -29,7 +21,9 @@ virtual void Working::run(Ground *ground, Character * character)
         ((TownHall *)ground)->removeWoodNumber((((TownHall *)ground)->getLevel() * ressource_level_up));
         ((MaleCharacter *)character)->resetTimeAtWork();
         ((TownHall *)ground)->incrementLevel();
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
+
+        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
+
     }
     else
     {

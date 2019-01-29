@@ -17,7 +17,7 @@ MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(charact
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new GoToCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
 {
     if (team != 0)
     {
@@ -36,7 +36,7 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int c
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new GoToCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
 {
     if (team != 0)
     {
@@ -49,7 +49,10 @@ MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsign
  * \fn MaleCharacter::~MaleCharacter()
  * \brief Destructeur de la classe Male Character
  */
-MaleCharacter::~MaleCharacter() {}
+MaleCharacter::~MaleCharacter()
+{
+    delete character_current_state;
+}
 
 /**
  * \fn JOB MaleCharacter::getSpeciality() const noexcept
@@ -71,15 +74,6 @@ unsigned int MaleCharacter::getTimeAtWork() const noexcept
     return time_at_work;
 }
 
-/**
- * \fn STATE MaleCharacter::getCharacterCurrentState() const noexcept
- * \brief Getteur sur l'etat actuel du personnage
- * \return Etat actuel du personnage
- */
-STATE MaleCharacter::getCharacterCurrentState() const noexcept
-{
-    return character_current_state;
-}
 
 /**
  * \fn TYPE_RESSOURCE_TRANSPORTED MaleCharacter::getTypeRessourceTransported() const noexcept
@@ -118,9 +112,11 @@ void MaleCharacter::setDirection(unsigned int ground_id, unsigned int column_num
  * \brief Setteur sur l'etat actuel du personnage masculin
  * \param new_state Nouvel etat du personnage
  */
-void MaleCharacter::setCharacterCurrentState(STATE new_state) noexcept
+void MaleCharacter::setCharacterCurrentState(State *new_state) noexcept
 {
+    State * st = character -> character_current_state;
     character_current_state = new_state;
+    delete st;
 }
 
 /**
@@ -220,5 +216,5 @@ JOB MaleCharacter::jobIdToJob(unsigned int job_id){
 
 void MaleCharacter::executeState(Ground * ground, Character * character)
 {
-    character_current_state.run();
+    character_current_state->run();
 }

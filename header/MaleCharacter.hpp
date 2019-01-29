@@ -13,6 +13,9 @@
 #include "StructCoordinates.hpp"
 #include "MaleCharacter.hpp"
 
+class State;
+class Ground;
+
 /**
  * \class MaleCharacter
  * \brief Un personnage masculin herite des attributs et methodes d'un personnage. Le but du personnage masculin est de travailler pour recolter des ressources/
@@ -32,14 +35,13 @@ class MaleCharacter : public Character
     MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 
-    STATE getCharacterCurrentState() const noexcept; //TODO virer le getState et faire fonctionner le nouveau type de state
     TYPE_RESSOURCE_TRANSPORTED getTypeRessourceTransported() const noexcept;
     JOB getSpeciality() const noexcept;
     unsigned int getTimeAtWork() const noexcept;
     StructCoordinates &getDirection() noexcept;
     void setDirection(unsigned int, unsigned int) noexcept;
 
-    void setCharacterCurrentState(STATE) noexcept;
+    void setCharacterCurrentState(State*) noexcept;
     void setTypeRessourceTransported(GROUND_TYPE);
 
     void incrementTimeAtWork() noexcept;

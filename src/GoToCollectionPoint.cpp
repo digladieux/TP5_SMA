@@ -1,21 +1,15 @@
+#include "../header/GoToCollectionPoint.hpp"
 
-
-
-class GoToCollectionPoint : public State
+GoToCollectionPoint::GoToCollectionPoint()
 {
-    public:
-
-        virtual void GoToCollectionPoint();
-        virtual void run(Ground *, Character *);
 }
 
-
-virtual void GoToCollectionPoint::GoToCollectionPoint()
+GoToCollectionPoint::~GoToCollectionPoint()
 {
 }
 
 
-virtual void GoToCollectionPoint::run(Ground* ground; Character* character)
+void GoToCollectionPoint::run(Ground* ground; Character* character)
 {
     Ground *collection_point, *other_collection_point = nullptr;
     unsigned int k = 0;

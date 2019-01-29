@@ -1,20 +1,16 @@
+#include "../header/Eating.hpp"
+#include "../header/GoToCollectionPoint.hpp"
 
 
-
-class Eating : public State
-{
-    public:
-        virtual void Eating();
-        virtual void run(Ground *, Character *);
-}
-
-
-
-virtual void Eating::Eating()
+Eating::Eating()
 {
 }
 
-virtual void Eating::run(Ground *ground, Character * character)
+Eating::~Eating()
+{
+}
+
+void Eating::run(Ground *ground, Character * character)
 {
     if (((TownHall *)ground)->removeFishNumber(1))
     {
@@ -26,7 +22,7 @@ virtual void Eating::run(Ground *ground, Character * character)
     }
     if (character->getCharacterGender() == SEX::MALE)
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(STATE::GOING_TO_COLLECTION_POINT);
+        ((MaleCharacter *)character)->setCharacterCurrentState(new GoToCollectionPoint());
     }    
 }
 

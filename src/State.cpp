@@ -1,10 +1,10 @@
+#include "../header/State.hpp"
 
 
-
-class State
+State::State()
 {
+}
 
-    public:
-
-    virtual void run(Ground*, Character *) = 0 ;
+State::~State()
+{
 }

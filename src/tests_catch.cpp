@@ -24,21 +24,21 @@ using json = nlohmann::json;
 /*TODO : test unitaire vie */
 /*TODO : Si ressource specialite 2 fois plus grande que la plus petite, changer de destination */ 
 /*TODO : trouver une fonction pour les faire mourrir */
-TEST_CASE("Ground")
-{
-    Ground ground0;
-    Ground ground1(GROUND_TYPE::LAKE);
+// TEST_CASE("Ground")
+// {
+//     Ground ground0;
+//     Ground ground1(GROUND_TYPE::LAKE);
 
-    CHECK(0 == ground0.getGroundId());
-    CHECK(1 == ground1.getGroundId());
-    CHECK(GROUND_TYPE::LAND == ground0.getGroundType());
-    CHECK(GROUND_TYPE::LAKE == ground1.getGroundType());
-}
-
+//     CHECK(0 == ground0.getGroundId());
+//     CHECK(1 == ground1.getGroundId());
+//     CHECK(GROUND_TYPE::LAND == ground0.getGroundType());
+//     CHECK(GROUND_TYPE::LAKE == ground1.getGroundType());
+// }
+/*
 TEST_CASE("Town Hall")
 {
     TownHall *town_hall_start = new TownHall();
-    CHECK(0 == town_hall_start->getLevel());
+    CHECK(1 == town_hall_start->getLevel());
     CHECK(0 == town_hall_start->getRockNumber());
     CHECK(0 == town_hall_start->getWoodNumber());
     CHECK(0 == town_hall_start->getFoodNumber());
@@ -114,7 +114,6 @@ TEST_CASE("DateInit")
 
 TEST_CASE("InvalidDate")
 {
-
     REQUIRE_THROWS_AS(Date(52, 10, 2018), ConstructorDateException);
 }
 
@@ -569,74 +568,74 @@ TEST_CASE("GroundCopy")
 //     delete ground1;
 // }
 
-TEST_CASE("JsonCharacterValid?")
-{
-    std::string file_name = "./CHARACTERS/Characters.json";
-    std::ifstream file(file_name);
-    unsigned int male_number;
-    unsigned int female_number;
-    Character *test_character;
-    Date date_of_birth;
-    std::string character;
-    if (!file.fail())
-    {
-        json json_character;
-        file >> json_character;
-        unsigned int character_number = json_character["character_number"];
-        for (unsigned int i = 1; i <= character_number; i++)
-        {
-            character = "character" + std::to_string(i);
-            date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
-            unsigned int sex = json_character[character]["sex"];
-            switch (sex)
-            {
-            case 0:
-                test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
-                break;
+// TEST_CASE("JsonCharacterValid?")
+// {
+//     std::string file_name = "./CHARACTERS/Characters.json";
+//     std::ifstream file(file_name);
+//     unsigned int male_number;
+//     unsigned int female_number;
+//     Character *test_character;
+//     Date date_of_birth;
+//     std::string character;
+//     if (!file.fail())
+//     {
+//         json json_character;
+//         file >> json_character;
+//         unsigned int character_number = json_character["character_number"];
+//         for (unsigned int i = 1; i <= character_number; i++)
+//         {
+//             character = "character" + std::to_string(i);
+//             date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
+//             unsigned int sex = json_character[character]["sex"];
+//             switch (sex)
+//             {
+//             case 0:
+//                 test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
+//                 break;
 
-            case 1:
-                test_character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[character]["baby"]);
-                break;
-            }
-            delete test_character;
-            file.close();
-        }
-    }
-}
+//             case 1:
+//                 test_character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[character]["baby"]);
+//                 break;
+//             }
+//             delete test_character;
+//             file.close();
+//         }
+//     }
+// }
 
-TEST_CASE("JsonMapValid?")
-{
-    std::string file_name = "./MAPS/Maps.json";
-    std::ifstream file(file_name);
-    Ground *ground;
-    std::string map;
-    if (!file.fail())
-    {
-        json json_map;
-        file >> json_map;
-        unsigned int collection_point_number = json_map["collection_point_number"];
-        for (unsigned int i = 1; i <= collection_point_number; i++)
-        {
-            map = "collection_point" + std::to_string(i);
-            ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]) ;
-            delete ground;
-        }
-        file.close();
-    }
-}
+// TEST_CASE("JsonMapValid?")
+// {
+//     std::string file_name = "./MAPS/Maps.json";
+//     std::ifstream file(file_name);
+//     Ground *ground;
+//     std::string map;
+//     if (!file.fail())
+//     {
+//         json json_map;
+//         file >> json_map;
+//         unsigned int collection_point_number = json_map["collection_point_number"];
+//         for (unsigned int i = 1; i <= collection_point_number; i++)
+//         {
+//             map = "collection_point" + std::to_string(i);
+//             ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]) ;
+//             delete ground;
+//         }
+//         file.close();
+//     }
+// }
 
 
 TEST_CASE("Game")
 {
     system("clear");
-    std::vector<unsigned int> vector_character = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
-    //std::vector<unsigned int> vector_character = {2, 8, 3, 9};
+    //std::vector<unsigned int> vector_character = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    std::vector<unsigned int> vector_character = {2};
     std::vector<unsigned int> vector_map = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
-    //game.run(10000);
+    game.run(100);
 }
 
-
+/*
 TEST_CASE("Menu")
 {
     Menu::displayWelcome();
@@ -656,4 +655,4 @@ TEST_CASE("Menu")
  
     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60));
     game.run(turn_choice);
-}
+}*/

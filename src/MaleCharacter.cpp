@@ -9,24 +9,25 @@
 #include "../header/Ground.hpp"
 #include "../header/Exception.hpp"
 #include "../header/StructCoordinates.hpp"
+#include "../header/StrategyJob.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
+#include "../header/Grid.hpp"
 
-MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork()){}
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), character_strategy(new StrategyJob()), time_at_work(character.getTimeAtWork()) {}
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), character_strategy(new StrategyJob()), time_at_work(0)
 {
     if (team != 0)
     {
-        direction.setAbcissa(column_number - 1) ;
-        direction.setOrdinate(column_number - 1) ;
+        direction.setAbcissa(column_number - 1);
+        direction.setOrdinate(column_number - 1);
     }
-    int id_job =  (genrand_int31() % 4) + 1 ; 
+    int id_job = (genrand_int31() % 4) + 1;
     speciality = jobIdToJob(id_job);
-    
 }
 
 /**
@@ -36,12 +37,12 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team,  unsigned int c
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(STATE::GOING_TO_COLLECTION_POINT), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), character_strategy(new StrategyJob()), time_at_work(0)
 {
     if (team != 0)
     {
-        direction.setAbcissa(column_number -1 ) ;
-        direction.setOrdinate(column_number -1 ) ;
+        direction.setAbcissa(column_number - 1);
+        direction.setOrdinate(column_number - 1);
     }
 }
 
@@ -49,7 +50,10 @@ MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsign
  * \fn MaleCharacter::~MaleCharacter()
  * \brief Destructeur de la classe Male Character
  */
-MaleCharacter::~MaleCharacter() {}
+MaleCharacter::~MaleCharacter()
+{
+    delete character_strategy;
+}
 
 /**
  * \fn JOB MaleCharacter::getSpeciality() const noexcept
@@ -145,7 +149,7 @@ void MaleCharacter::setTypeRessourceTransported(GROUND_TYPE new_type_ressources)
         type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FOOD;
         break;
     default:
-        throw InvalidGroundType( (unsigned int) new_type_ressources);
+        throw InvalidGroundType((unsigned int)new_type_ressources);
     }
 }
 
@@ -189,30 +193,42 @@ const MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character
     return *this;
 }
 
-
-JOB MaleCharacter::jobIdToJob(unsigned int job_id){
+JOB MaleCharacter::jobIdToJob(unsigned int job_id)
+{
     JOB job;
     switch (job_id)
     {
-        case 1 : 
-            job = JOB::QUARRY_MAN;
-            break;
+    case 1:
+        job = JOB::QUARRY_MAN;
+        break;
 
-        case 2 : 
-            job = JOB::LUMBERJACK;
-            break;
+    case 2:
+        job = JOB::LUMBERJACK;
+        break;
 
-        case 3 : 
-            job = JOB::FISHERMAN;
-            break;
+    case 3:
+        job = JOB::FISHERMAN;
+        break;
 
-        case 4 : 
-            job = JOB::FARMER;
-            break;
+    case 4:
+        job = JOB::FARMER;
+        break;
 
-        default: 
-            throw InvalidJob(job_id);
+    default:
+        throw InvalidJob(job_id);
     }
 
     return job;
+}
+
+void MaleCharacter::setCharacterStrategy(Strategy *new_strategy)
+{
+    Strategy *current_strategy = character_strategy;
+    character_strategy = new_strategy;
+    delete current_strategy;
+}
+
+bool MaleCharacter::runStrategy(Grid& map)
+{
+    return character_strategy->run(map, this) ;
 }

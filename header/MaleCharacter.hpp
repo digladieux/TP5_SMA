@@ -12,7 +12,10 @@
 #include "Ground.hpp"
 #include "StructCoordinates.hpp"
 #include "MaleCharacter.hpp"
+#include "Strategy.hpp"
 
+class Grid ;
+class Strategy ;
 /**
  * \class MaleCharacter
  * \brief Un personnage masculin herite des attributs et methodes d'un personnage. Le but du personnage masculin est de travailler pour recolter des ressources/
@@ -24,6 +27,7 @@ class MaleCharacter : public Character
     STATE character_current_state;
     TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
     JOB speciality;            /*! Specialite du personnage */
+    Strategy * character_strategy ;
     unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
 
   public:
@@ -37,10 +41,13 @@ class MaleCharacter : public Character
     JOB getSpeciality() const noexcept;
     unsigned int getTimeAtWork() const noexcept;
     StructCoordinates &getDirection() noexcept;
-    void setDirection(unsigned int, unsigned int) noexcept;
 
+    void setDirection(unsigned int, unsigned int) noexcept;
     void setCharacterCurrentState(STATE) noexcept;
     void setTypeRessourceTransported(GROUND_TYPE);
+    void setCharacterStrategy(Strategy *) ;
+    bool runStrategy(Grid& map) ;
+
 
     void incrementTimeAtWork() noexcept;
     void resetTimeAtWork() noexcept;

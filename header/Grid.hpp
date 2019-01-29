@@ -12,7 +12,8 @@
 #include "MaleCharacter.hpp"
 #include <string>
 #include <iostream>
-
+#include <vector>
+class Ground ;
 /**
  * \class Grid
  * \brief Carte de notre terrain de jeux

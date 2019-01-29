@@ -12,9 +12,12 @@ AddRessources::AddRessources()
 AddRessources::~AddRessources()
 {
 }
+AddRessources* AddRessources::clone()
+{
+    return new AddRessources();
+}
 
-
-void AddRessources::run(Ground *ground, Character *character)
+void AddRessources::run(Game& game, Grid& grid, Ground *ground, Character *character)
 {
     unsigned int number_ressource = Constantes::CONFIG_SIMU["ressourceSpecialityNumber"];
     unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];

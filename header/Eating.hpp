@@ -10,7 +10,8 @@ class Eating : public State
     public:
         Eating();
         ~Eating();
-        void run(Ground *, Character *);
+        Eating *clone();
+        void run(Game&, Grid&, Ground *, Character *);
 };
 
 #endif

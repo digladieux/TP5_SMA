@@ -1,5 +1,7 @@
 #include "../header/Eating.hpp"
+#include "../header/TownHall.hpp"
 #include "../header/GoToCollectionPoint.hpp"
+#include "../header/Constantes.hpp"
 
 
 Eating::Eating()
@@ -9,8 +11,11 @@ Eating::Eating()
 Eating::~Eating()
 {
 }
-
-void Eating::run(Ground *ground, Character * character)
+Eating* Eating::clone()
+{
+    return new Eating();
+}
+void Eating::run(Game& game, Grid& map, Ground* ground, Character* character)
 {
     if (((TownHall *)ground)->removeFishNumber(1))
     {

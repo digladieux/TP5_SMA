@@ -23,7 +23,7 @@ class TownHall : public Ground
     unsigned int fish_number; /*! Nombre de poisson dans l'HdV */
 
   public:
-    TownHall(const unsigned int level_town_hall = 0, const unsigned int rock_nb = 0, const unsigned int wood_nb = 0, const unsigned int food_nb = 0, const unsigned int fish_nb = 0);
+    TownHall(const unsigned int level_town_hall = 1, const unsigned int rock_nb = 0, const unsigned int wood_nb = 0, const unsigned int food_nb = 0, const unsigned int fish_nb = 0);
     TownHall(const TownHall &);
 
     unsigned int getLevel() const noexcept;

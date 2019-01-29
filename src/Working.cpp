@@ -9,9 +9,11 @@ Working::Working()
 Working::~Working()
 {
 }
-
-
-void Working::run(Ground *ground, Character * character)
+Working* Working::clone()
+{
+    return new Working();
+}
+void Working::run(Game& game, Grid& grid, Ground *ground, Character * character)
 {
     unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
 

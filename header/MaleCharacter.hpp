@@ -12,9 +12,13 @@
 #include "Ground.hpp"
 #include "StructCoordinates.hpp"
 #include "MaleCharacter.hpp"
+#include "Game.hpp"
+#include "Grid.hpp"
 
 class State;
 class Ground;
+class Game;
+class Grid;
 
 /**
  * \class MaleCharacter
@@ -24,7 +28,7 @@ class MaleCharacter : public Character
 {
   private:
     StructCoordinates direction;
-    State* character_current_state;
+    State * character_current_state;
     TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
     JOB speciality;            /*! Specialite du personnage */
     unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
@@ -49,7 +53,7 @@ class MaleCharacter : public Character
     void setSpeciality(JOB job) noexcept;
     const MaleCharacter &operator=(const MaleCharacter &new_character);
     static JOB jobIdToJob(unsigned int);
+    void executeState(Game& , Grid& , Ground * , Character * ) ;
 
-    void executeState(Ground *, Character *);
 };
 #endif

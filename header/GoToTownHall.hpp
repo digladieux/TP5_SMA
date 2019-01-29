@@ -5,11 +5,12 @@
 
 class GoToTownHall : public State
 {
-    public:
+  public:
+    GoToTownHall();
+    ~GoToTownHall();
+    GoToTownHall *clone();
 
-        GoToTownHall();
-        ~GoToTownHall();
-        void run(Ground *, Character *);
+    void run(Game &game, Grid &, Ground *, Character *);
 };
 
 #endif

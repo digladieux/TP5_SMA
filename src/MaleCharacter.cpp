@@ -11,8 +11,12 @@
 #include "../header/StructCoordinates.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
+#include "../header/GoToCollectionPoint.hpp"
 
-MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_current_state(character.getCharacterCurrentState()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork()){}
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
+{
+     character_current_state = character.character_current_state->clone() ;
+}
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
@@ -58,7 +62,7 @@ MaleCharacter::~MaleCharacter()
  * \fn JOB MaleCharacter::getSpeciality() const noexcept
  * \brief Getteur sur la specialite du personnage masculin
  * \return Specialite du personnage
- */
+ up*/
 JOB MaleCharacter::getSpeciality() const noexcept
 {
     return speciality;
@@ -114,9 +118,8 @@ void MaleCharacter::setDirection(unsigned int ground_id, unsigned int column_num
  */
 void MaleCharacter::setCharacterCurrentState(State *new_state) noexcept
 {
-    State * st = character -> character_current_state;
+    delete character_current_state ;
     character_current_state = new_state;
-    delete st;
 }
 
 /**
@@ -214,7 +217,7 @@ JOB MaleCharacter::jobIdToJob(unsigned int job_id){
 }
 
 
-void MaleCharacter::executeState(Ground * ground, Character * character)
+void MaleCharacter::executeState(Game& game, Grid& grid, Ground * ground, Character * character)
 {
-    character_current_state->run();
+    character_current_state->run(game, grid, ground, character);
 }

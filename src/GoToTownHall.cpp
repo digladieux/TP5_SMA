@@ -1,4 +1,6 @@
 #include "../header/GoToTownHall.hpp"
+#include "../header/AddRessources.hpp"
+
 
 GoToTownHall::GoToTownHall()
 {
@@ -7,8 +9,11 @@ GoToTownHall::GoToTownHall()
 GoToTownHall::~GoToTownHall()
 {
 }
-
-void run(Ground *ground, Character * character)
+GoToTownHall *GoToTownHall::clone()
+{
+    return new GoToTownHall();
+}
+void GoToTownHall::run(Game& game, Grid& grid, Ground *ground, Character * character)
 {
     ((MaleCharacter *)character)->setCharacterCurrentState(new AddRessources());    
 }

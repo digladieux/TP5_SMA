@@ -15,7 +15,8 @@ class AddRessources : public State
     public:
         AddRessources();
         ~AddRessources();
-        void run(Ground *, Character *);
+        AddRessources *clone();
+        void run(Game&, Grid&, Ground *, Character *);
 };
 
 #endif

@@ -13,7 +13,8 @@ class Working : public State
 
         Working();
         ~Working();
-        void run(Ground *, Character *);
+        Working *clone();
+        void run(Game&, Grid&, Ground *, Character *);
 };
 
 #endif

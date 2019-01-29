@@ -11,7 +11,8 @@ class HavingSex : public State
 
         HavingSex();
         ~HavingSex();
-        void run(Ground *, Character *);
+        HavingSex *clone() ;
+        void run(Game&, Grid&, Ground *, Character *);
 };
 
 #endif

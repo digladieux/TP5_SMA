@@ -5,7 +5,6 @@
 #include <exception>
 #include <iostream>
 
-/*TODO : faire des exception plus classe avec ExceptionDate et tout le reste*/
 class Exception : std::exception
 {
   public:

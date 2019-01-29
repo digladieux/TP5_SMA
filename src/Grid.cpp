@@ -174,9 +174,14 @@ void Grid::initialisationMap(std::ifstream &file_map, std::vector<unsigned int> 
     }
 }
 
+/*TODO : clone ici */
 Ground *Grid::initGround(Ground * ground, unsigned int ground_type, const unsigned int ressource_number)
 {
     Ground *collection_point;
+    /*
+    collection = ground -> clone() ;
+    collection_point->setRessource(ressource_number) ;
+    */
     switch (ground_type)
     {
     case 1 :
@@ -197,6 +202,7 @@ Ground *Grid::initGround(Ground * ground, unsigned int ground_type, const unsign
     }
     return collection_point;
 }
+
 
 Ground *Grid::initGround(unsigned int type_ground, unsigned int ressource_number)
 {
@@ -233,6 +239,7 @@ Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.colu
     {
         ground_grid[i] = new Ground *[column_number]();
 
+/*TODO : enlever switch faire clone */
         for (unsigned int j = 0; j < column_number; j++)
         {
             map_ground = map.ground_grid[i][j];

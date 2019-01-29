@@ -65,7 +65,7 @@ void Game::lifeOfCharacter()
             {
                 if (character->getCharacterGender() == SEX::FEMALE && !(Date() == (((FemaleCharacter *)character)->getPregnancyTime())))
                 {
-                    if (character->getCharacterCurrentLife() < 50) /* TODO RAND , STATE MALE A CHANGER*/
+                    if (character->getCharacterCurrentLife() < 1) /* TODO RAND , STATE MALE A CHANGER*/
                     {
                         if (((TownHall *)ground)->removeFishNumber(1))
                         {

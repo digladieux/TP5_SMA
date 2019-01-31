@@ -60,7 +60,8 @@ class MaleCharacter : public Character
     void setSpeciality(JOB job) noexcept;
     const MaleCharacter &operator=(const MaleCharacter &new_character);
     static JOB jobIdToJob(unsigned int);
-    void executeState(Game& , Grid& , Ground * , MaleCharacter * ) ;
+    void executeState(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const;
+
 
 };
 #endif

@@ -16,7 +16,8 @@ class State
     State();
     virtual ~State();
     virtual State* clone() = 0 ;
-    virtual void run(Game&, Grid&, Ground *, MaleCharacter *) const = 0;
+    virtual void run(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const = 0;
+
 };
 
 

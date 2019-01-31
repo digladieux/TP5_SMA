@@ -12,7 +12,7 @@ StateHavingSex * StateHavingSex::clone()
 {
     return new StateHavingSex();
 }
-void StateHavingSex::run(Game& game, Grid&, Ground *ground, MaleCharacter *character) const
+void StateHavingSex::run(Game& game, Grid&, Ground *ground, MaleCharacter *character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
 {
     if (character->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
     {
@@ -52,4 +52,5 @@ void StateHavingSex::run(Game& game, Grid&, Ground *ground, MaleCharacter *chara
         character->resetTimeAtWork();
         character->setCharacterCurrentState(new StateGoingCollectionPoint());
     }
+    j++ ;
 }

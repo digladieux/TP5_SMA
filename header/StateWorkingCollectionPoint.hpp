@@ -16,7 +16,7 @@ class StateWorkingCollectionPoint : public State
         StateWorkingCollectionPoint();
         ~StateWorkingCollectionPoint();
         StateWorkingCollectionPoint *clone();
-        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+        void run(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const;
 };
 
 #endif

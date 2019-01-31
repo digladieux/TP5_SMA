@@ -14,7 +14,7 @@ class StateBuilding : public State
         StateBuilding();
         ~StateBuilding();
         StateBuilding *clone();
-        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+    void run(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const;
 
 };
 

@@ -15,7 +15,7 @@ StateEating* StateEating::clone()
 {
     return new StateEating();
 }
-void StateEating::run(Game&, Grid&, Ground *ground, MaleCharacter *character) const
+void StateEating::run(Game&, Grid&, Ground *ground, MaleCharacter *character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
 {
     if (((TownHall *)ground)->removeFishNumber(1))
     {
@@ -29,5 +29,6 @@ void StateEating::run(Game&, Grid&, Ground *ground, MaleCharacter *character) co
     {
         character->setCharacterCurrentState(new StateGoingCollectionPoint());
     }    
+    j++;
 }
 

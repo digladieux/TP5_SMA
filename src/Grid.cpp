@@ -153,6 +153,13 @@ void Grid::initialisationMap(std::vector<unsigned int> choice_map, std::vector<C
         ground_grid[x][y] = collection_point;
         delete ground;
     }
+    for (unsigned int i = 0 ; i < ground_with_character.size() ; i++)
+    {
+        if(ground_with_character[i]->getVectorSize() == 0)
+        {
+            removeGroundWithCharacter(i) ;
+        }
+    }
 }
 
 /*TODO : DEMANDER LOLO clone ici */

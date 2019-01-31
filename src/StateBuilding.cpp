@@ -13,7 +13,7 @@ StateBuilding* StateBuilding::clone()
 {
     return new StateBuilding();
 }
-void StateBuilding::run(Game&, Grid&, Ground *ground, MaleCharacter * character) const
+void StateBuilding::run(Game&, Grid&, Ground *ground, MaleCharacter * character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
 {
     unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
 
@@ -31,4 +31,5 @@ void StateBuilding::run(Game&, Grid&, Ground *ground, MaleCharacter * character)
     {
         character->incrementTimeAtWork();
     }    
+    j++;
 }

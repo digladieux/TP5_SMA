@@ -23,8 +23,6 @@ private:
   unsigned int number_of_death_this_turn;
   unsigned int number_of_death_total;
 
-  void caseCollectionPoint(Character *, Ground *);
-  void caseTownHall(Character *, Ground *);
   void turnCharacter(Character *, Ground *, unsigned int&, unsigned int&,  unsigned int&, unsigned int&, bool&);
   bool movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&, unsigned int&, unsigned int&, bool&);
   bool movementOrdinate(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&,  unsigned int&, unsigned int&, bool&);

@@ -10,7 +10,7 @@ class StateGoingCollectionPoint : public State
     StateGoingCollectionPoint();
     ~StateGoingCollectionPoint();
     StateGoingCollectionPoint *clone();
-        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+    void run(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const;
 
 };
 

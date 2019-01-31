@@ -16,7 +16,7 @@ class StateAddingRessources : public State
         StateAddingRessources();
         ~StateAddingRessources();
         StateAddingRessources *clone();
-        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+    void run(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const;
 
 };
 

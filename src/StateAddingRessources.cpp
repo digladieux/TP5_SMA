@@ -17,7 +17,7 @@ StateAddingRessources* StateAddingRessources::clone()
     return new StateAddingRessources();
 }
 
-void StateAddingRessources::run(Game&, Grid& grid, Ground *ground, MaleCharacter *character) const
+void StateAddingRessources::run(Game&, Grid& grid, Ground *ground, MaleCharacter *character, unsigned int &, unsigned int & j, unsigned int &, unsigned int &, bool &) const
 {
     unsigned int number_ressource = Constantes::CONFIG_SIMU["ressourceSpecialityNumber"];
     unsigned int ressource_level_up = Constantes::CONFIG_SIMU["levelUp"];
@@ -41,4 +41,5 @@ void StateAddingRessources::run(Game&, Grid& grid, Ground *ground, MaleCharacter
     {
         ((MaleCharacter *)character)->setCharacterCurrentState(new StateHavingSex());
     }
+    j++ ;
 }

@@ -1,4 +1,5 @@
 #include "../header/StateGoingCollectionPoint.hpp"
+#include "../header/StateMovement.hpp"
 #include "../header/StrategyClosestCollectionPoint.hpp"
 #include "../header/StrategyLowRessources.hpp"
 #include "../header/CollectionPoint.hpp"
@@ -17,7 +18,7 @@ StateGoingCollectionPoint *StateGoingCollectionPoint::clone()
 {
     return new StateGoingCollectionPoint();
 }
-void StateGoingCollectionPoint::run(Game&, Grid& grid, Ground *, MaleCharacter *character) const
+void StateGoingCollectionPoint::run(Game&, Grid& grid, Ground *, MaleCharacter *character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
 {
     character->setCharacterStrategy(new StrategyClosestCollectionPoint());
     if (!(character->runStrategy(grid)))
@@ -25,4 +26,6 @@ void StateGoingCollectionPoint::run(Game&, Grid& grid, Ground *, MaleCharacter *
         character->setCharacterStrategy(new StrategyLowRessources());
         character->runStrategy(grid);
     }
+    character->setCharacterCurrentState(new StateMovement()) ;
+    j++;
 }

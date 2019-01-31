@@ -2,10 +2,10 @@
 #define STATE_HPP
 
 #include "../header/Ground.hpp"
-#include "../header/Character.hpp"
+#include "../header/MaleCharacter.hpp"
 
 class Ground;
-class Character;
+class MaleCharacter;
 class Game;
 class Grid;
 
@@ -16,9 +16,7 @@ class State
     State();
     virtual ~State();
     virtual State* clone() = 0 ;
-    virtual void run(Grid&,Character *);
-    virtual void run(Ground *, Character *);
-    virtual void run(Character *);
+    virtual void run(Game&, Grid&, Ground *, MaleCharacter *) const = 0;
 };
 
 

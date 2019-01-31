@@ -11,7 +11,7 @@ class StateEating : public State
         StateEating();
         ~StateEating();
         StateEating *clone();
-        void run(Ground *, Character *);
+        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
 };
 
 #endif

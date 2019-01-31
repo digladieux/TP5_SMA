@@ -153,7 +153,8 @@ TEST_CASE("DateOperator<")
 
 TEST_CASE("Character")
 {
-    Constantes::openingConfiguration(1) ;
+    Constantes::getAllJson();
+    Constantes::setConfiguration(1);
     Date date_character1;
     Date date_character2(1, 1, 20);
     Character character1(date_character1);
@@ -227,7 +228,7 @@ TEST_CASE("Json")
         json j;
         file >> j;
         json j1 = j["config1"];
-        CHECK(2 == j["maxConfig"]) ;
+        CHECK(2 == j["maxConfig"]);
         CHECK(0.5 == j["config1"]["chanceMale"]);
         CHECK(0.45 == j["config2"]["chanceMale"]);
         CHECK(0.5 == j1["chanceMale"]);
@@ -241,12 +242,14 @@ TEST_CASE("Json")
 
 TEST_CASE("JsonClass")
 {
-    Constantes::openingConfiguration(1);
+    Constantes::getAllJson();
+    Constantes::setConfiguration(1);
     CHECK(Constantes::CONFIG_SIMU["chanceMale"] == 0.5);
 }
 TEST_CASE("FemaleCharacter")
 {
-    Constantes::openingConfiguration(1);
+    Constantes::getAllJson();
+    Constantes::setConfiguration(1);
     CHECK(Constantes::CONFIG_SIMU["chanceMale"] == 0.5);
 
     Character *character1 = new FemaleCharacter(Date());
@@ -459,7 +462,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(grid.getGroundWithCharacter(0)->getCharacter(0)->getCharacterId() == character->getCharacterId());
     CHECK(338 == grid.getGroundWithCollectionPoint(0)->getGroundId());
 
-     Grid grid_copy(grid);
+    Grid grid_copy(grid);
     CHECK(20 == grid_copy.getColumnNumber());
     CHECK(20 == grid_copy.getRowNumber());
     CHECK(0 == grid_copy.getGroundGrid(0, 0)->getGroundId());
@@ -532,7 +535,7 @@ TEST_CASE("GroundCopy")
 //     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
 //     std::vector<unsigned int> vector_map_error = {80};
 //     std::vector<unsigned int> vector_character_error = {80};
-    
+
 //         Grid map(vector_map, vector_character);
 
 //     REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
@@ -611,20 +614,19 @@ TEST_CASE("JsonMapValid?")
         for (unsigned int i = 1; i <= collection_point_number; i++)
         {
             map = "collection_point" + std::to_string(i);
-            ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]) ;
+            ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]);
             delete ground;
         }
         file.close();
     }
 }
 
-
 TEST_CASE("Game")
 {
     system("clear");
-    std::vector<unsigned int> vector_character = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     //std::vector<unsigned int> vector_character = {2};
-    std::vector<unsigned int> vector_map = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+    std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
     game.run(100);
 }

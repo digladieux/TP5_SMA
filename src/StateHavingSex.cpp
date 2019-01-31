@@ -12,12 +12,11 @@ StateHavingSex * StateHavingSex::clone()
 {
     return new StateHavingSex();
 }
-
-void StateHavingSex::run(Game &game, Ground *ground, Character *character)
+void StateHavingSex::run(Game& game, Grid&, Ground *ground, MaleCharacter *character) const
 {
-    if (((MaleCharacter *)character)->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
+    if (character->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
     {
-        ((MaleCharacter *)character)->incrementTimeAtWork();
+        character->incrementTimeAtWork();
 
         unsigned int index = 0;
         bool flag = false;
@@ -39,18 +38,18 @@ void StateHavingSex::run(Game &game, Ground *ground, Character *character)
 
         if (flag)
         {
-            ((MaleCharacter *)character)->setCharacterCurrentState(new StateHavingSex());
+            character->setCharacterCurrentState(new StateHavingSex());
             ((FemaleCharacter *)ground->getCharacter(index))->setTimePregnancy(game.getTurn());
         }
 
         else
         {
-            ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingCollectionPoint());
+            character->setCharacterCurrentState(new StateGoingCollectionPoint());
         }
     }
     else
     {
-        ((MaleCharacter *)character)->resetTimeAtWork();
-        ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingCollectionPoint());
+        character->resetTimeAtWork();
+        character->setCharacterCurrentState(new StateGoingCollectionPoint());
     }
 }

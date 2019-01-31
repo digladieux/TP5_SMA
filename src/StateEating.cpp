@@ -15,7 +15,7 @@ StateEating* StateEating::clone()
 {
     return new StateEating();
 }
-void StateEating::run(Ground* ground, Character* character)
+void StateEating::run(Game&, Grid&, Ground *ground, MaleCharacter *character) const
 {
     if (((TownHall *)ground)->removeFishNumber(1))
     {
@@ -27,7 +27,7 @@ void StateEating::run(Ground* ground, Character* character)
     }
     if (character->getCharacterGender() == SEX::MALE)
     {
-        ((MaleCharacter *)character)->setCharacterCurrentState(new StateGoingCollectionPoint());
+        character->setCharacterCurrentState(new StateGoingCollectionPoint());
     }    
 }
 

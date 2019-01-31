@@ -6,11 +6,6 @@
 using json = nlohmann::json;
 class Menu
 {
-private:
-  json json_characters;
-  json json_maps;
-  void openningCharacters();
-  void openningMaps();
 
 public:
   Menu();

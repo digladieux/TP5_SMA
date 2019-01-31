@@ -12,7 +12,7 @@ class StateHavingSex : public State
         StateHavingSex();
         ~StateHavingSex();
         StateHavingSex *clone() ;
-        void run(Game&, Ground *, Character *);
+        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
 };
 
 #endif

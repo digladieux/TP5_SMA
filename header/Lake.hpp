@@ -20,6 +20,7 @@ class Lake : public CollectionPoint
     Lake(const unsigned int fish_nb = 1000);
     Lake(const Lake &);
     Lake(const Ground &, const unsigned int);
+    Lake* clone(Lake&) ;
     ~Lake();
 
     void display(std::ostream &os = std::cout) const noexcept;

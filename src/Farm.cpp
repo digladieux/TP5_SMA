@@ -26,6 +26,10 @@ Farm::Farm(const Ground &farm, const unsigned int ressources_number) : Collectio
  */
 Farm::~Farm() {}
 
+Farm* Farm::clone(Farm& ground) 
+{
+    return new Farm(ground);
+}
 /**
  * \fn void Farm::display(std::ostream &os) const noexcept
  * \brief Affichage d'une ferme

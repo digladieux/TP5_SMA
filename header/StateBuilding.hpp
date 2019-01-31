@@ -7,14 +7,15 @@
 #include "TownHall.hpp"
 #include "StateGoingCollectionPoint.hpp"
 
-class StateWorking : public State
+class StateBuilding : public State
 {
     public:
 
-        StateWorking();
-        ~StateWorking();
-        StateWorking *clone();
-        void run(Ground *, Character *);
+        StateBuilding();
+        ~StateBuilding();
+        StateBuilding *clone();
+        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+
 };
 
 #endif

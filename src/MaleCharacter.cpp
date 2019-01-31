@@ -14,9 +14,16 @@
 #include "../header/mt19937ar.h"
 #include "../header/StateGoingCollectionPoint.hpp"
 
-MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_strategy(new StrategyJob()), type_ressource_transported(character.getTypeRessourceTransported()), speciality(character.getSpeciality()), time_at_work(character.getTimeAtWork())
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : 
+    Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), 
+    direction(character.direction),
+    character_current_state(character.character_current_state->clone()) , 
+    type_ressource_transported(character.getTypeRessourceTransported()), 
+    speciality(character.getSpeciality()), 
+    character_strategy(new StrategyJob()), 
+    time_at_work(character.getTimeAtWork())
 {
-     character_current_state = character.character_current_state->clone() ;
+     
 }
 /**
  * \fn MaleCharacter::MaleCharacter()
@@ -229,7 +236,7 @@ bool MaleCharacter::runStrategy(Grid& map)
     return character_strategy->run(map, this) ;
 }
 
-void MaleCharacter::executeState(Game& game, Grid& grid, Ground * ground, Character * character)
+void MaleCharacter::executeState(Game& game, Grid& grid, Ground * ground, MaleCharacter * character)
 {
-    character_current_state->run();
+    character_current_state->run(game, grid, ground, character);
 }

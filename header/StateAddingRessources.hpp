@@ -1,5 +1,5 @@
-#ifndef ADDRESSOURCES_HPP
-#define ADDRESSOURCES_HPP
+#ifndef STATE_ADDING_RESSOURCES_HPP
+#define STATE_ADDING_RESSOURCES_HPP
 
 #include "State.hpp"
 #include "Ground.hpp"
@@ -16,7 +16,8 @@ class StateAddingRessources : public State
         StateAddingRessources();
         ~StateAddingRessources();
         StateAddingRessources *clone();
-        void run(Ground *, Character *);
+        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+
 };
 
 #endif

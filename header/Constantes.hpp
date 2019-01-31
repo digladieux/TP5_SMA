@@ -7,8 +7,11 @@ class Constantes
 {
   public:
     static json CONFIG_SIMU;
-    static void openingConfiguration(unsigned int);
-    static void displayConstantes(std::ostream &os = std::cout) noexcept;
+    static json CHARACTERS ;
+    static json MAPS ;
+    static void getAllJson() ;
+    static void setConfiguration(unsigned int) ;
+    static void displayConfiguration(unsigned int, std::ostream &os = std::cout);
 };
 
 #endif

@@ -51,27 +51,17 @@ Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vecto
  * \param ground Le terrain que l'on veut copier
  */
 
-/* TODO : meme fonction */
 Ground::Ground(const Ground &ground) : ground_id(ground.ground_id), ground_type(ground.ground_type)
 {
-    Character *character;
-    for (unsigned int k = 0; k < ground.vector_character.size(); k++)
-    {
-        character = nullptr;
-        if (ground.getCharacter(k)->getCharacterGender() == SEX::MALE)
-        {
-            character = new MaleCharacter(*(MaleCharacter *)ground.getCharacter(k));
-        }
-        else
-        {
-            character = new FemaleCharacter(*(FemaleCharacter *)ground.getCharacter(k));
-        }
-        this->addCharacter(character);
-    }
+    addCharacterGround(ground) ;
 }
 
-
 Ground::Ground(const Ground &ground, GROUND_TYPE type) : ground_id(ground.ground_id), ground_type(type)
+{
+    addCharacterGround(ground) ;
+}
+
+void Ground::addCharacterGround(const Ground& ground) noexcept
 {
     Character *character;
     for (unsigned int k = 0; k < ground.vector_character.size(); k++)
@@ -162,7 +152,7 @@ void Ground::removeCharacter(const unsigned int index)
 {
     if (index >= vector_character.size())
     {
-        throw OutOfRangeSuperior (vector_character.size(), index);
+        throw OutOfRangeSuperior(vector_character.size(), index);
     }
 
     Character *character = vector_character[index];

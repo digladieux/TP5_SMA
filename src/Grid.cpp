@@ -1,4 +1,5 @@
 #include "../header/Grid.hpp"
+#include "../header/Constantes.hpp"
 #include "../header/TownHall.hpp"
 #include "../header/Lake.hpp"
 #include "../header/Farm.hpp"
@@ -16,31 +17,17 @@ using json = nlohmann::json;
 
 Grid::Grid(std::vector<unsigned int>& choice_map, std::vector<unsigned int>& choice_character) : ground_with_character(0)
 {
-    std::string file_name_map = "./MAPS/Maps.json";
-    std::string file_name_character = "./CHARACTERS/Characters.json";
-    std::ifstream file_map(file_name_map);
-    std::ifstream file_character(file_name_character);
     std::vector<Character *> vector_character;
     Ground::resetGroundNumber();
-    if (file_map.fail())
-    {
-        throw InvalidFile(file_name_map);
-    }
-    else if (file_character.fail())
-    {
-        throw InvalidFile(file_name_character);
-    }
 
     /*! CHARACTER */
-    initialisationCharacter(file_character, choice_character, vector_character);
+    initialisationCharacter(choice_character, vector_character);
     /*! MAP */
 
-    initialisationMap(file_map, choice_map, vector_character);
-    file_map.close();
-    file_character.close();
+    initialisationMap(choice_map, vector_character);
 }
 
-void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character)
+void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character)
 {
     try
     {
@@ -51,70 +38,65 @@ void Grid::initialisationCharacter(std::ifstream &file_character, std::vector<un
         throw e;
     }
     Character *character;
-    json json_character;
-    file_character >> json_character;
     std::string key_character;
     Date date_of_birth;
     unsigned int sex;
     for (unsigned int i = 0; i < choice_character.size(); i++)
     {
-        if ((unsigned int)choice_character[i] > json_character["character_number"] )
+        if ((unsigned int)choice_character[i] > Constantes::CHARACTERS["character_number"] )
         {
-            throw InvalidKey(choice_character[i], json_character["character_number"] ) ;
+            throw InvalidKey(choice_character[i], Constantes::CHARACTERS["character_number"] ) ;
         }
         key_character = "character" + std::to_string(choice_character[i]);
         try
         {
-            date_of_birth = Date(json_character[key_character]["day"], json_character[key_character]["month"], json_character[key_character]["year"]);
+            date_of_birth = Date(Constantes::CHARACTERS[key_character]["day"], Constantes::CHARACTERS[key_character]["month"], Constantes::CHARACTERS[key_character]["year"]);
         }
         catch (const ConstructorDateException &e)
         {
             throw e;
         }
-        sex = json_character[key_character]["sex"];
+        sex = Constantes::CHARACTERS[key_character]["sex"];
         switch (sex)
         {
         case 0:
-            character = new MaleCharacter(json_character[key_character]["job"], date_of_birth, (int)json_character[key_character]["team"], column_number);
+            character = new MaleCharacter(Constantes::CHARACTERS[key_character]["job"], date_of_birth, (int)Constantes::CHARACTERS[key_character]["team"], column_number);
            
             break;
 
         case 1:
-            character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[key_character]["baby"], column_number, (unsigned int)json_character[key_character]["team"]);
+            character = new FemaleCharacter(date_of_birth, (unsigned int)Constantes::CHARACTERS[key_character]["baby"], column_number, (unsigned int)Constantes::CHARACTERS[key_character]["team"]);
             break;
 
         default:
             throw InvalidGender(sex);
         }
-        switch((int)json_character[key_character]["team"])
+        switch((int)Constantes::CHARACTERS[key_character]["team"])
         {
             case 0:
                 character->setCharacterTeam(0);
                 break ;
             case 1:
-         /*TODO : a changer par   (int)json_map[key_map]["row_number"] * (int)json[key_map]["column_number"] - 1*/
-                character->setCharacterTeam(399);
+                character->setCharacterTeam((int)Constantes::MAPS["row_number"] * (int)Constantes::MAPS["column_number"] - 1);
                 break ;
             default:
-                throw InvalidTeam((int)json_character[key_character]["team"]) ;
+                throw InvalidTeam((int)Constantes::CHARACTERS[key_character]["team"]) ;
                 break ; 
         }
         vector_character[i] = character;
     }
 }
 
-void Grid::initialisationMap(std::ifstream &file_map, std::vector<unsigned int> choice_map, std::vector<Character *> &vector_character)
+void Grid::initialisationMap(std::vector<unsigned int> choice_map, std::vector<Character *> &vector_character)
 {
-    json json_maps;
     unsigned int k, x, y;
     Ground *ground;
     Ground * collection_point ;
     Character *character;
     std::string key;
 
-    file_map >> json_maps;
-    row_number = json_maps["row_number"];
-    column_number = json_maps["column_number"];
+    row_number = Constantes::MAPS["row_number"];
+    column_number = Constantes::MAPS["column_number"];
     ground_grid = new Ground **[row_number]();
 
     for (unsigned int i = 0; i < row_number; i++)
@@ -123,7 +105,6 @@ void Grid::initialisationMap(std::ifstream &file_map, std::vector<unsigned int> 
 
         for (unsigned int j = 0; j < column_number; j++)
         {
-            // TownHall
             if (((i == 0) && (j == 0)) || ((i == row_number - 1) && (j == column_number - 1)))
             {
                 ground = new TownHall();
@@ -159,22 +140,22 @@ void Grid::initialisationMap(std::ifstream &file_map, std::vector<unsigned int> 
 
     for (unsigned int i = 0; i < choice_map.size(); i++)
     {
-        if ((unsigned int)choice_map[i] > json_maps["collection_point_number"] )
+        if ((unsigned int)choice_map[i] > Constantes::MAPS["collection_point_number"] )
         {
-            throw InvalidKey(choice_map[i], json_maps["collection_point_number"] ) ;
+            throw InvalidKey(choice_map[i], Constantes::MAPS["collection_point_number"] ) ;
         }
         key = "collection_point" + std::to_string(choice_map[i]);
-        x = json_maps[key]["x"] ;
-        y = json_maps[key]["y"] ;
+        x = Constantes::MAPS[key]["x"] ;
+        y = Constantes::MAPS[key]["y"] ;
         ground = this->getGroundGrid(x, y);
-        collection_point = initGround(ground, (int)json_maps[key]["type"], (const unsigned int)json_maps[key]["ressource_number"] );
+        collection_point = initGround(ground, (int)Constantes::MAPS[key]["type"], (const unsigned int)Constantes::MAPS[key]["ressource_number"] );
         push_backGround(ground_with_collection_point, collection_point);
         ground_grid[x][y] = collection_point;
         delete ground;
     }
 }
 
-/*TODO : clone ici */
+/*TODO : DEMANDER LOLO clone ici */
 Ground *Grid::initGround(Ground * ground, unsigned int ground_type, const unsigned int ressource_number)
 {
     Ground *collection_point;
@@ -239,10 +220,11 @@ Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.colu
     {
         ground_grid[i] = new Ground *[column_number]();
 
-/*TODO : enlever switch faire clone */
         for (unsigned int j = 0; j < column_number; j++)
         {
-            map_ground = map.ground_grid[i][j];
+            /*TODO : DEMANDER LOLO NORMAL MARCHE PAS enlever switch faire clone */
+            map_ground = map.ground_grid[i][j]; 
+            //cground = ((CollectionPoint *)map_ground)->clone(*map_ground) ;
             switch (map_ground->getGroundType())
             {
             case GROUND_TYPE::FARM:

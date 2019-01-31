@@ -10,7 +10,8 @@ class StateGoingCollectionPoint : public State
     StateGoingCollectionPoint();
     ~StateGoingCollectionPoint();
     StateGoingCollectionPoint *clone();
-    void run(Grid &, Character *);
+        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+
 };
 
 #endif

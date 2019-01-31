@@ -21,6 +21,7 @@ class Forest : public CollectionPoint
     Forest(const Forest &);
     Forest(const Ground &, const unsigned int);
     ~Forest();
+    Forest* clone(Forest &) ;
     void display(std::ostream &os = std::cout) const noexcept;
 };
 

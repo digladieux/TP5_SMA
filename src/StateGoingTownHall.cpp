@@ -13,8 +13,8 @@ StateGoingTownHall *StateGoingTownHall::clone()
 {
     return new StateGoingTownHall();
 }
-void StateGoingTownHall::run(Character * character)
+void StateGoingTownHall::run(Game&, Grid&, Ground *, MaleCharacter *character) const
 {
-    ((MaleCharacter *)character)->setCharacterCurrentState(new StateAddingRessources());    
+    character->setCharacterCurrentState(new StateAddingRessources());    
 }
 

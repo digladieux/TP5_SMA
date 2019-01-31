@@ -21,7 +21,7 @@ CollectionPoint::CollectionPoint(const Ground& ground, GROUND_TYPE type, const u
 CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb) : Ground(type), ressources_number(ressources_nb) {}
 
 CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb, unsigned int id, std::vector<Character *> vector) : Ground(type, id, vector), ressources_number(ressources_nb) {}
-
+CollectionPoint * CollectionPoint::clone(Ground &) {}
 /**
  * \fn CollectionPoint::~CollectionPoint()
  * \brief Destructeur de la classe Collection Point

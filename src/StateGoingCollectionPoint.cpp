@@ -17,13 +17,12 @@ StateGoingCollectionPoint *StateGoingCollectionPoint::clone()
 {
     return new StateGoingCollectionPoint();
 }
-
-void StateGoingCollectionPoint::run(Grid &map, Character *character)
+void StateGoingCollectionPoint::run(Game&, Grid& grid, Ground *, MaleCharacter *character) const
 {
-    ((MaleCharacter *)character)->setCharacterStrategy(new StrategyClosestCollectionPoint());
-    if (!(((MaleCharacter *)character)->runStrategy(map)))
+    character->setCharacterStrategy(new StrategyClosestCollectionPoint());
+    if (!(character->runStrategy(grid)))
     {
-        ((MaleCharacter *)character)->setCharacterStrategy(new StrategyLowRessources());
-        ((MaleCharacter *)character)->runStrategy(map);
+        character->setCharacterStrategy(new StrategyLowRessources());
+        character->runStrategy(grid);
     }
 }

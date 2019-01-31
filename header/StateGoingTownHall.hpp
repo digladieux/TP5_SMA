@@ -10,7 +10,8 @@ class StateGoingTownHall : public State
     ~StateGoingTownHall();
     StateGoingTownHall *clone();
 
-    void run(Character *);
+        void run(Game&, Grid&, Ground *, MaleCharacter *) const;
+
 };
 
 #endif

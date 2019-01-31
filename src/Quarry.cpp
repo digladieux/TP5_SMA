@@ -24,6 +24,10 @@ Quarry::Quarry(const Ground &quarry, const unsigned int ressources_number) : Col
  *
  */
 Quarry::~Quarry() {}
+Quarry* Quarry::clone(Quarry & ground)
+{
+    return new Quarry(ground);
+}
 
 /**
  * \fn void Quarry::display(std::ostream &os) const noexcept

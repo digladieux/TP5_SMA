@@ -5,40 +5,10 @@
 #include <sstream>
 Menu::Menu()
 {
-    openningCharacters();
-    openningMaps();
+    Constantes::getAllJson() ;
 }
 
-void Menu::openningMaps()
-{
-    std::string file_name_map = "./MAPS/Maps.json";
-    std::ifstream file_map(file_name_map);
-    if (!file_map.fail())
-    {
-        file_map >> json_maps;
-        file_map.close();
-    }
-    else
-    {
-        throw InvalidFile(file_name_map);
-    }
-}
 
-void Menu::openningCharacters()
-{
-    std::string file_name_character = "./CHARACTERS/Characters.json";
-    std::ifstream file_character(file_name_character);
-
-    if (!file_character.fail())
-    {
-        file_character >> json_characters;
-        file_character.close();
-    }
-    else
-    {
-        throw InvalidFile(file_name_character);
-    }
-}
 void Menu::displayWelcome(std::ostream &os) noexcept
 {
     os << "Welcome to our game : CiviliZZation" << std::endl;
@@ -52,9 +22,9 @@ std::vector<unsigned int> Menu::mapChoice() const
     std::istringstream is(line);
     while (is >> map)
     {
-        if (map > json_maps["collection_point_number"])
+        if (map > Constantes::MAPS["collection_point_number"])
         {
-            throw InvalidNumberOfMap(map, json_maps["collection_point_number"]);
+            throw InvalidNumberOfMap(map, Constantes::MAPS["collection_point_number"]);
         }
         else
         {
@@ -76,7 +46,7 @@ void Menu::displayAllMap(std::ostream &os) const
 {
 
     std::string collection_point;
-    unsigned int collection_point_number = json_maps["collection_point_number"];
+    unsigned int collection_point_number = Constantes::MAPS["collection_point_number"];
     system("clear");
     os << "Here you are all of our collection point:" << std::endl;
 
@@ -84,8 +54,8 @@ void Menu::displayAllMap(std::ostream &os) const
     {
         os << i << " : ";
         collection_point = "collection_point" + std::to_string(i);
-        displayGroundType(os,json_maps[collection_point]["type"]);
-        os << "\t" << "[" << json_maps[collection_point]["x"] << "," << json_maps[collection_point]["y"] << "]\t RESSOURCES_NUMBER : " << json_maps[collection_point]["ressource_number"] << std::endl;
+        displayGroundType(os,Constantes::MAPS[collection_point]["type"]);
+        os << "\t" << "[" << Constantes::MAPS[collection_point]["x"] << "," << Constantes::MAPS[collection_point]["y"] << "]\t RESSOURCES_NUMBER : " << Constantes::MAPS[collection_point]["ressource_number"] << std::endl;
     }
     os << "Where do you want to play ?" << std::endl;
 }
@@ -99,9 +69,9 @@ std::vector<unsigned int> Menu::characterChoice() const
     std::istringstream is(line);
     while (is >> character)
     {
-        if (character > json_characters["character_number"])
+        if (character > Constantes::CHARACTERS["character_number"])
         {
-            throw InvalidNumberOfCharacter(character, json_characters["character_number"]);
+            throw InvalidNumberOfCharacter(character, Constantes::CHARACTERS["character_number"]);
         }
         else
         {
@@ -122,7 +92,7 @@ std::vector<unsigned int> Menu::characterChoice() const
 void Menu::displayAllCharacter(std::ostream &os) const
 {
     std::string character;
-    unsigned int character_number = json_characters["character_number"],
+    unsigned int character_number = Constantes::CHARACTERS["character_number"],
                  character_sex;
                  
     system("clear");
@@ -131,16 +101,16 @@ void Menu::displayAllCharacter(std::ostream &os) const
     {
         os << i << " : ";
         character = "character" + std::to_string(i);
-        character_sex = json_characters[character]["sex"];
+        character_sex = Constantes::CHARACTERS[character]["sex"];
         displaySex(os, character_sex);
-        os << "\t" << Date(json_characters[character]["day"], json_characters[character]["month"], json_characters[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tLIFE "  << json_characters[character]["life"] << "\tTEAM " << json_characters[character]["team"] << "\t";
-        if (json_characters[character]["sex"] == 0)
+        os << "\t" << Date(Constantes::CHARACTERS[character]["day"], Constantes::CHARACTERS[character]["month"], Constantes::CHARACTERS[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tLIFE "  << Constantes::CHARACTERS[character]["life"] << "\tTEAM " << Constantes::CHARACTERS[character]["team"] << "\t";
+        if (Constantes::CHARACTERS[character]["sex"] == 0)
         {
-            displayJob(os, json_characters[character]["job"]);
+            displayJob(os, Constantes::CHARACTERS[character]["job"]);
         }
         else
         {
-            os << "\tBaby : " << json_characters[character]["baby"];
+            os << "\tBaby : " << Constantes::CHARACTERS[character]["baby"];
         }
         os << std::endl;
     }
@@ -160,12 +130,11 @@ void Menu::displayAllConfig(std::ostream &os) const
 {
     system("clear");
     os << "Here you are all the config" << std::endl;
-    for (unsigned int i = 1; i <= 2 ; i++) /*TODO : a changer */
+    for (unsigned int i = 1; i <= Constantes::CONFIG_SIMU["maxConfig"] ; i++) 
     {
         os << std::endl
            << "Config " << i << " : " << std::endl;
-        Constantes::openingConfiguration(i);
-        Constantes::displayConstantes(os);
+        Constantes::displayConfiguration(i, os);
     }
     os << "Which config do you want to use" << std::endl;
 }

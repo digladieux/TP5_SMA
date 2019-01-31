@@ -10,6 +10,7 @@
 #include "../header/StrategyLowRessources.hpp"
 #include "../header/StrategyClosestCollectionPoint.hpp"
 #include "../header/StateGoingTownHall.hpp"
+#include "../header/StateWorkingCollectionPoint.hpp"
 #include "math.h"
 #include <unistd.h>
 #include <limits>
@@ -17,7 +18,8 @@ using json = nlohmann::json;
 
 Game::Game(std::vector<unsigned int> &map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(new Grid(map_choice, character_choice)), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
 {
-    Constantes::openingConfiguration(config_choice);
+    Constantes::getAllJson();
+    Constantes::setConfiguration(config_choice) ;
 }
 
 Game::~Game()
@@ -65,7 +67,7 @@ void Game::lifeOfCharacter()
             {
                 if (character->getCharacterGender() == SEX::FEMALE && !(Date() == (((FemaleCharacter *)character)->getPregnancyTime())))
                 {
-                    if (character->getCharacterCurrentLife() < 1) /* TODO RAND , STATE MALE A CHANGER*/
+                    if (character->getCharacterCurrentLife() < 1) 
                     {
                         if (((TownHall *)ground)->removeFishNumber(1))
                         {
@@ -91,7 +93,7 @@ void Game::lifeOfCharacter()
                         switch (ground->getGroundType())
                         {
                         case GROUND_TYPE::TOWN_HALL:
-                            ((MaleCharacter *)character)->executeState(*this, *map, ground, character); //TODO caster en Malecharacter et non Character
+                            ((MaleCharacter *)character)->executeState(*this, *map, ground, (MaleCharacter*)character); 
                             break;
                         case GROUND_TYPE::QUARRY:
                         case GROUND_TYPE::LAKE:
@@ -194,6 +196,10 @@ bool Game::movementCharacter(Character *temp_character, Ground *ground, unsigned
         {
             map->addGroundWithCharacter(next_place);
         }
+       /* if (((MaleCharacter *)temp_character)->getDirection() == next_place->getPosition(map->getColumnNumber()))
+        {
+            ((MaleCharacter *)temp_character)->setCharacterCurrentState(new StateWorkingCollectionPoint());
+        }*/
     }
 
     return movement_possible;

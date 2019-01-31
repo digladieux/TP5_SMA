@@ -21,6 +21,9 @@
  */
 class Ground
 {
+  private:
+void addCharacterGround(const Ground& ground) noexcept;
+
   protected:
     static unsigned int ground_number;         /*! Nombre de terrain sur la carte au total */
     unsigned int ground_id;                    /*! Identifiant unique du terrain */
@@ -30,7 +33,7 @@ class Ground
   public:
     Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
     Ground(GROUND_TYPE, unsigned int, std::vector<Character *>);
-    Ground(const Ground &, GROUND_TYPE);
+    Ground(const Ground & ground, GROUND_TYPE);
     Ground(const Ground &);
     virtual ~Ground();
 

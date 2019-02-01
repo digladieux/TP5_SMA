@@ -15,15 +15,15 @@ StateMovement *StateMovement::clone()
 }
 void StateMovement::run(Game &, Grid &map, Ground *ground, MaleCharacter *character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
 {
-    Character *temp_character;
+    //Character *temp_character;
     unsigned int x, y;
-    temp_character = new MaleCharacter(*character);
+    //temp_character = new MaleCharacter(*character);
 
     x = ground->getPosition(map.getColumnNumber()).getAbscissa();
     y = ground->getPosition(map.getColumnNumber()).getOrdinate();
-    if (!movementOrdinate(map, temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted))
+    if (!movementOrdinate(map, character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted))
     {
-        if (!movementAbscissa(map, temp_character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted))
+        if (!movementAbscissa(map, character, ground, x, y, index_character, index_ground_with_character, number_ground_with_character, number_character_ground, is_ground_deleted))
         {
             index_character++;
         }

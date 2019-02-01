@@ -16,7 +16,9 @@
         "lifeMin" : 100,
         "lifeMax" : 200,
         "lifePerTurn" : 1,
-        "lifeWin" : 100
+        "lifeWin" : 100,
+        "maxConfig" : 2
+
     },
     "config2": {
         "a": 0.0000000025,
@@ -36,6 +38,8 @@
         "lifeMin" : 100,
         "lifeMax" : 200,
         "lifePerTurn" : 2,
-        "lifeWin" : 100
+        "lifeWin" : 100,
+        "maxConfig" : 2
+
     }
 }

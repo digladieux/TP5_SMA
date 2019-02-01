@@ -160,9 +160,7 @@ void Ground::removeCharacter(const unsigned int index)
         throw OutOfRangeSuperior(vector_character.size(), index);
     }
 
-    Character *character = vector_character[index];
     vector_character.erase(vector_character.begin() + index);
-    delete character;
 }
 
 /**

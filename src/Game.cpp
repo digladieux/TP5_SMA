@@ -38,7 +38,7 @@ void Game::run(unsigned int round)
         turn.display();
         lifeOfCharacter();
         display();
-        usleep(10);
+        usleep(100000);
     }
 }
 
@@ -125,6 +125,7 @@ bool Game::deathOfCharacter(Character *character, unsigned int i, unsigned int &
     {
         dead = true;
         map->getGroundWithCharacter(i)->removeCharacter(j);
+        delete character ;
         j--;
     }
     return dead;

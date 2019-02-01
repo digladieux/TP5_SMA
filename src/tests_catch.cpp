@@ -491,111 +491,111 @@ TEST_CASE("GroundCopy")
     delete ground2;
 }
 
-// TEST_CASE("Exception")
+TEST_CASE("Exception")
+{
+    Constantes::getAllJson();
+    Constantes::setConfiguration(1);
+    Ground *ground1 = new Ground();
+        Character *character = new MaleCharacter(Date(20, 10, 2018));
+
+    std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_map_error = {80};
+    std::vector<unsigned int> vector_character_error = {80};
+
+        Grid map(vector_map, vector_character);
+
+    REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(Constantes::setConfiguration(8), InvalidConfiguration);
+    REQUIRE_THROWS_AS(Grid(vector_character,vector_map_error), InvalidKey) ;
+    REQUIRE_THROWS_AS(Grid(vector_character_error,vector_map), InvalidKey) ;
+    /*REQUIRE_THROWS_AS(Grid(1, 100), InvalidGender);
+    REQUIRE_THROWS_AS(Grid(1, 101), ConstructorDateException);
+    REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
+    REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
+    REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);*/
+    REQUIRE_THROWS_AS(((MaleCharacter *)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
+
+    REQUIRE_THROWS_AS(map.getGroundGrid(24, 8), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundGrid(8, 111), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundWithCharacter(2), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getDirectionCharacter(StructCoordinates(41, 11)), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundGrid(510), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(character->getCharacterAge(Date(1, 1, 1)), CurrentDateBeforeBirthException);
+    REQUIRE_THROWS_AS(Date(1, 155, 2), ConstructorDateException);
+    REQUIRE_THROWS_AS(Date(1, 58, 1) < Date(1, 1, 0), ConstructorDateException);
+    REQUIRE_THROWS_AS(Date(1, 2, 1) < Date(32, 1, 0), ConstructorDateException);
+    REQUIRE_THROWS_AS(++Date(1, 82, 1), ConstructorDateException);
+
+    delete character;
+    delete ground1;
+}
+
+// TEST_CASE("JsonCharacterValid?")
 // {
-//     Constantes::openingConfiguration(1);
-//     Ground *ground1 = new Ground();
-//         Character *character = new MaleCharacter(Date(20, 10, 2018));
+//     std::string file_name = "./CHARACTERS/Characters.json";
+//     std::ifstream file(file_name);
+//     unsigned int male_number;
+//     unsigned int female_number;
+//     Character *test_character;
+//     Date date_of_birth;
+//     std::string character;
+//     if (!file.fail())
+//     {
+//         json json_character;
+//         file >> json_character;
+//         unsigned int character_number = json_character["character_number"];
+//         for (unsigned int i = 1; i <= character_number; i++)
+//         {
+//             character = "character" + std::to_string(i);
+//             date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
+//             unsigned int sex = json_character[character]["sex"];
+//             switch (sex)
+//             {
+//             case 0:
+//                 test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
+//                 break;
 
-//     std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
-//     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
-//     std::vector<unsigned int> vector_map_error = {80};
-//     std::vector<unsigned int> vector_character_error = {80};
-
-//         Grid map(vector_map, vector_character);
-
-//     REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(Constantes::openingConfiguration(8), InvalidConfiguration);
-//     REQUIRE_THROWS_AS(Grid(vector_character,vector_map_error), InvalidKey) ;
-//     REQUIRE_THROWS_AS(Grid(vector_character_error,vector_map), InvalidKey) ;
-//     /*REQUIRE_THROWS_AS(Grid(1, 100), InvalidGender);
-//     REQUIRE_THROWS_AS(Grid(1, 101), ConstructorDateException);
-//     REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
-//     REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
-//     REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);*/
-//     REQUIRE_THROWS_AS(((MaleCharacter *)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
-
-//     REQUIRE_THROWS_AS(map.getGroundGrid(24, 8), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundGrid(8, 111), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundWithCharacter(2), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getDirectionCharacter(StructCoordinates(41, 11)), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundGrid(510), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(character->getCharacterAge(Date(1, 1, 1)), CurrentDateBeforeBirthException);
-//     REQUIRE_THROWS_AS(Date(1, 155, 2), ConstructorDateException);
-//     REQUIRE_THROWS_AS(Date(1, 58, 1) < Date(1, 1, 0), ConstructorDateException);
-//     REQUIRE_THROWS_AS(Date(1, 2, 1) < Date(32, 1, 0), ConstructorDateException);
-//     REQUIRE_THROWS_AS(++Date(1, 82, 1), ConstructorDateException);
-
-//     delete character;
-//     delete ground1;
+//             case 1:
+//                 test_character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[character]["baby"]);
+//                 break;
+//             }
+//             delete test_character;
+//             file.close();
+//         }
+//     }
 // }
 
-TEST_CASE("JsonCharacterValid?")
-{
-    std::string file_name = "./CHARACTERS/Characters.json";
-    std::ifstream file(file_name);
-    unsigned int male_number;
-    unsigned int female_number;
-    Character *test_character;
-    Date date_of_birth;
-    std::string character;
-    if (!file.fail())
-    {
-        json json_character;
-        file >> json_character;
-        unsigned int character_number = json_character["character_number"];
-        for (unsigned int i = 1; i <= character_number; i++)
-        {
-            character = "character" + std::to_string(i);
-            date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
-            unsigned int sex = json_character[character]["sex"];
-            switch (sex)
-            {
-            case 0:
-                test_character = new MaleCharacter(json_character[character]["job"], date_of_birth);
-                break;
+// TEST_CASE("JsonMapValid?")
+// {
+//     std::string file_name = "./MAPS/Maps.json";
+//     std::ifstream file(file_name);
+//     Ground *ground;
+//     std::string map;
+//     if (!file.fail())
+//     {
+//         json json_map;
+//         file >> json_map;
+//         unsigned int collection_point_number = json_map["collection_point_number"];
+//         for (unsigned int i = 1; i <= collection_point_number; i++)
+//         {
+//             map = "collection_point" + std::to_string(i);
+//             ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]);
+//             delete ground;
+//         }
+//         file.close();
+//     }
+// }
 
-            case 1:
-                test_character = new FemaleCharacter(date_of_birth, (unsigned int)json_character[character]["baby"]);
-                break;
-            }
-            delete test_character;
-            file.close();
-        }
-    }
-}
-
-TEST_CASE("JsonMapValid?")
-{
-    std::string file_name = "./MAPS/Maps.json";
-    std::ifstream file(file_name);
-    Ground *ground;
-    std::string map;
-    if (!file.fail())
-    {
-        json json_map;
-        file >> json_map;
-        unsigned int collection_point_number = json_map["collection_point_number"];
-        for (unsigned int i = 1; i <= collection_point_number; i++)
-        {
-            map = "collection_point" + std::to_string(i);
-            ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]);
-            delete ground;
-        }
-        file.close();
-    }
-}
-
-TEST_CASE("Game")
-{
-    system("clear");
-    std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    //std::vector<unsigned int> vector_character = {2};
-    std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    Game game(vector_map, vector_character, 1, Date(1, 1, 60));
-    game.run(100);
-}
+// TEST_CASE("Game")
+// {
+//     system("clear");
+//     std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+//     std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+//     Game game(vector_map, vector_character, 1, Date(1, 1, 60));
+//    game.run(100);
+// }
 
 /*
 TEST_CASE("Menu")

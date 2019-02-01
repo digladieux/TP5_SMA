@@ -26,9 +26,7 @@ class CollectionPoint : public Ground
     CollectionPoint(const Ground& , GROUND_TYPE, const unsigned int);
     CollectionPoint(GROUND_TYPE, const unsigned int ressources_nb = 1000);
     CollectionPoint(GROUND_TYPE, const unsigned int, unsigned int, std::vector<Character *>);
-    virtual CollectionPoint* clone(Ground &) ;
     
-
     virtual ~CollectionPoint();
 
     unsigned int getRessourcesNumber() const noexcept;
@@ -36,7 +34,7 @@ class CollectionPoint : public Ground
     bool ressourcesNumberExtracted(const unsigned int);
     void evolutionRessources() noexcept;
 
-    virtual void display(std::ostream &os) const noexcept;
+    virtual void display(std::ostream &os) const noexcept = 0;
 };
 
 #endif

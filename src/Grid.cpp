@@ -162,14 +162,9 @@ void Grid::initialisationMap(std::vector<unsigned int> choice_map, std::vector<C
     }
 }
 
-/*TODO : DEMANDER LOLO clone ici */
 Ground *Grid::initGround(Ground * ground, unsigned int ground_type, const unsigned int ressource_number)
 {
-    Ground *collection_point;
-    /*
-    collection = ground -> clone() ;
-    collection_point->setRessource(ressource_number) ;
-    */
+    Ground *collection_point ;
     switch (ground_type)
     {
     case 1 :
@@ -229,30 +224,8 @@ Grid::Grid(const Grid &map) : row_number(map.row_number), column_number(map.colu
 
         for (unsigned int j = 0; j < column_number; j++)
         {
-            /*TODO : DEMANDER LOLO NORMAL MARCHE PAS enlever switch faire clone */
             map_ground = map.ground_grid[i][j]; 
-            //cground = ((CollectionPoint *)map_ground)->clone(*map_ground) ;
-            switch (map_ground->getGroundType())
-            {
-            case GROUND_TYPE::FARM:
-                ground = new Farm(*(Farm *)map_ground);
-                break;
-            case GROUND_TYPE::FOREST:
-                ground = new Forest(*(Forest *)map_ground);
-                break;
-            case GROUND_TYPE::LAKE:
-                ground = new Lake(*(Lake *)map_ground);
-                break;
-            case GROUND_TYPE::QUARRY:
-                ground = new Quarry(*(Quarry *)map_ground);
-                break;
-            case GROUND_TYPE::TOWN_HALL:
-                ground = new TownHall(*(TownHall *)map_ground);
-                break;
-            default:
-                ground = new Ground(*map_ground);
-                break;
-            }
+            ground = map_ground->clone() ;
             ground_grid[i][j] = ground;
             if ((ground->getGroundType() != GROUND_TYPE::LAND) && (ground->getGroundType() != GROUND_TYPE::TOWN_HALL))
             {

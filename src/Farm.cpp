@@ -26,9 +26,9 @@ Farm::Farm(const Ground &farm, const unsigned int ressources_number) : Collectio
  */
 Farm::~Farm() {}
 
-Farm* Farm::clone(Farm& ground) 
+Farm* Farm::clone() const
 {
-    return new Farm(ground);
+    return new Farm(*this);
 }
 /**
  * \fn void Farm::display(std::ostream &os) const noexcept

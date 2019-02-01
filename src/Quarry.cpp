@@ -24,9 +24,9 @@ Quarry::Quarry(const Ground &quarry, const unsigned int ressources_number) : Col
  *
  */
 Quarry::~Quarry() {}
-Quarry* Quarry::clone(Quarry & ground)
+Quarry* Quarry::clone() const
 {
-    return new Quarry(ground);
+    return new Quarry(*this);
 }
 
 /**

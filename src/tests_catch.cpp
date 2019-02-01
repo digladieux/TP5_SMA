@@ -23,6 +23,7 @@ using json = nlohmann::json;
 /*TODO : test sur les strategies et state */
 /*TODO : test unitaire vie */
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
+
 TEST_CASE("Ground")
 {
     Ground ground0;
@@ -286,46 +287,11 @@ TEST_CASE("MonthOfPregnancy")
     delete character1;
 }
 
-TEST_CASE("CollectionPoint")
-{
-    Ground *collection_point = new CollectionPoint(GROUND_TYPE::QUARRY);
-
-    CHECK(4 == collection_point->getGroundId());
-    CHECK(0 == collection_point->getVectorSize());
-    CHECK(1000 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
-    CHECK(GROUND_TYPE::QUARRY == collection_point->getGroundType());
-
-    bool flag = ((CollectionPoint *)collection_point)->ressourcesNumberExtracted(2);
-    CHECK(998 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
-    CHECK(flag == true);
-
-    flag = ((CollectionPoint *)collection_point)->ressourcesNumberExtracted(1000);
-    CHECK(998 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
-    CHECK(flag == false);
-
-    ((CollectionPoint *)collection_point)->setRessources(50);
-    CHECK(50 == ((CollectionPoint *)collection_point)->getRessourcesNumber());
-
-    MaleCharacter *worker = new MaleCharacter(JOB::QUARRY_MAN, Date(20, 8, 90));
-    collection_point->addCharacter(worker);
-
-    CHECK(1 == collection_point->getVectorSize());
-    CHECK(worker == collection_point->getCharacter(0));
-
-    REQUIRE_THROWS_AS(collection_point->removeCharacter(1), OutOfRangeSuperior);
-    REQUIRE_THROWS_AS(collection_point->getCharacter(5), OutOfRangeSuperior);
-
-    collection_point->removeCharacter(0);
-    CHECK(0 == collection_point->getVectorSize());
-
-    delete collection_point;
-}
-
 TEST_CASE("Valgrind")
 {
     Ground *lake = new Lake();
     Character *male = new MaleCharacter(Date());
-    CHECK(5 == ((Lake *)lake)->getGroundId());
+    CHECK(4 == ((Lake *)lake)->getGroundId());
     CHECK(GROUND_TYPE::LAKE == lake->getGroundType());
     CHECK(1000 == ((Lake *)lake)->getRessourcesNumber());
     lake->addCharacter(male);
@@ -345,10 +311,10 @@ TEST_CASE("SpecificCollectionPoint")
     Character *lumberjack = new MaleCharacter(JOB::LUMBERJACK, Date());
     Character *quarryman = new MaleCharacter(JOB::QUARRY_MAN, Date());
 
-    CHECK(6 == ((Lake *)lake)->getGroundId());
-    CHECK(7 == ((Quarry *)quarry)->getGroundId());
-    CHECK(8 == ((Forest *)forest)->getGroundId());
-    CHECK(9 == ((Farm *)farm)->getGroundId());
+    CHECK(5 == lake->getGroundId());
+    CHECK(6 == quarry->getGroundId());
+    CHECK(7 == forest->getGroundId());
+    CHECK(8 == farm->getGroundId());
 
     CHECK(GROUND_TYPE::LAKE == lake->getGroundType());
     CHECK(GROUND_TYPE::QUARRY == quarry->getGroundType());

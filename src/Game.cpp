@@ -65,7 +65,8 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-                if (character->getCharacterGender() == SEX::FEMALE && !(Date() == (((FemaleCharacter *)character)->getPregnancyTime()))) /* ETAT FEMME RIEN FAIRE, MANGER, DONNER NAISSANCE ... */
+                if (character->getCharacterGender() == SEX::FEMALE 
+                && !(Date() == (((FemaleCharacter *)character)->getPregnancyTime())) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) 
                 {
                     if (character->getCharacterCurrentLife() < 1) 
                     {

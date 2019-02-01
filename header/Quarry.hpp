@@ -20,7 +20,7 @@ class Quarry : public CollectionPoint
     Quarry(const unsigned int rock_number = 1000);
     Quarry(const Quarry &);
     Quarry(const Ground &, const unsigned int)  ;
-    Quarry *clone(Quarry &);
+    Quarry *clone() const ;
 
     ~Quarry();
 

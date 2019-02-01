@@ -24,9 +24,9 @@ Lake::Lake(const Ground &lake, const unsigned int ressources_number) : Collectio
  */
 Lake::~Lake() {}
 
-Lake* Lake::clone(Lake& ground)
+Lake* Lake::clone() const
 {
-    return new Lake(ground);
+    return new Lake(*this);
 }
 /**
  * \fn void Lake::display(std::ostream &os) const noexcept

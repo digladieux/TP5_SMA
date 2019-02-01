@@ -35,6 +35,8 @@ void addCharacterGround(const Ground& ground) noexcept;
     Ground(GROUND_TYPE, unsigned int, std::vector<Character *>);
     Ground(const Ground & ground, GROUND_TYPE);
     Ground(const Ground &);
+    virtual Ground* clone() const ;
+
     virtual ~Ground();
 
     unsigned int getGroundId() const noexcept;

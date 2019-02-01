@@ -61,6 +61,11 @@ Ground::Ground(const Ground &ground, GROUND_TYPE type) : ground_id(ground.ground
     addCharacterGround(ground) ;
 }
 
+Ground* Ground::clone() const
+{
+    return new Ground(*this);
+}
+
 void Ground::addCharacterGround(const Ground& ground) noexcept
 {
     Character *character;

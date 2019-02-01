@@ -25,9 +25,9 @@ Forest::Forest(const Ground& forest, const unsigned int ressources_number) : Col
  *
  */
 Forest::~Forest() {}
-Forest* Forest::clone(Forest& ground)
+Forest* Forest::clone() const
 {
-    return new Forest(ground);
+    return new Forest(*this);
 }
 /**
  * \fn void Forest::display(std::ostream &os) const noexcept

@@ -11,15 +11,20 @@
 #include "../header/StrategyClosestCollectionPoint.hpp"
 #include "../header/StateWorkingCollectionPoint.hpp"
 #include "../header/StateAddingRessources.hpp"
+#include "../header/Exception.hpp"
 #include "math.h"
 #include <unistd.h>
 #include <limits>
 using json = nlohmann::json;
 
-Game::Game(std::vector<unsigned int> &map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date) : map(new Grid(map_choice, character_choice)), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0)
+Game::Game(std::vector<unsigned int> &map_choice, std::vector<unsigned int> &character_choice, unsigned int config_choice, const Date &date, const unsigned int display_choice) : map(new Grid(map_choice, character_choice)), turn(date), number_of_birth_this_turn(0), number_of_birth_total(0), number_of_death_this_turn(0), number_of_death_total(0), how_to_display(display_choice)
 {
     Constantes::getAllJson();
     Constantes::setConfiguration(config_choice) ;
+    if (display_choice > 2)
+    {
+        throw InvalidDisplayChoice(display_choice) ;
+    }
 }
 
 Game::~Game()
@@ -33,13 +38,32 @@ void Game::run(unsigned int round)
         ++turn;
         number_of_death_this_turn = 0;
         number_of_birth_this_turn = 0;
-        system("clear");
-        std::cout << "Tour " << i + 1 << std::endl;
-        turn.display();
         lifeOfCharacter();
-        display();
-        usleep(100000);
+        switch (how_to_display)
+        {
+            case 0:
+                system("clear");
+                std::cout << "Tour " << i + 1 << std::endl;
+                turn.display();
+                display() ;
+                usleep(10000);
+                break;
+            case 1:
+                system("clear");
+                std::cout << "Tour " << i + 1 << std::endl;
+                turn.display();
+                display() ;
+                std::getchar() ;
+                break;
+            case 2:
+                break ;
+            default:
+                throw InvalidDisplayChoice(how_to_display) ;
+        }
     }
+    system("clear") ;
+    std::cout << "REPORT" << std::endl ;
+    display() ;
 }
 
 void Game::lifeOfCharacter()

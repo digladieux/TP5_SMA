@@ -90,7 +90,7 @@ const char *CurrentDateBeforeBirthException::what() const throw()
 
 ConstructorDateException::ConstructorDateException(const unsigned int day, const unsigned int month, const unsigned int year) : std::invalid_argument(""), message_error("DATE_INVALID : " + std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year))
 {
-    std::cerr << what() << std::endl;
+    //std::cerr << what() << std::endl;
 }
 
 ConstructorDateException::~ConstructorDateException() throw() {}
@@ -184,6 +184,18 @@ InvalidTeam::InvalidTeam(const unsigned int index_out) : std::invalid_argument("
 InvalidTeam::~InvalidTeam() throw() {}
 
 const char *InvalidTeam::what() const throw()
+{
+    return message_error.c_str();
+}
+
+InvalidDisplayChoice::InvalidDisplayChoice(const unsigned int index_out) : std::invalid_argument(""), message_error("MAXIMUM_DISPLAY_CHOICE_EXPECTED : 2\nHERE : " + std::to_string(index_out)) 
+{
+        std::cerr << what() << std::endl;
+
+}
+InvalidDisplayChoice::~InvalidDisplayChoice() throw() {}
+
+const char *InvalidDisplayChoice::what() const throw()
 {
     return message_error.c_str();
 }

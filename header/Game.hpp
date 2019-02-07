@@ -22,14 +22,14 @@ private:
   unsigned int number_of_birth_total;
   unsigned int number_of_death_this_turn;
   unsigned int number_of_death_total;
-
+  const unsigned int how_to_display ;
   void turnCharacter(Character *, Ground *, unsigned int&, unsigned int&,  unsigned int&, unsigned int&, bool&);
   bool movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&, unsigned int&, unsigned int&, bool&);
   bool movementOrdinate(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&,  unsigned int&, unsigned int&, bool&);
   bool movementAbscissa(Character *, Ground *, unsigned int, unsigned int, unsigned int&, unsigned int&,  unsigned int&, unsigned int&, bool&);
 
 public:
-  Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &);
+  Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &, const unsigned int);
   ~Game();
   void run(unsigned int);
   void lifeOfCharacter();

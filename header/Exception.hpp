@@ -169,4 +169,15 @@ class InvalidTeam : std::invalid_argument
     virtual ~InvalidTeam() throw();
     virtual const char *what() const throw();
 };
+class InvalidDisplayChoice : std::invalid_argument
+{
+  private:
+    std::string message_error;
+
+  public:
+    InvalidDisplayChoice(const unsigned int);
+    virtual ~InvalidDisplayChoice() throw();
+    virtual const char *what() const throw();
+};
+
 #endif

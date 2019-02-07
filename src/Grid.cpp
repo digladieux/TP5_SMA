@@ -54,6 +54,7 @@ void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, s
         }
         catch (const ConstructorDateException &e)
         {
+            e.what() ;
             throw e;
         }
         sex = Constantes::CHARACTERS[key_character]["sex"];

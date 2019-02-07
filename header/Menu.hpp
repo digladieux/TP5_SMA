@@ -23,6 +23,9 @@ public:
   void displayTurnChoice(std::ostream &os = std::cout) const noexcept;
   unsigned int turnChoice() const noexcept;
 
+  void displayAllDisplay(std::ostream &os = std::cout) const noexcept;
+  unsigned int displayChoice() const noexcept;
+
   static void displaySex(std::ostream &, unsigned int);
   static void displayJob(std::ostream &, unsigned int);
   static void displayGroundType(std::ostream &, unsigned int);

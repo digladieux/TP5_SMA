@@ -5,9 +5,8 @@
 #include <sstream>
 Menu::Menu()
 {
-    Constantes::getAllJson() ;
+    Constantes::getAllJson();
 }
-
 
 void Menu::displayWelcome(std::ostream &os) noexcept
 {
@@ -54,8 +53,9 @@ void Menu::displayAllMap(std::ostream &os) const
     {
         os << i << " : ";
         collection_point = "collection_point" + std::to_string(i);
-        displayGroundType(os,Constantes::MAPS[collection_point]["type"]);
-        os << "\t" << "[" << Constantes::MAPS[collection_point]["x"] << "," << Constantes::MAPS[collection_point]["y"] << "]\t RESSOURCES_NUMBER : " << Constantes::MAPS[collection_point]["ressource_number"] << std::endl;
+        displayGroundType(os, Constantes::MAPS[collection_point]["type"]);
+        os << "\t"
+           << "[" << Constantes::MAPS[collection_point]["x"] << "," << Constantes::MAPS[collection_point]["y"] << "]\t RESSOURCES_NUMBER : " << Constantes::MAPS[collection_point]["ressource_number"] << std::endl;
     }
     os << "Where do you want to play ?" << std::endl;
 }
@@ -94,7 +94,7 @@ void Menu::displayAllCharacter(std::ostream &os) const
     std::string character;
     unsigned int character_number = Constantes::CHARACTERS["character_number"],
                  character_sex;
-                 
+
     system("clear");
     os << "Here you are all of our character :" << std::endl;
     for (unsigned int i = 1; i <= character_number; i++)
@@ -103,7 +103,7 @@ void Menu::displayAllCharacter(std::ostream &os) const
         character = "character" + std::to_string(i);
         character_sex = Constantes::CHARACTERS[character]["sex"];
         displaySex(os, character_sex);
-        os << "\t" << Date(Constantes::CHARACTERS[character]["day"], Constantes::CHARACTERS[character]["month"], Constantes::CHARACTERS[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tLIFE "  << Constantes::CHARACTERS[character]["life"] << "\tTEAM " << Constantes::CHARACTERS[character]["team"] << "\t";
+        os << "\t" << Date(Constantes::CHARACTERS[character]["day"], Constantes::CHARACTERS[character]["month"], Constantes::CHARACTERS[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tLIFE " << Constantes::CHARACTERS[character]["life"] << "\tTEAM " << Constantes::CHARACTERS[character]["team"] << "\t";
         if (Constantes::CHARACTERS[character]["sex"] == 0)
         {
             displayJob(os, Constantes::CHARACTERS[character]["job"]);
@@ -123,14 +123,14 @@ unsigned int Menu::configChoice() const noexcept
     do
     {
         std::cin >> config;
-    } while (config >2);
+    } while (config > 2);
     return config;
 }
 void Menu::displayAllConfig(std::ostream &os) const
 {
     system("clear");
     os << "Here you are all the config" << std::endl;
-    for (unsigned int i = 1; i <= Constantes::CONFIG_SIMU["maxConfig"] ; i++) 
+    for (unsigned int i = 1; i <= Constantes::CONFIG_SIMU["maxConfig"]; i++)
     {
         os << std::endl
            << "Config " << i << " : " << std::endl;
@@ -217,4 +217,21 @@ void Menu::displayJob(std::ostream &os, unsigned int job)
     default:
         throw InvalidJob(job);
     }
+}
+
+void Menu::displayAllDisplay(std::ostream &os) const noexcept
+{
+    os << "How do you want to display the simulation ?" << std::endl;
+    os << "0 : Print all the movements" << std::endl;
+    os << "1 : Print step by step by pressing ENTER" << std::endl;
+    os << "2 : Never print " << std::endl;
+}
+unsigned int Menu::displayChoice() const noexcept
+{
+    int choice;
+    do
+    {
+        std::cin >> choice;
+    } while ( (choice < 0) && (choice > 2) );
+    return choice;
 }

@@ -6,6 +6,7 @@
  */
 #include "../header/TownHall.hpp"
 #include "../header/Color.hpp"
+#include "../header/Ground.hpp"
 #include <iostream>
 
 /**
@@ -214,6 +215,7 @@ GROUND_TYPE TownHall::lowStock() const noexcept
     }
     return ground_type;
 }
+
 /**
  * \fn void TownHall::display(std::ostream &os) const noexcept
  * \brief Affichage d'un hotel de ville

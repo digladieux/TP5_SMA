@@ -1,4 +1,5 @@
 #include "../header/StateHavingSex.hpp"
+#include "../header/Ground.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/Grid.hpp"
 #include "../header/FemaleCharacter.hpp"

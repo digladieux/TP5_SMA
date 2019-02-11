@@ -2,7 +2,7 @@
 #define STATE_HAVING_SEX_HPP
 
 #include "State.hpp"
-
+class Ground ;
 
 
 class StateHavingSex : public State

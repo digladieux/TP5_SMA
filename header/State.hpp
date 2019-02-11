@@ -1,7 +1,6 @@
 #ifndef STATE_HPP
 #define STATE_HPP
 
-#include "../header/Ground.hpp"
 #include "../header/MaleCharacter.hpp"
 
 class Ground;

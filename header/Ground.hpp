@@ -10,7 +10,6 @@
 
 #include "MaleCharacter.hpp"
 #include "Enum.hpp"
-
 #include "StructCoordinates.hpp"
 #include <vector>
 #include <iostream>

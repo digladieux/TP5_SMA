@@ -8,7 +8,6 @@
 #ifndef GRID_HPP
 #define GRID_HPP
 
-#include "Ground.hpp"
 #include "MaleCharacter.hpp"
 #include <string>
 #include <iostream>

@@ -9,6 +9,7 @@
 #include "../header/FemaleCharacter.hpp"
 #include "../header/Exception.hpp"
 #include "../header/json.hpp"
+#include "../header/Ground.hpp"
 
 #include <fstream>
 #include <string>

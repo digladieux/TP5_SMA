@@ -13,6 +13,7 @@
 #include "../header/Game.hpp"
 #include "../header/Date.hpp"
 #include "../header/json.hpp"
+#include "../header/Report.hpp"
 #include "../header/Menu.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/Exception.hpp"
@@ -597,13 +598,22 @@ TEST_CASE("JsonMapValid?")
     }
 }
 
+TEST_CASE("Report")
+{
+    /*TODO */
+}
+
 TEST_CASE("Game")
 {
     system("clear");
     std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60), 2);
+
     game.run(100);
+    game.reset() ;
+    
+    // game.run(100);
 }
 
 

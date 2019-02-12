@@ -180,4 +180,25 @@ class InvalidDisplayChoice : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+
+class NoRessourceAvailable : std::invalid_argument
+{
+  public:
+    NoRessourceAvailable();
+    virtual ~NoRessourceAvailable() throw();
+    virtual const char *what() const throw();
+};
+
+class InvalidStrategy : std::invalid_argument
+{
+  private:
+    std::string message_error;
+
+  public:
+    InvalidStrategy(const unsigned int);
+    virtual ~InvalidStrategy() throw();
+    virtual const char *what() const throw();
+};
+
+
 #endif

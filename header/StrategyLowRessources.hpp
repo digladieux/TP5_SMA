@@ -8,6 +8,7 @@ class StrategyLowRessources : public Strategy
     public:
         StrategyLowRessources();
         ~StrategyLowRessources();
+        StrategyLowRessources *clone();
 
        bool run(Grid&, MaleCharacter *) ;
 };

@@ -1,8 +1,19 @@
 #include "../header/Date.hpp"
 #include "../header/Exception.hpp"
 
-
+/**
+ * \fn Date::Date()
+ * \brief Constructeur de la date de notre simulation
+ */
 Date::Date() : day(1), month(1), year(0) {}
+
+/**
+ * \fn Date::Date(const unsigned int &d, const unsigned int &m, const unsigned int &y)
+ * \brief Construteur de la classe Date initialisant la date par celle en parametre
+ * \param &d Jour de la date
+ * \param &m Moi de la date
+ * \param &y Annee de la date
+ */
 Date::Date(const unsigned int &d, const unsigned int &m, const unsigned int &y) : day(d), month(m), year(y)
 {
     if (!this->isDateValid())
@@ -10,22 +21,52 @@ Date::Date(const unsigned int &d, const unsigned int &m, const unsigned int &y) 
         throw ConstructorDateException(d, m, y);
     }
 }
+
+/**
+ * \fn Date::Date(const Date &date)
+ * \brief Construteur de copie de la classe Date
+ * \param &date Date a copier
+ */
 Date::Date(const Date &date) : day(date.day), month(date.month), year(date.year) {}
 
+
+/**
+ * \fn Date::getDay()
+ * \brief Getter sur le jour de la date
+ * \return day Journee de la date
+ */
 unsigned int Date::getDay() const noexcept
 {
     return day;
 }
+
+/**
+ * \fn Date::getMonth()
+ * \brief Getter sur le mois de la date
+ * \return month Mois de la date
+ */
 unsigned int Date::getMonth() const noexcept
 {
     return month;
 }
+
+/**
+ * \fn Date::getYear()
+ * \brief Getter sur l'annee de la date
+ * \return year Annee de la date
+ */
 unsigned int Date::getYear() const noexcept
 {
     return year;
 }
 
-bool Date::operator<(const Date &date) const
+
+/**
+ * \fn bool Date::operator<(const Date &date) const
+ * \brief Operateur de comparaison entre 2 dates
+ * \return Vrai si la date de gauche est plus petite, faux sinon
+ */
+bool Date::operator<(const Date &date) const  /* TODO reflechit sale encule */
 {
     if (this->getYear() < date.getYear())
     {
@@ -52,6 +93,9 @@ bool Date::operator<(const Date &date) const
         return false;
     }
 }
+
+
+
 bool Date::isDateValid() const noexcept
 {
     bool valid = true;
@@ -142,7 +186,7 @@ void Date::display(std::ostream &os) const noexcept
 {
     os << "Day " << day << ", Month " << month << ", Year " << year << std::endl;
 }
-unsigned int Date::getAge(const Date& current_date) const 
+unsigned int Date::getAge(const Date &current_date) const
 {
     unsigned int age;
     if (current_date == *this)
@@ -154,7 +198,6 @@ unsigned int Date::getAge(const Date& current_date) const
         throw CurrentDateBeforeBirthException(current_date, *this);
     }
 
-    
     else if (this->getYear() == current_date.getYear())
     {
         age = 0;

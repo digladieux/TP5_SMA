@@ -4,11 +4,11 @@
 class Report
 {
 private:
-  static unsigned int counter;
-  unsigned int id;
-  unsigned int people_number_init;
-  unsigned int death_number;
-  unsigned int birth_number;
+  static unsigned int counter;      /*! Compteur du nombre de rapport */
+  unsigned int id;                  /*! Identifiant du rapport */
+  unsigned int people_number_init;  /*! Nombre d'habitant d'une equipe */
+  unsigned int death_number;/*! Nombre de mort */
+  unsigned int birth_number;/*! Nombre de naissance */
   unsigned int level;       /*! Niveau de l'hotel de ville */
   unsigned int rock_number; /*! Nombre de pierre dans l'HdV */
   unsigned int wood_number; /*! Nombre de bois dans l'HdV */

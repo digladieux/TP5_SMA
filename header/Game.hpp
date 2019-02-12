@@ -24,6 +24,7 @@ private:
   unsigned int number_of_birth_this_turn;
   unsigned int number_of_death_this_turn;
   const unsigned int how_to_display;
+  unsigned int strategy ; /* TODO enum class */
   std::vector<unsigned int> map_choice;
   std::vector<unsigned int> character_choice;
 
@@ -35,10 +36,10 @@ private:
   void writingReportTownHall(TownHall *, unsigned int) noexcept;
 
 public:
-  Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &, const unsigned int);
+  Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &, const unsigned int, const unsigned int);
   ~Game();
   void run(unsigned int);
-  void reset() noexcept;
+  void reset(const unsigned int) noexcept;
   void lifeOfCharacter();
   bool deathOfCharacter(Character *, unsigned int, unsigned int &);
   void birthOfCharacter(Character *);
@@ -46,6 +47,8 @@ public:
   Date getTurn() const noexcept;
 
   void display(std::ostream &os = std::cout) const noexcept;
+
+  Report ** getReport() const noexcept ;
 };
 
 #endif

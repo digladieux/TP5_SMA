@@ -129,7 +129,7 @@ const Character &Character::operator=(const Character &new_character)
 }
 
 /**
- * \fun bool Character::isDead() const noexcept
+ * \fn bool Character::isDead() const noexcept
  * \brief Permet de gerer aleatoirement la mort ou non d'un personnage
  * \return Vrai si le personnage meurt, faux sinon
  */
@@ -147,16 +147,35 @@ bool Character::isDead(const Date &current_date) const noexcept
     return dead;
 }
 
+
+/**
+ * \fn bool Character::decrementCharacterLife() noexcept
+ * \brief Permet de savoir si la decrementation de la vie du personnage a bien ete faite
+ * \return Vrai si la decrementation a bien ete faite, faux sinon
+ */
 bool Character::decrementCharacterLife() noexcept
 {
+    /*TODO: verifie si il peut aller jusqu a la case car lifePerTurn*/
     character_current_life -= (int)Constantes::CONFIG_SIMU["lifePerTurn"];
     return character_current_life < 0;
 }
+
+/**
+ * \fn void Character::giveCharacterLife() noexcept
+ * \brief Remonte la vie d'un personnage
+ */
 void Character::giveCharacterLife(unsigned int life) noexcept
 {
     character_current_life = (character_current_life + life >= character_life) ? character_life : character_current_life + life;
 }
 
+
+
+/**
+ * \fn int Character::getCharacterCurrentLife() const noexcept
+ * \brief Renvoie le niveau de vie actuel de personnage
+ * \return Vie actuelle du personnage
+ */
 int Character::getCharacterCurrentLife() const noexcept
 {
     return character_current_life;

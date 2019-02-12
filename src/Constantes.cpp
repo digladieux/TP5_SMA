@@ -9,6 +9,11 @@ json Constantes::CONFIG_SIMU = R"({})"_json;
 json Constantes::CHARACTERS = R"({})"_json;
 json Constantes::MAPS = R"({})"_json;
 
+
+/**
+ * \fn void Constantes::getAllJson()
+ * \brief Permet de recuperer toutes les informations de tous les fichiers json
+ */
 void Constantes::getAllJson()
 {
     std::string file_name_map = "./MAPS/Maps.json";
@@ -38,6 +43,12 @@ void Constantes::getAllJson()
 }
 
 
+/**
+ * \fn void Constantes::displayConfiguration(unsigned int config_number, std::ostream &os)
+ * \brief Permet de gerer aleatoirement la mort ou non d'un personnage
+ * \param config_number Numero de la configuration souhaitee
+ * \param &os Flux sur lequel on envoie l'affichage
+ */
 void Constantes::displayConfiguration(unsigned int config_number, std::ostream &os)
 {
     json config;
@@ -50,6 +61,13 @@ void Constantes::displayConfiguration(unsigned int config_number, std::ostream &
     os << std::endl;
 }
 
+
+/**
+ * \fn void Constantes::displayConfiguration(unsigned int config_number, std::ostream &os)
+ * \brief Permet de gerer aleatoirement la mort ou non d'un personnage
+ * \param config_number Numero de la configuration souhaitee
+ * \param &os Flux sur lequel on envoie l'affichage
+ */
 void Constantes::setConfiguration(unsigned int config_number) 
 {
     if ((config_number <= 0) || (config_number > CONFIG_SIMU["maxConfig"]))

@@ -199,3 +199,27 @@ const char *InvalidDisplayChoice::what() const throw()
 {
     return message_error.c_str();
 }
+
+NoRessourceAvailable::NoRessourceAvailable() : std::invalid_argument("")
+{
+        std::cerr << what() << std::endl;
+
+}
+NoRessourceAvailable::~NoRessourceAvailable() throw() {}
+
+const char *NoRessourceAvailable::what() const throw()
+{
+    return "NO_RESSOURCE_AVAILABLE" ;
+}
+
+InvalidStrategy::InvalidStrategy(const unsigned int index_out) : std::invalid_argument(""), message_error("MAXIMUM_STRATEGY_INDEX_EXCEPTED : 2\nHERE : " + std::to_string(index_out)) 
+{
+        std::cerr << what() << std::endl;
+
+}
+InvalidStrategy::~InvalidStrategy() throw() {}
+
+const char *InvalidStrategy::what() const throw()
+{
+    return message_error.c_str();
+}

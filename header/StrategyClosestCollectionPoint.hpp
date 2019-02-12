@@ -8,6 +8,7 @@ class StrategyClosestCollectionPoint : public Strategy
     public:
         StrategyClosestCollectionPoint();
         ~StrategyClosestCollectionPoint();
+        StrategyClosestCollectionPoint *clone();
 
        bool run(Grid&, MaleCharacter *) ;
 };

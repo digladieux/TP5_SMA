@@ -600,22 +600,71 @@ TEST_CASE("JsonMapValid?")
 
 TEST_CASE("Report")
 {
-    /*TODO */
+    Report *report = new Report();
+
+    CHECK(0 == report->getRockNumber());
+    CHECK(0 == report->getFishNumber());
+    CHECK(0 == report->getFoodNumber());
+    CHECK(0 == report->getWoodNumber());
+
+    CHECK(0 == report->getNumberOfDeath());
+    CHECK(0 == report->getNumberOfBirth());
+    CHECK(0 == report->getLevel());
+    CHECK(0 == report->getTeam());
+    CHECK(0 == report->getNumberOfCharacter());
+
+    report->setRockNumber(4);
+    report->setFishNumber(4);
+    report->setFoodNumber(4);
+    report->setWoodNumber(4);
+
+    report->setLevel(5);
+    report->setTeam(1);
+    report->setNumberOfCharacter(100);
+    report->incrementNumberOfBirth();
+    report->incrementNumberOfDeath();
+
+    CHECK(4 == report->getRockNumber());
+    CHECK(4 == report->getFishNumber());
+    CHECK(4 == report->getFoodNumber());
+    CHECK(4 == report->getWoodNumber());
+
+    CHECK(5 == report->getLevel());
+    CHECK(1 == report->getTeam());
+    CHECK(100 == report->getNumberOfCharacter());
+    CHECK(1 == report->getNumberOfDeath());
+    CHECK(1 == report->getNumberOfBirth());
+
+    Report *report_copy = new Report(*report);
+    CHECK(4 == report_copy->getRockNumber());
+    CHECK(4 == report_copy->getFishNumber());
+    CHECK(4 == report_copy->getFoodNumber());
+    CHECK(4 == report_copy->getWoodNumber());
+
+    CHECK(5 == report_copy->getLevel());
+    CHECK(1 == report_copy->getTeam());
+    CHECK(100 == report_copy->getNumberOfCharacter());
+    CHECK(1 == report_copy->getNumberOfDeath());
+    CHECK(1 == report_copy->getNumberOfBirth());
+
+    delete report;
 }
 
 TEST_CASE("Game")
 {
-    system("clear");
-    std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    Game game(vector_map, vector_character, 1, Date(1, 1, 60), 2);
-
-    game.run(100);
-    game.reset() ;
-    
-    // game.run(100);
+    // system("clear");
+    // std::vector<unsigned int> vector_character = {6};
+    // std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    // std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    // Game game(vector_map, vector_character, 1, Date(1, 1, 60), 1, 1);
+    // game.run(1000);
+    // game.reset(1) ;
+    // Report ** report = game.getReport() ;
+    // report[0] -> display() ;
+    // report[1] -> display() ;
+    // // game.run(100);
+    /* TODO : si toute une ville meurt erreur ? */
 }
-
 
 // TEST_CASE("Menu")
 // {
@@ -630,13 +679,13 @@ TEST_CASE("Game")
 
 //     menu.displayAllConfig();
 //     unsigned config_choice = menu.configChoice();
- 
+
 //     menu.displayTurnChoice();
-//     unsigned turn_choice = menu.turnChoice(); 
- 
+//     unsigned turn_choice = menu.turnChoice();
+
 //     menu.displayAllDisplay();
-//     unsigned display_choice = menu.displayChoice(); 
- 
+//     unsigned display_choice = menu.displayChoice();
+
 //     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60), display_choice);
 //     game.run(turn_choice);
 // }

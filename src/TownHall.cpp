@@ -197,21 +197,21 @@ bool TownHall::removeFishNumber(const int fish_nb) noexcept
 GROUND_TYPE TownHall::lowStock() const noexcept
 {
     GROUND_TYPE ground_type;
-    if ((rock_number <= wood_number) && (rock_number <= fish_number) && (rock_number <= food_number))
-    {
-        ground_type = GROUND_TYPE::QUARRY;
-    }
-    else if ((wood_number <= rock_number) && (wood_number <= fish_number) && (wood_number <= food_number))
-    {
-        ground_type = GROUND_TYPE::FOREST;
-    }
-    else if ((fish_number <= wood_number) && (fish_number <= rock_number) && (fish_number <= food_number))
+    if ((fish_number <= wood_number) && (fish_number <= rock_number) && (fish_number <= food_number))
     {
         ground_type = GROUND_TYPE::LAKE;
     }
-    else
+    else if ((food_number <= rock_number) && (food_number <= fish_number) && (food_number <= wood_number))
     {
         ground_type = GROUND_TYPE::FARM;
+    }
+    else if ((rock_number <= wood_number) && (rock_number <= fish_number) && (rock_number <= food_number))
+    {
+        ground_type = GROUND_TYPE::QUARRY;
+    }
+    else
+    {
+        ground_type = GROUND_TYPE::FOREST;
     }
     return ground_type;
 }

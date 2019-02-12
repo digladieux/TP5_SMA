@@ -18,7 +18,7 @@
 #include <limits>
 using json = nlohmann::json;
 
-Game::Game(std::vector<unsigned int> &vector_map, std::vector<unsigned int> &vector_character, unsigned int config_choice, const Date &date, const unsigned int display_choice) : map(new Grid(vector_map, vector_character)), turn(date), number_of_birth_this_turn(0), number_of_death_this_turn(0), how_to_display(display_choice), map_choice(vector_map), character_choice(vector_character)
+Game::Game(std::vector<unsigned int> &vector_map, std::vector<unsigned int> &vector_character, unsigned int config_choice, const Date &date, const unsigned int display_choice, const unsigned int strategy_choice) : map(new Grid(vector_map, vector_character, strategy_choice)), turn(date), number_of_birth_this_turn(0), number_of_death_this_turn(0), how_to_display(display_choice), strategy(strategy_choice), map_choice(vector_map), character_choice(vector_character)
 {
 
     report = new Report *[2]();
@@ -39,11 +39,12 @@ Game::~Game()
     delete report;
 }
 
-void Game::reset() noexcept
+void Game::reset(const unsigned int new_strategy) noexcept
 {
     turn = Date(1, 1, 60); /* CONSTANTE */
     delete map;
-    map = new Grid(map_choice, character_choice);
+    strategy = new_strategy;
+    map = new Grid(map_choice, character_choice, strategy);
 }
 void Game::run(unsigned int round)
 {
@@ -76,23 +77,19 @@ void Game::run(unsigned int round)
         }
     }
     writingReport();
-    system("clear");
-    std::cout << "REPORT" << std::endl;
-    report[0]->display();
-    report[1]->display();
 }
 void Game::writingReport() noexcept
 {
     TownHall *townhall = (TownHall *)map->getGroundGrid(0, 0);
-    writingReportTownHall(townhall, 0) ;
+    writingReportTownHall(townhall, 0);
     townhall = (TownHall *)map->getGroundGrid(map->getRowNumber() - 1, map->getColumnNumber() - 1);
-    writingReportTownHall(townhall, 1) ;
+    writingReportTownHall(townhall, 1);
 }
 
-void Game::writingReportTownHall(TownHall * townhall, unsigned int i) noexcept
+void Game::writingReportTownHall(TownHall *townhall, unsigned int i) noexcept
 {
     report[i]->setLevel(townhall->getLevel());
-    report[i]->setTeam(townhall->getGroundId());
+    (townhall->getGroundId() == 0) ? report[i]->setTeam(0) : report[i]->setTeam(1);
     report[i]->setRockNumber(townhall->getRockNumber());
     report[i]->setWoodNumber(townhall->getWoodNumber());
     report[i]->setFishNumber(townhall->getFishNumber());
@@ -195,7 +192,7 @@ void Game::birthOfCharacter(Character *character)
     {
         if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
         {
-            new_character = new MaleCharacter(turn, character->getCharacterTeam(), map->getColumnNumber());
+            new_character = new MaleCharacter(turn, character->getCharacterTeam(), map->getColumnNumber(), strategy);
         }
         else
         {
@@ -222,4 +219,9 @@ void Game::display(std::ostream &os) const noexcept
 Date Game::getTurn() const noexcept
 {
     return turn;
+}
+
+Report **Game::getReport() const noexcept
+{
+    return report;
 }

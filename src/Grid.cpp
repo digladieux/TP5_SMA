@@ -16,19 +16,19 @@
 #include <iostream>
 using json = nlohmann::json;
 
-Grid::Grid(std::vector<unsigned int>& choice_map, std::vector<unsigned int>& choice_character) : ground_with_character(0)
+Grid::Grid(std::vector<unsigned int>& choice_map, std::vector<unsigned int>& choice_character, const unsigned int strategy) : ground_with_character(0)
 {
     std::vector<Character *> vector_character;
     Ground::resetGroundNumber();
 
     /*! CHARACTER */
-    initialisationCharacter(choice_character, vector_character);
+    initialisationCharacter(choice_character, vector_character, strategy);
     /*! MAP */
 
     initialisationMap(choice_map, vector_character);
 }
 
-void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character)
+void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character, const unsigned int strategy)
 {
     try
     {
@@ -62,12 +62,11 @@ void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, s
         switch (sex)
         {
         case 0:
-            character = new MaleCharacter(Constantes::CHARACTERS[key_character]["job"], date_of_birth, (int)Constantes::CHARACTERS[key_character]["team"], column_number);
-           
+            character = new MaleCharacter(Constantes::CHARACTERS[key_character]["job"], date_of_birth, (int)Constantes::CHARACTERS[key_character]["team"], column_number, Constantes::CHARACTERS[key_character]["life"], strategy);
             break;
 
         case 1:
-            character = new FemaleCharacter(date_of_birth, (unsigned int)Constantes::CHARACTERS[key_character]["baby"], column_number, (unsigned int)Constantes::CHARACTERS[key_character]["team"]);
+            character = new FemaleCharacter(date_of_birth, (unsigned int)Constantes::CHARACTERS[key_character]["baby"], column_number, (unsigned int)Constantes::CHARACTERS[key_character]["team"], Constantes::CHARACTERS[key_character]["life"]);
             break;
 
         default:

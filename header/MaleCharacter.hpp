@@ -38,8 +38,8 @@ class MaleCharacter : public Character
     unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
 
   public:
-    MaleCharacter(const Date &, unsigned int team = 0, unsigned column_number = 0);
-    MaleCharacter(JOB, const Date &,  unsigned int team = 0, unsigned column_number = 0, unsigned int life = 200);
+    MaleCharacter(const Date &, unsigned int team = 0, unsigned column_number = 0, const unsigned int strategy = 0);
+    MaleCharacter(JOB, const Date &,  unsigned int team = 0, unsigned column_number = 0, unsigned int life = 200, const unsigned int strategy = 0);
     MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 
@@ -60,6 +60,7 @@ class MaleCharacter : public Character
     void setSpeciality(JOB job) noexcept;
     const MaleCharacter &operator=(const MaleCharacter &new_character);
     static JOB jobIdToJob(unsigned int);
+    static Strategy * strategyIdToStrategy(const unsigned int) ;
     void executeState(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const;
 
 

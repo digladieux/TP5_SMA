@@ -10,24 +10,25 @@
 #include "../header/Exception.hpp"
 #include "../header/StructCoordinates.hpp"
 #include "../header/StrategyJob.hpp"
+#include "../header/StrategyClosestCollectionPoint.hpp"
+#include "../header/StrategyLowRessources.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
 #include "../header/StateGoingCollectionPoint.hpp"
 
-MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life),
-                                                               direction(character.direction),
-                                                               character_current_state(character.character_current_state->clone()),
+MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_current_state(character.character_current_state->clone()),
                                                                type_ressource_transported(character.getTypeRessourceTransported()),
                                                                speciality(character.getSpeciality()),
-                                                               character_strategy(new StrategyJob()),
+                                                               character_strategy(character.character_strategy->clone()), 
                                                                time_at_work(character.getTimeAtWork())
 {
+
 }
 /**
  * \fn MaleCharacter::MaleCharacter()
  * \brief Constructeur par default de la classe Male Character
  */
-MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), character_strategy(new StrategyJob()), time_at_work(0)
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number, const unsigned int strategy) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
 {
     if (team != 0)
     {
@@ -36,6 +37,7 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int co
     }
     int id_job = (genrand_int31() % 4) + 1;
     speciality = jobIdToJob(id_job);
+    character_strategy = strategyIdToStrategy(strategy);
 }
 
 /**
@@ -45,13 +47,14 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int co
  * \param gender Sexe du personnage
  * \param age Age du personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), character_strategy(new StrategyJob()), time_at_work(0)
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life, const unsigned int strategy) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
 {
     if (team != 0)
     {
         direction.setAbcissa(column_number - 1);
         direction.setOrdinate(column_number - 1);
     }
+    character_strategy = strategyIdToStrategy(strategy);
 }
 
 /**
@@ -64,6 +67,26 @@ MaleCharacter::~MaleCharacter()
     delete character_current_state;
 }
 
+Strategy *MaleCharacter::strategyIdToStrategy(const unsigned int strategy)
+{
+    Strategy *new_strategy = nullptr;
+    switch (strategy)
+    {
+    case 0:
+        new_strategy = new StrategyJob();
+        break;
+    case 1:
+        new_strategy = new StrategyLowRessources();
+        break;
+    case 2:
+        new_strategy = new StrategyClosestCollectionPoint();
+        break;
+    default:
+        throw new InvalidStrategy(strategy);
+        break;
+    }
+    return new_strategy;
+}
 /**
  * \fn JOB MaleCharacter::getSpeciality() const noexcept
  * \brief Getteur sur la specialite du personnage masculin
@@ -232,7 +255,7 @@ bool MaleCharacter::runStrategy(Grid &map)
 {
     return character_strategy->run(map, this);
 }
-void MaleCharacter::executeState(Game &game, Grid & grid, Ground * ground, MaleCharacter * character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
+void MaleCharacter::executeState(Game &game, Grid &grid, Ground *ground, MaleCharacter *character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
 {
     character_current_state->run(game, grid, ground, character, index_ground_with_character, index_character, number_ground_with_character, number_character_ground, is_ground_deleted);
 }

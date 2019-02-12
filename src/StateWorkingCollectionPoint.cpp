@@ -23,11 +23,7 @@ void StateWorkingCollectionPoint::run(Game&, Grid& map, Ground *ground, MaleChar
     }
 
     character->incrementTimeAtWork();
-    if (character->getTimeAtWork() == 1)
-    {
-        character->setTypeRessourceTransported(ground->getGroundType());
-    }
-    else if (character->getTimeAtWork() > work_time)
+    if (character->getTimeAtWork() > work_time)
     {
         character->resetTimeAtWork();
         character->setDirection(character->getCharacterTeam(), map.getColumnNumber());

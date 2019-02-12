@@ -8,7 +8,7 @@
 #ifndef TOWN_HALL_HPP
 #define TOWN_HALL_HPP
 
-class Ground ;
+#include "Ground.hpp"
 /**
  * \class TownHall
  * \brief Hotel de Ville (ou HdV) qui represente notre ville

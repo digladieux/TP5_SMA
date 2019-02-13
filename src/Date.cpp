@@ -3,7 +3,7 @@
 
 /**
  * \fn Date::Date()
- * \brief Constructeur de la date de notre simulation
+ * \brief Constructeur par default de la date 
  */
 Date::Date() : day(1), month(1), year(0) {}
 
@@ -33,7 +33,7 @@ Date::Date(const Date &date) : day(date.day), month(date.month), year(date.year)
 /**
  * \fn Date::getDay()
  * \brief Getter sur le jour de la date
- * \return day Journee de la date
+ * \return Journee de la date
  */
 unsigned int Date::getDay() const noexcept
 {
@@ -66,36 +66,42 @@ unsigned int Date::getYear() const noexcept
  * \brief Operateur de comparaison entre 2 dates
  * \return Vrai si la date de gauche est plus petite, faux sinon
  */
-bool Date::operator<(const Date &date) const  /* TODO reflechit sale encule */
+bool Date::operator<(const Date &date) const 
 {
+    bool current_date_inferior ;
     if (this->getYear() < date.getYear())
     {
-        return true;
+        current_date_inferior = true;
     }
     else if (this->getYear() > date.getYear())
     {
-        return false;
+        current_date_inferior = false;
     }
     else if (this->getMonth() < date.getMonth())
     {
-        return true;
+        current_date_inferior = true;
     }
     else if (this->getMonth() > date.getMonth())
     {
-        return false;
+        current_date_inferior = false;
     }
     else if (this->getDay() < date.getDay())
     {
-        return true;
+        current_date_inferior = true;
     }
     else
     {
-        return false;
+        current_date_inferior = false;
     }
+    return current_date_inferior ;
 }
 
 
-
+/**
+ * \fn bool Date::isDateValid() const noexcept
+ * \brief Verifie que la date est valide
+ * \return True si la date est valide, faux sinon
+ */
 bool Date::isDateValid() const noexcept
 {
     bool valid = true;
@@ -132,6 +138,11 @@ bool Date::isDateValid() const noexcept
     return valid;
 }
 
+/**
+ * \fn Date &Date::operator=(const Date &date) noexcept
+ * \brief Surcharge de l'operateur d'affectation
+ * \param &date Date que l'on veut copier
+ */
 Date &Date::operator=(const Date &date) noexcept
 {
     if (this != &date)
@@ -142,6 +153,12 @@ Date &Date::operator=(const Date &date) noexcept
     }
     return *this;
 }
+
+/**
+ * \fn bool Date::operator==(const Date &date) const noexcept
+ * \brief Surchage de l'operateur de comparaison
+ * \param &date Date que l'on veut compararer
+ */
 bool Date::operator==(const Date &date) const noexcept
 {
     bool valid = false;
@@ -156,6 +173,11 @@ bool Date::operator==(const Date &date) const noexcept
     }
     return valid;
 }
+
+/**
+ * \fn Date Date::operator++()
+ * \brief Surchage de l'operateur de pre-incrementation
+ */
 Date Date::operator++()
 {
     Date date = *this;
@@ -178,14 +200,32 @@ Date Date::operator++()
     return *this;
 }
 
+/**
+ * \fn std::string Date::to_string() const noexcept
+ * \brief Convertit la date actuelle en string
+ * \return La Date actuelle en chaine de charactere
+ */
 std::string Date::to_string() const noexcept
 {
     return "Day " + std::to_string(day) + ", Month " + std::to_string(month) + ", Year : " + std::to_string(year) + "\n";
 }
+
+/**
+ * \fn void Date::display(std::ostream &os) const noexcept
+ * \brief Affichage la date
+ * \param &os Flux dans lequel on veut afficher la date
+ */
 void Date::display(std::ostream &os) const noexcept
 {
     os << "Day " << day << ", Month " << month << ", Year " << year << std::endl;
 }
+
+/**
+ * \fn unsigned int Date::getAge(const Date &current_date) const
+ * \brief Calcul le temps passe entre 2 dates (en annee)
+ * \param &current_date Date actuelle
+ * \return Nombre d'annee passe en 2 date
+ */
 unsigned int Date::getAge(const Date &current_date) const
 {
     unsigned int age;

@@ -45,7 +45,7 @@ void Constantes::getAllJson()
 
 /**
  * \fn void Constantes::displayConfiguration(unsigned int config_number, std::ostream &os)
- * \brief Permet de gerer aleatoirement la mort ou non d'un personnage
+ * \brief Affichage d'une configuration possible de la simulation
  * \param config_number Numero de la configuration souhaitee
  * \param &os Flux sur lequel on envoie l'affichage
  */
@@ -63,8 +63,8 @@ void Constantes::displayConfiguration(unsigned int config_number, std::ostream &
 
 
 /**
- * \fn void Constantes::displayConfiguration(unsigned int config_number, std::ostream &os)
- * \brief Permet de gerer aleatoirement la mort ou non d'un personnage
+ * \fn void Constantes::setConfiguration(unsigned int config_number) 
+ * \brief Definir la configuration valable sur toute la simulation
  * \param config_number Numero de la configuration souhaitee
  * \param &os Flux sur lequel on envoie l'affichage
  */

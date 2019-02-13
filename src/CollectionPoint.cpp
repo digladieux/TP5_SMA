@@ -10,16 +10,29 @@
 #include "../header/mt19937ar.h"
 #include <iostream>
 #include <exception>
-
 /**
- * \fn CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb)
- * \brief Constructeur de la classe Collection Point
+ * \fn CollectionPoint::CollectionPoint(const Ground& ground, GROUND_TYPE type, const unsigned int ressources_nb )
+ * \brief Constructeur de copie de la classe CollectionPoint avec sa classe mere en parametre
+ * \param ground Copie du terrain que l'on veut faire
  * \param type Type de terrain (Carriere, Foret, etc..)
  * \param ressources_nb Nombre de ressource sur ce terrain
  */
 CollectionPoint::CollectionPoint(const Ground& ground, GROUND_TYPE type, const unsigned int ressources_nb ) : Ground(ground, type), ressources_number(ressources_nb){}
+/**
+ * \fn CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb)
+ * \brief Constructeur de la classe CollectionPoint
+ * \param type Type de terrain (Carriere, Foret, etc..)
+ * \param ressources_nb Nombre de ressource sur ce terrain
+ */
 CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb) : Ground(type), ressources_number(ressources_nb) {}
 
+/**
+ * \fn CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb, unsigned int id, std::vector<Character *> vector)
+ * \brief Constructeur de la classe CollectionPoint avec ajout de personnage 
+ * \param type Type de terrain (Carriere, Foret, etc..)
+ * \param ressources_nb Nombre de ressource sur ce terrain
+ * \param vector Vecteur de Personnage
+ */
 CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb, unsigned int id, std::vector<Character *> vector) : Ground(type, id, vector), ressources_number(ressources_nb) {}
 /**
  * \fn CollectionPoint::~CollectionPoint()
@@ -29,7 +42,7 @@ CollectionPoint::~CollectionPoint() {}
 /**
  * \fn unsigned int CollectionPoint::getRessourcesNumber() const noexcept
  * \brief Getteur sur le nombre de ressource
- * \return unsigned int
+ * \return Nombre de ressource encore disponible sur le point de collecte
  */
 unsigned int CollectionPoint::getRessourcesNumber() const noexcept
 {
@@ -39,7 +52,7 @@ unsigned int CollectionPoint::getRessourcesNumber() const noexcept
 /**
  * \fn void CollectionPoint::setRessources(const unsigned int new_ressources_number)
  * \brief Setteur sur le nombre de ressource
- * \new_ressources_number Nouveau nombre de ressource
+ * \param Nouveau nombre de ressource
  */
 void CollectionPoint::setRessources(const unsigned int new_ressources_number)
 {
@@ -73,7 +86,7 @@ bool CollectionPoint::ressourcesNumberExtracted(const unsigned int ressources_nu
 void CollectionPoint::evolutionRessources() noexcept
 {
     double evolution = genrand_real1();
-    double ressources_nb = genrand_int31() %(int) Constantes::CONFIG_SIMU["maxRessourceEvolution"];
+    double ressources_nb = genrand_int31() %(int) Constantes::CONFIG_SIMU["maxRessourceEvolution"]; /* TODO : Evolution des ressources */
 
     if (evolution < (int) Constantes::CONFIG_SIMU["chanceEvolution"])
     {

@@ -9,17 +9,24 @@
 #include "../header/Exception.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
-unsigned int Character::character_number = 0;
+unsigned int Character::character_number = 0; /* TODO : comment var static */
 
 /**
- * \fn Character::Character()
- * \brief Constructeur par default d'un Personnage
- *
+ * \fn Character::Character(const Character &character) 
+ * \brief Constructeur de copie de la classe Character
+ * \param character Personnage que l'on veut copier
  */
 Character::Character(const Character &character) : character_id(character.character_id), character_date_of_birth(character.character_date_of_birth), character_team(character.character_team), character_gender(character.character_gender), character_life(character.character_life), character_current_life(character.character_current_life)
 {
     character_number++;
 }
+
+/**
+ * \fn Character::Character(const Date &age, unsigned int team)
+ * \brief Constructeur de la classe Character
+ * \param &age Date de naissance du personnage
+ * \param team Equipe du personnage
+ */
 Character::Character(const Date &age, unsigned int team) : character_id(character_number), character_date_of_birth(age), character_team(team)
 {
     unsigned int life_min = Constantes::CONFIG_SIMU["lifeMin"] ;
@@ -36,23 +43,37 @@ Character::Character(const Date &age, unsigned int team) : character_id(characte
         character_gender = SEX::FEMALE;
     }
 }
+
+/**
+ * \fn Character::Character(unsigned int id, const Date &age, int team, SEX gender, unsigned int life, unsigned int current_life)
+ * \brief Constructeur de la classe Character 
+ * \param id Identifiant unique du personnage
+ * \param &age Date de naissance du personnage
+ * \param gender Sexe du personnage
+ * \param life Vie maximale que le personnage peut avoir
+ * \param current_life Vie actuelle du personnange
+ */
 Character::Character(unsigned int id, const Date &age, int team, SEX gender, unsigned int life, unsigned int current_life) : character_id(id), character_date_of_birth(age), character_team(team), character_gender(gender), character_life(life), character_current_life(current_life)
 {
     character_number++;
 }
 /**
- * \fn Character::Character(SEX gender, const unsigned int age)
- * \brief Constructeur de la classe Character
+ * \fn Character::Character(SEX gender, const Date &age, unsigned int team, unsigned int life)
+ * \brief Constructeur de la classe Character 
  * \param gender Sexe du personnage
- * \param age Age du personnage
+ * \param &age Date de naissance du personnage
+ * \param team Equipe du personnage
+ * \param life Vie maximale que le personnage peut avoir
  */
 Character::Character(SEX gender, const Date &age, unsigned int team, unsigned int life) : character_id(character_number), character_date_of_birth(age), character_team(team), character_gender(gender), character_life(life), character_current_life(life)
 {
     character_number++;
 }
 
+
 /**
- * \brief Destructeur de la classe Character
+ * \fn Character::~Character()
+ * \brief Destructeur du personnage
  */
 Character::~Character()
 {
@@ -71,7 +92,7 @@ unsigned int Character::getCharacterId() const noexcept
 /**
  * \fn unsigned int Character::getDateOfBirth() const noexcept
  * \brief Getteur sur l'age du personnage
- * \return Age du personnage
+ * \return Date de naissance du personnage
  */
 Date Character::getDateOfBirth() const noexcept
 {
@@ -98,6 +119,12 @@ unsigned int Character::getCharacterTeam() const noexcept
     return character_team;
 }
 
+/**
+ * \fn unsigned int Character::getCharacterAge(const Date &current_date) const
+ * \brief Getter sur l'age du personnage
+ * \param &current_date Date du jour courant
+ * \return Age du personnage (en annee)
+ */
 unsigned int Character::getCharacterAge(const Date &current_date) const
 {
     return character_date_of_birth.getAge(current_date);
@@ -163,6 +190,7 @@ bool Character::decrementCharacterLife() noexcept
 /**
  * \fn void Character::giveCharacterLife() noexcept
  * \brief Remonte la vie d'un personnage
+ * \param Nombre de point de vie que l'on veut redonner au personnage
  */
 void Character::giveCharacterLife(unsigned int life) noexcept
 {

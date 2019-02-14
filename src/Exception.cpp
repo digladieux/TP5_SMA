@@ -286,91 +286,196 @@ const char *InvalidDirection::what() const throw()
     return message_error.c_str();
 }
 
-
+/**
+ * \fn void InvalidDirection::setValueDirectionException(const unsigned int x, const unsigned int y, const unsigned int row_number, const unsigned int column_number)
+ * \brief Setteur sur les valeurs de direction
+ * \param x Point de Coordonne x ou le personnage doit aller
+ * \param y Point de Coordonne y ou le personnage doit aller
+ * \param row_number Le x Maximum que le personnage peut aller
+ * \param column_number Le y Maximum que le personnage peut aller
+ */
 void InvalidDirection::setValueDirectionException(const unsigned int x, const unsigned int y, const unsigned int row_number, const unsigned int column_number)
 {
     message_error = "MAP : [" + std::to_string(row_number) + "][" + std::to_string(column_number) + "]\nHERE_DIRECTION : [" + std::to_string(x) + "][" + std::to_string(y) + "]\n";
 }
 
+/**
+ * \fn InvalidNumberOfCharacter::InvalidNumberOfCharacter(const unsigned int index_out, const unsigned int index_max) 
+ * \brief Constructeur de la classe InvalidNumberOfCharacter
+ * \param index_out Indice hors des bornes 
+ * \param index_max Indice Maximale
+ */
 InvalidNumberOfCharacter::InvalidNumberOfCharacter(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) 
 {
         std::cerr << what() << std::endl;
 }
+
+/**
+ * \fn InvalidNumberOfCharacter::~InvalidNumberOfCharacter() throw() 
+ * \brief Desctructeur de la classe InvalidNumberOfCharacter
+ */
 InvalidNumberOfCharacter::~InvalidNumberOfCharacter() throw() {}
 
+/**
+ * \fn const char *InvalidNumberOfCharacter::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
 const char *InvalidNumberOfCharacter::what() const throw()
 {
     return message_error.c_str();
 }
 
-
+/**
+ * \fn InvalidNumberOfMap::InvalidNumberOfMap(const unsigned int index_out, const unsigned int index_max) 
+ * \brief Constructeur de la classe InvalidNumberOfMap
+ * \param index_out Indice hors des bornes 
+ * \param index_max Indice Maximale
+ */
 InvalidNumberOfMap::InvalidNumberOfMap(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) 
 {
         std::cerr << what() << std::endl;
 }
+
+/**
+ * \fn InvalidNumberOfMap::~InvalidNumberOfMap() throw() 
+ * \brief Desctructeur de la classe InvalidNumberOfMap
+ */
 InvalidNumberOfMap::~InvalidNumberOfMap() throw() {}
 
+/**
+ * \fn const char *InvalidNumberOfMap::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
 const char *InvalidNumberOfMap::what() const throw()
 {
     return message_error.c_str();
 }
 
-
+/**
+ * \fn InvalidKey::InvalidKey(const unsigned int index_out, const unsigned int index_max) 
+ * \brief Constructeur de la classe InvalidKey
+ * \param index_out Indice hors des bornes 
+ * \param index_max Indice Maximale
+ */
 InvalidKey::InvalidKey(const unsigned int index_out, const unsigned int index_max) : std::invalid_argument(""), message_error("INVALID_KEY_MAXIMUM_EXPECTED : " + std::to_string(index_max) + "\nHERE : " + std::to_string(index_out)) 
 {
         std::cerr << what() << std::endl;
 
 }
+
+/**
+ * \fn InvalidKey::~InvalidKey() throw() 
+ * \brief Desctructeur de la classe InvalidKey
+ */
 InvalidKey::~InvalidKey() throw() {}
 
+/**
+ * \fn const char *InvalidKey::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
 const char *InvalidKey::what() const throw()
 {
     return message_error.c_str();
 }
 
+/**
+ * \fn InvalidTeam::InvalidTeam(const unsigned int index_out, const unsigned int index_max) 
+ * \brief Constructeur de la classe InvalidTeam
+ * \param index_out Indice hors des bornes 
+ */
 InvalidTeam::InvalidTeam(const unsigned int index_out) : std::invalid_argument(""), message_error("MAXIMUM_TEAM_EXPECTED : 1\nHERE : " + std::to_string(index_out)) 
 {
         std::cerr << what() << std::endl;
 
 }
+
+/**
+ * \fn InvalidTeam::~InvalidTeam() throw() 
+ * \brief Desctructeur de la classe InvalidTeam
+ */
 InvalidTeam::~InvalidTeam() throw() {}
 
+/**
+ * \fn const char *InvalidTeam::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
 const char *InvalidTeam::what() const throw()
 {
     return message_error.c_str();
 }
 
+/**
+ * \fn InvalidDisplayChoice::InvalidDisplayChoice(const unsigned int index_out) 
+ * \brief Constructeur de la classe InvalidDisplayChoice
+ * \param index_out Indice hors des bornes 
+ */
 InvalidDisplayChoice::InvalidDisplayChoice(const unsigned int index_out) : std::invalid_argument(""), message_error("MAXIMUM_DISPLAY_CHOICE_EXPECTED : 2\nHERE : " + std::to_string(index_out)) 
 {
         std::cerr << what() << std::endl;
 
 }
+
+/**
+ * \fn InvalidDisplayChoice::~InvalidDisplayChoice() throw() 
+ * \brief Desctructeur de la classe InvalidDisplayChoice
+ */
 InvalidDisplayChoice::~InvalidDisplayChoice() throw() {}
 
+/**
+ * \fn const char *InvalidDisplayChoice::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
 const char *InvalidDisplayChoice::what() const throw()
 {
     return message_error.c_str();
 }
 
+/**
+ * \fn NoRessourceAvailable::NoRessourceAvailable() 
+ * \brief Constructeur de la classe NoRessourceAvailable
+ */
 NoRessourceAvailable::NoRessourceAvailable() : std::invalid_argument("")
 {
         std::cerr << what() << std::endl;
 
 }
+
+/**
+ * \fn NoRessourceAvailable::~NoRessourceAvailable() throw() 
+ * \brief Desctructeur de la classe NoRessourceAvailable
+ */
 NoRessourceAvailable::~NoRessourceAvailable() throw() {}
 
+/**
+ * \fn const char *NoRessourceAvailable::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
 const char *NoRessourceAvailable::what() const throw()
 {
     return "NO_RESSOURCE_AVAILABLE" ;
 }
 
+/**
+ * \fn InvalidStrategy::InvalidStrategy(const unsigned int index_out) 
+ * \brief Constructeur de la classe InvalidStrategy
+ * \param index_out Indice hors des bornes 
+ */
 InvalidStrategy::InvalidStrategy(const unsigned int index_out) : std::invalid_argument(""), message_error("MAXIMUM_STRATEGY_INDEX_EXCEPTED : 2\nHERE : " + std::to_string(index_out)) 
 {
         std::cerr << what() << std::endl;
 
 }
+
+/**
+ * \fn InvalidStrategy::~InvalidStrategy() throw() 
+ * \brief Desctructeur de la classe InvalidStrategy
+ */
 InvalidStrategy::~InvalidStrategy() throw() {}
 
+/**
+ * \fn const char *InvalidStrategy::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
 const char *InvalidStrategy::what() const throw()
 {
     return message_error.c_str();

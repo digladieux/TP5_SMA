@@ -10,10 +10,18 @@
 #include "../header/Constantes.hpp"
 #include "../header/Exception.hpp"
 
-FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.character_id, character.character_date_of_birth, character.character_team, character.character_gender, character.character_life, character.character_current_life), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
 /**
- * \fn FemaleCharacter::FemaleCharacter()
- * \brief Constructeur par default de la classe Female Character
+ * \fn FemaleCharacter::FemaleCharacter(const FemaleCharacter &character)
+ * \brief Constructeur de copie de la classe Female Character
+ * \param &character Personnage Feminin que l'on veut copie
+ */
+FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.character_id, character.character_date_of_birth, character.character_team, character.character_gender, character.character_life, character.character_current_life), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
+
+/**
+ * \fn FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team)
+ * \brief Constructeur de la classe Female Character
+ * \param &age Date de naissance du personnage
+ * \param team Equipe du personnage
  */
 FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team) : Character(SEX::FEMALE, age, team), baby_per_pregnancy(genrand_int31() % (unsigned int) Constantes::CONFIG_SIMU["maxBaby"]), pregnancy_time(Date())
 {
@@ -23,10 +31,16 @@ FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team) : Character
     menopause += (unsigned int) Constantes::CONFIG_SIMU["menopauseMin"] ;
 }
 
+/*TODO : si pas de femme meurt car elles font pas à manger*/
 
 /**
- * \fn FemaleCharacter::FemaleCharacter()
- * \brief Constructeur par default de la classe Female Character
+ * \fn FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, unsigned int age_of_menopause, unsigned int team, unsigned int life)
+ * \brief Constructeur de la classe Female Character
+ * \param &age Date de naissance du personnage
+ * \param number_of_baby Nombre d'enfant par femme
+ * \param age_of_menopause Age maximale que la femme peut faire des enfant
+ * \param team Equipe du personnage
+ * \param life Vie maximale sur personnage
  */
 FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, unsigned int age_of_menopause, unsigned int team, unsigned int life) : Character(SEX::FEMALE, age, team, life), baby_per_pregnancy(number_of_baby), pregnancy_time(Date()), menopause(age_of_menopause)
 {
@@ -34,14 +48,14 @@ FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, u
 
 /**
  * \fn FemaleCharacter::~FemaleCharacter()
- * \brief Destructeur de la classe Female Character:: Female Character
+ * \brief Destructeur de la classe Female Character
  */
 FemaleCharacter::~FemaleCharacter() {}
 
 /**
  * \fn unsigned int FemaleCharacter::getBabyPerPregnancy() const noexcept
  * \brief Getteur sur le nombre d'enfant par grossesse
- * \return Nombre d'enfant par grosse
+ * \return Nombre d'enfant par grossesse
  */
 unsigned int FemaleCharacter::getBabyPerPregnancy() const noexcept
 {
@@ -50,8 +64,8 @@ unsigned int FemaleCharacter::getBabyPerPregnancy() const noexcept
 
 /**
  * \fn Date FemaleCharacter::getPregnancyTime() const noexcept
- * \brief Getteur sur le numero du mois de la grossesse
- * \return Nombre de mois de grossesse
+ * \brief Getteur sur le debut de la grossesse
+ * \return Debut de la grossesse
  */
 Date FemaleCharacter::getPregnancyTime() const noexcept
 {
@@ -68,11 +82,21 @@ void FemaleCharacter::randomBabyPerPregnancy() noexcept
     baby_per_pregnancy = genrand_int31() % max_baby;
 }
 
+/**
+ * \fn void FemaleCharacter::setTimePregnancy(const Date &date) noexcept
+ * \brief Setteur sur le debut de la grossesse
+ * \param &date Date de debut de la grossesse
+ */
 void FemaleCharacter::setTimePregnancy(const Date &date) noexcept
 {
     pregnancy_time = date;
 }
 
+/**
+ * \fn unsigned int FemaleCharacter::getMonthPregnancy(const Date &current_date) const
+ * \brief Getteur sur le nombre de mois de grosse
+ * \param &current_date Date actuelle
+ */
 unsigned int FemaleCharacter::getMonthPregnancy(const Date &current_date) const
 {
     unsigned int month;

@@ -1,3 +1,10 @@
+/**
+ * \file Date.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe Date
+ * \date 2018-12-03
+ */
+
 #include "../header/Date.hpp"
 #include "../header/Exception.hpp"
 

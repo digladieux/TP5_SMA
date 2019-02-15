@@ -1,7 +1,7 @@
 /**
  * \file TownHall.cpp
  * \author Gladieux Cunha Dimitri & Gonzales Florian
- * \brief Fichier d'implementation de l'hotel de ville
+ * \brief Fichier d'implementation du TownHall
  * \date 2018-12-06
  */
 #include "../header/TownHall.hpp"

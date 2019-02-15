@@ -13,8 +13,7 @@
 #include <exception>
 
 /**
- * \brief Met la variable statique du nombre de terrain genere a 0 ;
- *
+ * \brief Variable statique du nombre de terrain genere a 0 ;
  */
 unsigned int Ground::ground_number = 0;
 
@@ -27,7 +26,15 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type), 
 {
     ground_number++;
 }
+/* TODO : clone avec les character ?? Meme ne pas refaire de new et les placer direct dans le terrain ?? */
 
+
+/**
+ * \fn Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vector_character)
+ * \brief Constructeur de la classe Ground
+ * \param type Type de terrain
+ * \param vector_character Vecteur content les personnages allant sur cette case
+ */
 Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vector_character) : ground_id(id), ground_type(type)
 {
     Character *old_character = nullptr;
@@ -48,7 +55,7 @@ Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vecto
 }
 /**
  * \brief Constructeur de copie de la classe Ground
- * \param ground Le terrain que l'on veut copier
+ * \param &ground Le terrain que l'on veut copier
  */
 
 Ground::Ground(const Ground &ground) : ground_id(ground.ground_id), ground_type(ground.ground_type)
@@ -56,16 +63,33 @@ Ground::Ground(const Ground &ground) : ground_id(ground.ground_id), ground_type(
     addCharacterGround(ground) ;
 }
 
+/**
+ * \fn Ground::Ground(const Ground &ground, GROUND_TYPE type)
+ * \brief Constructeur de copie de la classe Forest avec sa classe mere en parametre
+ * \param &ground Copie du terrain que l'on veut faire
+ * \param type Type de terrain
+ */
 Ground::Ground(const Ground &ground, GROUND_TYPE type) : ground_id(ground.ground_id), ground_type(type)
 {
     addCharacterGround(ground) ;
 }
 
+/**
+ * \fn Ground* Ground::clone() const
+ * \brief Constructeur dynamique de la classe Ground. C'est un moyen de construire un constructeur virtuel. Quand on ne connait pas le type de CollectionPoint que l'on a et que l'on veut faire une copie de ce dernier, on utilise cette methode
+ */
 Ground* Ground::clone() const
 {
     return new Ground(*this);
 }
 
+/*TODO : meme que au dessus avec le clone pour addCharacterGround  */
+
+/**
+ * \fn void Ground::addCharacterGround(const Ground& ground) noexcept
+ * \brief Methode d'ajout de personnage sur un terrain lors du lancement d'un constructeur de copie
+ * \param &ground Terrain ou l'on veut ajouter les personnages
+ */ 
 void Ground::addCharacterGround(const Ground& ground) noexcept
 {
     Character *character;
@@ -126,6 +150,11 @@ unsigned int Ground::getVectorSize() const noexcept
     return vector_character.size();
 }
 
+/**
+ * \fn StructCoordinates Ground::getPosition(int column_number) const noexcept
+ * \brief Getteur sur la position actuelle du terrain avec des coordonnees (x,y)
+ * \return La position du terrain sur la carte
+ */
 StructCoordinates Ground::getPosition(int column_number) const noexcept
 {
     return StructCoordinates(ground_id / column_number, ground_id % column_number);
@@ -167,7 +196,7 @@ void Ground::removeCharacter(const unsigned int index)
  * \fn Character *Ground::getCharacter(const unsigned int index)
  * \brief Getteur sur un personnage
  * \param index Indice dans le vecteur
- * \return Personnage
+ * \return Personnage a l'indice index
  */
 Character *Ground::getCharacter(const unsigned int index) const
 {
@@ -181,7 +210,7 @@ Character *Ground::getCharacter(const unsigned int index) const
 
 /**
  * \fn bool Ground::operator==(const Ground &ground)
- * \brief Surchage de l'operateur ==. Le test d'egaliter se fait sur l'identfiant unique du terrain
+ * \brief Surchage de l'operateur d'egalite. Le test d'egaliter se fait sur l'identfiant unique du terrain
  * \param ground Terrain que l'on veut comparer
  * \return Vrai si les terrains sont similaires, faux sinon
  */

@@ -1,7 +1,7 @@
 /**
- * \file Forest.cpp
+ * \file MaleCharacter.cpp
  * \author Gladieux Cunha Dimitri & Gonzales Florian
- * \brief Fichier d'implementation d'un personnage masculin
+ * \brief Fichier d'implementation de la classe MaleCharacter
  * \date 2018-12-06
  */
 
@@ -16,6 +16,11 @@
 #include "../header/mt19937ar.h"
 #include "../header/StateGoingCollectionPoint.hpp"
 
+/**
+ * \fn MaleCharacter::MaleCharacter(const MaleCharacter &maleCharacter) 
+ * \brief Constructeur de copie de la classe MaleCharacter
+ * \param &maleCharacter Personnage que l'on veut copier
+ */
 MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(character.getCharacterId(), character.getDateOfBirth(), character.getCharacterTeam(), character.getCharacterGender(), character.character_life, character.character_current_life), direction(character.direction), character_current_state(character.character_current_state->clone()),
                                                                type_ressource_transported(character.getTypeRessourceTransported()),
                                                                speciality(character.getSpeciality()),
@@ -25,9 +30,13 @@ MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(charact
 
 }
 /**
- * \fn MaleCharacter::MaleCharacter()
- * \brief Constructeur par default de la classe Male Character
- */
+ * \fn MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number, const unsigned int strategy)
+ * \brief Constructeur de la classe Male Character
+ * \param &age Date de naissance du personnage
+ * \param team Equipe du personnage
+ * \param column_number Nombre de colonne sur le terrain
+ * \param strategy Strategy adopte par le personnage
+ */ 
 MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number, const unsigned int strategy) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
 {
     if (team != 0)
@@ -41,11 +50,14 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int co
 }
 
 /**
- * \fn MaleCharacter::MaleCharacter(JOB job, SEX gender, const unsigned int age)
+ * \fn MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life, const unsigned int strategy)
  * \brief Constructeur de la classe Male Character
  * \param job Specialite du personnage
- * \param gender Sexe du personnage
- * \param age Age du personnage
+ * \param &age Date de naissance du personnage
+ * \param team Equipe du personnage
+ * \param column_number Nombre de colonne
+ * \param life Point de vie maximale du personnage
+ * \param strategy Strategy adopte par le personnage
  */
 MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life, const unsigned int strategy) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
 {
@@ -67,6 +79,12 @@ MaleCharacter::~MaleCharacter()
     delete character_current_state;
 }
 
+/**
+ * \fn Strategy *MaleCharacter::strategyIdToStrategy(const unsigned int strategy)
+ * \brief Methode qui convertit un entier en une strategy
+ * \param strategy Strategy que l'on veut adopter pour le personnage
+ * \return La strategy du personnage
+ */
 Strategy *MaleCharacter::strategyIdToStrategy(const unsigned int strategy)
 {
     Strategy *new_strategy = nullptr;
@@ -91,7 +109,7 @@ Strategy *MaleCharacter::strategyIdToStrategy(const unsigned int strategy)
  * \fn JOB MaleCharacter::getSpeciality() const noexcept
  * \brief Getteur sur la specialite du personnage masculin
  * \return Specialite du personnage
- up*/
+ */
 JOB MaleCharacter::getSpeciality() const noexcept
 {
     return speciality;
@@ -130,8 +148,8 @@ StructCoordinates &MaleCharacter::getDirection() noexcept
 /**
  * \fn void StructCoordinates::setDirection(unsigned int x, unsigned int y) noexcept
  * \brief Setteur sur la direction du personnage masculin
- * \param x Cordoonee x du point
- * \param y Coordonne y du point
+ * \param ground_id Id du terrain ou l'on veut se deplacer
+ * \param column_number Nombre de colonne sur la carte
  */
 void MaleCharacter::setDirection(unsigned int ground_id, unsigned int column_number) noexcept
 {
@@ -185,6 +203,10 @@ void MaleCharacter::incrementTimeAtWork() noexcept
     time_at_work++;
 }
 
+/**
+ * \fn void MaleCharacter::resetTimeAtWork() noexcept
+ * \brief Remise a zero du temps de travail
+ */
 void MaleCharacter::resetTimeAtWork() noexcept
 {
     time_at_work = 0;
@@ -202,9 +224,9 @@ void MaleCharacter::setSpeciality(JOB job) noexcept
 
 /**
  * \fn const MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character)
- * \brief Surchage de l'operateur =. Permet de cloner un personnage masculin dans un autre
+ * \brief Surchage de l'operateur d'affectation. Permet de cloner un personnage masculin dans un autre
  * \param new_character Personnage masculin sur l'on veut cloner
- * \return Personnage masculin avec les nouvelles caracteristiques
+ * \return Nouveau Personnage masculin 
  */
 const MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character)
 {
@@ -216,6 +238,12 @@ const MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character
     return *this;
 }
 
+/**
+ * \fn JOB MaleCharacter::jobIdToJob(unsigned int job_id)
+ * \brief Methode qui convertit un entier en une specialite
+ * \param job_id Job que l'on veut affecter pour le personnage
+ * \return La specialite du personnage
+ */
 JOB MaleCharacter::jobIdToJob(unsigned int job_id)
 {
     JOB job;
@@ -244,6 +272,11 @@ JOB MaleCharacter::jobIdToJob(unsigned int job_id)
     return job;
 }
 
+/**
+ * \fn void MaleCharacter::setCharacterStrategy(Strategy *new_strategy)
+ * \brief Setteur sur la strategy du personnage. Supprime la strategie actuelle pour en affecter une nouvelle
+ * \param *new_strategy Nouvelle strategie du personnage
+ */
 void MaleCharacter::setCharacterStrategy(Strategy *new_strategy)
 {
     Strategy *current_strategy = character_strategy;
@@ -251,10 +284,30 @@ void MaleCharacter::setCharacterStrategy(Strategy *new_strategy)
     delete current_strategy;
 }
 
+/**
+ * \fn bool MaleCharacter::runStrategy(Grid &map)
+ * \brief Lancement de la strategy du personnage
+ * \param &map Carte ou se trouve le personnage
+ * \return True si le personnage a pu trouver un point de collecte, faux sinon
+ */
 bool MaleCharacter::runStrategy(Grid &map)
 {
     return character_strategy->run(map, this);
 }
+
+/**
+ * \fn void MaleCharacter::executeState(Game &game, Grid &grid, Ground *ground, MaleCharacter *character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
+ * \brief Lancement de l'etat du personnage et des actions associees
+ * \param &game Jeux actuel
+ * \param &grid Carte ou se trouve le personnage
+ * \param *ground Terrain ou se trouve le personnage
+ * \param *character Personnage en question
+ * \param &index_ground_with_character Indice qui correspond a la position du terrain ou se trouve le personnage dans le vecteur de terrain
+ * \param &index_character Indice qui correspond a la position du personnage dans le vecteur de personnage
+ * \param &number_ground_with_character Nombre de terrain avec des personnage
+ * \param &number_character_ground Nombre de personnage sur ce terrain
+ * \param &is_ground_deleted Boolean pour savoir si le terrain a ete supprime
+ */
 void MaleCharacter::executeState(Game &game, Grid &grid, Ground *ground, MaleCharacter *character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
 {
     character_current_state->run(game, grid, ground, character, index_ground_with_character, index_character, number_ground_with_character, number_character_ground, is_ground_deleted);

@@ -1,3 +1,10 @@
+/**
+ * \file Grid.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe Grid
+ * \date 2018-12-03
+ */
+
 #include "../header/Grid.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/TownHall.hpp"

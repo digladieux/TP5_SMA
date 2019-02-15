@@ -1,3 +1,10 @@
+/**
+ * \file Game.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe Game
+ * \date 2018-12-03
+ */
+
 #include "../header/Game.hpp"
 #include "../header/Grid.hpp"
 #include "../header/FemaleCharacter.hpp"

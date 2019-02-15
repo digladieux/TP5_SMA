@@ -1,3 +1,10 @@
+/**
+ * \file Report.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe Report
+ * \date 2018-12-03
+ */
+
 #include "../header/Report.hpp"
 #include "../header/Color.hpp"
 unsigned int Report::counter = 0 ;
@@ -15,7 +22,7 @@ Report::Report() : id(counter), people_number_init(0), death_number(0), birth_nu
 /**
  * \fn Report::Report(const Report& report)
  * \brief Constructeur de copie d'un rapport
- * \param report Rapport a copier
+ * \param &report Rapport a copier
  */
 
 Report::Report(const Report& report) : people_number_init(report.people_number_init), death_number(report.death_number), birth_number(report.birth_number), level(report.level), rock_number(report.rock_number), wood_number(report.wood_number), food_number(report.food_number), fish_number(report.fish_number), team(report.team){} 

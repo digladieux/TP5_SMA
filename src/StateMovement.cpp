@@ -1,23 +1,50 @@
+/**
+ * \file StateMovement.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe StateMovement
+ * \date 2018-12-03
+ */
+
 #include "../header/StateMovement.hpp"
 #include "../header/StateAddingRessources.hpp"
 #include "../header/StateWorkingCollectionPoint.hpp"
+/**
+ * \fn StateMovement::StateMovement()
+ * \brief Constructeur par default de la classe StateMovement
+ */
 
-StateMovement::StateMovement()
-{
-}
+StateMovement::StateMovement(){}
 
-StateMovement::~StateMovement()
-{
-}
+/**
+ * \fn StateMovement::~StateMovement()
+ * \brief Destructeur de la classe StateMovement
+ */
+StateMovement::~StateMovement(){}
+
+/**
+ * \fn StateMovement* StateMovement::clone() const
+ * \brief Constructeur dynamique de la classe StateMovement. C'est un moyen de construire un constructeur virtuel. Quand on ne connait pas le type de State que l'on a et que l'on veut faire une copie de ce dernier, on utilise cette methode
+ */
 StateMovement *StateMovement::clone()
 {
     return new StateMovement();
 }
+
+/**
+ * \fn void StateMovement::run(Game &, Grid &map, Ground *ground, MaleCharacter *character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
+ * \brief Lancement de l'etat Deplacement par le personnage
+ * \param &grid Carte ou se trouve le personnage
+ * \param *ground Terrain ou se trouve le personnage
+ * \param *character Personnage en question
+ * \param &index_ground_with_character Indice qui correspond a la position du terrain ou se trouve le personnage dans le vecteur de terrain
+ * \param &index_character Indice qui correspond a la position du personnage dans le vecteur de personnage
+ * \param &number_ground_with_character Nombre de terrain avec des personnage
+ * \param &number_character_ground Nombre de personnage sur ce terrain
+ * \param &is_ground_deleted Boolean pour savoir si le terrain a ete supprime
+ */
 void StateMovement::run(Game &, Grid &map, Ground *ground, MaleCharacter *character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
 {
-    //Character *temp_character;
     unsigned int x, y;
-    //temp_character = new MaleCharacter(*character);
 
     x = ground->getPosition(map.getColumnNumber()).getAbscissa();
     y = ground->getPosition(map.getColumnNumber()).getOrdinate();

@@ -1,3 +1,10 @@
+/**
+ * \file Constantes.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe Constantes
+ * \date 2018-12-03
+ */
+
 #include "../header/Constantes.hpp"
 #include "../header/json.hpp"
 #include "../header/Exception.hpp"
@@ -5,8 +12,19 @@
 #include <iostream>
 using json = nlohmann::json;
 
+/**
+ * \brief Variable statique contenant la configuration de notre simulation
+ */
 json Constantes::CONFIG_SIMU = R"({})"_json;
+
+/**
+ * \brief Variable statique contenant la liste de tous les personnages
+ */
 json Constantes::CHARACTERS = R"({})"_json;
+
+/**
+ * \brief Variable statique contenant la liste de toutes les cartes
+ */
 json Constantes::MAPS = R"({})"_json;
 
 

@@ -1,7 +1,7 @@
 /**
  * \file Character.cpp
  * \author Gladieux Cunha Dimitri & Gonzales Florian
- * \brief Fichier d'implementation d'un personnage
+ * \brief Fichier d'implementation de la classe Character
  * \date 2018-12-03
  */
 
@@ -9,12 +9,15 @@
 #include "../header/Exception.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
-unsigned int Character::character_number = 0; /* TODO : comment var static */
 
+/**
+ * \brief Variable statique du nombre de personnage genere a 0 ;
+ */
+unsigned int Character::character_number = 0; 
 /**
  * \fn Character::Character(const Character &character) 
  * \brief Constructeur de copie de la classe Character
- * \param character Personnage que l'on veut copier
+ * \param &character Personnage que l'on veut copier
  */
 Character::Character(const Character &character) : character_id(character.character_id), character_date_of_birth(character.character_date_of_birth), character_team(character.character_team), character_gender(character.character_gender), character_life(character.character_life), character_current_life(character.character_current_life)
 {

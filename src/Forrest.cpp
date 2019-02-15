@@ -20,7 +20,7 @@ Forest::Forest(const unsigned int wood_number) : CollectionPoint(GROUND_TYPE::FO
 /**
  * \fn Forest::Forest(const Forest &forest) 
  * \brief Constructeur de copie de la classe Forest
- * \param forest Foret que l'on veut copier
+ * \param &forest Foret que l'on veut copier
  */
 Forest::Forest(const Forest& forest) : CollectionPoint(GROUND_TYPE::FOREST, forest.ressources_number, forest.ground_id, forest.vector_character){}
 
@@ -34,7 +34,6 @@ Forest::Forest(const Ground& forest, const unsigned int ressources_number) : Col
 /**
  * \fn Forest::~Forest()
  * \brief Destructeur de la classe Foret
- *
  */
 Forest::~Forest() {}
 
@@ -49,7 +48,7 @@ Forest* Forest::clone() const
 /**
  * \fn void Forest::display(std::ostream &os) const noexcept
  * \brief Affichage d'une foret
- * \param os Flux ou l'on va afficher la foret
+ * \param &os Flux ou l'on va afficher la foret
  */
 void Forest::display(std::ostream &os) const noexcept
 {

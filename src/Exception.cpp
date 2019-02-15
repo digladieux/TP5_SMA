@@ -1,3 +1,9 @@
+/**
+ * \file Exception.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe Exception
+ * \date 2018-12-03
+ */
 #include "../header/Exception.hpp"
 #include "../header/Constantes.hpp"
 #include <iostream>

@@ -1,17 +1,41 @@
+/**
+ * \file Menu.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation de la classe Menu
+ * \date 2018-12-03
+ */
+
 #include "../header/Menu.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/Exception.hpp"
 #include <fstream>
 #include <sstream>
+
+/**
+ * \fn Menu::Menu()
+ * \brief Constructeur par default de la classe Menu
+ */
 Menu::Menu()
 {
     Constantes::getAllJson();
 }
 
+/**
+ * \fn void Menu::displayWelcome(std::ostream &os) noexcept
+ * \brief Methode d'affichage de l'ecran de bienvenue
+ * \param &os Flux sur lequel on va afficher le message de bienvenue
+ */
+
 void Menu::displayWelcome(std::ostream &os) noexcept
 {
-    os << "Welcome to our game : CiviliZZation" << std::endl;
+    os << "Welcome to our game : CiviliZZation" << std::endl; /* TODO : a developpe expliquer les regles et tout */
 }
+
+/**
+ * \fn std::vector<unsigned int> Menu::mapChoice() const
+ * \brief Methode pour la selection des points de collecte par l'utilisateur
+ * \return Vecteur d'entier contenant les differents point de collecte choisis par l'utilisateur
+ */
 std::vector<unsigned int> Menu::mapChoice() const
 {
     unsigned int map;
@@ -41,6 +65,11 @@ std::vector<unsigned int> Menu::mapChoice() const
     return map_vector;
 }
 
+/**
+ * \fn void Menu::displayAllMap(std::ostream &os) const
+ * \brief Methode d'affichage de la liste des points de collecte
+ * \param &os Flux sur lequel on va afficher la liste des points de collecte
+ */
 void Menu::displayAllMap(std::ostream &os) const
 {
 
@@ -60,6 +89,11 @@ void Menu::displayAllMap(std::ostream &os) const
     os << "Where do you want to play ?" << std::endl;
 }
 
+/**
+ * \fn std::vector<unsigned int> Menu::characterChoice() const
+ * \brief Methode pour la selection des personnages par l'utilisateur
+ * \return Vecteur d'entier contenant les differents personnages choisis par l'utilisateur
+ */
 std::vector<unsigned int> Menu::characterChoice() const
 {
     unsigned int character;
@@ -89,6 +123,11 @@ std::vector<unsigned int> Menu::characterChoice() const
     return character_vector;
 }
 
+/**
+ * \fn void Menu::displayAllCharacter(std::ostream &os) const
+ * \brief Methode d'affichage de la liste des personnages
+ * \param &os Flux sur lequel on va afficher la liste des points de collecte
+ */
 void Menu::displayAllCharacter(std::ostream &os) const
 {
     std::string character;
@@ -117,6 +156,12 @@ void Menu::displayAllCharacter(std::ostream &os) const
     os << "Which Group of character you want to start with ?" << std::endl;
 }
 
+
+/**
+ * \fn unsigned int Menu::configChoice() const noexcept
+ * \brief Methode pour la selection de la configuration par l'utilisateur
+ * \return Entier contenant la configuration de la simulation choisis par l'utilisateur
+ */
 unsigned int Menu::configChoice() const noexcept
 {
     unsigned int config;
@@ -126,6 +171,12 @@ unsigned int Menu::configChoice() const noexcept
     } while (config > 2);
     return config;
 }
+
+/**
+ * \fn void Menu::displayAllConfig(std::ostream &os) const
+ * \brief Methode d'affichage de la liste des configurations de simulation
+ * \param &os Flux sur lequel on va afficher la liste des configurations
+ */
 void Menu::displayAllConfig(std::ostream &os) const
 {
     system("clear");
@@ -139,10 +190,22 @@ void Menu::displayAllConfig(std::ostream &os) const
     os << "Which config do you want to use" << std::endl;
 }
 
+/**
+ * \fn void Menu::displayTurnChoice(std::ostream &os) noexcept
+ * \brief Methode d'affichage du nombre de tour souhaite par l'utilisateur
+ * \param &os Flux sur lequel on va afficher le message 
+ */
+
 void Menu::displayTurnChoice(std::ostream &os) const noexcept
 {
     os << "How many turns do you want to show ? " << std::endl;
 }
+
+/**
+ * \fn unsigned int Menu::turnChoice() const noexcept
+ * \brief Methode pour la selection du nombre de tour par l'utilisateur
+ * \return Entier contenant le nombre de tour choisis par l'utilisateur
+ */
 unsigned int Menu::turnChoice() const noexcept
 {
     int turn;
@@ -152,6 +215,13 @@ unsigned int Menu::turnChoice() const noexcept
     } while (turn <= 0);
     return turn;
 }
+
+/**
+ * \fn void Menu::displaySex(std::ostream &os, unsigned int sex)
+ * \brief Methode d'affichage du sexe du personnage
+ * \param &os Flux sur lequel on va afficher le message 
+ * \param sex Sexe du personnage 
+ */
 void Menu::displaySex(std::ostream &os, unsigned int sex)
 {
     switch (sex)
@@ -168,6 +238,12 @@ void Menu::displaySex(std::ostream &os, unsigned int sex)
     }
 }
 
+/**
+ * \fn void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
+ * \brief Methode d'affichage du type de terrain 
+ * \param &os Flux sur lequel on va afficher le message 
+ * \param ground_type Type de terrain
+ */
 void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
 {
     switch (ground_type)
@@ -190,6 +266,12 @@ void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
     }
 }
 
+/**
+ * \fn void Menu::displayGroundType(std::ostream &os, unsigned int job)
+ * \brief Methode d'affichage de la specialite du personnage 
+ * \param &os Flux sur lequel on va afficher le message 
+ * \param job Specialite du personnage
+ */
 void Menu::displayJob(std::ostream &os, unsigned int job)
 {
     os << "\tJOB : ";
@@ -218,7 +300,11 @@ void Menu::displayJob(std::ostream &os, unsigned int job)
         throw InvalidJob(job);
     }
 }
-
+/**
+ * \fn void Menu::displayAllDisplay(std::ostream &os)
+ * \brief Methode d'affichage du deroulement de la simulation 
+ * \param &os Flux sur lequel on va afficher le message 
+ */
 void Menu::displayAllDisplay(std::ostream &os) const noexcept
 {
     os << "How do you want to display the simulation ?" << std::endl;
@@ -226,6 +312,12 @@ void Menu::displayAllDisplay(std::ostream &os) const noexcept
     os << "1 : Print step by step by pressing ENTER" << std::endl;
     os << "2 : Never print " << std::endl;
 }
+
+/**
+ * \fn unsigned int Menu::displayChoice() const noexcept
+ * \brief Methode pour la selection de la methode d'affichage par l'utilisateur
+ * \return Entier contenant le type d'affichage de la simulation choisis par l'utilisateur
+ */
 unsigned int Menu::displayChoice() const noexcept
 {
     int choice;

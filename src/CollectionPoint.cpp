@@ -1,7 +1,7 @@
 /**
  * \file CollectionPoint.cpp
  * \author Gladieux Cunha Dimitri & Gonzales Florian
- * \brief Fichier d'implementation d'un point de collecte
+ * \brief Fichier d'implementation de la classe CollectionPoint
  * \date 2018-12-03
  */
 

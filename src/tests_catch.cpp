@@ -1,3 +1,10 @@
+/**
+ * \file tests_catch.cpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'implementation des tests unitaires de notre programme
+ * \date 2018-12-03
+ */
+
 #include "../header/catch.hpp"
 #include "../header/TownHall.hpp"
 #include "../header/Ground.hpp"

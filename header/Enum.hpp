@@ -1,3 +1,10 @@
+/**
+ * \file Enum.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete contenant la liste des differentes enum
+ * \date 2018-12-03
+ */
+
 #ifndef ENUM_HPP
 #define ENUM_HPP
 /**
@@ -42,7 +49,7 @@ enum class GROUND_TYPE
 
 /**
  * \enum class SEX
- * \brief Enumeration qui definit la majorite d'un personnage, ainsi que son sexe
+ * \brief Enumeration qui definit le sexe
  *
  */
 enum class SEX

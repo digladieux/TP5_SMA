@@ -30,7 +30,7 @@
 using json = nlohmann::json;
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
 
-TEST_CASE("Ground")
+TEST_CASE("Ground", "[ground]")
 {
     Ground ground0;
     Ground ground1(GROUND_TYPE::LAKE);
@@ -659,17 +659,17 @@ TEST_CASE("Report")
 
 TEST_CASE("Game")
 {
-    // system("clear");
-    // std::vector<unsigned int> vector_character = {6};
+    system("clear");
+    std::vector<unsigned int> vector_character = {6};
     // std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    // std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    // Game game(vector_map, vector_character, 1, Date(1, 1, 60), 1, 1);
-    // game.run(1000);
-    // game.reset(1) ;
-    // Report ** report = game.getReport() ;
-    // report[0] -> display() ;
-    // report[1] -> display() ;
-    // // game.run(100);
+    std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    Game game(vector_map, vector_character, 1, Date(1, 1, 60), 1, 1);
+    game.run(1000);
+    game.reset(1) ;
+    Report ** report = game.getReport() ;
+    report[0] -> display() ;
+    report[1] -> display() ;
+    game.run(100);
     /* TODO : si toute une ville meurt erreur ? */
 }
 

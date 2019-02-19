@@ -34,7 +34,7 @@ const char *Exception::what() const throw()
  * \brief Constructeur de la classe InvalidFile
  * \param file Nom du fichier qui est incorrecte
  */
-InvalidFile::InvalidFile(std::string file) : std::invalid_argument(""), message_error("YOUR_FILE_DOES_NOT_EXIST : " + file)
+InvalidFile::InvalidFile(std::string& file) : std::invalid_argument(""), message_error("YOUR_FILE_DOES_NOT_EXIST : " + file)
 {
     std::cerr << what() << std::endl;
 }

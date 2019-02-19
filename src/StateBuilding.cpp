@@ -45,10 +45,10 @@ void StateBuilding::run(Game&, Grid&, Ground *ground, MaleCharacter * character,
 
     if (character->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
     {
-        ((TownHall *)ground)->removeRockNumber((((TownHall *)ground)->getLevel() * ressource_level_up));
-        ((TownHall *)ground)->removeWoodNumber((((TownHall *)ground)->getLevel() * ressource_level_up));
+        (static_cast<TownHall*>(ground))->removeRockNumber(((static_cast<TownHall*>(ground))->getLevel() * ressource_level_up));
+        (static_cast<TownHall*>(ground))->removeWoodNumber(((static_cast<TownHall*>(ground))->getLevel() * ressource_level_up));
         character->resetTimeAtWork();
-        ((TownHall *)ground)->incrementLevel();
+        (static_cast<TownHall*>(ground))->incrementLevel();
 
         character->setCharacterCurrentState(new StateGoingCollectionPoint());
 

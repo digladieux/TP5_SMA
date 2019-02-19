@@ -13,6 +13,7 @@ class StructCoordinates
   public:
     StructCoordinates(const StructCoordinates &);
     StructCoordinates(unsigned int abscissa = 0, unsigned int ordinate = 0);
+StructCoordinates &operator=(const StructCoordinates &) ;
 
     void setAbcissa(unsigned int) noexcept;
     void setOrdinate(unsigned int) noexcept;

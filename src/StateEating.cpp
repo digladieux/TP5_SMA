@@ -41,11 +41,11 @@ StateEating* StateEating::clone()
  */
 void StateEating::run(Game&, Grid&, Ground *ground, MaleCharacter *character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
 {
-    if (((TownHall *)ground)->removeFishNumber(1))
+    if ((static_cast<TownHall*>(ground))->removeFishNumber(1))
     {
         character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
     }
-    else if (((TownHall *)ground)->removeFishNumber(1))
+    else if ((static_cast<TownHall*>(ground))->removeFishNumber(1))
     {
         character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
     }

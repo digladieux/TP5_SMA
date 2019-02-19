@@ -15,7 +15,6 @@
 /**
  * \class CollectionPoint
  * \brief Un point de collecte etant sur un terrain, il herite de toutes les methodes et attributs de Ground. C'est le lieu de collecte des ressources pour le developpement de l'hotel de ville
- *
  */
 class CollectionPoint : public Ground
 {
@@ -25,7 +24,7 @@ class CollectionPoint : public Ground
   public:
     CollectionPoint(const Ground& , GROUND_TYPE, const unsigned int);
     CollectionPoint(GROUND_TYPE, const unsigned int ressources_nb = 1000);
-    CollectionPoint(GROUND_TYPE, const unsigned int, unsigned int, std::vector<Character *>);
+    CollectionPoint(GROUND_TYPE, const unsigned int, unsigned int, const std::vector<Character *>&);
     
     virtual ~CollectionPoint();
 

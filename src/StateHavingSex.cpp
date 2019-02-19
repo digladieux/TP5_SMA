@@ -51,10 +51,10 @@ void StateHavingSex::run(Game& game, Grid&, Ground *ground, MaleCharacter *chara
         bool flag = false;
         while ((index < ground->getVectorSize()) && (!(flag)))
         {
-            if ((SEX::FEMALE == (ground->getCharacter(index)->getCharacterGender())) && (Date() == (((FemaleCharacter *)ground->getCharacter(index))->getPregnancyTime())) && ((FemaleCharacter *)ground->getCharacter(index))->getCharacterAge(game.getTurn()) >= Constantes::CONFIG_SIMU["majority"])
+            if ((SEX::FEMALE == (ground->getCharacter(index)->getCharacterGender())) && (Date() == ((static_cast<FemaleCharacter*>(ground->getCharacter(index)))->getPregnancyTime())) && (static_cast<FemaleCharacter*>(ground->getCharacter(index)))->getCharacterAge(game.getTurn()) >= Constantes::CONFIG_SIMU["majority"])
             {
-                ((FemaleCharacter *)ground->getCharacter(index))->randomBabyPerPregnancy();
-                if (((FemaleCharacter *)ground->getCharacter(index))->getBabyPerPregnancy() > 0)
+                (static_cast<FemaleCharacter*>(ground->getCharacter(index)))->randomBabyPerPregnancy();
+                if ((static_cast<FemaleCharacter*>(ground->getCharacter(index)))->getBabyPerPregnancy() > 0)
                 {
                     flag = true;
                 }
@@ -68,7 +68,7 @@ void StateHavingSex::run(Game& game, Grid&, Ground *ground, MaleCharacter *chara
         if (flag)
         {
             character->setCharacterCurrentState(new StateHavingSex());
-            ((FemaleCharacter *)ground->getCharacter(index))->setTimePregnancy(game.getTurn());
+            (static_cast<FemaleCharacter*>(ground->getCharacter(index)))->setTimePregnancy(game.getTurn());
         }
 
         else

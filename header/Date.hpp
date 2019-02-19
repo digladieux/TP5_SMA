@@ -1,14 +1,25 @@
+/**
+ * \file Date.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source Date.cpp
+ * \date 2018-12-03
+ */
+
 #ifndef DATE_HPP
 #define DATE_HPP
 
 #include <iostream>
 
+/**
+ * \class Date
+ * \brief Implemente un objet Date avec un jour, un mois et une annee. Il respecte les annees bisextiles, les mois a 30 - 31 jours, ainsi que le mois de fevrier.
+ */
 class Date
 {
   protected:
-    unsigned int day;
-    unsigned int month;
-    unsigned int year;
+    unsigned int day;     /*! Jour */
+    unsigned int month;   /*! Mois */
+    unsigned int year;    /*! Annee */
 
   public:
     Date();

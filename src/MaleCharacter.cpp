@@ -223,12 +223,12 @@ void MaleCharacter::setSpeciality(JOB job) noexcept
 }
 
 /**
- * \fn const MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character)
+ * \fn MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character)
  * \brief Surchage de l'operateur d'affectation. Permet de cloner un personnage masculin dans un autre
  * \param new_character Personnage masculin sur l'on veut cloner
  * \return Nouveau Personnage masculin 
  */
-const MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character)
+MaleCharacter &MaleCharacter::operator=(const MaleCharacter &new_character)
 {
     if (this != &new_character) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
     {

@@ -30,11 +30,12 @@ void addCharacterGround(const Ground& ground) noexcept;
     std::vector<Character *> vector_character; /*! Tableau dynamique de la liste des personnages sur le terrain */
 
   public:
-    Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
+    explicit Ground(GROUND_TYPE type = GROUND_TYPE::LAND);
     Ground(GROUND_TYPE, unsigned int, std::vector<Character *>);
     Ground(const Ground & ground, GROUND_TYPE);
     Ground(const Ground &);
     virtual Ground* clone() const ;
+Ground &operator=(const Ground &) ;
 
     virtual ~Ground();
 

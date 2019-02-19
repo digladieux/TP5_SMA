@@ -25,8 +25,28 @@ Report::Report() : id(counter), people_number_init(0), death_number(0), birth_nu
  * \param &report Rapport a copier
  */
 
-Report::Report(const Report& report) : people_number_init(report.people_number_init), death_number(report.death_number), birth_number(report.birth_number), level(report.level), rock_number(report.rock_number), wood_number(report.wood_number), food_number(report.food_number), fish_number(report.fish_number), team(report.team){} 
+Report::Report(const Report& report) : id (report.id), people_number_init(report.people_number_init), death_number(report.death_number), birth_number(report.birth_number), level(report.level), rock_number(report.rock_number), wood_number(report.wood_number), food_number(report.food_number), fish_number(report.fish_number), team(report.team)
+{
+    counter ++ ;
+} 
 
+Report &Report::operator=(const Report &new_report)
+{
+    if (this != &new_report)
+    {
+        id = new_report.id;
+        people_number_init = new_report.people_number_init;
+        death_number = new_report.death_number ;
+        birth_number = new_report.birth_number ;
+        level = new_report.level ;
+        rock_number = new_report.rock_number ;
+        wood_number = new_report.wood_number ;
+        food_number = new_report.food_number ;
+        fish_number = new_report.fish_number ;
+        team = new_report.team ;
+    }
+    return *this;
+}
 
 /**
  * \fn Report::~Report()

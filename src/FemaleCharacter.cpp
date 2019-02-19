@@ -15,7 +15,7 @@
  * \brief Constructeur de copie de la classe Female Character
  * \param &character Personnage Feminin que l'on veut copie
  */
-FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.character_id, character.character_date_of_birth, character.character_team, character.character_gender, character.character_life, character.character_current_life), baby_per_pregnancy(character.getBabyPerPregnancy()), pregnancy_time(character.getPregnancyTime()) {}
+FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(character.character_id, character.character_date_of_birth, character.character_team, character.character_gender, character.character_life, character.character_current_life), baby_per_pregnancy(character.baby_per_pregnancy), pregnancy_time(character.pregnancy_time), menopause(character.menopause) {}
 
 /**
  * \fn FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team)
@@ -51,7 +51,17 @@ FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, u
  * \brief Destructeur de la classe Female Character
  */
 FemaleCharacter::~FemaleCharacter() {}
-
+FemaleCharacter &FemaleCharacter::operator=(const FemaleCharacter &new_character)
+{
+    if (this != &new_character) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
+    {
+        Character::operator=(new_character);
+        baby_per_pregnancy = new_character.baby_per_pregnancy ;
+        pregnancy_time = new_character.pregnancy_time ;
+        menopause = new_character.menopause;
+    }
+    return *this;
+}
 /**
  * \fn unsigned int FemaleCharacter::getBabyPerPregnancy() const noexcept
  * \brief Getteur sur le nombre d'enfant par grossesse

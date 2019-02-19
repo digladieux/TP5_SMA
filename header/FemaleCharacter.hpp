@@ -27,6 +27,7 @@ public:
   FemaleCharacter(const Date &, unsigned int, unsigned int, unsigned int team = 0, unsigned int life = 200);
   FemaleCharacter(const FemaleCharacter &);
   ~FemaleCharacter();
+FemaleCharacter &operator=(const FemaleCharacter &) ;
 
   unsigned int getBabyPerPregnancy() const noexcept;
   Date getPregnancyTime() const noexcept;

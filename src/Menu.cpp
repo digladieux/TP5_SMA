@@ -57,7 +57,7 @@ std::vector<unsigned int> Menu::mapChoice() const
             }
             catch (const std::bad_alloc &e)
             {
-                throw e;
+                throw ;
             }
         }
     }
@@ -115,7 +115,7 @@ std::vector<unsigned int> Menu::characterChoice() const
             }
             catch (const std::bad_alloc &e)
             {
-                throw e;
+                throw ;
             }
         }
     }
@@ -131,16 +131,14 @@ std::vector<unsigned int> Menu::characterChoice() const
 void Menu::displayAllCharacter(std::ostream &os) const
 {
     std::string character;
-    unsigned int character_number = Constantes::CHARACTERS["character_number"],
-                 character_sex;
-
+    unsigned int character_number = Constantes::CHARACTERS["character_number"] ;
     system("clear");
     os << "Here you are all of our character :" << std::endl;
     for (unsigned int i = 1; i <= character_number; i++)
     {
         os << i << " : ";
         character = "character" + std::to_string(i);
-        character_sex = Constantes::CHARACTERS[character]["sex"];
+        unsigned int character_sex = Constantes::CHARACTERS[character]["sex"];
         displaySex(os, character_sex);
         os << "\t" << Date(Constantes::CHARACTERS[character]["day"], Constantes::CHARACTERS[character]["month"], Constantes::CHARACTERS[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tLIFE " << Constantes::CHARACTERS[character]["life"] << "\tTEAM " << Constantes::CHARACTERS[character]["team"] << "\t";
         if (Constantes::CHARACTERS[character]["sex"] == 0)

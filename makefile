@@ -16,6 +16,9 @@ build/%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 run: all 
 	./$(EXE)
+
+check:
+	@cppcheck --enable=style -i src/mt19937ar.cpp --suppress='*:header/json.hpp' --suppress='*:header/catch.hpp' src/ 2> cppcheck.txt -j 4
 #build/main.o: main.cpp
 #	@mkdir -p build
 #	$(CXX) $(CXXFLAGS) -o $@ -c $<

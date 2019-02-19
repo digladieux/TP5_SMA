@@ -35,7 +35,7 @@ Grid::Grid(std::vector<unsigned int>& choice_map, std::vector<unsigned int>& cho
     initialisationMap(choice_map, vector_character);
 }
 
-void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, std::vector<Character *> &vector_character, const unsigned int strategy)
+void Grid::initialisationCharacter(std::vector<unsigned int>& choice_character, std::vector<Character *> &vector_character, const unsigned int strategy)
 {
     try
     {
@@ -43,12 +43,11 @@ void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, s
     }
     catch (const std::bad_alloc &e)
     {
-        throw e;
+        throw ;
     }
     Character *character;
     std::string key_character;
     Date date_of_birth;
-    unsigned int sex;
     for (unsigned int i = 0; i < choice_character.size(); i++)
     {
         if ((unsigned int)choice_character[i] > Constantes::CHARACTERS["character_number"] )
@@ -63,9 +62,9 @@ void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, s
         catch (const ConstructorDateException &e)
         {
             e.what() ;
-            throw e;
+            throw ;
         }
-        sex = Constantes::CHARACTERS[key_character]["sex"];
+        unsigned int sex = Constantes::CHARACTERS[key_character]["sex"];
         switch (sex)
         {
         case 0:
@@ -95,9 +94,9 @@ void Grid::initialisationCharacter(std::vector<unsigned int> choice_character, s
     }
 }
 
-void Grid::initialisationMap(std::vector<unsigned int> choice_map, std::vector<Character *> &vector_character)
+void Grid::initialisationMap(std::vector<unsigned int>& choice_map, std::vector<Character *> &vector_character)
 {
-    unsigned int k, x, y;
+    unsigned int k ;
     Ground *ground;
     Ground * collection_point ;
     Character *character;
@@ -127,7 +126,7 @@ void Grid::initialisationMap(std::vector<unsigned int> choice_map, std::vector<C
                         character = vector_character[k];
                         if (character->getCharacterGender() == SEX::MALE)
                         {
-                            ((MaleCharacter *)character)->setDirection(ground->getGroundId(), column_number);
+                            (static_cast<MaleCharacter*>(character))->setDirection(ground->getGroundId(), column_number);
                         }
                         ground_grid[i][j]->addCharacter(character);
                         vector_character.erase(vector_character.begin() + k);
@@ -153,8 +152,8 @@ void Grid::initialisationMap(std::vector<unsigned int> choice_map, std::vector<C
             throw InvalidKey(choice_map[i], Constantes::MAPS["collection_point_number"] ) ;
         }
         key = "collection_point" + std::to_string(choice_map[i]);
-        x = Constantes::MAPS[key]["x"] ;
-        y = Constantes::MAPS[key]["y"] ;
+        unsigned int x = Constantes::MAPS[key]["x"] , 
+                     y = Constantes::MAPS[key]["y"] ;
         ground = this->getGroundGrid(x, y);
         collection_point = initGround(ground, (int)Constantes::MAPS[key]["type"], (const unsigned int)Constantes::MAPS[key]["ressource_number"] );
         push_backGround(ground_with_collection_point, collection_point);
@@ -257,7 +256,7 @@ void Grid::addGroundWithCharacter(Ground *ground)
     }
     catch (const std::bad_alloc &e)
     {
-        throw e;
+        throw ;
     }
 }
 void Grid::removeGroundWithCharacter(const unsigned int index)
@@ -276,7 +275,7 @@ void Grid::push_backGround(std::vector<Ground *> &vector, Ground *ground)
     }
     catch (const std::bad_alloc &e)
     {
-        throw e;
+        throw ;
     }
 }
 
@@ -338,7 +337,7 @@ void Grid::displayMap(std::ostream &os) const noexcept
     }
     for (unsigned int i = 0; i < town_hall.size(); i++)
     {
-        ((TownHall *)town_hall[i])->displayRessources(os);
+        (static_cast<TownHall*>(town_hall[i]))->displayRessources(os);
     }
     os << std::endl;
 }
@@ -371,7 +370,7 @@ void Grid::display(std::ostream &os) const noexcept
     }
     for (unsigned int i = 0; i < town_hall.size(); i++)
     {
-        ((TownHall *)town_hall[i])->displayRessources(os);
+        (static_cast<TownHall*>(town_hall[i]))->displayRessources(os);
     }
     os << std::endl;
 }

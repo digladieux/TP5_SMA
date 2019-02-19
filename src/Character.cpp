@@ -143,17 +143,20 @@ void Character::setCharacterTeam(unsigned int new_team) noexcept
 }
 
 /**
- * \fn const Character &Character::operator=(const Character &new_character)
+ * \fn Character &Character::operator=(const Character &new_character)
  * \brief Surchage de l'operateur =. Permet de cloner un personnage
  * \param new_character Le personnage que l'on veut cloner
  * \return Nouveau personnage
  */
-const Character &Character::operator=(const Character &new_character)
+Character &Character::operator=(const Character &new_character)
 {
     if (this != &new_character)
     {
         character_id = new_character.character_id;
         character_date_of_birth = new_character.character_date_of_birth;
+        character_team = new_character.character_team ;
+        character_current_life = new_character.character_current_life ;
+        character_life = new_character.character_life ;
     }
     return *this;
 }

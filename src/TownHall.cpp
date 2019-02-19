@@ -19,6 +19,19 @@
 TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb, const unsigned int fish_nb) : Ground(GROUND_TYPE::TOWN_HALL), level(level_town_hall), rock_number(rock_nb), wood_number(wood_nb), food_number(food_nb), fish_number(fish_nb) {}
 
 TownHall::TownHall(const TownHall &town_hall) : Ground(GROUND_TYPE::TOWN_HALL, town_hall.ground_id, town_hall.vector_character), level(town_hall.level), rock_number(town_hall.rock_number), wood_number(town_hall.wood_number), food_number(town_hall.food_number), fish_number(town_hall.fish_number) { town_hall.vector_character[0]; }
+TownHall &TownHall::operator=(const TownHall &new_townhall)
+{
+    if (this != &new_townhall) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
+    {
+        Ground::operator=(new_townhall);
+        level = new_townhall.level;
+        rock_number = new_townhall.rock_number;
+        wood_number = new_townhall.wood_number;
+        food_number = new_townhall.food_number;
+        fish_number = new_townhall.fish_number;
+    }
+    return *this;
+}
 TownHall::~TownHall(){}
 TownHall* TownHall::clone() const
 {

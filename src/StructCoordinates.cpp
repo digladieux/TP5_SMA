@@ -22,6 +22,15 @@ StructCoordinates::StructCoordinates(const StructCoordinates &direction) : absci
  */
 StructCoordinates::StructCoordinates(unsigned int x, unsigned int y) : abscissa(x), ordinate(y) {}
 
+StructCoordinates &StructCoordinates::operator=(const StructCoordinates &new_coordinates)
+{
+    if (this != &new_coordinates) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
+    {
+        abscissa = new_coordinates.abscissa;
+        ordinate = new_coordinates.ordinate;
+    }
+    return *this;
+}
 /**
  * \fn void StructCoordinates::setAbcissa(unsigned int x) noexcept
  * \brief Setteur sur l'abscisse

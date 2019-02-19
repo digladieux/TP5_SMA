@@ -87,9 +87,10 @@ void Game::run(unsigned int round)
 }
 void Game::writingReport() noexcept
 {
-    TownHall *townhall = (TownHall *)map->getGroundGrid(0, 0);
+    
+    TownHall *townhall = static_cast<TownHall*>(map->getGroundGrid(0, 0));
     writingReportTownHall(townhall, 0);
-    townhall = (TownHall *)map->getGroundGrid(map->getRowNumber() - 1, map->getColumnNumber() - 1);
+    townhall = static_cast<TownHall*>(map->getGroundGrid(map->getRowNumber() - 1, map->getColumnNumber() - 1));
     writingReportTownHall(townhall, 1);
 }
 
@@ -108,18 +109,14 @@ void Game::lifeOfCharacter()
     Character *character;
     Ground *ground;
     unsigned int number_ground_with_character = map->getSizeVectorGroundWithCharacter(),
-                 number_character_ground,
                  i = 0,
-                 j = 0,
                  team;
-    bool is_ground_deleted;
-
     while (i < number_ground_with_character)
     {
-        is_ground_deleted = false;
-        j = 0;
+        bool is_ground_deleted = false;
+        unsigned int j = 0;
         ground = map->getGroundWithCharacter(i);
-        number_character_ground = ground->getVectorSize();
+        unsigned int number_character_ground = ground->getVectorSize();
         while (j < number_character_ground)
         {
 
@@ -128,21 +125,21 @@ void Game::lifeOfCharacter()
 
             if (!deathOfCharacter(character, i, j))
             {
-                if (character->getCharacterGender() == SEX::FEMALE && !(Date() == (((FemaleCharacter *)character)->getPregnancyTime())) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
+                if (character->getCharacterGender() == SEX::FEMALE && !(Date() == ((static_cast<FemaleCharacter*>(character))->getPregnancyTime())) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
                 {
                     if (character->getCharacterCurrentLife() < 1)
                     {
-                        if (((TownHall *)ground)->removeFishNumber(1))
+                        if ((static_cast<TownHall*>(ground))->removeFishNumber(1))
                         {
                             character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
                         }
-                        else if (((TownHall *)ground)->removeFishNumber(1))
+                        else if ((static_cast<TownHall*>(ground))->removeFishNumber(1))
                         {
                             character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
                         }
                     }
 
-                    if (((FemaleCharacter *)character)->getMonthPregnancy(turn) == 9)
+                    if ((static_cast<FemaleCharacter*>(character))->getMonthPregnancy(turn) == 9)
                     {
                         birthOfCharacter(character);
                     }
@@ -151,7 +148,7 @@ void Game::lifeOfCharacter()
 
                 else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
                 {
-                    ((MaleCharacter *)character)->executeState(*this, *map, ground, (MaleCharacter *)character, i, j, number_ground_with_character, number_character_ground, is_ground_deleted);
+                    (static_cast<MaleCharacter*>(character))->executeState(*this, *map, ground, static_cast<MaleCharacter*>(character), i, j, number_ground_with_character, number_character_ground, is_ground_deleted);
                 }
 
                 else
@@ -195,7 +192,7 @@ bool Game::deathOfCharacter(Character *character, unsigned int i, unsigned int &
 void Game::birthOfCharacter(Character *character)
 {
     Character *new_character;
-    for (unsigned int i = 0; i < ((FemaleCharacter *)character)->getBabyPerPregnancy(); ++i)
+    for (unsigned int i = 0; i < (static_cast<FemaleCharacter*>(character))->getBabyPerPregnancy(); ++i)
     {
         if (genrand_real1() < Constantes::CONFIG_SIMU["chanceMale"])
         {
@@ -208,10 +205,10 @@ void Game::birthOfCharacter(Character *character)
         map->getGroundGrid(new_character->getCharacterTeam())->addCharacter(new_character);
         (new_character->getCharacterTeam() == 0) ? report[0]->incrementNumberOfBirth() : report[1]->incrementNumberOfBirth();
     }
-    ((FemaleCharacter *)character)->setTimePregnancy(Date());
-    ((FemaleCharacter *)character)->randomBabyPerPregnancy();
+    (static_cast<FemaleCharacter*>(character))->setTimePregnancy(Date());
+    (static_cast<FemaleCharacter*>(character))->randomBabyPerPregnancy();
 
-    number_of_birth_this_turn += ((FemaleCharacter *)character)->getBabyPerPregnancy();
+    number_of_birth_this_turn += (static_cast<FemaleCharacter*>(character))->getBabyPerPregnancy();
 }
 
 void Game::display(std::ostream &os) const noexcept

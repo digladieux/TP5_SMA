@@ -20,6 +20,7 @@ public:
   Report();
   Report(const Report&);
   ~Report();
+Report &operator=(const Report &) ;
 
   void incrementNumberOfDeath() noexcept;
   void incrementNumberOfBirth() noexcept;

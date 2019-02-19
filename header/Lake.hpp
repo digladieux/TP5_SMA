@@ -17,7 +17,7 @@
 class Lake : public CollectionPoint
 {
   public:
-    Lake(const unsigned int fish_nb = 1000);
+    explicit Lake(const unsigned int fish_nb = 1000);
     Lake(const Lake &);
     Lake(const Ground &, const unsigned int);
     Lake* clone() const ;

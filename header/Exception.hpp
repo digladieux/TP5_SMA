@@ -1,3 +1,11 @@
+/**
+ * \file Exception.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete contenant la liste des differentes Exception
+ * \date 2018-12-03
+ */
+
+
 #ifndef EXCEPTION_HPP
 #define EXCEPTION_HPP
 
@@ -5,6 +13,10 @@
 #include <exception>
 #include <iostream>
 
+/**
+ * \class Date
+ * \brief Exception par default
+ */
 class Exception : std::exception
 {
   public:
@@ -19,7 +31,7 @@ class InvalidFile : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidFile(std::string);
+    explicit InvalidFile(std::string&);
     virtual ~InvalidFile() throw();
     virtual const char *what() const throw();
 };
@@ -30,7 +42,7 @@ class InvalidConfiguration : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidConfiguration(unsigned int);
+    explicit InvalidConfiguration(unsigned int);
     virtual ~InvalidConfiguration() throw();
     virtual const char *what() const throw();
 };
@@ -41,7 +53,7 @@ class InvalidJob : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidJob(unsigned int);
+    explicit InvalidJob(unsigned int);
     virtual ~InvalidJob() throw();
     virtual const char *what() const throw();
 };
@@ -65,7 +77,7 @@ class InvalidGender : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidGender(const unsigned int);
+    explicit InvalidGender(const unsigned int);
     virtual ~InvalidGender() throw();
     virtual const char *what() const throw();
 };
@@ -98,7 +110,7 @@ class InvalidGroundType : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidGroundType(const unsigned int);
+    explicit InvalidGroundType(const unsigned int);
     virtual ~InvalidGroundType() throw();
     virtual const char *what() const throw();
 };
@@ -109,7 +121,7 @@ class InvalidGroundTypeReadingFile : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidGroundTypeReadingFile(const char);
+    explicit InvalidGroundTypeReadingFile(const char);
     virtual ~InvalidGroundTypeReadingFile() throw();
     virtual const char *what() const throw();
 };
@@ -165,7 +177,7 @@ class InvalidTeam : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidTeam(const unsigned int);
+    explicit InvalidTeam(const unsigned int);
     virtual ~InvalidTeam() throw();
     virtual const char *what() const throw();
 };
@@ -175,7 +187,7 @@ class InvalidDisplayChoice : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidDisplayChoice(const unsigned int);
+    explicit InvalidDisplayChoice(const unsigned int);
     virtual ~InvalidDisplayChoice() throw();
     virtual const char *what() const throw();
 };
@@ -195,7 +207,7 @@ class InvalidStrategy : std::invalid_argument
     std::string message_error;
 
   public:
-    InvalidStrategy(const unsigned int);
+    explicit InvalidStrategy(const unsigned int);
     virtual ~InvalidStrategy() throw();
     virtual const char *what() const throw();
 };

@@ -17,13 +17,13 @@
 class Character
 {
 protected:
-  static unsigned int character_number;
-  unsigned int character_id;
-  Date character_date_of_birth;
-  unsigned int character_team;
-  SEX character_gender;
-  unsigned int character_life ;
-  int character_current_life ;
+  static unsigned int character_number;   /*! Nombre de personnage genere par le jeu */
+  unsigned int character_id;              /*! Identifiant unique du personnage */
+  Date character_date_of_birth;           /*! Date de naissance du personnage */
+  unsigned int character_team;            /*! Equipe du personnage */
+  SEX character_gender;                   /*! Sexe du personnage */
+  unsigned int character_life ;           /*! Vie maximale du personnage */
+  int character_current_life ;            /*! Vie actuelle du personnage */
 
 public:
   Character(const Date &, unsigned int team = 0);
@@ -33,7 +33,7 @@ public:
 
   virtual ~Character();
 
-  const Character &operator=(const Character &);
+  Character &operator=(const Character &);
   unsigned int getCharacterId() const noexcept;
   Date getDateOfBirth() const noexcept;
   unsigned int getCharacterAge(const Date &) const;

@@ -1,3 +1,10 @@
+/**
+ * \file Color.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete contnenant les differentes couleurs utilise dans le terminal
+ * \date 2018-12-03
+ */
+
 #ifndef COLOR_HPP
 #define COLOR_HPP
 #define RESET   "\033[0m"

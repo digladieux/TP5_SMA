@@ -27,7 +27,29 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type), 
     ground_number++;
 }
 /* TODO : clone avec les character ?? Meme ne pas refaire de new et les placer direct dans le terrain ?? */
-
+Ground &Ground::operator=(const Ground &new_ground)
+{
+    if (this != &new_ground) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
+    {
+        ground_id = new_ground.ground_id;
+        ground_type = new_ground.ground_type;
+       
+        for (unsigned int k = 0; k < new_ground.vector_character.size(); k++)
+        {
+             Character *character = nullptr;
+            if (new_ground.getCharacter(k)->getCharacterGender() == SEX::MALE)
+            {
+                character = new MaleCharacter(*static_cast<MaleCharacter*>(new_ground.getCharacter(k)));
+            }
+            else
+            {
+                character = new FemaleCharacter(*static_cast<FemaleCharacter*>(new_ground.getCharacter(k)));
+            }
+            this->addCharacter(character);
+        }
+    }
+    return *this;
+}
 
 /**
  * \fn Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vector_character)
@@ -44,11 +66,11 @@ Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vecto
         old_character = vector_character[k];
         if (old_character->getCharacterGender() == SEX::MALE)
         {
-            character = new MaleCharacter(*(MaleCharacter *)old_character);
+            character = new MaleCharacter(*static_cast<MaleCharacter*>(old_character));
         }
         else
         {
-            character = new FemaleCharacter(*(FemaleCharacter *)old_character);
+            character = new FemaleCharacter(*static_cast<FemaleCharacter*>(old_character));
         }
         this->addCharacter(character);
     }
@@ -92,17 +114,16 @@ Ground* Ground::clone() const
  */ 
 void Ground::addCharacterGround(const Ground& ground) noexcept
 {
-    Character *character;
     for (unsigned int k = 0; k < ground.vector_character.size(); k++)
     {
-        character = nullptr;
+        Character *character = nullptr;
         if (ground.getCharacter(k)->getCharacterGender() == SEX::MALE)
         {
-            character = new MaleCharacter(*(MaleCharacter *)ground.getCharacter(k));
+            character = new MaleCharacter(*static_cast<MaleCharacter*>(ground.getCharacter(k)));
         }
         else
         {
-            character = new FemaleCharacter(*(FemaleCharacter *)ground.getCharacter(k));
+            character = new FemaleCharacter(*static_cast<FemaleCharacter*>(ground.getCharacter(k)));
         }
         this->addCharacter(character);
     }
@@ -157,6 +178,10 @@ unsigned int Ground::getVectorSize() const noexcept
  */
 StructCoordinates Ground::getPosition(int column_number) const noexcept
 {
+    if (column_number < 0)
+    {
+        throw InvalidJob(8) ; /* TODO cree exception */
+    }
     return StructCoordinates(ground_id / column_number, ground_id % column_number);
 }
 /**
@@ -173,7 +198,7 @@ void Ground::addCharacter(Character *new_worker)
     }
     catch (const std::bad_alloc &e)
     {
-        throw e;
+        throw ;
     }
 }
 

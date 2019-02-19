@@ -26,6 +26,8 @@ public:
   TownHall(const unsigned int level_town_hall = 1, const unsigned int rock_nb = 0, const unsigned int wood_nb = 0, const unsigned int food_nb = 0, const unsigned int fish_nb = 0);
   TownHall(const TownHall &);
   TownHall *clone() const;
+  TownHall &operator=(const TownHall &) ;
+
   ~TownHall() ;
   unsigned int getLevel() const noexcept;
   unsigned int getRockNumber() const noexcept;

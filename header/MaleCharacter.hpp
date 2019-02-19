@@ -58,7 +58,7 @@ class MaleCharacter : public Character
     void incrementTimeAtWork() noexcept;
     void resetTimeAtWork() noexcept;
     void setSpeciality(JOB job) noexcept;
-    const MaleCharacter &operator=(const MaleCharacter &new_character);
+    MaleCharacter &operator=(const MaleCharacter &new_character);
     static JOB jobIdToJob(unsigned int);
     static Strategy * strategyIdToStrategy(const unsigned int) ;
     void executeState(Game &, Grid &, Ground *, MaleCharacter *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &) const;

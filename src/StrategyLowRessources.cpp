@@ -33,7 +33,7 @@ StrategyLowRessources* StrategyLowRessources::clone()
 StrategyLowRessources::~StrategyLowRessources(){}
 
 /**
- * \fn bool StrategyJob::run(Grid& map, MaleCharacter *character)
+ * \fn bool StrategyLowRessources::run(Grid& map, MaleCharacter *character)
  * \brief Lancement de la strategie de la ressource la moins grande dans l'hotel de ville du personnage
  * \param &map Carte ou se trouve le personnage
  * \param *character Personnage que l'on veut affecter a un point de collecte

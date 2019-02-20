@@ -15,18 +15,23 @@ class Grid;
 class Ground;
 class Report;
 class TownHall ;
+
+/**
+ * \class Game
+ * \brief Simulateur de notre civilisation
+ */
 class Game
 {
 private:
-  Grid *map;
-  Date turn;
-  Report **report;
-  unsigned int number_of_birth_this_turn;
-  unsigned int number_of_death_this_turn;
-  unsigned int how_to_display;
-  unsigned int strategy ; 
-  std::vector<unsigned int> map_choice;
-  std::vector<unsigned int> character_choice;
+  Grid *map; /*! Carte de notre jeu */ 
+  Date turn; /*! Date actuel du jeu */
+  Report **report; /*! Rapport contenant l'ensemble des resultats de notre simulation */
+  unsigned int number_of_birth_this_turn; /*! Nombre de naissance au tour actuel */
+  unsigned int number_of_death_this_turn; /*! Nombre de mort au tour actuel */
+  unsigned int how_to_display; /*! Choix de l'affichage de la carte */
+  unsigned int strategy ;  /*! Strategie adopte par les personnages */
+  std::vector<unsigned int> map_choice; /*! Liste des points de collectes */
+  std::vector<unsigned int> character_choice; /*! Liste des personnages disponibles */
 
   void turnCharacter(Character *, Ground *, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &);
   bool movementCharacter(Character *, Ground *, unsigned int, unsigned int, unsigned int &, unsigned int &, unsigned int &, unsigned int &, bool &);
@@ -38,7 +43,7 @@ private:
 public:
   Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &, const unsigned int, const unsigned int);
   Game(const Game&) ;
-  Game &Game::operator=(const Game &) ;
+  Game &operator=(const Game &) ;
   ~Game();
   void run(unsigned int);
   void reset(const unsigned int) noexcept;

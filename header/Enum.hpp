@@ -8,7 +8,6 @@
 #ifndef ENUM_HPP
 #define ENUM_HPP
 /**
- * \enum class JOB
  * \brief Enumeration de toutes les specialites possibles qu'un travailleur peut avoir
  */
 enum class JOB
@@ -21,7 +20,6 @@ enum class JOB
 };
 
 /**
- * \enum class TYPE_RESSOURCE_TRANSPORTED
  * \brief Indique le type de ressources transporter par un personnage
  */
 enum class TYPE_RESSOURCE_TRANSPORTED
@@ -34,7 +32,6 @@ enum class TYPE_RESSOURCE_TRANSPORTED
 };
 
 /**
- * \enum class
  * \brief Enumeration de tous les types possibles de case sur notre terrain de jeu possible
  */
 enum class GROUND_TYPE
@@ -48,7 +45,6 @@ enum class GROUND_TYPE
 };
 
 /**
- * \enum class SEX
  * \brief Enumeration qui definit le sexe
  *
  */

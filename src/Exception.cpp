@@ -508,7 +508,7 @@ InvalidColumnNumber::~InvalidColumnNumber() throw() {}
  * \fn const char *InvalidColumnNumber::what() const throw() 
  * \brief Surchage de la methode what pour l'affichage du message d'erreur
  */
-const char *InvalidStrategy::what() const throw()
+const char *InvalidColumnNumber::what() const throw()
 {
     return message_error.c_str();
 }

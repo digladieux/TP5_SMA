@@ -49,7 +49,7 @@ Quarry* Quarry::clone() const
 /**
  * \fn void Quarry::display(std::ostream &os) const noexcept
  * \brief Affichage d'une carriere
- * \param os Flux ou l'on va afficher la carriere
+ * \param &os Flux ou l'on va afficher la carriere
  */
 void Quarry::display(std::ostream &os) const noexcept
 {

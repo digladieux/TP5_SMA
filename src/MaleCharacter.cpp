@@ -51,7 +51,7 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int co
 
 /**
  * \fn MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life, const unsigned int strategy)
- * \brief Constructeur de la classe Male Character
+ * \brief Constructeur de la classe MaleCharacter
  * \param job Specialite du personnage
  * \param &age Date de naissance du personnage
  * \param team Equipe du personnage
@@ -105,6 +105,7 @@ Strategy *MaleCharacter::strategyIdToStrategy(const unsigned int strategy)
     }
     return new_strategy;
 }
+
 /**
  * \fn JOB MaleCharacter::getSpeciality() const noexcept
  * \brief Getteur sur la specialite du personnage masculin
@@ -136,7 +137,7 @@ TYPE_RESSOURCE_TRANSPORTED MaleCharacter::getTypeRessourceTransported() const no
 }
 
 /**
- * \fn StructCoordinates StructCoordinates::getDirection() const noexcept
+ * \fn StructCoordinates &MaleCharacter::getDirection() noexcept
  * \brief Getteur sur la direction du personnage masculin
  * \return Direction du personnage masculin
  */
@@ -146,7 +147,7 @@ StructCoordinates &MaleCharacter::getDirection() noexcept
 }
 
 /**
- * \fn void StructCoordinates::setDirection(unsigned int x, unsigned int y) noexcept
+ * \fn void MaleCharacter::setDirection(unsigned int ground_id, unsigned int column_number) noexcept
  * \brief Setteur sur la direction du personnage masculin
  * \param ground_id Id du terrain ou l'on veut se deplacer
  * \param column_number Nombre de colonne sur la carte

@@ -14,8 +14,8 @@
 #include <iostream>
 
 /**
- * \class Date
- * \brief Exception par default
+ * \class Exception
+ * \brief Exception par default 
  */
 class Exception : std::exception
 {
@@ -25,6 +25,11 @@ class Exception : std::exception
     virtual const char *what() const throw();
 };
 
+
+/**
+ * \class InvalidFile
+ * \brief Exception se declanchant lorsque le fichier a ouvrir n'existe pas
+ */
 class InvalidFile : std::invalid_argument
 {
   private:
@@ -36,6 +41,10 @@ class InvalidFile : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidConfiguration
+ * \brief Exception se declanchant lorsque la configuration n'existe pas 
+ */
 class InvalidConfiguration : std::invalid_argument
 {
   private:
@@ -47,6 +56,10 @@ class InvalidConfiguration : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidJob
+ * \brief Exception se declanchant lorsque la specialite du personnage n'existe pas
+ */
 class InvalidJob : std::invalid_argument
 {
   private:
@@ -58,6 +71,10 @@ class InvalidJob : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class OutOfRangeSuperior
+ * \brief Exception se declanchant lorsque l'index d'un element du tableau n'est pas contenu dans ce dernier
+ */
 class OutOfRangeSuperior : std::out_of_range
 {
   private:
@@ -70,7 +87,10 @@ class OutOfRangeSuperior : std::out_of_range
     virtual const char *what() const throw();
 };
 
-
+/**
+ * \class InvalidGender
+ * \brief Exception se declanchant lorsque le sexe d'un personnage est different de masculin ou feminin
+ */
 class InvalidGender : std::invalid_argument
 {
   private:
@@ -82,6 +102,10 @@ class InvalidGender : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class CurrentDateBeforeBirthException
+ * \brief Exception se declanchant lorsque la date de naissance d'un personnage est apres la date actuelle de la simulation
+ */
 class CurrentDateBeforeBirthException : std::invalid_argument
 {
   private:
@@ -93,6 +117,10 @@ class CurrentDateBeforeBirthException : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class ConstructorDateException
+ * \brief Exception se declanchant lorsque la construction du date est impossible car non valide
+ */
 class ConstructorDateException : std::invalid_argument
 {
   private:
@@ -104,6 +132,10 @@ class ConstructorDateException : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidGroundType
+ * \brief Exception se declanchant lorsque le type de terrain est invalide
+ */
 class InvalidGroundType : std::invalid_argument
 {
   private:
@@ -115,6 +147,10 @@ class InvalidGroundType : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidGroundTypeReadingFile
+ * \brief Exception se declanchant lorsque le type de terrain est invalide lors de la lecture dans le json
+ */
 class InvalidGroundTypeReadingFile : std::invalid_argument
 {
   private:
@@ -126,6 +162,10 @@ class InvalidGroundTypeReadingFile : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidDirection
+ * \brief Exception se declanchant lorsque la direction d'un personnage est hors de la carte
+ */
 class InvalidDirection : std::invalid_argument
 {
   private:
@@ -138,6 +178,10 @@ class InvalidDirection : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidNumberOfCharacter
+ * \brief Exception se declanchant lorsque l'utilisateur rentre un personnage qui n'existe pas 
+ */
 class InvalidNumberOfCharacter : std::invalid_argument
 {
   private:
@@ -149,6 +193,10 @@ class InvalidNumberOfCharacter : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidNumberOfMap
+ * \brief Exception se declanchant lorsque l'utilisateur rentre un point de collecte qui n'existe pas
+ */
 class InvalidNumberOfMap : std::invalid_argument
 {
   private:
@@ -160,6 +208,10 @@ class InvalidNumberOfMap : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidKey
+ * \brief Exception se declanchant lorsque un personnage ou un point de collecte ne se trouve pas dans un json
+ */
 class InvalidKey : std::invalid_argument
 {
   private:
@@ -171,6 +223,10 @@ class InvalidKey : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidTeam
+ * \brief Exception se declanchant lorsque l'identifiant de l'equipe est invalide
+ */
 class InvalidTeam : std::invalid_argument
 {
   private:
@@ -181,6 +237,11 @@ class InvalidTeam : std::invalid_argument
     virtual ~InvalidTeam() throw();
     virtual const char *what() const throw();
 };
+
+/**
+ * \class InvalidDisplayChoice
+ * \brief Exception se declanchant lorsque le choix d'affichage n'est pas correcte
+ */
 class InvalidDisplayChoice : std::invalid_argument
 {
   private:
@@ -192,7 +253,10 @@ class InvalidDisplayChoice : std::invalid_argument
     virtual const char *what() const throw();
 };
 
-
+/**
+ * \class NoRessourceAvailable
+ * \brief Exception se declanchant lorsque le nombre de ressource sur les points de collecte est insuffisant
+ */
 class NoRessourceAvailable : std::invalid_argument
 {
   public:
@@ -201,6 +265,10 @@ class NoRessourceAvailable : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidStrategy
+ * \brief Exception se declanchant lorsque l'identifiant de la strategie est invalide
+ */
 class InvalidStrategy : std::invalid_argument
 {
   private:
@@ -212,6 +280,10 @@ class InvalidStrategy : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+/**
+ * \class InvalidColumnNumber
+ * \brief Exception se declanchant lorsque le nombre de colonne est inferieur a 0
+ */
 class InvalidColumnNumber : std::invalid_argument
 {
   private:

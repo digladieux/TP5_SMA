@@ -10,18 +10,34 @@
 #include <iostream>
 
 /**
+ * \fn TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb, const unsigned int fish_nb)
  * \brief Constructeur de la classe Town Hall
  * \param level_town_hall Niveau de l'hotel de ville
  * \param rock_nb Nombre de pierre dans le stock initial
  * \param wood_nb Nombre de bois dans le stock initial
  * \param food_nb Nombre de nouriture dans le stock initial
+ * \param fish_nb Nombre de poisson dans le stock initial
  */
+
 TownHall::TownHall(const unsigned int level_town_hall, const unsigned int rock_nb, const unsigned int wood_nb, const unsigned int food_nb, const unsigned int fish_nb) : Ground(GROUND_TYPE::TOWN_HALL), level(level_town_hall), rock_number(rock_nb), wood_number(wood_nb), food_number(food_nb), fish_number(fish_nb) {}
 
+
+/**
+ * \fn TownHall::TownHall(const TownHall &town_hall) 
+ * \brief Constructeur de copie de la classe TownHall
+ * \param &town_hall Terrain que l'on veut copie 
+ */
 TownHall::TownHall(const TownHall &town_hall) : Ground(GROUND_TYPE::TOWN_HALL, town_hall.ground_id, town_hall.vector_character), level(town_hall.level), rock_number(town_hall.rock_number), wood_number(town_hall.wood_number), food_number(town_hall.food_number), fish_number(town_hall.fish_number) { town_hall.vector_character[0]; }
+
+/**
+ * \fn TownHall &TownHall::operator=(const TownHall &new_townhall)
+ * \brief Surcharge de l'operateur d'affectation
+ * \param &new_townhall Hotel de ville que l'on veut copier
+ * \return Le nouvel hotel de ville 
+ */
 TownHall &TownHall::operator=(const TownHall &new_townhall)
 {
-    if (this != &new_townhall) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
+    if (this != &new_townhall) /* On verifie que l'hotel de ville n'est pas le meme que l'on veut copier */
     {
         Ground::operator=(new_townhall);
         level = new_townhall.level;
@@ -32,7 +48,17 @@ TownHall &TownHall::operator=(const TownHall &new_townhall)
     }
     return *this;
 }
+
+/**
+ * \fn TownHall::~TownHall()
+ * \brief Destructeur de la classe TownHall
+ */
 TownHall::~TownHall(){}
+
+/**
+ * \fn TownHall* TownHall::clone() const
+ * \brief Constructeur dynamique de la classe TownHall. C'est un moyen de construire un constructeur virtuel. Quand on ne connait pas le type de Ground que l'on a et que l'on veut faire une copie de ce dernier, on utilise cette methode
+ */
 TownHall* TownHall::clone() const
 {
     return new TownHall(*this);
@@ -97,6 +123,12 @@ void TownHall::incrementLevel() noexcept
     level++;
 }
 
+/**
+ * \brief Ajout de ressource dans l'hotel de ville
+ * \param type Type de ressource a ajouter
+ * \param ressource_number Nombre de ressource a ajouter
+ * \return true Si l'ajout a ete possible, faux sinon (nombre negatif)
+ */
 bool TownHall::addRessources(TYPE_RESSOURCE_TRANSPORTED type, const int ressource_number)
 {
     bool flag = true;
@@ -207,6 +239,11 @@ bool TownHall::removeFishNumber(const int fish_nb) noexcept
     return flag;
 }
 
+/**
+ * \fn GROUND_TYPE TownHall::lowStock() const noexcept
+ * \brief Retour la ressource la moins presente dans l'hotel de ville
+ * \return Le type de terrain le moins present dans l'hotel de ville
+ */
 GROUND_TYPE TownHall::lowStock() const noexcept
 {
     GROUND_TYPE ground_type;
@@ -246,6 +283,10 @@ void TownHall::display(std::ostream &os) const noexcept
     }
 }
 
+/**
+ * \brief Affichage des ressources actuelles de l'hotel de ville
+ * \param &os Flux ou l'on va afficher les caracteristiques de l'hotel de ville
+ */
 void TownHall::displayRessources(std::ostream &os) const noexcept
 {
     os << std::endl;

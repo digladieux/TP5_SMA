@@ -33,7 +33,7 @@ StateMovement *StateMovement::clone()
 /**
  * \fn void StateMovement::run(Game &, Grid &map, Ground *ground, MaleCharacter *character, unsigned int &index_ground_with_character, unsigned int &index_character, unsigned int &number_ground_with_character, unsigned int &number_character_ground, bool &is_ground_deleted) const
  * \brief Lancement de l'etat Deplacement par le personnage
- * \param &grid Carte ou se trouve le personnage
+ * \param &map Carte ou se trouve le personnage
  * \param *ground Terrain ou se trouve le personnage
  * \param *character Personnage en question
  * \param &index_ground_with_character Indice qui correspond a la position du terrain ou se trouve le personnage dans le vecteur de terrain

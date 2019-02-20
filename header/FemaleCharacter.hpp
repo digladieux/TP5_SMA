@@ -20,7 +20,7 @@ class FemaleCharacter : public Character
 private:
   unsigned int baby_per_pregnancy; /*! Nombre de bebe par couche */
   Date pregnancy_time;             /*! Nombre de mois avant la couche */
-  unsigned int menopause;
+  unsigned int menopause; /*! Age ou le personnage feminin ne pourra plus faire d'enfant */
 
 public:
   FemaleCharacter(const Date &, unsigned int team = 0);

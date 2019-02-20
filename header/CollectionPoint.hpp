@@ -19,7 +19,7 @@
 class CollectionPoint : public Ground
 {
   protected:
-    unsigned int ressources_number; /*! Nombre de ressources encore disponible sur le point de collecte */
+    unsigned int ressources_number; /*! Nombre de ressource sur le point de collecte */
 
   public:
     CollectionPoint(const Ground& , GROUND_TYPE, const unsigned int);

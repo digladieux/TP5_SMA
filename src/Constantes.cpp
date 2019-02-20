@@ -10,6 +10,10 @@
 #include "../header/Exception.hpp"
 #include <fstream>
 #include <iostream>
+
+/**
+ * \brief Redefinission du type nlohmann (son auteur)::json par json
+ */
 using json = nlohmann::json;
 
 /**

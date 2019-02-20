@@ -1,3 +1,10 @@
+/**
+ * \file StateWorkingCollectionPoint.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source StateWorkingCollectionPoint.cpp
+ * \date 2018-12-03
+ */
+
 #ifndef STATE_WORKING_COLLECTION_POINT
 #define STATE_WORKING_COLLECTION_POINT
 
@@ -9,7 +16,10 @@
 
 
 
-
+/**
+ * \class StateWorkingCollectionPoint
+ * \brief Etat de travail sur un point de collecte
+ */
 class StateWorkingCollectionPoint : public State
 {
     public:

@@ -21,6 +21,10 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+
+/**
+ * \brief Redefinission du type nlohmann (son auteur)::json par json
+ */
 using json = nlohmann::json;
 
 Grid::Grid(std::vector<unsigned int>& choice_map, std::vector<unsigned int>& choice_character, const unsigned int strategy) : ground_with_character(0)

@@ -30,16 +30,16 @@ class Strategy ;
 class MaleCharacter : public Character
 {
   private:
-    StructCoordinates direction;
-    State * character_current_state;
-    TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;
-    JOB speciality;            /*! Specialite du personnage */
-    Strategy * character_strategy ;
-    unsigned int time_at_work; /*! Temps de travail effectue dans un point de collecte */
+    StructCoordinates direction;                              /*! Direction du personnage masculin */
+    State * character_current_state;                          /*! Etat actuel du personnage */
+    TYPE_RESSOURCE_TRANSPORTED type_ressource_transported;    /*! Type de ressource transporte par le personnage */
+    JOB speciality;                                           /*! Specialite du personnage */
+    Strategy * character_strategy ;                           /*! Strategie adopte par le personnage */
+    unsigned int time_at_work;                                /*! Temps de travail effectue dans un point de collecte */
 
   public:
-    MaleCharacter(const Date &, unsigned int team = 0, unsigned column_number = 0, const unsigned int strategy = 0);
-    MaleCharacter(JOB, const Date &,  unsigned int team = 0, unsigned column_number = 0, unsigned int life = 200, const unsigned int strategy = 0);
+    MaleCharacter(const Date &, unsigned int team = 0, unsigned int column_number = 0, const unsigned int strategy = 0);
+    MaleCharacter(JOB, const Date &,  unsigned int team = 0, unsigned int column_number = 0, unsigned int life = 200, const unsigned int strategy = 0);
     MaleCharacter(const MaleCharacter &);
     ~MaleCharacter();
 

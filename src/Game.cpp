@@ -23,8 +23,22 @@
 #include "math.h"
 #include <unistd.h>
 #include <limits>
+
+/**
+ * \brief Redefinission du type nlohmann (son auteur)::json par json
+ */
 using json = nlohmann::json;
 
+/**
+ * \fn Game::Game(std::vector<unsigned int> &vector_map, std::vector<unsigned int> &vector_character, unsigned int config_choice, const Date &date, const unsigned int display_choice, const unsigned int strategy_choice) 
+ * \brief Constructeur de la classe Game
+ * \param &vector_map Vecteur contenant la liste des points de collecte
+ * \param &vector_character Vecteur contenant la liste des personnages
+ * \param config_choice Entier definissant le choix de la configuration de la simulation
+ * \param &date Date de depart de la simulation
+ * \param display_choice Entier definissant le choix d'affichage de la simulation
+ * \param strategy_choice Entier definissant le choix de la strategie de chaque personnage
+ */
 Game::Game(std::vector<unsigned int> &vector_map, std::vector<unsigned int> &vector_character, unsigned int config_choice, const Date &date, const unsigned int display_choice, const unsigned int strategy_choice) : map(new Grid(vector_map, vector_character, strategy_choice)), turn(date), number_of_birth_this_turn(0), number_of_death_this_turn(0), how_to_display(display_choice), strategy(strategy_choice), map_choice(vector_map), character_choice(vector_character)
 {
 
@@ -40,11 +54,23 @@ Game::Game(std::vector<unsigned int> &vector_map, std::vector<unsigned int> &vec
     }
 }
 
+/**
+ * \fn Game::~Game()
+ * \brief Destructeur de la classe Game
+ */
 Game::~Game()
 {
     delete map;
-    delete report;
+    delete report[0];
+    delete report[1] ;
+    delete [] report ;
 }
+
+/**
+ * \fn Game::Game(const Game& game) :
+ * \brief Constructeur de copie de la classe Game
+ * \param &game Jeu que l'on veut copier
+ */
 Game::Game(const Game& game) : map(game.map), turn(game.turn), number_of_birth_this_turn(game.number_of_birth_this_turn), number_of_death_this_turn(game.number_of_death_this_turn), how_to_display(game.how_to_display), strategy(game.strategy), map_choice(game.map_choice), character_choice (game.character_choice) 
 {
     report = new Report *[2]();
@@ -54,6 +80,12 @@ Game::Game(const Game& game) : map(game.map), turn(game.turn), number_of_birth_t
     }
 }
 
+/**
+ * \fn Game &Game::operator=(const Game &new_game)
+ * \brief Surcharge de l'operateur d'affectation
+ * \param &new_game Jeu que l'on veut copier
+ * \return Le nouveau jeu
+ */
 Game &Game::operator=(const Game &new_game)
 {
     if (this != &new_game) /* On verifie que le jeu n'est pas le meme que l'on veut copier */
@@ -75,13 +107,24 @@ Game &Game::operator=(const Game &new_game)
     return *this;
 }
 
+/**
+ * \fn void Game::reset(const unsigned int new_strategy) noexcept
+ * \brief Remise a  de la simulation 
+ * \param new_strategy Changement de strategy pour les joueurs
+ */
 void Game::reset(const unsigned int new_strategy) noexcept
 {
-    turn = Date(1, 1, 60); /* CONSTANTE */
+    turn = Date(1, 1, 60); /* TODO : CONSTANTE */
     delete map;
     strategy = new_strategy;
     map = new Grid(map_choice, character_choice, strategy);
 }
+
+/**
+ * \fn void Game::run(unsigned int round)
+ * \brief Lancement de la simulation
+ * \param round Nombre de tour de la simulation
+ */
 void Game::run(unsigned int round)
 {
     for (unsigned int i = 0; i < round; i++)
@@ -114,6 +157,11 @@ void Game::run(unsigned int round)
     }
     writingReport();
 }
+
+/**
+ * \fn void Game::writingReport() noexcept
+ * \brief Ecriture du rapport pour les 2 equipes
+ */
 void Game::writingReport() noexcept
 {
     
@@ -123,6 +171,12 @@ void Game::writingReport() noexcept
     writingReportTownHall(townhall, 1);
 }
 
+/**
+ * \fn void Game::writingReportTownHall(TownHall *townhall, unsigned int i) noexcept
+ * \brief Ecriture du rapport pour 1 equipe
+ * \param townhall Hotel de ville
+ * \param i Numero de l'equipe auquel l'hotel de ville appartient
+ */
 void Game::writingReportTownHall(TownHall *townhall, unsigned int i) noexcept
 {
     report[i]->setLevel(townhall->getLevel());
@@ -133,6 +187,10 @@ void Game::writingReportTownHall(TownHall *townhall, unsigned int i) noexcept
     report[i]->setFoodNumber(townhall->getFoodNumber());
 }
 
+/**
+ * \fn void Game::lifeOfCharacter()
+ * \brief Lancement de la simulation pour un tour
+ */
 void Game::lifeOfCharacter()
 {
     Character *character;
@@ -140,23 +198,23 @@ void Game::lifeOfCharacter()
     unsigned int number_ground_with_character = map->getSizeVectorGroundWithCharacter(),
                  i = 0,
                  team;
-    while (i < number_ground_with_character)
+    while (i < number_ground_with_character) /* On regarde la liste de tous les terrains qui contiennent des personnages */
     {
         bool is_ground_deleted = false;
         unsigned int j = 0;
         ground = map->getGroundWithCharacter(i);
         unsigned int number_character_ground = ground->getVectorSize();
-        while (j < number_character_ground)
+        while (j < number_character_ground) /* On regarde la liste de tous les personnages sur ce terrain */
         {
 
             character = ground->getCharacter(j);
             team = character->getCharacterTeam();
 
-            if (!deathOfCharacter(character, i, j))
-            {
-                if (character->getCharacterGender() == SEX::FEMALE && !(Date() == ((static_cast<FemaleCharacter*>(character))->getPregnancyTime())) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
+            if (!deathOfCharacter(character, i, j)) /* Si le personnage ne meurt pas (plus de vie ou vieilesse) */
+            { /*TODO : un personnage a la menopause ne peut pas manger ?? */
+                if (character->getCharacterGender() == SEX::FEMALE && !(Date() == ((static_cast<FemaleCharacter*>(character))->getPregnancyTime())) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) /* Si le personnage est feminin est majeur */
                 {
-                    if (character->getCharacterCurrentLife() < 1)
+                    if (character->getCharacterCurrentLife() < 1) /* Si il ne va plus avoir de vie, on le fait manger */
                     {
                         if ((static_cast<TownHall*>(ground))->removeFishNumber(1))
                         {
@@ -167,15 +225,15 @@ void Game::lifeOfCharacter()
                             character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
                         }
                     }
-
-                    if ((static_cast<FemaleCharacter*>(character))->getMonthPregnancy(turn) == 9)
+/*TODO : 9 une constant mettre dans le json */
+                    if ((static_cast<FemaleCharacter*>(character))->getMonthPregnancy(turn) == 9) /* Si le personnage peut accoucher */
                     {
                         birthOfCharacter(character);
                     }
                     j++;
                 }
 
-                else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"]))
+                else if ((character->getCharacterGender() == SEX::MALE) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) /* Si le personnage est masculin */
                 {
                     (static_cast<MaleCharacter*>(character))->executeState(*this, *map, ground, static_cast<MaleCharacter*>(character), i, j, number_ground_with_character, number_character_ground, is_ground_deleted);
                 }
@@ -185,19 +243,27 @@ void Game::lifeOfCharacter()
                     j++;
                 }
             }
-            else
+            else /* Si le personnage est mort on actualise le rapport */
             {
                 number_character_ground--;
                 (team == 0) ? report[0]->incrementNumberOfDeath() : report[1]->incrementNumberOfDeath();
                 number_of_death_this_turn++;
             }
         }
-        if (!is_ground_deleted)
+        if (!is_ground_deleted) /* Si un terrain contient encore des personnages, alors on regarde le suivant */
         {
             i++;
         }
     }
 }
+
+/**
+ * \fn double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordinates &b)
+ * \brief Calcul la distance euclidienne entre 2 points de la carte 
+ * \param a Premier point de la carte
+ * \param b Deuxieme point de la carte
+ * \return La distance entre ces 2 points
+ */
 double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordinates &b)
 {
 
@@ -206,10 +272,18 @@ double Game::euclidienneDistance(const StructCoordinates &a, const StructCoordin
     return sqrt(pow(substrate_abscissa, 2) + pow(substrate_ordinate, 2));
 }
 
+/**
+ * \fn bool Game::deathOfCharacter(Character *character, unsigned int i, unsigned int &j)
+ * \brief Methode qui va tester si le personnage restera en vie a ce tour
+ * \param *character Personnage qui va potentiellement mourrir 
+ * \param i Indice du terrain dans le vecteur
+ * \param j Indice du personnage sur ce terrain
+ * \return True si le personnage meurt, false sinon 
+ */
 bool Game::deathOfCharacter(Character *character, unsigned int i, unsigned int &j)
 {
     bool dead = false;
-    if (character->isDead(turn) || character->decrementCharacterLife())
+    if (character->isDead(turn) || character->decrementCharacterLife()) /* Si le personnage meurt de vieillesse ou de faim */
     {
         dead = true;
         map->getGroundWithCharacter(i)->removeCharacter(j);
@@ -218,6 +292,12 @@ bool Game::deathOfCharacter(Character *character, unsigned int i, unsigned int &
     }
     return dead;
 }
+
+/**
+ * \fn void Game::birthOfCharacter(Character *character)
+ * \brief Methode qui donne naissance a des personnages
+ * \param *character Personnage Feminin qui va donner naissance a des enfants 
+ */
 void Game::birthOfCharacter(Character *character)
 {
     Character *new_character;
@@ -240,20 +320,33 @@ void Game::birthOfCharacter(Character *character)
     number_of_birth_this_turn += (static_cast<FemaleCharacter*>(character))->getBabyPerPregnancy();
 }
 
+/**
+ * \fn void Game::display(std::ostream &os) const noexcept
+ * \brief Affichage de la simulation a l'ecran 
+ * \param &os Flux ou l'on va afficher la simulation
+ */
 void Game::display(std::ostream &os) const noexcept
 {
     map->display();
-    //map->displayMap->);
-    //map->displayCharacter();
     os << "Number of birth this turn : " << number_of_birth_this_turn << std::endl;
     os << "Number of death this turn : " << number_of_death_this_turn << std::endl;
 }
 
+/**
+ * \fn Date Game::getTurn() const noexcept
+ * \brief Getteur sur la date du tour actuelle
+ * \return Le date du tour actuelle
+ */
 Date Game::getTurn() const noexcept
 {
     return turn;
 }
 
+/**
+ * \fn Report **Game::getReport() const noexcept
+ * \brief Getteur sur la liste des rapports de la simulations
+ * \return Les rapports des 2 equipes
+ */
 Report **Game::getReport() const noexcept
 {
     return report;

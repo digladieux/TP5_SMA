@@ -265,7 +265,7 @@ void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
 }
 
 /**
- * \fn void Menu::displayGroundType(std::ostream &os, unsigned int job)
+ * \fn void Menu::displayJob(std::ostream &os, unsigned int job)
  * \brief Methode d'affichage de la specialite du personnage 
  * \param &os Flux sur lequel on va afficher le message 
  * \param job Specialite du personnage

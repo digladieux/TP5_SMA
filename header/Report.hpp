@@ -1,19 +1,32 @@
+/**
+ * \file Report.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source Report.cpp
+ * \date 2018-12-03
+ */
+
 #ifndef REPORT_HPP
 #define REPORT_HPP
 #include <iostream>
+
+/**
+ * \class Report
+ * \brief Rapport en fin de simulation pour une equipe 
+ * 
+ */
 class Report
 {
 private:
   static unsigned int counter;      /*! Compteur du nombre de rapport */
   unsigned int id;                  /*! Identifiant du rapport */
   unsigned int people_number_init;  /*! Nombre d'habitant d'une equipe */
-  unsigned int death_number;/*! Nombre de mort */
-  unsigned int birth_number;/*! Nombre de naissance */
-  unsigned int level;       /*! Niveau de l'hotel de ville */
-  unsigned int rock_number; /*! Nombre de pierre dans l'HdV */
-  unsigned int wood_number; /*! Nombre de bois dans l'HdV */
-  unsigned int food_number; /*! Nombre de nourriture dans l'HdV */
-  unsigned int fish_number; /*! Nombre de poisson dans l'HdV */
+  unsigned int death_number;        /*! Nombre de mort */
+  unsigned int birth_number;        /*! Nombre de naissance */
+  unsigned int level;               /*! Niveau de l'hotel de ville */
+  unsigned int rock_number;         /*! Nombre de pierre dans l'HdV */
+  unsigned int wood_number;         /*! Nombre de bois dans l'HdV */
+  unsigned int food_number;         /*! Nombre de nourriture dans l'HdV */
+  unsigned int fish_number;         /*! Nombre de poisson dans l'HdV */
   unsigned int team;
 
 public:

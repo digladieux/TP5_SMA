@@ -9,6 +9,10 @@
 #define CONSTANTES_HPP
 #include "json.hpp"
 #include <iostream>
+
+/**
+ * \brief Redefinission du type nlohmann (son auteur)::json par json
+ */
 using json = nlohmann::json;
 
 /**

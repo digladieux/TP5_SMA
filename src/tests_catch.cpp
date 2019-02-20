@@ -27,6 +27,10 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+
+/**
+ * \brief Redefinission du type nlohmann (son auteur)::json par json
+ */
 using json = nlohmann::json;
 /*TODO : verifier tous les commentaires partout plus rien ne marche */
 
@@ -203,35 +207,35 @@ TEST_CASE("MaleCharacter", "[character]")
     CHECK(SEX::MALE == character1->getCharacterGender());
     CHECK(SEX::MALE == character2->getCharacterGender());
 
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == (static_cast<MaleCharacter*>(character))->getTypeRessourceTransported());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == (static_cast<MaleCharacter*>(character1))->getTypeRessourceTransported());
 
-    (static_cast<MaleCharacter*>(character))->setDirection(4, 10);
-    (static_cast<MaleCharacter*>(character))->setTypeRessourceTransported(GROUND_TYPE::FARM);
+    (static_cast<MaleCharacter*>(character1))->setDirection(4, 10);
+    (static_cast<MaleCharacter*>(character1))->setTypeRessourceTransported(GROUND_TYPE::FARM);
 
-    CHECK((static_cast<MaleCharacter*>(character))->getDirection().getAbscissa() == 0);
-    CHECK((static_cast<MaleCharacter*>(character))->getDirection().getOrdinate() == 4);
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == (static_cast<MaleCharacter*>(character))->getTypeRessourceTransported());
+    CHECK((static_cast<MaleCharacter*>(character1))->getDirection().getAbscissa() == 0);
+    CHECK((static_cast<MaleCharacter*>(character1))->getDirection().getOrdinate() == 4);
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == (static_cast<MaleCharacter*>(character1))->getTypeRessourceTransported());
 
     CHECK(Date(20, 5, 2018) == character1->getDateOfBirth());
     CHECK(Date() == character2->getDateOfBirth());
 
     CHECK(3 == character1->getCharacterId());
     CHECK(4 == character2->getCharacterId());
-    CHECK(JOB::FARMER == (static_cast<MaleCharacter*>(character))->getSpeciality());
+    CHECK(JOB::FARMER == (static_cast<MaleCharacter*>(character1))->getSpeciality());
 
-    CHECK(0 == (static_cast<MaleCharacter*>(character))->getTimeAtWork());
+    CHECK(0 == (static_cast<MaleCharacter*>(character2))->getTimeAtWork());
 
-    (static_cast<MaleCharacter*>(character))->setTypeRessourceTransported(GROUND_TYPE::FARM);
+    (static_cast<MaleCharacter*>(character2))->setTypeRessourceTransported(GROUND_TYPE::FARM);
     for (int i = 1; i < 4; i++)
     {
-        (static_cast<MaleCharacter*>(character))->incrementTimeAtWork();
-        CHECK(i % 4 == (static_cast<MaleCharacter*>(character))->getTimeAtWork());
+        (static_cast<MaleCharacter*>(character2))->incrementTimeAtWork();
+        CHECK(i % 4 == (static_cast<MaleCharacter*>(character2))->getTimeAtWork());
     }
 
-    (static_cast<MaleCharacter*>(character))->resetTimeAtWork();
-    CHECK(0 == (static_cast<MaleCharacter*>(character))->getTimeAtWork());
+    (static_cast<MaleCharacter*>(character2))->resetTimeAtWork();
+    CHECK(0 == (static_cast<MaleCharacter*>(character2))->getTimeAtWork());
 
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == (static_cast<MaleCharacter*>(character))->getTypeRessourceTransported());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == (static_cast<MaleCharacter*>(character2))->getTypeRessourceTransported());
 
     delete character1;
     delete character2;
@@ -486,6 +490,7 @@ TEST_CASE("MethodeStatic&Comparaison", "[static]")
     StructCoordinates b(2, 0);
     CHECK(2 == Game::euclidienneDistance(a, b));
 }
+
 TEST_CASE("GroundCopy", "[ground]")
 {
     Ground *ground1 = new Ground();
@@ -654,16 +659,17 @@ TEST_CASE("Report", "[report]")
     CHECK(1 == report_copy->getNumberOfBirth());
 
     delete report;
+    delete report_copy ;
 }
 
 TEST_CASE("Game", "[game]")
 {
-    system("clear");
+    // system("clear");
     std::vector<unsigned int> vector_character = {6, 1};
     // std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    Game game(vector_map, vector_character, 1, Date(1, 1, 60), 1, 1);
-    game.run(1000);
+    Game game(vector_map, vector_character, 1, Date(1, 1, 60), 2, 1);
+    game.run(100);
     game.reset(1) ;
     Report ** report = game.getReport() ;
     report[0] -> display() ;

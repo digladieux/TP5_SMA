@@ -27,10 +27,11 @@ CollectionPoint::CollectionPoint(const Ground& ground, GROUND_TYPE type, const u
 CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb) : Ground(type), ressources_number(ressources_nb) {}
 
 /**
- * \fn CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb, unsigned int id, std::vector<Character *> vector)
+ * \fn CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb, unsigned int id, const std::vector<Character *>& vector)
  * \brief Constructeur de la classe CollectionPoint avec ajout de personnage 
  * \param type Type de terrain (Carriere, Foret, etc..)
  * \param ressources_nb Nombre de ressource sur ce terrain
+ * \param id Identifiant du terrain
  * \param vector Vecteur de Personnage
  */
 CollectionPoint::CollectionPoint(GROUND_TYPE type, const unsigned int ressources_nb, unsigned int id, const std::vector<Character *>& vector) : Ground(type, id, vector), ressources_number(ressources_nb) {}

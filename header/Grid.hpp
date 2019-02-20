@@ -32,7 +32,7 @@ private:
 public:
   Grid(std::vector<unsigned int>&, std::vector<unsigned int>&, const unsigned int strategy_choice = 0);
   Grid(const Grid &);
-  Grid &Grid::operator=(const Grid &) ;
+  Grid &operator=(const Grid &) ;
   ~Grid();
   void displayMap(std::ostream &os = std::cout) const noexcept;
   void displayCharacter(std::ostream &os = std::cout) const noexcept;

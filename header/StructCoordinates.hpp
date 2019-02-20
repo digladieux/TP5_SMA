@@ -1,14 +1,21 @@
+/**
+ * \file StructCoordinates.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source StructCoordinates.cpp
+ * \date 2018-12-03
+ */
+
 #ifndef STRUCT_COORDINATES_HPP
 #define STRUCT_COORDINATES_HPP
 /**
- * \struct Coordinates
+ * \class StructCoordinates
  * \brief Coordonne d'un point
  */
 class StructCoordinates
 {
   private:
-    unsigned int abscissa; /* Abscisse du point */
-    unsigned int ordinate; /* Ordonnee du point */
+    unsigned int abscissa; /*! Abscisse du point */
+    unsigned int ordinate; /*! Ordonnee du point */
 
   public:
     StructCoordinates(const StructCoordinates &);

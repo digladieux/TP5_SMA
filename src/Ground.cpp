@@ -27,9 +27,16 @@ Ground::Ground(GROUND_TYPE type) : ground_id(ground_number), ground_type(type), 
     ground_number++;
 }
 /* TODO : clone avec les character ?? Meme ne pas refaire de new et les placer direct dans le terrain ?? */
+
+/**
+ * \fn Ground &Ground::operator=(const Ground &new_ground)
+ * \brief Surcharge de l'operateur d'affectation
+ * \param &new_ground Terrain que l'on veut copier 
+ * \return Le nouveau terrain copie
+ */
 Ground &Ground::operator=(const Ground &new_ground)
 {
-    if (this != &new_ground) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
+    if (this != &new_ground) /* On verifie que le terrain n'est pas le meme que l'on veut copier */
     {
         ground_id = new_ground.ground_id;
         ground_type = new_ground.ground_type;
@@ -55,6 +62,7 @@ Ground &Ground::operator=(const Ground &new_ground)
  * \fn Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vector_character)
  * \brief Constructeur de la classe Ground
  * \param type Type de terrain
+ * \param id identifiant unique du terrain
  * \param vector_character Vecteur content les personnages allant sur cette case
  */
 Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vector_character) : ground_id(id), ground_type(type)

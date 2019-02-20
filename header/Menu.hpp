@@ -1,9 +1,23 @@
+/**
+ * \file Menu.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier d'en-tete du fichier source Menu.cpp
+ * \date 2018-12-03
+ */
 #ifndef MENU_HPP
 #define MENU_HPP
 #include <iostream>
 #include "json.hpp"
 
+/**
+ * \brief Redefinission du type nlohmann (son auteur)::json par json
+ */
 using json = nlohmann::json;
+
+/**
+ * \class Menu
+ * \brief Classe pour l'affichage et le choix des caracteristiques de notre simulation
+ */
 class Menu
 {
 

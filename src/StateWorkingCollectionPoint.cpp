@@ -34,7 +34,7 @@ StateWorkingCollectionPoint* StateWorkingCollectionPoint::clone()
 /**
  * \fn void StateWorkingCollectionPoint::run(Game&, Grid& map, Ground *ground, MaleCharacter *character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
  * \brief Lancement de l'etat Travail sur le point de collecte par le personnage
- * \param &grid Carte ou se trouve le personnage
+ * \param &map Carte ou se trouve le personnage
  * \param *ground Terrain ou se trouve le personnage
  * \param *character Personnage en question
  * \param &j Indice qui correspond a la position du personnage dans le vecteur de personnage

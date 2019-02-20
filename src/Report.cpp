@@ -30,6 +30,12 @@ Report::Report(const Report& report) : id (report.id), people_number_init(report
     counter ++ ;
 } 
 
+/**
+ * \fn Report &Report::operator=(const Report &new_report)
+ * \brief Surchage de l'operateur d'affectation
+ * \param &new_report Rapport a copie 
+ * \return Le nouveau rapport
+ */
 Report &Report::operator=(const Report &new_report)
 {
     if (this != &new_report)
@@ -131,7 +137,7 @@ void Report::setFishNumber(const unsigned int current_fish) noexcept
 
 
 /**
- * \fn Report::getNumberOfDeath() const noexcept
+ * \fn unsigned int Report::getNumberOfDeath() const noexcept
  * \brief Renvoie la valeur de l'attribut death_number
  * \return Nombre de mort
  */
@@ -141,7 +147,7 @@ unsigned int Report::getNumberOfDeath() const noexcept
 }
 
 /**
- * \fn Report::getNumberOfBirth() const noexcept
+ * \fn unsigned int Report::getNumberOfBirth() const noexcept
  * \brief Renvoie la valeur de l'attribut birth_number
  * \return Nombre de naissance
  */
@@ -152,7 +158,7 @@ unsigned int Report::getNumberOfBirth() const noexcept
 
 
 /**
- * \fn Report::getLevel() const noexcept
+ * \fn unsigned int Report::getLevel() const noexcept
  * \brief Renvoie la valeur de l'attribut level
  * \return Niveau de l'Hotel de ville
  */
@@ -162,7 +168,7 @@ unsigned int Report::getLevel() const noexcept
 }
 
 /**
- * \fn Report::getRockNumber() const noexcept
+ * \fn unsigned int Report::getRockNumber() const noexcept
  * \brief Renvoie la valeur de l'attribut rock_number
  * \return Nombre de pierre
  */
@@ -172,7 +178,7 @@ unsigned int Report::getRockNumber() const noexcept
 }
 
 /**
- * \fn Report::getWoodNumber() const noexcept
+ * \fn unsigned int Report::getWoodNumber() const noexcept
  * \brief Renvoie la valeur de l'attribut wood_number
  * \return Nombre de bois
  */
@@ -182,7 +188,7 @@ unsigned int Report::getWoodNumber() const noexcept
 }
 
 /**
- * \fn Report::getFoodNumber() const noexcept
+ * \fn unsigned int Report::getFoodNumber() const noexcept
  * \brief Renvoie la valeur de l'attribut food_number
  * \return Nombre de nourriture
  */
@@ -192,7 +198,7 @@ unsigned int Report::getFoodNumber() const noexcept
 }
 
 /**
- * \fn Report::getFishNumber() const noexcept
+ * \fn unsigned int Report::getFishNumber() const noexcept
  * \brief Renvoie la valeur de l'attribut fish_number
  * \return Nombre de poisson
  */
@@ -202,7 +208,7 @@ unsigned int Report::getFishNumber() const noexcept
 }
 
 /**
- * \fn Report::geTeam() const noexcept
+ * \fn unsigned int Report::getTeam() const noexcept
  * \brief Renvoie la valeur de l'attribut team
  * \return Equipe de l'hotel ville
  */
@@ -212,7 +218,7 @@ unsigned int Report::getTeam() const noexcept
 }
 
 /**
- * \fn Report::getNumberOfCharacter() const noexcept
+ * \fn unsigned int Report::getNumberOfCharacter() const noexcept
  * \brief Renvoie la valeur de l'attribut people_number_init
  * \return Nombre d'habitant
  */
@@ -243,7 +249,7 @@ void Report::display(std::ostream &os) const noexcept
 }
 
 /**
- * \fn Report::setTeam(const unsigned int current_team) noexcept
+ * \fn void Report::setTeam(const unsigned int current_team) noexcept
  * \brief Modifie l'equipe du rapport
  * \param current_team Identifiant de la nouvelle equipe
  */
@@ -255,7 +261,7 @@ void Report::display(std::ostream &os) const noexcept
   }
 
   /**
- * \fn Report::getNumberOfDeath(const unsigned int current_population)  noexcept
+ * \fn void Report::setNumberOfCharacter(const unsigned int current_population) noexcept
  * \brief Modifie la valeur de l'attribut people_number_init
  * \param current_population Nouveau nombre d'habitant
  */

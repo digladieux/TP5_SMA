@@ -1,3 +1,10 @@
+/**
+ * \file json.hpp
+ * \author Gladieux Cunha Dimitri & Gonzales Florian
+ * \brief Fichier pour la lecture d'un fichier json
+ * \date 2018-12-03
+ */
+
 /*
     __ _____ _____ _____
  __|  |   __|     |   | |  JSON for Modern C++

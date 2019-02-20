@@ -486,3 +486,29 @@ const char *InvalidStrategy::what() const throw()
 {
     return message_error.c_str();
 }
+
+/**
+ * \fn InvalidColumnNumber::InvalidColumnNumber(const unsigned int index_out) 
+ * \brief Constructeur de la classe InvalidColumnNumber
+ * \param index_out Indice hors des bornes 
+ */
+InvalidColumnNumber::InvalidColumnNumber(const unsigned int index_out) : std::invalid_argument(""), message_error("OUT_OF_RANGE_COLUMN_NUMBER\nHERE : " + std::to_string(index_out)) 
+{
+        std::cerr << what() << std::endl;
+
+}
+
+/**
+ * \fn InvalidColumnNumber::~InvalidColumnNumber() throw() 
+ * \brief Desctructeur de la classe InvalidColumnNumber
+ */
+InvalidColumnNumber::~InvalidColumnNumber() throw() {}
+
+/**
+ * \fn const char *InvalidColumnNumber::what() const throw() 
+ * \brief Surchage de la methode what pour l'affichage du message d'erreur
+ */
+const char *InvalidStrategy::what() const throw()
+{
+    return message_error.c_str();
+}

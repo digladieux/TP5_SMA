@@ -41,7 +41,7 @@ TEST_CASE("Ground", "[ground]")
     CHECK(GROUND_TYPE::LAKE == ground1.getGroundType());
 }
 
-TEST_CASE("Town Hall")
+TEST_CASE("Town Hall", "[ground]")
 {
     TownHall *town_hall_start = new TownHall();
     CHECK(1 == town_hall_start->getLevel());
@@ -102,7 +102,7 @@ TEST_CASE("Town Hall")
     delete town_hall_start;
 }
 
-TEST_CASE("DateInit")
+TEST_CASE("DateInit" , "[date]")
 {
     Date date_init;
     CHECK(1 == date_init.getDay());
@@ -118,12 +118,12 @@ TEST_CASE("DateInit")
     CHECK(0 == date_init.getYear());
 }
 
-TEST_CASE("InvalidDate")
+TEST_CASE("InvalidDate", "[date]")
 {
     REQUIRE_THROWS_AS(Date(52, 10, 2018), ConstructorDateException);
 }
 
-TEST_CASE("Date")
+TEST_CASE("Date", "[date]")
 {
     Date date(31, 1, 0);
     ++date;
@@ -137,7 +137,7 @@ TEST_CASE("Date")
     CHECK(Date(1, 1, 2019) == date_copy);
 }
 
-TEST_CASE("DateOperator<")
+TEST_CASE("DateOperator<", "[date]")
 {
     Date date_inf1(1, 1, 1);
     Date date_sup1(1, 1, 2);
@@ -158,7 +158,7 @@ TEST_CASE("DateOperator<")
     CHECK(false == date_sup3 < date_inf3);
 }
 
-TEST_CASE("Character")
+TEST_CASE("Character", "[character]")
 {
     Constantes::getAllJson();
     Constantes::setConfiguration(1);
@@ -196,47 +196,47 @@ TEST_CASE("Character")
     CHECK(character1.getCharacterId() == character_copy.getCharacterId());
 }
 
-TEST_CASE("MaleCharacter")
+TEST_CASE("MaleCharacter", "[character]")
 {
     Character *character1 = new MaleCharacter(Date(20, 5, 2018));
     Character *character2 = new MaleCharacter(JOB::FARMER, Date());
     CHECK(SEX::MALE == character1->getCharacterGender());
     CHECK(SEX::MALE == character2->getCharacterGender());
 
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == ((MaleCharacter *)character1)->getTypeRessourceTransported());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE == (static_cast<MaleCharacter*>(character))->getTypeRessourceTransported());
 
-    ((MaleCharacter *)character1)->setDirection(4, 10);
-    ((MaleCharacter *)character1)->setTypeRessourceTransported(GROUND_TYPE::FARM);
+    (static_cast<MaleCharacter*>(character))->setDirection(4, 10);
+    (static_cast<MaleCharacter*>(character))->setTypeRessourceTransported(GROUND_TYPE::FARM);
 
-    CHECK(((MaleCharacter *)character1)->getDirection().getAbscissa() == 0);
-    CHECK(((MaleCharacter *)character1)->getDirection().getOrdinate() == 4);
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
+    CHECK((static_cast<MaleCharacter*>(character))->getDirection().getAbscissa() == 0);
+    CHECK((static_cast<MaleCharacter*>(character))->getDirection().getOrdinate() == 4);
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == (static_cast<MaleCharacter*>(character))->getTypeRessourceTransported());
 
     CHECK(Date(20, 5, 2018) == character1->getDateOfBirth());
     CHECK(Date() == character2->getDateOfBirth());
 
     CHECK(3 == character1->getCharacterId());
     CHECK(4 == character2->getCharacterId());
-    CHECK(JOB::FARMER == ((MaleCharacter *)character2)->getSpeciality());
+    CHECK(JOB::FARMER == (static_cast<MaleCharacter*>(character))->getSpeciality());
 
-    CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
+    CHECK(0 == (static_cast<MaleCharacter*>(character))->getTimeAtWork());
 
-    ((MaleCharacter *)character1)->setTypeRessourceTransported(GROUND_TYPE::FARM);
+    (static_cast<MaleCharacter*>(character))->setTypeRessourceTransported(GROUND_TYPE::FARM);
     for (int i = 1; i < 4; i++)
     {
-        ((MaleCharacter *)character1)->incrementTimeAtWork();
-        CHECK(i % 4 == ((MaleCharacter *)character1)->getTimeAtWork());
+        (static_cast<MaleCharacter*>(character))->incrementTimeAtWork();
+        CHECK(i % 4 == (static_cast<MaleCharacter*>(character))->getTimeAtWork());
     }
 
-    ((MaleCharacter *)character1)->resetTimeAtWork();
-    CHECK(0 == ((MaleCharacter *)character1)->getTimeAtWork());
+    (static_cast<MaleCharacter*>(character))->resetTimeAtWork();
+    CHECK(0 == (static_cast<MaleCharacter*>(character))->getTimeAtWork());
 
-    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == ((MaleCharacter *)character1)->getTypeRessourceTransported());
+    CHECK(TYPE_RESSOURCE_TRANSPORTED::FOOD == (static_cast<MaleCharacter*>(character))->getTypeRessourceTransported());
 
     delete character1;
     delete character2;
 }
-TEST_CASE("Json")
+TEST_CASE("Json", "[json]")
 {
     std::string file_name = "./CONFIGURATIONS/Configuration.json";
     std::ifstream file(file_name);
@@ -257,13 +257,13 @@ TEST_CASE("Json")
     }
 }
 
-TEST_CASE("JsonClass")
+TEST_CASE("JsonClass", "[json]")
 {
     Constantes::getAllJson();
     Constantes::setConfiguration(1);
     CHECK(Constantes::CONFIG_SIMU["chanceMale"] == 0.5);
 }
-TEST_CASE("FemaleCharacter")
+TEST_CASE("FemaleCharacter", "[character]")
 {
     Constantes::getAllJson();
     Constantes::setConfiguration(1);
@@ -276,8 +276,8 @@ TEST_CASE("FemaleCharacter")
 
     CHECK(5 == character1->getCharacterId());
     CHECK(6 == character2->getCharacterId());
-    CHECK(Date() == ((FemaleCharacter *)character1)->getPregnancyTime());
-    CHECK(Date() == ((FemaleCharacter *)character2)->getPregnancyTime());
+    CHECK(Date() == (static_cast<FemaleCharacter*>(character1))->getPregnancyTime());
+    CHECK(Date() == (static_cast<FemaleCharacter*>(character2))->getPregnancyTime());
     CHECK(SEX::FEMALE == character1->getCharacterGender());
     CHECK(SEX::FEMALE == character2->getCharacterGender());
 
@@ -285,38 +285,38 @@ TEST_CASE("FemaleCharacter")
     delete character2;
 }
 
-TEST_CASE("MonthOfPregnancy")
+TEST_CASE("MonthOfPregnancy", "[character]")
 {
     Character *character1 = new FemaleCharacter(Date());
-    CHECK(Date() == ((FemaleCharacter *)character1)->getPregnancyTime());
-    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(1, 1, 0)));
-    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(15, 1, 0)));
-    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(1, 2, 0)));
-    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(3, 2, 0)));
-    ((FemaleCharacter *)character1)->setTimePregnancy(Date(15, 6, 2018));
-    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(15, 7, 2018)));
-    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(14, 7, 2018)));
-    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(14, 8, 2018)));
-    ((FemaleCharacter *)character1)->setTimePregnancy(Date(15, 12, 2018));
-    CHECK(1 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(15, 1, 2019)));
-    CHECK(0 == ((FemaleCharacter *)character1)->getMonthPregnancy(Date(14, 1, 2019)));
-    ((FemaleCharacter *)character1)->setTimePregnancy(Date());
+    CHECK(Date() == (static_cast<FemaleCharacter*>(character1))->getPregnancyTime());
+    CHECK(0 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(1, 1, 0)));
+    CHECK(0 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(15, 1, 0)));
+    CHECK(1 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(1, 2, 0)));
+    CHECK(1 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(3, 2, 0)));
+    (static_cast<FemaleCharacter*>(character1))->setTimePregnancy(Date(15, 6, 2018));
+    CHECK(1 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(15, 7, 2018)));
+    CHECK(0 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(14, 7, 2018)));
+    CHECK(1 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(14, 8, 2018)));
+    (static_cast<FemaleCharacter*>(character1))->setTimePregnancy(Date(15, 12, 2018));
+    CHECK(1 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(15, 1, 2019)));
+    CHECK(0 == (static_cast<FemaleCharacter*>(character1))->getMonthPregnancy(Date(14, 1, 2019)));
+    (static_cast<FemaleCharacter*>(character1))->setTimePregnancy(Date());
     delete character1;
 }
 
-TEST_CASE("Valgrind")
+TEST_CASE("Valgrind", "[valgrind]")
 {
     Ground *lake = new Lake();
     Character *male = new MaleCharacter(Date());
-    CHECK(4 == ((Lake *)lake)->getGroundId());
+    CHECK(4 == (static_cast<Lake*>(lake))->getGroundId());
     CHECK(GROUND_TYPE::LAKE == lake->getGroundType());
-    CHECK(1000 == ((Lake *)lake)->getRessourcesNumber());
+    CHECK(1000 == (static_cast<Lake*>(lake))->getRessourcesNumber());
     lake->addCharacter(male);
     lake->addCharacter(new MaleCharacter(Date()));
 
     delete lake;
 }
-TEST_CASE("SpecificCollectionPoint")
+TEST_CASE("SpecificCollectionPoint", "[ground]")
 {
     Ground *lake = new Lake(10);
     Ground *quarry = new Quarry(5);
@@ -337,10 +337,10 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(GROUND_TYPE::QUARRY == quarry->getGroundType());
     CHECK(GROUND_TYPE::FOREST == forest->getGroundType());
     CHECK(GROUND_TYPE::FARM == farm->getGroundType());
-    CHECK(1000 == ((Forest *)forest)->getRessourcesNumber());
-    CHECK(1000 == ((Farm *)farm)->getRessourcesNumber());
-    CHECK(10 == ((Lake *)lake)->getRessourcesNumber());
-    CHECK(5 == ((Quarry *)quarry)->getRessourcesNumber());
+    CHECK(1000 == (static_cast<Forest*>(forest))->getRessourcesNumber());
+    CHECK(1000 == (static_cast<Farm*>(farm))->getRessourcesNumber());
+    CHECK(10 == (static_cast<Lake*>(lake))->getRessourcesNumber());
+    CHECK(5 == (static_cast<Quarry*>(quarry))->getRessourcesNumber());
 
     forest->addCharacter(lumberjack);
     quarry->addCharacter(quarryman);
@@ -358,14 +358,14 @@ TEST_CASE("SpecificCollectionPoint")
     CHECK(farmer->getDateOfBirth().getDay() == farm->getCharacter(0)->getDateOfBirth().getDay());
     CHECK(farmer->getDateOfBirth().getMonth() == farm->getCharacter(0)->getDateOfBirth().getMonth());
     CHECK(farmer->getDateOfBirth().getYear() == farm->getCharacter(0)->getDateOfBirth().getYear());
-    REQUIRE_THROWS_AS(((Lake *)lake)->removeCharacter(1), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS((static_cast<Lake*>(lake))->removeCharacter(1), OutOfRangeSuperior);
     delete farm;
     delete lake;
     delete quarry;
     delete forest;
 }
 
-TEST_CASE("Afficher")
+TEST_CASE("Afficher", "[display]")
 {
     Ground *town_hall = new TownHall();
     Ground *ground = new Ground();
@@ -404,7 +404,7 @@ TEST_CASE("Afficher")
     delete farm;
 }
 
-TEST_CASE("InitialisationGrid")
+TEST_CASE("InitialisationGrid", "[grid]")
 {
     std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
@@ -460,7 +460,7 @@ TEST_CASE("InitialisationGrid")
     CHECK(166 == grid_copy.getGroundWithCollectionPoint(0)->getGroundId());
 }
 
-TEST_CASE("MethodeStatic&Comparaison")
+TEST_CASE("MethodeStatic&Comparaison", "[static]")
 {
     CHECK(JOB::QUARRY_MAN == (JOB)GROUND_TYPE::QUARRY);
     CHECK(JOB::LUMBERJACK == (JOB)GROUND_TYPE::FOREST);
@@ -486,7 +486,7 @@ TEST_CASE("MethodeStatic&Comparaison")
     StructCoordinates b(2, 0);
     CHECK(2 == Game::euclidienneDistance(a, b));
 }
-TEST_CASE("GroundCopy")
+TEST_CASE("GroundCopy", "[ground]")
 {
     Ground *ground1 = new Ground();
 
@@ -501,14 +501,14 @@ TEST_CASE("GroundCopy")
     CHECK(ground1->getCharacter(0)->getCharacterId() == ground2->getCharacter(0)->getCharacterId());
 
     Character *character = ground1->getCharacter(0);
-    ((MaleCharacter *)character)->getDirection().incrementAbscissa();
+    (static_cast<MaleCharacter*>(character))->getDirection().incrementAbscissa();
 
-    CHECK(((MaleCharacter *)character)->getDirection().getAbscissa() == 1);
+    CHECK((static_cast<MaleCharacter*>(character))->getDirection().getAbscissa() == 1);
     delete ground1;
     delete ground2;
 }
 
-// TEST_CASE("Exception")
+// TEST_CASE("Exception", "[exception]")
 // {
 //     Constantes::getAllJson();
 //     Constantes::setConfiguration(1);
@@ -531,7 +531,7 @@ TEST_CASE("GroundCopy")
 //     REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
 //     REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
 //     REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);*/
-//     REQUIRE_THROWS_AS(((MaleCharacter *)character)->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
+//     REQUIRE_THROWS_AS((static_cast<MaleCharacter*>(character))->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
 
 //     REQUIRE_THROWS_AS(map.getGroundGrid(24, 8), OutOfRangeSuperior);
 //     REQUIRE_THROWS_AS(map.getGroundGrid(8, 111), OutOfRangeSuperior);
@@ -549,13 +549,12 @@ TEST_CASE("GroundCopy")
 //     delete ground1;
 // }
 
-TEST_CASE("JsonCharacterValid?")
+TEST_CASE("JsonCharacterValid?", "[json]")
 {
     std::string file_name = "./CHARACTERS/Characters.json";
     std::ifstream file(file_name);
     unsigned int male_number;
     unsigned int female_number;
-    Character *test_character;
     Date date_of_birth;
     std::string character;
     if (!file.fail())
@@ -568,6 +567,7 @@ TEST_CASE("JsonCharacterValid?")
             character = "character" + std::to_string(i);
             date_of_birth = Date(json_character[character]["day"], json_character[character]["month"], json_character[character]["year"]);
             unsigned int sex = json_character[character]["sex"];
+            Character * test_character = nullptr ;
             switch (sex)
             {
             case 0:
@@ -584,11 +584,10 @@ TEST_CASE("JsonCharacterValid?")
     }
 }
 
-TEST_CASE("JsonMapValid?")
+TEST_CASE("JsonMapValid?", "[json]")
 {
     std::string file_name = "./MAPS/Maps.json";
     std::ifstream file(file_name);
-    Ground *ground;
     std::string map;
     if (!file.fail())
     {
@@ -598,14 +597,14 @@ TEST_CASE("JsonMapValid?")
         for (unsigned int i = 1; i <= collection_point_number; i++)
         {
             map = "collection_point" + std::to_string(i);
-            ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]);
+            Ground * ground = Grid::initGround(json_map[map]["type"], json_map[map]["ressource_number"]);
             delete ground;
         }
         file.close();
     }
 }
 
-TEST_CASE("Report")
+TEST_CASE("Report", "[report]")
 {
     Report *report = new Report();
 
@@ -657,10 +656,10 @@ TEST_CASE("Report")
     delete report;
 }
 
-TEST_CASE("Game")
+TEST_CASE("Game", "[game]")
 {
     system("clear");
-    std::vector<unsigned int> vector_character = {6};
+    std::vector<unsigned int> vector_character = {6, 1};
     // std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     Game game(vector_map, vector_character, 1, Date(1, 1, 60), 1, 1);
@@ -673,7 +672,7 @@ TEST_CASE("Game")
     /* TODO : si toute une ville meurt erreur ? */
 }
 
-// TEST_CASE("Menu")
+// TEST_CASE("Menu", "[menu]")
 // {
 //     Menu::displayWelcome();
 //     Menu menu;

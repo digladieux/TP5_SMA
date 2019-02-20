@@ -117,15 +117,24 @@ void Ground::addCharacterGround(const Ground& ground) noexcept
     for (unsigned int k = 0; k < ground.vector_character.size(); k++)
     {
         Character *character = nullptr;
-        if (ground.getCharacter(k)->getCharacterGender() == SEX::MALE)
+        try
         {
-            character = new MaleCharacter(*static_cast<MaleCharacter*>(ground.getCharacter(k)));
+            if (ground.getCharacter(k)->getCharacterGender() == SEX::MALE)
+            {
+                character = new MaleCharacter(*static_cast<MaleCharacter*>(ground.getCharacter(k)));
+            }
+            else
+            {
+                character = new FemaleCharacter(*static_cast<FemaleCharacter*>(ground.getCharacter(k)));
+            }
+            this->addCharacter(character);
         }
-        else
+        catch(OutOfRangeSuperior& e)
         {
-            character = new FemaleCharacter(*static_cast<FemaleCharacter*>(ground.getCharacter(k)));
+            e.setValueOutOfRange(k, ground.vector_character.size()) ;
+            throw ; 
         }
-        this->addCharacter(character);
+        
     }
 }
 
@@ -172,15 +181,15 @@ unsigned int Ground::getVectorSize() const noexcept
 }
 
 /**
- * \fn StructCoordinates Ground::getPosition(int column_number) const noexcept
+ * \fn StructCoordinates Ground::getPosition(int column_number) const
  * \brief Getteur sur la position actuelle du terrain avec des coordonnees (x,y)
  * \return La position du terrain sur la carte
  */
-StructCoordinates Ground::getPosition(int column_number) const noexcept
+StructCoordinates Ground::getPosition(int column_number) const
 {
     if (column_number < 0)
     {
-        throw InvalidJob(8) ; /* TODO cree exception */
+        throw InvalidColumnNumber(column_number) ; 
     }
     return StructCoordinates(ground_id / column_number, ground_id % column_number);
 }

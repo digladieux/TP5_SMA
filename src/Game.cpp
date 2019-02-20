@@ -45,6 +45,35 @@ Game::~Game()
     delete map;
     delete report;
 }
+Game::Game(const Game& game) : map(game.map), turn(game.turn), number_of_birth_this_turn(game.number_of_birth_this_turn), number_of_death_this_turn(game.number_of_death_this_turn), how_to_display(game.how_to_display), strategy(game.strategy), map_choice(game.map_choice), character_choice (game.character_choice) 
+{
+    report = new Report *[2]();
+    for (unsigned int i = 0 ; i < 2 ; i ++)
+    {
+        report[i] = game.report[i] ;
+    }
+}
+
+Game &Game::operator=(const Game &new_game)
+{
+    if (this != &new_game) /* On verifie que le jeu n'est pas le meme que l'on veut copier */
+    {
+        map = new_game.map;
+        turn = new_game.turn;
+        number_of_birth_this_turn = new_game.number_of_birth_this_turn;
+        number_of_death_this_turn = new_game.number_of_death_this_turn;
+        how_to_display = new_game.how_to_display;
+        strategy = new_game.strategy;
+        map_choice = new_game.map_choice;
+        character_choice = new_game.character_choice;
+        report = new Report *[2]();
+        for (unsigned int i = 0 ; i < 2 ; i ++)
+        {
+            report[i] = new_game.report[i] ;
+        }
+    }
+    return *this;
+}
 
 void Game::reset(const unsigned int new_strategy) noexcept
 {

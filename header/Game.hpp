@@ -23,8 +23,8 @@ private:
   Report **report;
   unsigned int number_of_birth_this_turn;
   unsigned int number_of_death_this_turn;
-  const unsigned int how_to_display;
-  unsigned int strategy ; /* TODO enum class */
+  unsigned int how_to_display;
+  unsigned int strategy ; 
   std::vector<unsigned int> map_choice;
   std::vector<unsigned int> character_choice;
 
@@ -37,6 +37,8 @@ private:
 
 public:
   Game(std::vector<unsigned int> &, std::vector<unsigned int> &, unsigned int, const Date &, const unsigned int, const unsigned int);
+  Game(const Game&) ;
+  Game &Game::operator=(const Game &) ;
   ~Game();
   void run(unsigned int);
   void reset(const unsigned int) noexcept;

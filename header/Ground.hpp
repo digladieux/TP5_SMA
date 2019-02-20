@@ -46,7 +46,7 @@ Ground &operator=(const Ground &) ;
     void addCharacter(Character *);
     void removeCharacter(const unsigned int);
     Character *getCharacter(const unsigned int) const;
-    StructCoordinates getPosition(int column_number) const noexcept;
+    StructCoordinates getPosition(int column_number) const ;
 
     bool operator==(const Ground &);
 

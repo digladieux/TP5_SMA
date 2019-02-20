@@ -168,7 +168,28 @@ void Grid::initialisationMap(std::vector<unsigned int>& choice_map, std::vector<
         }
     }
 }
+Grid &Grid::operator=(const Grid &new_grid)
+{
+    if (this != &new_grid) /* On verifie que la grille n'est pas le meme que l'on veut copier */
+    {
+        row_number = new_grid.row_number;
+        column_number = new_grid.column_number;
+        ground_with_character = new_grid.ground_with_character;
+        ground_with_collection_point = new_grid.ground_with_collection_point;
+        ground_grid = new Ground **[row_number]();
 
+        for (unsigned int i = 0; i < row_number; i++)
+        {
+            ground_grid[i] = new Ground *[column_number]();
+
+            for (unsigned int j = 0; j < column_number; j++)
+            {
+                ground_grid[i][j] = new Ground(*new_grid.ground_grid[i][j]); 
+            }
+        }
+    }
+    return *this;
+}
 Ground *Grid::initGround(Ground * ground, unsigned int ground_type, const unsigned int ressource_number)
 {
     Ground *collection_point ;

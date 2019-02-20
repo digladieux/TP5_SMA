@@ -212,5 +212,14 @@ class InvalidStrategy : std::invalid_argument
     virtual const char *what() const throw();
 };
 
+class InvalidColumnNumber : std::invalid_argument
+{
+  private:
+    std::string message_error;
 
+  public:
+    explicit InvalidColumnNumber(const unsigned int);
+    virtual ~InvalidColumnNumber() throw();
+    virtual const char *what() const throw();
+};
 #endif

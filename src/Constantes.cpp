@@ -88,7 +88,6 @@ void Constantes::displayConfiguration(unsigned int config_number, std::ostream &
  * \fn void Constantes::setConfiguration(unsigned int config_number) 
  * \brief Definir la configuration valable sur toute la simulation
  * \param config_number Numero de la configuration souhaitee
- * \param &os Flux sur lequel on envoie l'affichage
  */
 void Constantes::setConfiguration(unsigned int config_number) 
 {

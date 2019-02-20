@@ -53,7 +53,7 @@ unsigned int CollectionPoint::getRessourcesNumber() const noexcept
 /**
  * \fn void CollectionPoint::setRessources(const unsigned int new_ressources_number)
  * \brief Setteur sur le nombre de ressource
- * \param Nouveau nombre de ressource
+ * \param new_ressources_number Nouveau nombre de ressource
  */
 void CollectionPoint::setRessources(const unsigned int new_ressources_number)
 {

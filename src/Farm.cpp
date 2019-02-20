@@ -27,7 +27,7 @@ Farm::Farm(const Farm &farm) : CollectionPoint(GROUND_TYPE::FARM, farm.ressource
  * \fn Farm::Farm(const Ground &farm, const unsigned int ressources_number)
  * \brief Constructeur de copie de la classe Farm avec sa classe mere en parametre
  * \param &farm Copie du terrain que l'on veut faire
- * \param ressources_nb Nombre de ressource sur ce terrain
+ * \param ressources_number Nombre de ressource sur ce terrain
  */
 Farm::Farm(const Ground &farm, const unsigned int ressources_number) : CollectionPoint(farm, GROUND_TYPE::FARM, ressources_number) {}
 

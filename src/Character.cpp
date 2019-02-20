@@ -52,6 +52,7 @@ Character::Character(const Date &age, unsigned int team) : character_id(characte
  * \brief Constructeur de la classe Character 
  * \param id Identifiant unique du personnage
  * \param &age Date de naissance du personnage
+ * \param team Equipe du personnage
  * \param gender Sexe du personnage
  * \param life Vie maximale que le personnage peut avoir
  * \param current_life Vie actuelle du personnange
@@ -196,7 +197,7 @@ bool Character::decrementCharacterLife() noexcept
 /**
  * \fn void Character::giveCharacterLife() noexcept
  * \brief Remonte la vie d'un personnage
- * \param Nombre de point de vie que l'on veut redonner au personnage
+ * \param life Nombre de point de vie que l'on veut redonner au personnage
  */
 void Character::giveCharacterLife(unsigned int life) noexcept
 {

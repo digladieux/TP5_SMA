@@ -51,7 +51,7 @@ void StateAddingRessources::run(Game&, Grid& grid, Ground *ground, MaleCharacter
 
     (static_cast<TownHall*>(ground))->addRessources(character->getTypeRessourceTransported(), number_ressource);
 
-    if ((unsigned int)character->getCharacterCurrentLife() < grid.getColumnNumber() + grid.getColumnNumber() + (unsigned int)Constantes::CONFIG_SIMU["workTimeNotSpeciality"]) 
+    if ( ((unsigned int)character->getCharacterCurrentLife() < (grid.getColumnNumber() + grid.getColumnNumber()) * (unsigned int)Constantes::CONFIG_SIMU["lifePerTurn"] + (unsigned int)Constantes::CONFIG_SIMU["workTimeNotSpeciality"]) && (ground->getVectorSize() > 1) ) 
     {
         character->setCharacterCurrentState(new StateEating());
     }

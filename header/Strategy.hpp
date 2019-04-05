@@ -11,7 +11,6 @@
 #include "MaleCharacter.hpp"
 #include "Grid.hpp"
 #include "MaleCharacter.hpp"
-/*TODO : survivre comme strat */
 class MaleCharacter;
 class Grid;
 

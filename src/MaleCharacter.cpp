@@ -14,7 +14,7 @@
 #include "../header/StrategyLowRessources.hpp"
 #include "../header/Constantes.hpp"
 #include "../header/mt19937ar.h"
-#include "../header/StateGoingCollectionPoint.hpp"
+#include "../header/StateChoisingCollectionPoint.hpp"
 
 /**
  * \fn MaleCharacter::MaleCharacter(const MaleCharacter &maleCharacter) 
@@ -37,7 +37,7 @@ MaleCharacter::MaleCharacter(const MaleCharacter &character) : Character(charact
  * \param column_number Nombre de colonne sur le terrain
  * \param strategy Strategy adopte par le personnage
  */ 
-MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number, const unsigned int strategy) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
+MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int column_number, const unsigned int strategy) : Character(SEX::MALE, age, team), direction(StructCoordinates()), character_current_state(new StateChoisingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), time_at_work(0)
 {
     if (team != 0)
     {
@@ -59,7 +59,7 @@ MaleCharacter::MaleCharacter(const Date &age, unsigned int team, unsigned int co
  * \param life Point de vie maximale du personnage
  * \param strategy Strategy adopte par le personnage
  */
-MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life, const unsigned int strategy) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new StateGoingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
+MaleCharacter::MaleCharacter(JOB job, const Date &age, unsigned int team, unsigned int column_number, unsigned int life, const unsigned int strategy) : Character(SEX::MALE, age, team, life), direction(StructCoordinates()), character_current_state(new StateChoisingCollectionPoint()), type_ressource_transported(TYPE_RESSOURCE_TRANSPORTED::NO_RESSOURCE), speciality(job), time_at_work(0)
 {
     if (team != 0)
     {
@@ -100,7 +100,7 @@ Strategy *MaleCharacter::strategyIdToStrategy(const unsigned int strategy)
         new_strategy = new StrategyClosestCollectionPoint();
         break;
     default:
-        throw new InvalidStrategy(strategy);
+        throw InvalidStrategy(strategy);
         break;
     }
     return new_strategy;
@@ -178,20 +178,20 @@ void MaleCharacter::setTypeRessourceTransported(GROUND_TYPE new_type_ressources)
 {
     switch (new_type_ressources)
     {
-    case GROUND_TYPE::QUARRY:
-        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::ROCK;
-        break;
-    case GROUND_TYPE::FOREST:
-        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::WOOD;
-        break;
-    case GROUND_TYPE::LAKE:
-        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FISH;
-        break;
-    case GROUND_TYPE::FARM:
-        type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FOOD;
-        break;
-    default:
-        throw InvalidGroundType((unsigned int)new_type_ressources);
+        case GROUND_TYPE::QUARRY:
+            type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::ROCK;
+            break;
+        case GROUND_TYPE::FOREST:
+            type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::WOOD;
+            break;
+        case GROUND_TYPE::LAKE:
+            type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FISH;
+            break;
+        case GROUND_TYPE::FARM:
+            type_ressource_transported = TYPE_RESSOURCE_TRANSPORTED::FOOD;
+            break;
+        default:
+            throw InvalidGroundType((unsigned int)new_type_ressources);
     }
 }
 

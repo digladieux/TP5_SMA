@@ -127,7 +127,9 @@ void Game::reset(const unsigned int new_strategy) noexcept
  */
 void Game::run(unsigned int round)
 {
-    for (unsigned int i = 0; i < round; i++)
+    bool flag = true ;
+    unsigned int i = 0 ; 
+    while ( (flag) && (i < round))
     {
         ++turn;
         number_of_death_this_turn = 0;
@@ -154,6 +156,11 @@ void Game::run(unsigned int round)
         default:
             throw InvalidDisplayChoice(how_to_display);
         }
+        if (map-> getSizeVectorGroundWithCharacter() == 0)
+        {
+            flag = false ;
+        }
+        i++ ;
     }
     writingReport();
 }
@@ -211,8 +218,8 @@ void Game::lifeOfCharacter()
             team = character->getCharacterTeam();
 
             if (!deathOfCharacter(character, i, j)) /* Si le personnage ne meurt pas (plus de vie ou vieilesse) */
-            { /*TODO : un personnage a la menopause ne peut pas manger ?? */
-                if (character->getCharacterGender() == SEX::FEMALE && !(Date() == ((static_cast<FemaleCharacter*>(character))->getPregnancyTime())) && (character->getCharacterAge(turn) >= Constantes::CONFIG_SIMU["majority"])) /* Si le personnage est feminin est majeur */
+            { 
+                if (character->getCharacterGender() == SEX::FEMALE) /* Si le personnage est feminin est majeur */
                 {
                     if (character->getCharacterCurrentLife() < 1) /* Si il ne va plus avoir de vie, on le fait manger */
                     {
@@ -225,8 +232,7 @@ void Game::lifeOfCharacter()
                             character->giveCharacterLife((unsigned int)Constantes::CONFIG_SIMU["lifeWin"]);
                         }
                     }
-/*TODO : 9 une constant mettre dans le json */
-                    if ((static_cast<FemaleCharacter*>(character))->getMonthPregnancy(turn) == 9) /* Si le personnage peut accoucher */
+                    else if ((static_cast<FemaleCharacter*>(character))->getMonthPregnancy(turn) == Constantes::CONFIG_SIMU["monthPregnancy"]) /* Si le personnage peut accoucher */
                     {
                         birthOfCharacter(character);
                     }
@@ -254,6 +260,13 @@ void Game::lifeOfCharacter()
         {
             i++;
         }
+    }
+    /* Le nombre de ressource evolue dans un point de collecte */
+    unsigned int number_collection_point = map->getSizeVectorGroundWithCollectionPoint() ;
+    for(unsigned int i = 0 ; i < number_collection_point ; i ++)
+    {
+        CollectionPoint * collection_point = (CollectionPoint*) map->getGroundWithCollectionPoint(i) ;
+        collection_point->evolutionRessources() ;
     }
 }
 

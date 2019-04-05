@@ -76,7 +76,7 @@ void Grid::initialisationCharacter(std::vector<unsigned int>& choice_character, 
             break;
 
         case 1:
-            character = new FemaleCharacter(date_of_birth, (unsigned int)Constantes::CHARACTERS[key_character]["baby"], column_number, (unsigned int)Constantes::CHARACTERS[key_character]["team"], Constantes::CHARACTERS[key_character]["life"]);
+            character = new FemaleCharacter(date_of_birth, (unsigned int)Constantes::CHARACTERS[key_character]["baby"], (unsigned int)Constantes::CHARACTERS[key_character]["menopause"], (unsigned int)Constantes::CHARACTERS[key_character]["team"], Constantes::CHARACTERS[key_character]["life"]);
             break;
 
         default:
@@ -149,13 +149,13 @@ void Grid::initialisationMap(std::vector<unsigned int>& choice_map, std::vector<
         }
     }
 
-    for (unsigned int i = 0; i < choice_map.size(); i++)
+    for (unsigned int i : choice_map)
     {
-        if ((unsigned int)choice_map[i] > Constantes::MAPS["collection_point_number"] )
+        if ((unsigned int)i > Constantes::MAPS["collection_point_number"] )
         {
-            throw InvalidKey(choice_map[i], Constantes::MAPS["collection_point_number"] ) ;
+            throw InvalidKey(i, Constantes::MAPS["collection_point_number"] ) ;
         }
-        key = "collection_point" + std::to_string(choice_map[i]);
+        key = "collection_point" + std::to_string(i);
         unsigned int x = Constantes::MAPS[key]["x"] , 
                      y = Constantes::MAPS[key]["y"] ;
         ground = this->getGroundGrid(x, y);
@@ -360,9 +360,9 @@ void Grid::displayMap(std::ostream &os) const noexcept
         }
         os << std::endl;
     }
-    for (unsigned int i = 0; i < town_hall.size(); i++)
+    for (auto & i : town_hall)
     {
-        (static_cast<TownHall*>(town_hall[i]))->displayRessources(os);
+        (static_cast<TownHall*>(i))->displayRessources(os);
     }
     os << std::endl;
 }
@@ -393,9 +393,9 @@ void Grid::display(std::ostream &os) const noexcept
         }
         os << std::endl;
     }
-    for (unsigned int i = 0; i < town_hall.size(); i++)
+    for (auto & i : town_hall)
     {
-        (static_cast<TownHall*>(town_hall[i]))->displayRessources(os);
+        (static_cast<TownHall*>(i))->displayRessources(os);
     }
     os << std::endl;
 }

@@ -10,13 +10,12 @@
 #include "../header/Constantes.hpp"
 #include "../header/Grid.hpp"
 #include "../header/FemaleCharacter.hpp"
-#include "../header/StateGoingCollectionPoint.hpp"
+#include "../header/StateChoisingCollectionPoint.hpp"
 /**
  * \fn StateHavingSex::StateHavingSex()
  * \brief Constructeur par default de la classe StateHavingSex
  */
 StateHavingSex::StateHavingSex() {}
-
 
 /**
  * \fn StateHavingSex::~StateHavingSex()
@@ -28,7 +27,7 @@ StateHavingSex::~StateHavingSex() {}
  * \fn StateHavingSex* StateHavingSex::clone() const
  * \brief Constructeur dynamique de la classe StateHavingSex. C'est un moyen de construire un constructeur virtuel. Quand on ne connait pas le type de State que l'on a et que l'on veut faire une copie de ce dernier, on utilise cette methode
  */
-StateHavingSex * StateHavingSex::clone()
+StateHavingSex *StateHavingSex::clone()
 {
     return new StateHavingSex();
 }
@@ -41,45 +40,34 @@ StateHavingSex * StateHavingSex::clone()
  * \param *character Personnage en question
  * \param &j Indice qui correspond a la position du personnage dans le vecteur de personnage
  */
-void StateHavingSex::run(Game& game, Grid&, Ground *ground, MaleCharacter *character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
+void StateHavingSex::run(Game &game, Grid &, Ground *ground, MaleCharacter *character, unsigned int &, unsigned int &j, unsigned int &, unsigned int &, bool &) const
 {
-    if (character->getTimeAtWork() < Constantes::CONFIG_SIMU["workTimeNotSpeciality"])
+    unsigned int index = 0;
+    bool flag = false;
+    while ((index < ground->getVectorSize()) && (!(flag)))
     {
-        character->incrementTimeAtWork();
-
-        unsigned int index = 0;
-        bool flag = false;
-        while ((index < ground->getVectorSize()) && (!(flag)))
+        if ((SEX::FEMALE == (ground->getCharacter(index)->getCharacterGender())) && (Date() == ((static_cast<FemaleCharacter *>(ground->getCharacter(index)))->getPregnancyTime())) && ((static_cast<FemaleCharacter *>(ground->getCharacter(index)))->getCharacterAge(game.getTurn()) >= Constantes::CONFIG_SIMU["majority"]) && ((static_cast<FemaleCharacter *>(ground->getCharacter(index)))->getCharacterAge(game.getTurn()) < (static_cast<FemaleCharacter *>(ground->getCharacter(index)))->getMenopause()))
         {
-            if ((SEX::FEMALE == (ground->getCharacter(index)->getCharacterGender())) && (Date() == ((static_cast<FemaleCharacter*>(ground->getCharacter(index)))->getPregnancyTime())) && (static_cast<FemaleCharacter*>(ground->getCharacter(index)))->getCharacterAge(game.getTurn()) >= Constantes::CONFIG_SIMU["majority"])
+            (static_cast<FemaleCharacter *>(ground->getCharacter(index)))->randomBabyPerPregnancy();
+            if ((static_cast<FemaleCharacter *>(ground->getCharacter(index)))->getBabyPerPregnancy() > 0)
             {
-                (static_cast<FemaleCharacter*>(ground->getCharacter(index)))->randomBabyPerPregnancy();
-                if ((static_cast<FemaleCharacter*>(ground->getCharacter(index)))->getBabyPerPregnancy() > 0)
-                {
-                    flag = true;
-                }
-            }
-            else
-            {
-                index++;
+                flag = true;
             }
         }
-
-        if (flag)
-        {
-            character->setCharacterCurrentState(new StateHavingSex());
-            (static_cast<FemaleCharacter*>(ground->getCharacter(index)))->setTimePregnancy(game.getTurn());
-        }
-
         else
         {
-            character->setCharacterCurrentState(new StateGoingCollectionPoint());
+            index++;
         }
     }
+
+    if (flag)
+    {
+        (static_cast<FemaleCharacter *>(ground->getCharacter(index)))->setTimePregnancy(game.getTurn());
+    }
+
     else
     {
-        character->resetTimeAtWork();
-        character->setCharacterCurrentState(new StateGoingCollectionPoint());
+        character->setCharacterCurrentState(new StateChoisingCollectionPoint());
     }
-    j++ ;
+    j++;
 }

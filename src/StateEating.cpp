@@ -7,7 +7,7 @@
 
 #include "../header/StateEating.hpp"
 #include "../header/TownHall.hpp"
-#include "../header/StateGoingCollectionPoint.hpp"
+#include "../header/StateChoisingCollectionPoint.hpp"
 #include "../header/Constantes.hpp"
 
 /**
@@ -51,7 +51,7 @@ void StateEating::run(Game&, Grid&, Ground *ground, MaleCharacter *character, un
     }
     if (character->getCharacterGender() == SEX::MALE)
     {
-        character->setCharacterCurrentState(new StateGoingCollectionPoint());
+        character->setCharacterCurrentState(new StateChoisingCollectionPoint());
     }    
     j++;
 }

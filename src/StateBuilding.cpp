@@ -50,7 +50,7 @@ void StateBuilding::run(Game&, Grid&, Ground *ground, MaleCharacter * character,
         character->resetTimeAtWork();
         (static_cast<TownHall*>(ground))->incrementLevel();
 
-        character->setCharacterCurrentState(new StateGoingCollectionPoint());
+        character->setCharacterCurrentState(new StateChoisingCollectionPoint());
 
     }
     else

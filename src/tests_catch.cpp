@@ -32,7 +32,6 @@
  * \brief Redefinission du type nlohmann (son auteur)::json par json
  */
 using json = nlohmann::json;
-/*TODO : verifier tous les commentaires partout plus rien ne marche */
 
 TEST_CASE("Ground", "[ground]")
 {
@@ -513,46 +512,46 @@ TEST_CASE("GroundCopy", "[ground]")
     delete ground2;
 }
 
-// TEST_CASE("Exception", "[exception]")
-// {
-//     Constantes::getAllJson();
-//     Constantes::setConfiguration(1);
-//     Ground *ground1 = new Ground();
-//         Character *character = new MaleCharacter(Date(20, 10, 2018));
+TEST_CASE("Exception", "[exception]")
+{
+    Constantes::getAllJson();
+    Constantes::setConfiguration(1);
+    Ground *ground1 = new Ground();
+        Character *character = new MaleCharacter(Date(20, 10, 2018));
 
-//     std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
-//     std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
-//     std::vector<unsigned int> vector_map_error = {80};
-//     std::vector<unsigned int> vector_character_error = {80};
+    std::vector<unsigned int> vector_character = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_map = {2, 3, 8, 9, 15, 16};
+    std::vector<unsigned int> vector_map_error = {80};
+    std::vector<unsigned int> vector_character_error = {80};
 
-//         Grid map(vector_map, vector_character);
+        Grid map(vector_map, vector_character);
 
-//     REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(Constantes::setConfiguration(8), InvalidConfiguration);
-//     REQUIRE_THROWS_AS(Grid(vector_character,vector_map_error), InvalidKey) ;
-//     REQUIRE_THROWS_AS(Grid(vector_character_error,vector_map), InvalidKey) ;
-//     /*REQUIRE_THROWS_AS(Grid(1, 100), InvalidGender);
-//     REQUIRE_THROWS_AS(Grid(1, 101), ConstructorDateException);
-//     REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
-//     REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
-//     REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);*/
-//     REQUIRE_THROWS_AS((static_cast<MaleCharacter*>(character))->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
+    REQUIRE_THROWS_AS(ground1->removeCharacter(8), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(Constantes::setConfiguration(8), InvalidConfiguration);
+    REQUIRE_THROWS_AS(Grid(vector_character,vector_map_error), InvalidKey) ;
+    REQUIRE_THROWS_AS(Grid(vector_character_error,vector_map), InvalidKey) ;
+    /*REQUIRE_THROWS_AS(Grid(1, 100), InvalidGender);
+    REQUIRE_THROWS_AS(Grid(1, 101), ConstructorDateException);
+    REQUIRE_THROWS_AS(Grid(1, 102), InvalidJob);
+    REQUIRE_THROWS_AS(Grid(1,103), std::bad_alloc);
+    REQUIRE_THROWS_AS(Grid(100, 1), InvalidGroundTypeReadingFile);*/
+    REQUIRE_THROWS_AS((static_cast<MaleCharacter*>(character))->setTypeRessourceTransported(GROUND_TYPE::TOWN_HALL), InvalidGroundType);
 
-//     REQUIRE_THROWS_AS(map.getGroundGrid(24, 8), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundGrid(8, 111), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundWithCharacter(2), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getDirectionCharacter(StructCoordinates(41, 11)), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(map.getGroundGrid(510), OutOfRangeSuperior);
-//     REQUIRE_THROWS_AS(character->getCharacterAge(Date(1, 1, 1)), CurrentDateBeforeBirthException);
-//     REQUIRE_THROWS_AS(Date(1, 155, 2), ConstructorDateException);
-//     REQUIRE_THROWS_AS(Date(1, 58, 1) < Date(1, 1, 0), ConstructorDateException);
-//     REQUIRE_THROWS_AS(Date(1, 2, 1) < Date(32, 1, 0), ConstructorDateException);
-//     REQUIRE_THROWS_AS(++Date(1, 82, 1), ConstructorDateException);
+    REQUIRE_THROWS_AS(map.getGroundGrid(24, 8), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundGrid(8, 111), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundWithCollectionPoint(20), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundWithCharacter(2), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getDirectionCharacter(StructCoordinates(41, 11)), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(map.getGroundGrid(510), OutOfRangeSuperior);
+    REQUIRE_THROWS_AS(character->getCharacterAge(Date(1, 1, 1)), CurrentDateBeforeBirthException);
+    REQUIRE_THROWS_AS(Date(1, 155, 2), ConstructorDateException);
+    REQUIRE_THROWS_AS(Date(1, 58, 1) < Date(1, 1, 0), ConstructorDateException);
+    REQUIRE_THROWS_AS(Date(1, 2, 1) < Date(32, 1, 0), ConstructorDateException);
+    REQUIRE_THROWS_AS(++Date(1, 82, 1), ConstructorDateException);
 
-//     delete character;
-//     delete ground1;
-// }
+    delete character;
+    delete ground1;
+}
 
 TEST_CASE("JsonCharacterValid?", "[json]")
 {
@@ -664,18 +663,16 @@ TEST_CASE("Report", "[report]")
 
 TEST_CASE("Game", "[game]")
 {
-    // system("clear");
-    std::vector<unsigned int> vector_character = {6, 1};
-    // std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    system("clear");
+   // std::vector<unsigned int> vector_character = {5, 10};
+    std::vector<unsigned int> vector_character = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
     std::vector<unsigned int> vector_map = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-    Game game(vector_map, vector_character, 1, Date(1, 1, 60), 2, 1);
-    game.run(100);
-    game.reset(1) ;
+    Game game(vector_map, vector_character, 1, Date(1, 1, 60), 1, 0);
+    game.run(10000);
     Report ** report = game.getReport() ;
+    game.reset(1) ;
     report[0] -> display() ;
     report[1] -> display() ;
-    game.run(100);
-    /* TODO : si toute une ville meurt erreur ? */
 }
 
 // TEST_CASE("Menu", "[menu]")
@@ -698,6 +695,9 @@ TEST_CASE("Game", "[game]")
 //     menu.displayAllDisplay();
 //     unsigned display_choice = menu.displayChoice();
 
-//     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60), display_choice);
+//     menu.displayAllStrategies() ;
+//     unsigned strategy_choice = menu.strategyChoice() ;
+
+//     Game game(map_choice,character_choice, config_choice, Date(1, 1, 60), display_choice, strategy_choice);
 //     game.run(turn_choice);
 // }

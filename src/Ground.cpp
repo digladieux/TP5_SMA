@@ -69,9 +69,9 @@ Ground::Ground(GROUND_TYPE type, unsigned int id, std::vector<Character *> vecto
 {
     Character *old_character = nullptr;
     Character *character = nullptr;
-    for (unsigned int k = 0; k < vector_character.size(); k++)
+    for (auto & ch : vector_character)
     {
-        old_character = vector_character[k];
+        old_character = ch;
         if (old_character->getCharacterGender() == SEX::MALE)
         {
             character = new MaleCharacter(*static_cast<MaleCharacter*>(old_character));
@@ -122,27 +122,18 @@ Ground* Ground::clone() const
  */ 
 void Ground::addCharacterGround(const Ground& ground) noexcept
 {
-    for (unsigned int k = 0; k < ground.vector_character.size(); k++)
+    for (auto & ch : ground.vector_character)
     {
         Character *character = nullptr;
-        try
+        if (ch->getCharacterGender() == SEX::MALE)
         {
-            if (ground.getCharacter(k)->getCharacterGender() == SEX::MALE)
-            {
-                character = new MaleCharacter(*static_cast<MaleCharacter*>(ground.getCharacter(k)));
-            }
-            else
-            {
-                character = new FemaleCharacter(*static_cast<FemaleCharacter*>(ground.getCharacter(k)));
-            }
-            this->addCharacter(character);
+            character = new MaleCharacter(*static_cast<MaleCharacter*>(ch));
         }
-        catch(OutOfRangeSuperior& e)
+        else
         {
-            e.setValueOutOfRange(k, ground.vector_character.size()) ;
-            throw ; 
+            character = new FemaleCharacter(*static_cast<FemaleCharacter*>(ch));
         }
-        
+        this->addCharacter(character);
     }
 }
 

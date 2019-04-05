@@ -28,7 +28,7 @@ Menu::Menu()
 
 void Menu::displayWelcome(std::ostream &os) noexcept
 {
-    os << "Welcome to our game : CiviliZZation" << std::endl; /* TODO : a developpe expliquer les regles et tout */
+    os << "Welcome to our game : CiviliZZation" << std::endl; 
 }
 
 /**
@@ -317,6 +317,34 @@ void Menu::displayAllDisplay(std::ostream &os) const noexcept
  * \return Entier contenant le type d'affichage de la simulation choisis par l'utilisateur
  */
 unsigned int Menu::displayChoice() const noexcept
+{
+    int choice;
+    do
+    {
+        std::cin >> choice;
+    } while ( (choice < 0) && (choice > 2) );
+    return choice;
+}
+
+/**
+ * \fn void Menu::displayAllStrategies(std::ostream &os)
+ * \brief Methode d'affichage du deroulement de la simulation 
+ * \param &os Flux sur lequel on va afficher le message 
+ */
+void Menu::displayAllStrategies(std::ostream &os) const noexcept
+{
+    os << "What will be the strategy of the characters" << std::endl;
+    os << "0 : The character go to the closest collection point of his speciality" << std::endl;
+    os << "1 : The character go to the closest collection point and the ressource will be the lowest of the townhall" << std::endl;
+    os << "2 : The character go to the closest collection " << std::endl;
+}
+
+/**
+ * \fn unsigned int Menu::strategyChoice() const noexcept
+ * \brief Methode pour la selection de la methode d'affichage par l'utilisateur
+ * \return Entier contenant le type d'affichage de la simulation choisis par l'utilisateur
+ */
+unsigned int Menu::strategyChoice() const noexcept
 {
     int choice;
     do

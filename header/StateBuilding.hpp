@@ -12,7 +12,7 @@
 #include "State.hpp"
 #include "Constantes.hpp"
 #include "TownHall.hpp"
-#include "StateGoingCollectionPoint.hpp"
+#include "StateChoisingCollectionPoint.hpp"
 
 /**
  * \class StateBuilding

@@ -23,15 +23,13 @@ FemaleCharacter::FemaleCharacter(const FemaleCharacter &character) : Character(c
  * \param &age Date de naissance du personnage
  * \param team Equipe du personnage
  */
-FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team) : Character(SEX::FEMALE, age, team), baby_per_pregnancy(genrand_int31() % (unsigned int) Constantes::CONFIG_SIMU["maxBaby"]), pregnancy_time(Date())
+FemaleCharacter::FemaleCharacter(const Date &age, unsigned int team) : Character(SEX::FEMALE, age, team), baby_per_pregnancy(genrand_int31() % (unsigned int)Constantes::CONFIG_SIMU["maxBaby"]), pregnancy_time(Date())
 {
-    unsigned int menopause_min = Constantes::CONFIG_SIMU["menopauseMin"] ;
-    unsigned int menopause_max = Constantes::CONFIG_SIMU["menopauseMax"] ;
-    menopause = genrand_int31() % ( menopause_max  -  menopause_min) + menopause_min ;
-    menopause += (unsigned int) Constantes::CONFIG_SIMU["menopauseMin"] ;
+    unsigned int menopause_min = Constantes::CONFIG_SIMU["menopauseMin"];
+    unsigned int menopause_max = Constantes::CONFIG_SIMU["menopauseMax"];
+    menopause = genrand_int31() % (menopause_max - menopause_min) + menopause_min;
+    menopause += (unsigned int)Constantes::CONFIG_SIMU["menopauseMin"];
 }
-
-/*TODO : si pas de femme meurt car elles font pas à manger*/
 
 /**
  * \fn FemaleCharacter::FemaleCharacter(const Date &age, unsigned int number_of_baby, unsigned int age_of_menopause, unsigned int team, unsigned int life)
@@ -56,8 +54,8 @@ FemaleCharacter &FemaleCharacter::operator=(const FemaleCharacter &new_character
     if (this != &new_character) /* On verifie que le personnage n'est pas le meme que l'on veut copier */
     {
         Character::operator=(new_character);
-        baby_per_pregnancy = new_character.baby_per_pregnancy ;
-        pregnancy_time = new_character.pregnancy_time ;
+        baby_per_pregnancy = new_character.baby_per_pregnancy;
+        pregnancy_time = new_character.pregnancy_time;
         menopause = new_character.menopause;
     }
     return *this;
@@ -153,4 +151,14 @@ unsigned int FemaleCharacter::getMonthPregnancy(const Date &current_date) const
         }
     }
     return month;
+}
+
+/**
+ * \fn unsigned int FemaleCharacter::getMenopause() const noexcept
+ * \brief Getteur sur l'age (en annee) a la date ou la femme a la menopause
+ * 
+ */
+unsigned int FemaleCharacter::getMenopause() const noexcept
+{
+    return menopause ;
 }

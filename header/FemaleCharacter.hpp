@@ -35,5 +35,7 @@ FemaleCharacter &operator=(const FemaleCharacter &) ;
   void randomBabyPerPregnancy() noexcept;
   void setTimePregnancy(const Date &date) noexcept;
   unsigned int getMonthPregnancy(const Date &) const;
+  unsigned int getMenopause() const noexcept;
+
 };
 #endif

@@ -189,7 +189,6 @@ bool Character::isDead(const Date &current_date) const noexcept
  */
 bool Character::decrementCharacterLife() noexcept
 {
-    /*TODO: verifie si il peut aller jusqu a la case car lifePerTurn*/
     character_current_life -= (int)Constantes::CONFIG_SIMU["lifePerTurn"];
     return character_current_life < 0;
 }

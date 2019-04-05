@@ -41,6 +41,7 @@ void Constantes::getAllJson()
     std::string file_name_map = "./MAPS/Maps.json";
     std::string file_name_character = "./CHARACTERS/Characters.json";
     std::string file_name_configuration = "./CONFIGURATIONS/Configuration.json";
+    
     std::ifstream file_map(file_name_map);
     std::ifstream file_character(file_name_character);
     std::ifstream file_configuration(file_name_configuration);

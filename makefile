@@ -2,7 +2,7 @@
 SRC=$(wildcard src/*.cpp)
 EXE=exe
 
-CXXFLAGS+=-Wall -Wextra -MMD -g -p -std=c++11
+CXXFLAGS+=-Wall -Wextra -MMD -p -std=c++11
 LDFLAGS= #-lSDL
 
 OBJ=$(addprefix build/,$(SRC:src/%.cpp=%.o)) #build/main.o
@@ -19,9 +19,6 @@ run: all
 
 check:
 	@cppcheck --enable=style -i src/mt19937ar.cpp --suppress='*:header/json.hpp' --suppress='*:header/catch.hpp' src/ 2> cppcheck.txt -j 4
-#build/main.o: main.cpp
-#	@mkdir -p build
-#	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean:
 	rm -rf build core *.gch

@@ -3,13 +3,13 @@
     "config1": {
         "chanceMale": 0.5,
         "maxBaby": 3,
-        "majority": 2,
-        "ressourceSpecialityNumber": 4,
-        "ressourceNotSpecialityNumber": 2,
-        "workTimeSpeciality": 3,
-        "workTimeNotSpeciality": 5,
+        "majority": 18,
+        "ressourceSpecialityNumber": 10,
+        "ressourceNotSpecialityNumber": 5,
+        "workTimeSpeciality": 5,
+        "workTimeNotSpeciality": 8,
         "chanceEvolution": 0.1,
-        "maxRessourceEvolution": 10,
+        "maxRessourceEvolution": 50,
 	    "menopauseMin": 37,
         "menopauseMax": 45,
         "levelUp" : 100,
@@ -18,28 +18,28 @@
         "lifePerTurn" : 1,
         "lifeWin" : 100,
         "maxConfig" : 2,
-        "monthPregnancy" : 1
+        "monthPregnancy" : 9
 
     },
     "config2": {
-        "chanceMale": 0.45,
-        "maxBaby": 3,
-        "majority": 18,
-        "ressourceSpecialityNumber": 4,
-        "ressourceNotSpecialityNumber": 2,
+        "chanceMale": 0.7,
+        "maxBaby": 6,
+        "majority": 2,
+        "ressourceSpecialityNumber": 20,
+        "ressourceNotSpecialityNumber": 10,
         "workTimeSpeciality": 3,
         "workTimeNotSpeciality": 5,
-        "chanceEvolution": 0.1,
-        "maxRessourceEvolution": 10,
-	    "menopauseMin": 35,
-        "menopauseMax": 47,
-        "levelUp": 200,
-        "lifeMin" : 100,
-        "lifeMax" : 200,
+        "chanceEvolution": 0.3,
+        "maxRessourceEvolution": 100,
+	    "menopauseMin": 50,
+        "menopauseMax": 55,
+        "levelUp": 50,
+        "lifeMin" : 200,
+        "lifeMax" : 300,
         "lifePerTurn" : 2,
         "lifeWin" : 100,
         "maxConfig" : 2,
-        "monthPregnancy" : 9
+        "monthPregnancy" : 1
 
     }
 }

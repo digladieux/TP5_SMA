@@ -61,6 +61,10 @@ std::vector<unsigned int> Menu::mapChoice() const
             }
         }
     }
+    if (map_vector.size() == 0)
+    {
+        map_vector = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    }
 
     return map_vector;
 }
@@ -76,17 +80,19 @@ void Menu::displayAllMap(std::ostream &os) const
     std::string collection_point;
     unsigned int collection_point_number = Constantes::MAPS["collection_point_number"];
     system("clear");
-    os << "Here you are all of our collection point:" << std::endl;
+    os << std::endl << "Here you are all of our collection point:" << std::endl << std::endl;
 
     for (unsigned i = 1; i <= collection_point_number; i++)
     {
         os << i << " : ";
         collection_point = "collection_point" + std::to_string(i);
-        displayGroundType(os, Constantes::MAPS[collection_point]["type"]);
+        displayGroundType(Constantes::MAPS[collection_point]["type"], os);
         os << "\t"
            << "[" << Constantes::MAPS[collection_point]["x"] << "," << Constantes::MAPS[collection_point]["y"] << "]\t RESSOURCES_NUMBER : " << Constantes::MAPS[collection_point]["ressource_number"] << std::endl;
     }
-    os << "Where do you want to play ?" << std::endl;
+    os << std::endl << "Where do you want to play ?" << std::endl;
+    os << "Just press enter to have all the collections points " << std::endl;
+
 }
 
 /**
@@ -119,7 +125,10 @@ std::vector<unsigned int> Menu::characterChoice() const
             }
         }
     }
-
+    if (character_vector.size() == 0)
+    {
+        character_vector = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    }
     return character_vector;
 }
 
@@ -133,17 +142,17 @@ void Menu::displayAllCharacter(std::ostream &os) const
     std::string character;
     unsigned int character_number = Constantes::CHARACTERS["character_number"] ;
     system("clear");
-    os << "Here you are all of our character :" << std::endl;
+    os << "Here you are all of our character :" << std::endl << std::endl ;
     for (unsigned int i = 1; i <= character_number; i++)
     {
         os << i << " : ";
         character = "character" + std::to_string(i);
         unsigned int character_sex = Constantes::CHARACTERS[character]["sex"];
-        displaySex(os, character_sex);
+        displaySex(character_sex, os);
         os << "\t" << Date(Constantes::CHARACTERS[character]["day"], Constantes::CHARACTERS[character]["month"], Constantes::CHARACTERS[character]["year"]).getAge(Date(1, 1, 60)) << " YEARS_OLD\tLIFE " << Constantes::CHARACTERS[character]["life"] << "\tTEAM " << Constantes::CHARACTERS[character]["team"] << "\t";
         if (Constantes::CHARACTERS[character]["sex"] == 0)
         {
-            displayJob(os, Constantes::CHARACTERS[character]["job"]);
+            displayJob(Constantes::CHARACTERS[character]["job"], os);
         }
         else
         {
@@ -151,7 +160,8 @@ void Menu::displayAllCharacter(std::ostream &os) const
         }
         os << std::endl;
     }
-    os << "Which Group of character you want to start with ?" << std::endl;
+    os << std::endl << "Which Group of character you want to start with ?" << std::endl;
+    os << "Just press enter to have all the characters " << std::endl;
 }
 
 
@@ -215,12 +225,12 @@ unsigned int Menu::turnChoice() const noexcept
 }
 
 /**
- * \fn void Menu::displaySex(std::ostream &os, unsigned int sex)
+ * \fn void Menu::displaySex(unsigned int sex, std::ostream &os)
  * \brief Methode d'affichage du sexe du personnage
  * \param &os Flux sur lequel on va afficher le message 
  * \param sex Sexe du personnage 
  */
-void Menu::displaySex(std::ostream &os, unsigned int sex)
+void Menu::displaySex(unsigned int sex, std::ostream &os)
 {
     switch (sex)
     {
@@ -237,12 +247,12 @@ void Menu::displaySex(std::ostream &os, unsigned int sex)
 }
 
 /**
- * \fn void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
+ * \fn void Menu::displayGroundType(unsigned int ground_type, std::ostream &os)
  * \brief Methode d'affichage du type de terrain 
  * \param &os Flux sur lequel on va afficher le message 
  * \param ground_type Type de terrain
  */
-void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
+void Menu::displayGroundType(unsigned int ground_type, std::ostream &os)
 {
     switch (ground_type)
     {
@@ -265,12 +275,12 @@ void Menu::displayGroundType(std::ostream &os, unsigned int ground_type)
 }
 
 /**
- * \fn void Menu::displayJob(std::ostream &os, unsigned int job)
+ * \fn void Menu::displayJob(unsigned int job, std::ostream &os)
  * \brief Methode d'affichage de la specialite du personnage 
  * \param &os Flux sur lequel on va afficher le message 
  * \param job Specialite du personnage
  */
-void Menu::displayJob(std::ostream &os, unsigned int job)
+void Menu::displayJob(unsigned int job, std::ostream &os)
 {
     os << "\tJOB : ";
     switch (job)
@@ -327,29 +337,26 @@ unsigned int Menu::displayChoice() const noexcept
 }
 
 /**
- * \fn void Menu::displayAllStrategies(std::ostream &os)
- * \brief Methode d'affichage du deroulement de la simulation 
+ * \fn void Menu::displayStrategies(unsigned int strategy, std::ostream &os)
+ * \brief Methode d'affichage de la strategy utilise
  * \param &os Flux sur lequel on va afficher le message 
+ * \param strategy streategie utilise lors de la simulation
  */
-void Menu::displayAllStrategies(std::ostream &os) const noexcept
+void Menu::displayStrategies(unsigned int strategy, std::ostream &os)
 {
-    os << "What will be the strategy of the characters" << std::endl;
-    os << "0 : The character go to the closest collection point of his speciality" << std::endl;
-    os << "1 : The character go to the closest collection point and the ressource will be the lowest of the townhall" << std::endl;
-    os << "2 : The character go to the closest collection " << std::endl;
-}
-
-/**
- * \fn unsigned int Menu::strategyChoice() const noexcept
- * \brief Methode pour la selection de la methode d'affichage par l'utilisateur
- * \return Entier contenant le type d'affichage de la simulation choisis par l'utilisateur
- */
-unsigned int Menu::strategyChoice() const noexcept
-{
-    int choice;
-    do
+    switch(strategy)
     {
-        std::cin >> choice;
-    } while ( (choice < 0) && (choice > 2) );
-    return choice;
+        case 0:
+            os << "The character go to the closest collection point of his speciality" << std::endl;
+            break ;
+        case 1:
+            os << "The character go to the closest collection point and the ressource will be the lowest of the townhall" << std::endl;
+            break ;
+        case 2:
+            os << "The character go to the closest collection " << std::endl;
+            break ;
+            case 3 : break ;
+        default :
+            throw InvalidStrategy(strategy) ;
+    }
 }

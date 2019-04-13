@@ -114,7 +114,7 @@ Game &Game::operator=(const Game &new_game)
  */
 void Game::reset(const unsigned int new_strategy) noexcept
 {
-    turn = Date(1, 1, 60); /* TODO : CONSTANTE */
+    turn = Date(1, 1, 60); 
     delete map;
     strategy = new_strategy;
     map = new Grid(map_choice, character_choice, strategy);
@@ -142,7 +142,7 @@ void Game::run(unsigned int round)
             std::cout << "Tour " << i + 1 << std::endl;
             turn.display();
             display();
-            usleep(10000);
+            usleep(1000);
             break;
         case 1:
             system("clear");
@@ -265,7 +265,7 @@ void Game::lifeOfCharacter()
     unsigned int number_collection_point = map->getSizeVectorGroundWithCollectionPoint() ;
     for(unsigned int i = 0 ; i < number_collection_point ; i ++)
     {
-        CollectionPoint * collection_point = (CollectionPoint*) map->getGroundWithCollectionPoint(i) ;
+        CollectionPoint * collection_point = (static_cast<CollectionPoint*>(map->getGroundWithCollectionPoint(i))) ;
         collection_point->evolutionRessources() ;
     }
 }

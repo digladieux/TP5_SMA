@@ -102,55 +102,47 @@ void FemaleCharacter::setTimePregnancy(const Date &date) noexcept
 
 /**
  * \fn unsigned int FemaleCharacter::getMonthPregnancy(const Date &current_date) const
- * \brief Getteur sur le nombre de mois de grosse
+ * \brief Getteur sur le nombre de mois de grossesse
  * \param &current_date Date actuelle
  */
 unsigned int FemaleCharacter::getMonthPregnancy(const Date &current_date) const
 {
-    unsigned int month;
-    if (pregnancy_time == current_date)
-    {
-        month = 0;
-    }
-    else if (!(character_date_of_birth < current_date))
+    unsigned int month = 0;
+    if ((!(character_date_of_birth < current_date)) && !(current_date == pregnancy_time))
     {
         throw CurrentDateBeforeBirthException(current_date, character_date_of_birth);
     }
-    else if (pregnancy_time.getMonth() == current_date.getMonth())
+    if (!(current_date == pregnancy_time))
     {
-        month = 0;
-    }
-    else if (pregnancy_time.getMonth() < current_date.getMonth())
-    {
-        if (pregnancy_time.getDay() == current_date.getDay())
+        if (current_date.getMonth() >= pregnancy_time.getMonth())
         {
-            month = current_date.getMonth() - pregnancy_time.getMonth();
-        }
-        else if (pregnancy_time.getDay() < current_date.getDay())
-        {
-            month = current_date.getMonth() - pregnancy_time.getMonth();
+            month += ( current_date.getYear() - pregnancy_time.getYear() ) * 12 ;
+            if (current_date.getDay() >= pregnancy_time.getDay())
+            {
+                month += current_date.getMonth() - pregnancy_time.getMonth() ;
+            }
+            else
+            {
+                month += current_date.getMonth() - pregnancy_time.getMonth() - 1 ;
+            }
         }
         else
         {
-            month = current_date.getMonth() - pregnancy_time.getMonth() - 1;
+            month += ( current_date.getYear() - pregnancy_time.getYear() - 1 ) * 12 ;
+            if (current_date.getDay() >= pregnancy_time.getDay())
+            {
+                month += 12 + current_date.getMonth() - pregnancy_time.getMonth() ;
+            }
+            else
+            {
+                month += 12 + current_date.getMonth() - pregnancy_time.getMonth() - 1 ;
+            }
         }
+
+        
     }
-    else
-    {
-        if (pregnancy_time.getDay() == current_date.getDay())
-        {
-            month = 12 + current_date.getMonth() - pregnancy_time.getMonth();
-        }
-        else if (pregnancy_time.getDay() < current_date.getDay())
-        {
-            month = 12 - pregnancy_time.getMonth() + current_date.getMonth();
-        }
-        else
-        {
-            month = 12 - pregnancy_time.getMonth() + current_date.getMonth() - 1;
-        }
-    }
-    return month;
+
+    return month ;
 }
 
 /**

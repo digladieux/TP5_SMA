@@ -10,8 +10,7 @@ Cette simulation s'inspire du jeux vidéo `Civilisation`. Le but est d'observer 
 * Le dossier `CHARACTERS` contient un fichier `.json` qui contient les personnages que vous pouvez choisir avec différentes caractéristiques.
 * Le dossier `MAPS` contient un fichier `.json` qui contient les points de collectes de ressource que vous pouvez choisir.
 * Le dossier `CONFIGURATIONS` contient un fichier `.json` qui contient des configurations de base que vous pouvez choisir. La config 1 est une config réaliste, la 2 permet d'accelerer la simulation
-* Le dossier `html` contient la documentation généré à l'aide de l'outil `Doxygen` sous forme d'un site internet. Lancer le fichier `index.html` pour ouvrir un navigateur internet et visualiser la documentation. 
-* Le dossier compresser `Documentation_TP5_SMA.rar` contient la documentation du code en `.html`. 
+* Le dossier compresser `Documentation_TP5_SMA.rar` contient la documentation généré à l'aide de l'outil `Doxygen` sous forme d'un site internet. Lancer le fichier `index.html` pour ouvrir un navigateur internet et visualiser la documentation. 
 
 ## MakeFile
 * Compiler le programme avec `make`

@@ -11,6 +11,7 @@ Cette simulation s'inspire du jeux vidéo `Civilisation`. Le but est d'observer 
 * Le dossier `MAPS` contient un fichier `.json` qui contient les points de collectes de ressource que vous pouvez choisir.
 * Le dossier `CONFIGURATIONS` contient un fichier `.json` qui contient des configurations de base que vous pouvez choisir. La config 1 est une config réaliste, la 2 permet d'accelerer la simulation
 * Le dossier `html` contient la documentation généré à l'aide de l'outil `Doxygen` sous forme d'un site internet. Lancer le fichier `index.html` pour ouvrir un navigateur internet et visualiser la documentation. 
+* Le dossier compresser `Documentation_TP5_SMA.rar` contient la documentation du code en `.html`. 
 
 ## MakeFile
 * Compiler le programme avec `make`
@@ -23,3 +24,6 @@ Cette simulation s'inspire du jeux vidéo `Civilisation`. Le but est d'observer 
 * Remarque : Il n'y a pas de fichier `main.cpp`. Les tests unitaires et le lancement du jeu se trouve dans le fichier `tests_catch.cpp`. Le "main" est le dernier test unitaire
 * Le tests unitaires pour la gestions des exceptions est à la ligne `515`. Certains tests sont en commentaire car le lancement de l'exception provoque des fuites mémoires au niveau de valgrind. Vous pouvez les décommenter pour voir le bon fonctionnement.
 * Vous aurez le choix de choisir différentes caractéristiques 
+
+BONNE SIMULATION
+Gladieux Cunha Dimitri & Gonzales Florian
